@@ -30,7 +30,7 @@ public class Shelf {
         //Fills the new shelf contents with the toAdd one
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
-                Tile toAdd = toCopy.getTile(new ShelfCoordinate(i, j))
+                Tile toAdd = toCopy.getTile(new Coordinate(i, j));
                 if(toAdd != null) contents[i][j] = toAdd;
             }
         }
@@ -44,7 +44,7 @@ public class Shelf {
     boolean isFull(){
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
-                if(contents[i][j] != null){
+                if(contents[i][j] == null){
                     return false;
                 }
             }
@@ -133,7 +133,7 @@ public class Shelf {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
                 if(!exploredSlots[i][j] && contents[i][j] != null){
-                    int count = 0;
+                    int count = 1;
                     int curColumn = i;
                     int curRow = j;
 
@@ -171,17 +171,10 @@ public class Shelf {
                     }
 
                     //Assign points
-                    switch (count){
-                        case 3:
-                            points += 2;
-                        case 4:
-                            points += 3;
-                        case 5:
-                            points += 5;
-                        default:
-                    }
-
-                    if(count >= 6) points += 8;
+                    if(count == 3) points += 2;
+                    else if(count == 4) points += 3;
+                    else if(count == 5) points += 5;
+                    else if(count >= 6) points += 8;
                 }
             }
 
@@ -199,11 +192,19 @@ public class Shelf {
      */
     @Override
     public String toString() {
-        return "Shelf{" +
-                "contents=" + Arrays.toString(contents) +
-                '}';
+        String result = "";
 
-        //TODO: Adapt the toString method when the tiles will be better characterized
+        result += "SHELF:\n";
+        result += "___________________________\n";
+        for (int j = 5; j >= 0; j--) {
+            for (int i = 0; i < 5; i++) {
+                result += "| "+contents[i][j];
+            }
+            result += " |\n";
+        }
+        result += "---------------------------\n";
+
+        return result;
     }
 
     static class tooManyTilesException extends Exception {
