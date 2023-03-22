@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import java.util.Arrays;
+
 /**
  * Class that defines a shelf
  *
@@ -24,7 +26,14 @@ public class Shelf {
      */
     Shelf(Shelf toCopy){
         this.contents = new Tile[5][6];
-        //TODO: write copy constructor
+
+        //Fills the new shelf contents with the toAdd one
+        for (int i = 0; i < 5 ; i++) {
+            for (int j = 0; j < 6; j++) {
+                Tile toAdd = toCopy.getTile(new ShelfCoordinate(i, j))
+                if(toAdd != null) contents[i][j] = toAdd;
+            }
+        }
     }
 
     /**
@@ -33,7 +42,13 @@ public class Shelf {
      * @return Returns true if the shelf is full, false otherwise
      */
     boolean isFull(){
-        //TODO: Write isFull() method
+        for (int i = 0; i < 5 ; i++) {
+            for (int j = 0; j < 6; j++) {
+                if(contents[i][j] != null){
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -46,13 +61,12 @@ public class Shelf {
      * @return the tile present at the specified coordinates
      */
     Tile getTile(Coordinate coordinate) {
-        //TODO: write getTile() method
-        return null;
+        return contents[coordinate.getX()][coordinate.getY()];
     }
 
     /**
      * Adds up to three tiles into the shelf in a specified column and in a specified order,
-     * the first of the tiles array gets placed in the lowest position of the selected column
+     * the first tile of the array gets placed in the lowest position of the selected column
      *
      * @author Federico
      *
@@ -67,7 +81,7 @@ public class Shelf {
         if(tiles.length == 0) throw new notEnoughTilesException();
         if(availableSlots(column) < tiles.length) throw new fullColumnException();
 
-        //TODO: write addTiles() method
+        for (Tile toAdd : tiles) insertTile(column, toAdd);
     }
 
     /**
@@ -79,7 +93,10 @@ public class Shelf {
      * @param tile tile to be inserted
      */
     private void insertTile(int column, Tile tile){
-        //TODO: write insertTile() method
+        int row = 0;
+        while(contents[column][row] != null) row++;
+
+        contents[column][row] = tile;
     }
 
     /**
@@ -100,6 +117,93 @@ public class Shelf {
         }
 
         return 6 - takenSlots;
+    }
+
+    /**
+     * Method that calculates how many points are worth the various tile clusters in the shelf by scanning whole the shelf grid
+     *
+     * @author Federico
+     *
+     * @return amount of points that the clusters are worth
+     */
+    int getTileClusterPoints(){
+        int points = 0;
+        boolean[][] exploredSlots = new boolean[5][6];
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
+                if(!exploredSlots[i][j] && contents[i][j] != null){
+                    int count = 0;
+                    int curColumn = i;
+                    int curRow = j;
+
+                    //Explore upwards
+                    while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5){
+                        count++;
+                        curRow++;
+                        exploredSlots[curColumn][curRow] = true;
+
+                        //Explore to the right
+                        while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
+                            count++;
+                            curColumn++;
+                            exploredSlots[curColumn][curRow] = true;
+                        }
+                        curColumn = i;
+                    }
+
+                    curColumn = i;
+                    curRow = j;
+
+                    //Explore to the right
+                    while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
+                        count++;
+                        curColumn++;
+                        exploredSlots[curColumn][curRow] = true;
+
+                        //Explore upwards
+                        while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5) {
+                            count++;
+                            curRow++;
+                            exploredSlots[curColumn][curRow] = true;
+                        }
+                        curRow = j;
+                    }
+
+                    //Assign points
+                    switch (count){
+                        case 3:
+                            points += 2;
+                        case 4:
+                            points += 3;
+                        case 5:
+                            points += 5;
+                        default:
+                    }
+
+                    if(count >= 6) points += 8;
+                }
+            }
+
+        }
+
+        return points;
+    }
+
+    /**
+     * Method that generates a string that represents the shelf
+     *
+     * @author Federico
+     *
+     * @return the shelf formatted as a viewable string
+     */
+    @Override
+    public String toString() {
+        return "Shelf{" +
+                "contents=" + Arrays.toString(contents) +
+                '}';
+
+        //TODO: Adapt the toString method when the tiles will be better characterized
     }
 
     static class tooManyTilesException extends Exception {

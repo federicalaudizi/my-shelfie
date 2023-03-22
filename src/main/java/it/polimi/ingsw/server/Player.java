@@ -1,14 +1,16 @@
 package it.polimi.ingsw.server;
 
+import java.util.List;
+
 /**
  * Class that represents the player
  *
  * @author Federico
  */
 public class Player {
-    private Shelf playerShelf;
-    private PersonalObjectiveCard objectiveCard;
-    private PointCard[] pointCards;
+    private final Shelf playerShelf;
+    private final PersonalObjectiveCard objectiveCard;
+    private List<PointCard> pointCards;
     private boolean endGameCard;
 
     /**
@@ -21,7 +23,7 @@ public class Player {
     Player(PersonalObjectiveCard objectiveCard){
         this.playerShelf = new Shelf();
         this.objectiveCard = new PersonalObjectiveCard(objectiveCard);
-        this.pointCards = new PointCard[2];
+        this.pointCards = new List<PointCard>();
         this.endGameCard = false;
     }
 
@@ -37,12 +39,72 @@ public class Player {
     }
 
     int calculatePoints(){
-        //TODO: write the calculatePoints() method and JavaDoc
+        int points = 0;
 
-        return 0;
+        //Adding points from endGameCard
+        if(endGameCard) points += 1;
+
+        //Adding points from the Personal objective
+        switch (objectiveCard.checkObjective(new Shelf(playerShelf))){
+            case 1:
+                points += 1;
+            case 2:
+                points += 2;
+            case 3:
+                points += 4;
+            case 4:
+                points += 6;
+            case 5:
+                points += 9;
+            case 6:
+                points += 12;
+            default:
+        }
+
+        //Adding points from the earned point cards
+        for(PointCard card : pointCards){
+            points += card.getValue();
+        }
+
+        //Adding points from the shelf clusters
+        points += playerShelf.getTileClusterPoints();
+
+        return points;
     }
 
-    //TODO: calculate the assignPointCard() method, signature and JavaDoc
-    //TODO: calculate the addPlayerTiles() method, signature and JavaDoc
+    /**
+     * Adds the givenCard to the point cards owned by the player
+     *
+     * @param givenCard the card passed to the player
+     */
+    void assignPointCard(PointCard givenCard){
+        pointCards.add(givenCard);
+    }
 
+    /**
+     * Adds up to three tiles into the player's shelf in a specified column and in a specified order,
+     * the first tile of the array gets placed in the lowest position of the selected column
+     *
+     * @author Federico
+     *
+     * @param column the number of the column where to place the tiles
+     * @param tiles array containing the tiles in the intended placement order
+     * @throws Shelf.tooManyTilesException Exception thrown when the array is made of more than 3 tiles
+     * @throws Shelf.notEnoughTilesException Exception thrown when the array is empty
+     * @throws Shelf.fullColumnException Exception thrown when the selected column is full or there are not enough slots available
+     */
+    void addPlayerTiles(int column, Tile[] tiles) throws Shelf.tooManyTilesException, Shelf.notEnoughTilesException, Shelf.fullColumnException {
+        playerShelf.addTiles(column, tiles);
+    }
+
+    @Override
+    public String toString() {
+        //TODO: Adapt the toString method when accessory classes are ready
+        return "Player{" +
+                "playerShelf=" + playerShelf +
+                ", objectiveCard=" + objectiveCard +
+                ", pointCards=" + pointCards +
+                ", endGameCard=" + endGameCard +
+                '}';
+    }
 }
