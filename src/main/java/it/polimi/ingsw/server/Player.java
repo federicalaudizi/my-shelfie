@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 public class Player {
     private final Shelf playerShelf;
     private final PersonalObjectiveCard objectiveCard;
-    private List<PointCard> pointCards;
+    private ArrayList<PointCard> pointCards;
     private boolean endGameCard;
 
     /**
@@ -23,7 +24,7 @@ public class Player {
     Player(PersonalObjectiveCard objectiveCard){
         this.playerShelf = new Shelf();
         this.objectiveCard = new PersonalObjectiveCard(objectiveCard);
-        this.pointCards = new List<PointCard>();
+        this.pointCards = new ArrayList<PointCard>();
         this.endGameCard = false;
     }
 
