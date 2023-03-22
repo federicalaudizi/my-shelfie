@@ -30,7 +30,7 @@ public class Shelf {
         //Fills the new shelf contents with the toAdd one
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
-                Tile toAdd = toCopy.getTile(new ShelfCoordinate(i, j))
+                Tile toAdd = toCopy.getTile(new Coordinate(i, j));
                 if(toAdd != null) contents[i][j] = toAdd;
             }
         }
