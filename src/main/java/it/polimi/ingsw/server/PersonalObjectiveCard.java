@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Class that defines the Personal Objective Card
@@ -8,7 +8,7 @@ import java.util.Map;
  * @author Federico
  */
 public class PersonalObjectiveCard{
-    private Map<Coordinate, Tile> objective;
+    private HashMap<Coordinate, Tile> objective;
 
     /**
      * Constructor of the personal objective, creates the objective
@@ -17,8 +17,8 @@ public class PersonalObjectiveCard{
      *
      * @param objective dictionary containing 6 elements, each element represent a tile type and is keyed by its coordinates on the shelf;
      */
-    PersonalObjectiveCard(Map<Coordinate, Tile> objective){
-        this.objective = new Map<Coordinate, Tile>();
+    PersonalObjectiveCard(HashMap<Coordinate, Tile> objective){
+        this.objective = new HashMap<Coordinate, Tile>();
         this.objective.putAll(objective);
     }
 
@@ -28,7 +28,7 @@ public class PersonalObjectiveCard{
      * @param toCopy PersonalObjective that has to be copied
      */
     PersonalObjectiveCard(PersonalObjectiveCard toCopy){
-        this.objective = new Map<Coordinate, Tile>();
+        this.objective = new HashMap<Coordinate, Tile>();
         this.objective.putAll(toCopy.objective);
     }
 
@@ -41,6 +41,12 @@ public class PersonalObjectiveCard{
      * @return Returns the number of tiles in the shelf that matches the constraints given by the objective
      */
     int checkObjective(Shelf shelf){
+        int correspondingTiles = 0;
 
+        for(Coordinate checkingCoord : objective.keySet()){
+            if(shelf.getTile(checkingCoord) == objective.get(checkingCoord)) correspondingTiles++;
+        }
+
+        return correspondingTiles;
     }
 }
