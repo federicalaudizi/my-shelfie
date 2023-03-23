@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.Tile;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
