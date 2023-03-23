@@ -1,5 +1,9 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.server.exceptions.fullColumnException;
+import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
+import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+
 import java.util.Arrays;
 
 /**
@@ -76,7 +80,7 @@ public class Shelf {
      * @throws notEnoughTilesException Exception thrown when the array is empty
      * @throws fullColumnException Exception thrown when the selected column is full or there are not enough slots available
      */
-    void addTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException{
+    void addTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         if(tiles.length > 3) throw new tooManyTilesException();
         if(tiles.length == 0) throw new notEnoughTilesException();
         if(availableSlots(column) < tiles.length) throw new fullColumnException();
@@ -205,14 +209,5 @@ public class Shelf {
         result += "---------------------------\n";
 
         return result;
-    }
-
-    static class tooManyTilesException extends Exception {
-    }
-
-    static class notEnoughTilesException extends Exception{
-    }
-
-    static class fullColumnException extends Exception {
     }
 }

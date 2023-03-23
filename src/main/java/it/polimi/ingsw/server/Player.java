@@ -1,5 +1,9 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.server.exceptions.fullColumnException;
+import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
+import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,11 +94,11 @@ public class Player {
      *
      * @param column the number of the column where to place the tiles
      * @param tiles array containing the tiles in the intended placement order
-     * @throws Shelf.tooManyTilesException Exception thrown when the array is made of more than 3 tiles
-     * @throws Shelf.notEnoughTilesException Exception thrown when the array is empty
-     * @throws Shelf.fullColumnException Exception thrown when the selected column is full or there are not enough slots available
+     * @throws tooManyTilesException Exception thrown when the array is made of more than 3 tiles
+     * @throws notEnoughTilesException Exception thrown when the array is empty
+     * @throws fullColumnException Exception thrown when the selected column is full or there are not enough slots available
      */
-    void addPlayerTiles(int column, Tile[] tiles) throws Shelf.tooManyTilesException, Shelf.notEnoughTilesException, Shelf.fullColumnException {
+    void addPlayerTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         playerShelf.addTiles(column, tiles);
     }
 
