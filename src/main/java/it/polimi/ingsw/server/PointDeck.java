@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import java.util.ArrayList;
+import java.util.Stack;
 /**
  * This class creates Point Decks for Common Objective
  *
@@ -8,25 +8,25 @@ import java.util.ArrayList;
  */
 
 public class PointDeck {
-    private ArrayList<PointCard> cards;
+    private Stack<PointCard> cards;
 
     public PointDeck(int numOfPlayers){
-        cards = new ArrayList<>();
+        cards = new Stack<>();
 
         if(numOfPlayers == 2){
-            cards.add(new PointCard(4));
-            cards.add(new PointCard(8));
+            cards.push(new PointCard(4));
+            cards.push(new PointCard(8));
 
         } else if (numOfPlayers==3) {
-            cards.add(new PointCard(4));
-            cards.add(new PointCard(6));
-            cards.add(new PointCard(8));
+            cards.push(new PointCard(4));
+            cards.push(new PointCard(6));
+            cards.push(new PointCard(8));
 
         } else if (numOfPlayers==4) {
-            cards.add(new PointCard(2));
-            cards.add(new PointCard(4));
-            cards.add(new PointCard(6));
-            cards.add(new PointCard(8));
+            cards.push(new PointCard(2));
+            cards.push(new PointCard(4));
+            cards.push(new PointCard(6));
+            cards.push(new PointCard(8));
 
         }
     }

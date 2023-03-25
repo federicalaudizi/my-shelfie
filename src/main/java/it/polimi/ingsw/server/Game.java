@@ -23,6 +23,7 @@ public class Game {
         CollectiveObjectiveCards = new CollectiveObjectiveCard[2];
         pointCardDeck1 = new PointDeck(numOfPlayers);
         pointCardDeck2 = new PointDeck(numOfPlayers);
+        board =new Board(numOfPlayers);
         lastTurn = false;
         firstTurn= true;
     }
@@ -31,6 +32,7 @@ public class Game {
      * This function chooses randomly the first player in the given range of players
      *
      * @param numOfPlayers represents the number of Players
+     * @return first player's index
      */
     private int chooseFirstPlayer(int numOfPlayers){
         int primo;
@@ -40,17 +42,22 @@ public class Game {
     }
 
 
-    //This function chooses two collective objective cards for the game
+    /**
+     * This function chooses randomly the collective Objective Card for the game
+     *
+     */
     private void assignCollectiveObjectiveCard(){
 
     }
 
 
-    //Manages each turn
+    /**
+     * This function manages the play
+     */
     private void gameTurn(){
         int giocatoreDiTurno, chair, numOfPlayers;
         if(firstTurn==true){
-            /* TODO : assegnare obiettivi comuni casualmente*/
+            assignCollectiveObjectiveCard();
             numOfPlayers = players.size();
             chair = chooseFirstPlayer(numOfPlayers);
             firstTurn = false;
