@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -16,16 +15,17 @@ public class Game {
     private PointDeck pointCardDeck2;
     private boolean lastTurn;
     private boolean firstTurn;
+    private int[] finalScores;
 
     public Game (int numOfPlayers){
         players = new ArrayList<Player>();
-        players.set(players.size()-1, players.get(0)); // imposto lista circolare
         CollectiveObjectiveCards = new CollectiveObjectiveCard[2];
         pointCardDeck1 = new PointDeck(numOfPlayers);
         pointCardDeck2 = new PointDeck(numOfPlayers);
         board =new Board(numOfPlayers);
         lastTurn = false;
         firstTurn= true;
+        finalScores = new int[numOfPlayers];
     }
 
     /**
@@ -35,10 +35,10 @@ public class Game {
      * @return first player's index
      */
     private int chooseFirstPlayer(int numOfPlayers){
-        int primo;
+        int first;
         Random random = new Random();
-        primo = random.nextInt(numOfPlayers + 1)+1;
-        return primo;
+        first = random.nextInt(numOfPlayers + 1)+1;
+        return first;
     }
 
 
@@ -67,7 +67,12 @@ public class Game {
             board.checkBoard();
             board.pickTile(coordinate); //capire sto passaggio di coordinate????
             //giocatore deve passare coordinate e devo consentire addPlayerTiles
-            //check obiettivo raggiunto e assegnamento carta punto
+            if(CollectiveObjectiveCards[0].checkObjective(players.get(giocatoreDiTurno).getShelf())){
+                players.get(giocatoreDiTurno).assignPointCard(pointCardDeck1.takePoints());
+            }
+            if(CollectiveObjectiveCards[1].checkObjective(players.get(giocatoreDiTurno).getShelf())){
+                players.get(giocatoreDiTurno).assignPointCard(pointCardDeck2.takePoints());
+            }
             if(players.get(giocatoreDiTurno).getShelf().isFull() == true){
                 lastTurn=true;
                 players.get(giocatoreDiTurno).endGameCard == true; //da mettere anche qua friendly
@@ -82,15 +87,21 @@ public class Game {
             while(giocatoreDiTurno <= (chair-1)){
                 board.checkBoard();
                 board.pickTile(coordinate); // capire sto passaggio pure qua
-                //check obiettivo comune raggiunto
+                if(CollectiveObjectiveCards[1].checkObjective(players.get(giocatoreDiTurno).getShelf())){
+                    players.get(giocatoreDiTurno).assignPointCard(pointCardDeck1.takePoints());
+                }
+                if(CollectiveObjectiveCards[2].checkObjective(players.get(giocatoreDiTurno).getShelf())){
+                    players.get(giocatoreDiTurno).assignPointCard(pointCardDeck2.takePoints());
+                }
                 giocatoreDiTurno++;
                 if(giocatoreDiTurno > numOfPlayers){
                     giocatoreDiTurno = 1;
                 }
             }
         }
+        for(int i=0;i<numOfPlayers;i++){
+            finalScores[i]= players.get(i).calculatePoints();
+        }
 
     }
-
-
 }
