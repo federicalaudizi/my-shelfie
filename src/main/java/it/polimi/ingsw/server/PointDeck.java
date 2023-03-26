@@ -2,7 +2,8 @@ package it.polimi.ingsw.server;
 
 import java.util.Stack;
 /**
- * This class creates Point Decks for Common Objective
+ * This class creates Point Decks for Common Objective.
+ * It needs the number of Player to decide how many and which cards to put in the stack.
  *
  * @author Sara Massarelli
  */

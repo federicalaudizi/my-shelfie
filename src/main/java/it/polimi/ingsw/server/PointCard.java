@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 /**
- * This class creates Point Cards
+ * This class creates Point Cards.
  *
  * @author Sara Massarelli
  */
