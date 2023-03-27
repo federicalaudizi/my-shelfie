@@ -6,10 +6,10 @@ import java.util.Random;
 
 
 public class Bag {
-    private int remainingTiles = 132;
     private ArrayList<Tile> tiles;
 
     public Bag() {
+        int remainingTiles = 132;
         tiles = new ArrayList<>(remainingTiles);
 
         for (int i = 0; i < 22; i++) {
