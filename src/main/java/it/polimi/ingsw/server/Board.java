@@ -210,7 +210,7 @@ public class Board {
      *
      * @author Mario Merlo
      */
-    private void checkBoard() {
+    void checkBoard() {
         boolean toRepopulate = true;
 
         // Inner board check: only the first 8 rows and columns are checked, to avoid breaking boundaries.
