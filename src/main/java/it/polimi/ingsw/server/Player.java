@@ -15,7 +15,7 @@ import java.util.List;
 public class Player {
     private final Shelf playerShelf;
     private final PersonalObjectiveCard objectiveCard;
-    private ArrayList<PointCard> pointCards;
+    private final ArrayList<PointCard> pointCards;
     private boolean endGameCard;
 
     /**
@@ -100,6 +100,15 @@ public class Player {
      */
     void addPlayerTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         playerShelf.addTiles(column, tiles);
+    }
+
+    /**
+     * Marks this player as the first one to fill its shelf
+     *
+     * @author Federico
+     */
+    void setEndGameCard(){
+        endGameCard = true;
     }
 
     @Override
