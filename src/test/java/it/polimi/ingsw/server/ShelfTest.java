@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.server.exceptions.fullColumnException;
+import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
+import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 import junit.framework.TestCase;
 
 public class ShelfTest extends TestCase {
@@ -25,7 +28,13 @@ public class ShelfTest extends TestCase {
         assertTrue(testingShelf.isFull());
     }
 
-    public void testGetTile() {
+    //A test that checks if the testGetTile gets the right tile
+    public void testGetTile() throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+        Shelf testingShelf = new Shelf();
+        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 0)));
+        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 1)));
+        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 2)));
     }
 
     public void testAddTiles() {

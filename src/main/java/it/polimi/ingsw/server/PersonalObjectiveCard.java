@@ -1,6 +1,10 @@
 package it.polimi.ingsw.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+
+import static javax.swing.UIManager.put;
 
 /**
  * Class that defines the Personal Objective Card
@@ -8,18 +12,29 @@ import java.util.HashMap;
  * @author Federico
  */
 public class PersonalObjectiveCard{
+    /**
+     * Dictionary containing 6 elements, each element represent a tile type and is keyed by its coordinates on the shelf;
+     */
     private HashMap<Coordinate, Tile> objective;
 
     /**
-     * Constructor of the personal objective, creates the objective
+     * Array that contains already used patterns
+     */
+    private static ArrayList<PersonalObjectivePattern> usedPatterns = new ArrayList<PersonalObjectivePattern>();
+
+    /**
+     * Constructor of the personal objective, creates the objective choosing a random pattern from the PersonalObjectivePattern enum that hasn't been used yet
      *
      * @author Federico
-     *
-     * @param objective dictionary containing 6 elements, each element represent a tile type and is keyed by its coordinates on the shelf;
      */
-    PersonalObjectiveCard(HashMap<Coordinate, Tile> objective){
-        this.objective = new HashMap<Coordinate, Tile>();
-        this.objective.putAll(objective);
+    PersonalObjectiveCard(){
+        Random random = new Random();
+        PersonalObjectivePattern pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
+        while(usedPatterns.contains(pattern)){
+            pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
+        }
+        usedPatterns.add(pattern);
+        this.objective = pattern.getPattern();
     }
 
     /**
@@ -48,5 +63,41 @@ public class PersonalObjectiveCard{
         }
 
         return correspondingTiles;
+    }
+
+    /**
+     * Enumeration that contains the possible patterns of the personal objective, each pattern is represented by an HashMap
+     *
+     * @author Federico
+     */
+    private enum PersonalObjectivePattern{
+        FIRST_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(2, 5), Tile.TROFEI); //Cyan
+            put(new Coordinate(4, 5), Tile.GATTI); //Green
+            put(new Coordinate(3, 3), Tile.LIBRI); //White
+            put(new Coordinate(1, 1), Tile.GIOCHI); //Yellow
+            put(new Coordinate(3, 1), Tile.CORNICI); //Blue
+            put(new Coordinate(0, 0), Tile.PIANTE); //Pink
+        }}),
+
+        SECOND_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(2, 5), Tile.TROFEI); //Cyan
+            put(new Coordinate(4, 5), Tile.GATTI); //Green
+            put(new Coordinate(3, 3), Tile.LIBRI); //White
+            put(new Coordinate(1, 1), Tile.GIOCHI); //Yellow
+            put(new Coordinate(3, 1), Tile.CORNICI); //Blue
+            put(new Coordinate(0, 0), Tile.PIANTE); //Pink
+        }}),
+        //TODO: Implement all patterns
+        ;
+        private final HashMap<Coordinate, Tile> pattern;
+
+        PersonalObjectivePattern(HashMap<Coordinate, Tile> pattern) {
+            this.pattern = pattern;
+        }
+
+        public HashMap<Coordinate, Tile> getPattern() {
+            return pattern;
+        }
     }
 }
