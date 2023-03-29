@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 
 /**
  * This class creates, initializes and manages the game's board.
@@ -16,18 +17,19 @@ public class Board {
 
     /**
      * Initializes the board for the current game.
-     * @author Mario Merlo
-     *
      * @param playerNumber The effective dimension of the board depends on the number of players in the game.
+     * @throws IllegalArgumentException Thrown when a wrong player number is passed to the function.
+     * @author Mario Merlo
      */
-    Board(int playerNumber){
-        board = new Tile[MAX_X][MAX_Y];
+    Board(int playerNumber) throws IllegalArgumentException {
+        if(playerNumber >= 2 && playerNumber <= 4) {
+            board = new Tile[MAX_X][MAX_Y];
 
-        for(int i = 0; i < MAX_X; i++)
-            for(int j = 0; j < MAX_Y; j++)
-                board[i][j] = null;
+            for (int i = 0; i < MAX_X; i++)
+                Arrays.fill(board[i], null);
 
-        nonPlayableTileInit(playerNumber);
+            nonPlayableTileInit(playerNumber);
+        } else throw new IllegalArgumentException("Player number not in range.");
     }
 
     /**
@@ -169,7 +171,7 @@ public class Board {
                 pickableTiles[0] = Tile.valueOf(board[coord1.getX()][coord1.getY()].getType());
             } else throw new TileUnpickableException();
         } catch (NullPointerException e) {
-            throw new NullPointerException();
+            throw new NullPointerException("At least one coordinate must not be null.");
         }
 
         if(coord2 != null && isPickable(coord2)) {
@@ -256,5 +258,40 @@ public class Board {
                 }
             }
         }
+    }
+
+    /**
+     * Returns a String representation of the board in its current state.
+     * @return a string that represents the current state of the board.
+     *
+     * @author Mario Merlo
+     */
+    @Override
+    public String toString() {
+        StringBuilder output = new StringBuilder();
+
+        for(int i = 0; i < MAX_X; i++) {
+            for(int j = 0; j < MAX_Y; j++) {
+                if(board[i][j] == null)
+                    output.append("e ");
+                if(board[i][j] == Tile.OUTSIDE_GAME_BOARD)
+                    output.append("x ");
+                if(board[i][j] == Tile.GATTI)
+                    output.append("g ");
+                if(board[i][j] == Tile.CORNICI)
+                    output.append("b ");
+                if(board[i][j] == Tile.GIOCHI)
+                    output.append("y ");
+                if(board[i][j] == Tile.LIBRI)
+                    output.append("b ");
+                if(board[i][j] == Tile.PIANTE)
+                    output.append("m ");
+                if(board[i][j] == Tile.TROFEI)
+                    output.append("a ");
+            }
+            output.append("\n");
+        }
+
+        return output.toString();
     }
 }
