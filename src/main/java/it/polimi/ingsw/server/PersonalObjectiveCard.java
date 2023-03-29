@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import static javax.swing.UIManager.put;
-
 /**
  * Class that defines the Personal Objective Card
  *
@@ -20,7 +18,7 @@ public class PersonalObjectiveCard{
     /**
      * Array that contains already used patterns
      */
-    private static final ArrayList<PersonalObjectivePattern> usedPatterns = new ArrayList<PersonalObjectivePattern>();
+    private static final ArrayList<PersonalObjectivePattern> usedPatterns = new ArrayList<>();
 
     /**
      * Constructor of the personal objective, creates the objective choosing a random pattern from the PersonalObjectivePattern enum that hasn't been used yet
@@ -94,8 +92,8 @@ public class PersonalObjectiveCard{
      *
      * @author Federico
      */
-    private enum PersonalObjectivePattern{
-        FIRST_PATTERN(new HashMap<Coordinate, Tile>() {{
+    enum PersonalObjectivePattern{
+        FIRST_PATTERN(new HashMap<>() {{
             put(new Coordinate(2, 5), Tile.TROFEI); //Cyan
             put(new Coordinate(4, 5), Tile.GATTI); //Green
             put(new Coordinate(3, 3), Tile.LIBRI); //White
@@ -104,7 +102,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(0, 0), Tile.PIANTE); //Pink
         }}),
 
-        SECOND_PATTERN(new HashMap<Coordinate, Tile>() {{
+        SECOND_PATTERN(new HashMap<>() {{
             put(new Coordinate(1, 4), Tile.TROFEI); //Cyan
             put(new Coordinate(3, 0), Tile.GATTI); //Green
             put(new Coordinate(2, 2), Tile.LIBRI); //White
@@ -113,7 +111,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(1, 4), Tile.PIANTE); //Pink
         }}),
 
-        THIRD_PATTERN(new HashMap<Coordinate, Tile>() {{
+        THIRD_PATTERN(new HashMap<>() {{
             put(new Coordinate(0, 2), Tile.TROFEI); //Cyan
             put(new Coordinate(0, 5), Tile.GATTI); //Green
             put(new Coordinate(2, 0), Tile.LIBRI); //White
@@ -122,7 +120,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(1, 3), Tile.PIANTE); //Pink
         }}),
 
-        FOURTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+        FOURTH_PATTERN(new HashMap<>() {{
             put(new Coordinate(3, 0), Tile.TROFEI); //Cyan
             put(new Coordinate(4, 1), Tile.GATTI); //Green
             put(new Coordinate(1, 4), Tile.LIBRI); //White
@@ -131,7 +129,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(2, 5), Tile.PIANTE); //Pink
         }}),
 
-        FIFTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+        FIFTH_PATTERN(new HashMap<>() {{
             put(new Coordinate(0, 3), Tile.TROFEI); //Cyan
             put(new Coordinate(2, 1), Tile.GATTI); //Green
             put(new Coordinate(1, 1), Tile.LIBRI); //White
@@ -140,7 +138,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(3, 2), Tile.PIANTE); //Pink
         }}),
 
-        SIXTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+        SIXTH_PATTERN(new HashMap<>() {{
             put(new Coordinate(1, 1), Tile.TROFEI); //Cyan
             put(new Coordinate(2, 3), Tile.GATTI); //Green
             put(new Coordinate(4, 2), Tile.LIBRI); //White
@@ -149,7 +147,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(4, 1), Tile.PIANTE); //Pink
         }}),
 
-        SEVENTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+        SEVENTH_PATTERN(new HashMap<>() {{
             put(new Coordinate(2, 0), Tile.TROFEI); //Cyan
             put(new Coordinate(4, 4), Tile.GATTI); //Green
             put(new Coordinate(3, 3), Tile.LIBRI); //White
@@ -158,7 +156,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(0, 5), Tile.PIANTE); //Pink
         }}),
 
-        EIGHTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+        EIGHTH_PATTERN(new HashMap<>() {{
             put(new Coordinate(3, 1), Tile.TROFEI); //Cyan
             put(new Coordinate(0, 3), Tile.GATTI); //Green
             put(new Coordinate(4, 2), Tile.LIBRI); //White
@@ -167,7 +165,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(1, 4), Tile.PIANTE); //Pink
         }}),
 
-        NINTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+        NINTH_PATTERN(new HashMap<>() {{
             put(new Coordinate(2, 3), Tile.TROFEI); //Cyan
             put(new Coordinate(1, 4), Tile.GATTI); //Green
             put(new Coordinate(3, 1), Tile.LIBRI); //White
@@ -176,8 +174,8 @@ public class PersonalObjectiveCard{
             put(new Coordinate(0, 2), Tile.PIANTE); //Pink
         }}),
 
-        TENTH_PATTERN(new HashMap<Coordinate, Tile>() {{
-            put(new Coordinate(5, 5), Tile.TROFEI); //Cyan
+        TENTH_PATTERN(new HashMap<>() {{
+            put(new Coordinate(4, 5), Tile.TROFEI); //Cyan
             put(new Coordinate(3, 2), Tile.GATTI); //Green
             put(new Coordinate(0, 3), Tile.LIBRI); //White
             put(new Coordinate(1, 4), Tile.GIOCHI); //Yellow
@@ -185,7 +183,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(0, 3), Tile.PIANTE); //Pink
         }}),
 
-        ELEVENTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+        ELEVENTH_PATTERN(new HashMap<>() {{
             put(new Coordinate(3, 2), Tile.TROFEI); //Cyan
             put(new Coordinate(0, 0), Tile.GATTI); //Green
             put(new Coordinate(2, 5), Tile.LIBRI); //White
@@ -194,7 +192,7 @@ public class PersonalObjectiveCard{
             put(new Coordinate(1, 4), Tile.PIANTE); //Pink
         }}),
 
-        TWELFTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+        TWELFTH_PATTERN(new HashMap<>() {{
             put(new Coordinate(4, 2), Tile.TROFEI); //Cyan
             put(new Coordinate(1, 2), Tile.GATTI); //Green
             put(new Coordinate(0, 0), Tile.LIBRI); //White
