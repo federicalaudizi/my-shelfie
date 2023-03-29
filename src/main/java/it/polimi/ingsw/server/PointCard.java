@@ -4,14 +4,14 @@ package it.polimi.ingsw.server;
  *
  * @author Sara Massarelli
  */
-public class PointCard {
+ public class PointCard {
    private int value;
 
-   public PointCard(int value){
+    PointCard(int value){
        this.value= value;
    }
 
-    public int getValue() {
+     int getValue() {
         return value;
     }
 

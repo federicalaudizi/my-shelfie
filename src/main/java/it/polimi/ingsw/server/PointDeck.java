@@ -9,9 +9,9 @@ import java.util.Stack;
  */
 
 public class PointDeck {
-    private Stack<PointCard> cards;
+     Stack<PointCard> cards;
 
-    public PointDeck(int numOfPlayers){
+     PointDeck(int numOfPlayers){
         cards = new Stack<>();
 
         if(numOfPlayers == 2){
