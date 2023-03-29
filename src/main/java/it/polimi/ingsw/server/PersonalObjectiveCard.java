@@ -15,12 +15,12 @@ public class PersonalObjectiveCard{
     /**
      * Dictionary containing 6 elements, each element represent a tile type and is keyed by its coordinates on the shelf;
      */
-    private HashMap<Coordinate, Tile> objective;
+    private final PersonalObjectivePattern objective;
 
     /**
      * Array that contains already used patterns
      */
-    private static ArrayList<PersonalObjectivePattern> usedPatterns = new ArrayList<PersonalObjectivePattern>();
+    private static final ArrayList<PersonalObjectivePattern> usedPatterns = new ArrayList<PersonalObjectivePattern>();
 
     /**
      * Constructor of the personal objective, creates the objective choosing a random pattern from the PersonalObjectivePattern enum that hasn't been used yet
@@ -34,7 +34,7 @@ public class PersonalObjectiveCard{
             pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
         }
         usedPatterns.add(pattern);
-        this.objective = pattern.getPattern();
+        this.objective = pattern;
     }
 
     /**
@@ -43,8 +43,7 @@ public class PersonalObjectiveCard{
      * @param toCopy PersonalObjective that has to be copied
      */
     PersonalObjectiveCard(PersonalObjectiveCard toCopy){
-        this.objective = new HashMap<Coordinate, Tile>();
-        this.objective.putAll(toCopy.objective);
+        this.objective = toCopy.objective;
     }
 
     /**
@@ -58,11 +57,15 @@ public class PersonalObjectiveCard{
     int checkObjective(Shelf shelf){
         int correspondingTiles = 0;
 
-        for(Coordinate checkingCoord : objective.keySet()){
-            if(shelf.getTile(checkingCoord) == objective.get(checkingCoord)) correspondingTiles++;
+        for(Coordinate checkingCoord : objective.getPattern().keySet()){
+            if(shelf.getTile(checkingCoord) == objective.getPattern().get(checkingCoord)) correspondingTiles++;
         }
 
         return correspondingTiles;
+    }
+
+    public String toString(){
+        return objective.toString();
     }
 
     /**
@@ -81,14 +84,103 @@ public class PersonalObjectiveCard{
         }}),
 
         SECOND_PATTERN(new HashMap<Coordinate, Tile>() {{
-            put(new Coordinate(2, 5), Tile.TROFEI); //Cyan
-            put(new Coordinate(4, 5), Tile.GATTI); //Green
-            put(new Coordinate(3, 3), Tile.LIBRI); //White
-            put(new Coordinate(1, 1), Tile.GIOCHI); //Yellow
-            put(new Coordinate(3, 1), Tile.CORNICI); //Blue
-            put(new Coordinate(0, 0), Tile.PIANTE); //Pink
+            put(new Coordinate(1, 4), Tile.TROFEI); //Cyan
+            put(new Coordinate(3, 0), Tile.GATTI); //Green
+            put(new Coordinate(2, 2), Tile.LIBRI); //White
+            put(new Coordinate(0, 0), Tile.GIOCHI); //Yellow
+            put(new Coordinate(1, 2), Tile.CORNICI); //Blue
+            put(new Coordinate(1, 4), Tile.PIANTE); //Pink
         }}),
-        //TODO: Implement all patterns
+
+        THIRD_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(0, 2), Tile.TROFEI); //Cyan
+            put(new Coordinate(0, 5), Tile.GATTI); //Green
+            put(new Coordinate(2, 0), Tile.LIBRI); //White
+            put(new Coordinate(4, 1), Tile.GIOCHI); //Yellow
+            put(new Coordinate(3, 4), Tile.CORNICI); //Blue
+            put(new Coordinate(1, 3), Tile.PIANTE); //Pink
+        }}),
+
+        FOURTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(3, 0), Tile.TROFEI); //Cyan
+            put(new Coordinate(4, 1), Tile.GATTI); //Green
+            put(new Coordinate(1, 4), Tile.LIBRI); //White
+            put(new Coordinate(0, 3), Tile.GIOCHI); //Yellow
+            put(new Coordinate(2, 2), Tile.CORNICI); //Blue
+            put(new Coordinate(2, 5), Tile.PIANTE); //Pink
+        }}),
+
+        FIFTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(0, 3), Tile.TROFEI); //Cyan
+            put(new Coordinate(2, 1), Tile.GATTI); //Green
+            put(new Coordinate(1, 1), Tile.LIBRI); //White
+            put(new Coordinate(4, 5), Tile.GIOCHI); //Yellow
+            put(new Coordinate(2, 3), Tile.CORNICI); //Blue
+            put(new Coordinate(3, 2), Tile.PIANTE); //Pink
+        }}),
+
+        SIXTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(1, 1), Tile.TROFEI); //Cyan
+            put(new Coordinate(2, 3), Tile.GATTI); //Green
+            put(new Coordinate(4, 2), Tile.LIBRI); //White
+            put(new Coordinate(2, 5), Tile.GIOCHI); //Yellow
+            put(new Coordinate(0, 0), Tile.CORNICI); //Blue
+            put(new Coordinate(4, 1), Tile.PIANTE); //Pink
+        }}),
+
+        SEVENTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(2, 0), Tile.TROFEI); //Cyan
+            put(new Coordinate(4, 4), Tile.GATTI); //Green
+            put(new Coordinate(3, 3), Tile.LIBRI); //White
+            put(new Coordinate(1, 2), Tile.GIOCHI); //Yellow
+            put(new Coordinate(2, 5), Tile.CORNICI); //Blue
+            put(new Coordinate(0, 5), Tile.PIANTE); //Pink
+        }}),
+
+        EIGHTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(3, 1), Tile.TROFEI); //Cyan
+            put(new Coordinate(0, 3), Tile.GATTI); //Green
+            put(new Coordinate(4, 2), Tile.LIBRI); //White
+            put(new Coordinate(2, 3), Tile.GIOCHI); //Yellow
+            put(new Coordinate(4, 0), Tile.CORNICI); //Blue
+            put(new Coordinate(1, 4), Tile.PIANTE); //Pink
+        }}),
+
+        NINTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(2, 3), Tile.TROFEI); //Cyan
+            put(new Coordinate(1, 4), Tile.GATTI); //Green
+            put(new Coordinate(3, 1), Tile.LIBRI); //White
+            put(new Coordinate(3, 0), Tile.GIOCHI); //Yellow
+            put(new Coordinate(4, 5), Tile.CORNICI); //Blue
+            put(new Coordinate(0, 2), Tile.PIANTE); //Pink
+        }}),
+
+        TENTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(5, 5), Tile.TROFEI); //Cyan
+            put(new Coordinate(3, 2), Tile.GATTI); //Green
+            put(new Coordinate(0, 3), Tile.LIBRI); //White
+            put(new Coordinate(1, 4), Tile.GIOCHI); //Yellow
+            put(new Coordinate(1, 1), Tile.CORNICI); //Blue
+            put(new Coordinate(0, 3), Tile.PIANTE); //Pink
+        }}),
+
+        ELEVENTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(3, 2), Tile.TROFEI); //Cyan
+            put(new Coordinate(0, 0), Tile.GATTI); //Green
+            put(new Coordinate(2, 5), Tile.LIBRI); //White
+            put(new Coordinate(4, 1), Tile.GIOCHI); //Yellow
+            put(new Coordinate(2, 3), Tile.CORNICI); //Blue
+            put(new Coordinate(1, 4), Tile.PIANTE); //Pink
+        }}),
+
+        TWELFTH_PATTERN(new HashMap<Coordinate, Tile>() {{
+            put(new Coordinate(4, 2), Tile.TROFEI); //Cyan
+            put(new Coordinate(1, 2), Tile.GATTI); //Green
+            put(new Coordinate(0, 0), Tile.LIBRI); //White
+            put(new Coordinate(3, 4), Tile.GIOCHI); //Yellow
+            put(new Coordinate(0, 4), Tile.CORNICI); //Blue
+            put(new Coordinate(2, 3), Tile.PIANTE); //Pink
+        }}),
         ;
         private final HashMap<Coordinate, Tile> pattern;
 
@@ -98,6 +190,30 @@ public class PersonalObjectiveCard{
 
         public HashMap<Coordinate, Tile> getPattern() {
             return pattern;
+        }
+
+        public String toString(){
+            StringBuilder ret = new StringBuilder();
+
+            for(int j=5; j>=0; j--){
+                for(int i=0; i<5; i++){
+                    Coordinate printingCoord  = null;
+                    for(Coordinate checkingCoord : pattern.keySet()){
+                        if(checkingCoord.getX() == i && checkingCoord.getY() == j){
+                            printingCoord = checkingCoord;
+                        }
+                    }
+
+                    if(printingCoord != null){
+                        ret.append("|").append(pattern.get(printingCoord).getType().charAt(0)).append(pattern.get(printingCoord).getType().charAt(1));
+                    } else {
+                        ret.append("|  ");
+                    }
+                }
+                ret.append("|\n");
+            }
+
+            return ret.toString();
         }
     }
 }
