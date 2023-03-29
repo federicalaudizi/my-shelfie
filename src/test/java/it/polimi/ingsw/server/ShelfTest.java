@@ -37,7 +37,12 @@ public class ShelfTest extends TestCase {
         assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 2)));
     }
 
-    public void testAddTiles() {
+    public void testAddTiles() throws Exception {
+        Shelf testingShelf = new Shelf();
+        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 0)));
+        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 1)));
+        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 2)));
     }
 
     public void testGetTileClusterPoints() throws Exception {
