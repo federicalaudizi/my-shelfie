@@ -171,7 +171,7 @@ public class Board {
                 pickableTiles[0] = Tile.valueOf(board[coord1.getX()][coord1.getY()].getType());
             } else throw new TileUnpickableException();
         } catch (NullPointerException e) {
-            throw new NullPointerException();
+            throw new NullPointerException("At least one coordinate must not be null.");
         }
 
         if(coord2 != null && isPickable(coord2)) {
