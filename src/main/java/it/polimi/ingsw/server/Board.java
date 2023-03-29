@@ -259,4 +259,39 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Returns a String representation of the board in its current state.
+     * @return a string that represents the current state of the board.
+     *
+     * @author Mario Merlo
+     */
+    @Override
+    public String toString() {
+        StringBuilder output = new StringBuilder();
+
+        for(int i = 0; i < MAX_X; i++) {
+            for(int j = 0; j < MAX_Y; j++) {
+                if(board[i][j] == null)
+                    output.append("e ");
+                if(board[i][j] == Tile.OUTSIDE_GAME_BOARD)
+                    output.append("x ");
+                if(board[i][j] == Tile.GATTI)
+                    output.append("g ");
+                if(board[i][j] == Tile.CORNICI)
+                    output.append("b ");
+                if(board[i][j] == Tile.GIOCHI)
+                    output.append("y ");
+                if(board[i][j] == Tile.LIBRI)
+                    output.append("b ");
+                if(board[i][j] == Tile.PIANTE)
+                    output.append("m ");
+                if(board[i][j] == Tile.TROFEI)
+                    output.append("a ");
+            }
+            output.append("\n");
+        }
+
+        return output.toString();
+    }
 }
