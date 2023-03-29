@@ -26,8 +26,11 @@ public class PersonalObjectiveCard{
      * Constructor of the personal objective, creates the objective choosing a random pattern from the PersonalObjectivePattern enum that hasn't been used yet
      *
      * @author Federico
+     *
+     * @throws IllegalStateException when all personal objective cards have been handled, this exception should be impossible to reach
      */
-    PersonalObjectiveCard(){
+    PersonalObjectiveCard() throws IllegalStateException{
+        if(usedPatterns.size() == PersonalObjectivePattern.values().length) throw new IllegalStateException("All the personal objectives have been used");
         Random random = new Random();
         PersonalObjectivePattern pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
         while(usedPatterns.contains(pattern)){
