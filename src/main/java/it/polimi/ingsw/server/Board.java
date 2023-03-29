@@ -17,17 +17,19 @@ public class Board {
 
     /**
      * Initializes the board for the current game.
-     * @author Mario Merlo
-     *
      * @param playerNumber The effective dimension of the board depends on the number of players in the game.
+     * @throws IllegalArgumentException Thrown when a wrong player number is passed to the function.
+     * @author Mario Merlo
      */
-    Board(int playerNumber){
-        board = new Tile[MAX_X][MAX_Y];
+    Board(int playerNumber) throws IllegalArgumentException {
+        if(playerNumber >= 2 && playerNumber <= 4) {
+            board = new Tile[MAX_X][MAX_Y];
 
             for (int i = 0; i < MAX_X; i++)
                 Arrays.fill(board[i], null);
 
-        nonPlayableTileInit(playerNumber);
+            nonPlayableTileInit(playerNumber);
+        } else throw new IllegalArgumentException("Player number not in range.");
     }
 
     /**
