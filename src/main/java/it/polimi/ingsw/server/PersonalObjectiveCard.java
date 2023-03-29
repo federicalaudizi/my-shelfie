@@ -74,6 +74,17 @@ public class PersonalObjectiveCard{
         else throw new IllegalStateException("Something went wrong while checking the personal objective");
     }
 
+    /**
+     * Method that returns the pattern of the personal objective
+     *
+     * @author Federico
+     *
+     * @return Returns the pattern of the personal objective
+     */
+    PersonalObjectivePattern getPattern(){
+        return objective;
+    }
+
     public String toString(){
         return objective.toString();
     }
