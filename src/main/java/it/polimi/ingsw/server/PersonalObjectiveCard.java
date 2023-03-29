@@ -50,12 +50,12 @@ public class PersonalObjectiveCard{
     }
 
     /**
-     * Method that checks how many requirements of the objective are met
+     * Method that checks how many points the player has earned with the personal objective
      *
      * @author Federico
      *
      * @param shelf The shelf that has to be checked
-     * @return Returns the number of tiles in the shelf that matches the constraints given by the objective
+     * @return Returns how many points the player has earned with the personal objective
      */
     int checkObjective(Shelf shelf){
         int correspondingTiles = 0;
@@ -64,7 +64,14 @@ public class PersonalObjectiveCard{
             if(shelf.getTile(checkingCoord) == objective.getPattern().get(checkingCoord)) correspondingTiles++;
         }
 
-        return correspondingTiles;
+        if(correspondingTiles == 0) return 0;
+        else if(correspondingTiles == 1) return 1;
+        else if(correspondingTiles == 2) return 2;
+        else if(correspondingTiles == 3) return 4;
+        else if(correspondingTiles == 4) return 6;
+        else if(correspondingTiles == 5) return 9;
+        else if(correspondingTiles == 6) return 12;
+        else throw new IllegalStateException("Something went wrong while checking the personal objective");
     }
 
     public String toString(){
