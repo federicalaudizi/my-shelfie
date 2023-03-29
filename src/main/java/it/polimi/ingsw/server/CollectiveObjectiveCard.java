@@ -16,6 +16,22 @@ import java.util.Set;
 public abstract class CollectiveObjectiveCard {
     public abstract boolean checkObjective(Shelf shelf);
 
+    public static CollectiveObjectiveCard getRandomCard() {
+        List<Class<? extends CollectiveObjectiveCard>> subclasses = getAllPossibleCards();
+
+        Random random = new Random();
+
+        int index = random.nextInt(subclasses.size());
+
+        Class<? extends CollectiveObjectiveCard> subclass = subclasses.get(index);
+
+        try {
+            return subclass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static CollectiveObjectiveCard getRandomCard(CollectiveObjectiveCard other) {
         List<Class<? extends CollectiveObjectiveCard>> subclasses = getAllPossibleCards();
 
