@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 
 /**
  * This class creates, initializes and manages the game's board.
@@ -23,9 +24,8 @@ public class Board {
     Board(int playerNumber){
         board = new Tile[MAX_X][MAX_Y];
 
-        for(int i = 0; i < MAX_X; i++)
-            for(int j = 0; j < MAX_Y; j++)
-                board[i][j] = null;
+            for (int i = 0; i < MAX_X; i++)
+                Arrays.fill(board[i], null);
 
         nonPlayableTileInit(playerNumber);
     }
