@@ -21,6 +21,9 @@ public class Shelf {
      */
     Shelf(){
         this.contents = new Tile[5][6];
+        for(Tile[] row : contents){
+            Arrays.fill(row, Tile.EMPTY);
+        }
     }
 
     /**
@@ -35,7 +38,7 @@ public class Shelf {
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
                 Tile toAdd = toCopy.getTile(new Coordinate(i, j));
-                if(toAdd != null) contents[i][j] = toAdd;
+                contents[i][j] = toAdd;
             }
         }
     }
@@ -48,7 +51,7 @@ public class Shelf {
     boolean isFull(){
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
-                if(contents[i][j] == null){
+                if(contents[i][j] == Tile.EMPTY){
                     return false;
                 }
             }
@@ -98,7 +101,7 @@ public class Shelf {
      */
     private void insertTile(int column, Tile tile){
         int row = 0;
-        while(contents[column][row] != null) row++;
+        while(contents[column][row] != Tile.EMPTY) row++;
 
         contents[column][row] = tile;
     }
@@ -115,7 +118,7 @@ public class Shelf {
         int takenSlots = 0;
 
         for (Tile checkedTile : contents[column]) {
-            if(checkedTile != null) {
+            if(checkedTile != Tile.EMPTY) {
                 takenSlots += 1;
             }
         }
@@ -136,7 +139,7 @@ public class Shelf {
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
-                if(!exploredSlots[i][j] && contents[i][j] != null){
+                if(!exploredSlots[i][j] && contents[i][j] != Tile.EMPTY){
                     int count = 1;
                     int curColumn = i;
                     int curRow = j;
@@ -156,7 +159,6 @@ public class Shelf {
                         curColumn = i;
                     }
 
-                    curColumn = i;
                     curRow = j;
 
                     //Explore to the right
