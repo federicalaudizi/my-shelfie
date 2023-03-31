@@ -98,6 +98,32 @@ public class Player {
     }
 
     /**
+     * Adds the givenCard to the point cards owned by the player
+     *
+     * @author Federico
+     *
+     * @param givenCard the card passed to the player
+     * @param sourceDeck the deck from which the card was drawn
+     */
+    void assignPointCard(PointCard givenCard, int sourceDeck){
+        pointCards[sourceDeck] = givenCard;
+    }
+
+    /**
+     * Returns the status of the point cards owned by the player
+     *
+     * @author Federico
+     *
+     * @return 0 if the player has no point cards, 1 if the player has a point card from the first deck, 2 if the player has a point card from the second deck, 3 if the player all point cards
+     */
+    int getPointCardStatus(){
+        if(pointCards[0] == null && pointCards[1] == null) return 0;
+        else if(pointCards[0] != null && pointCards[1] == null) return 1;
+        else if(pointCards[0] == null) return 2;
+        else return 3;
+    }
+
+    /**
      * Adds up to three tiles into the player's shelf in a specified column and in a specified order,
      * the first tile of the array gets placed in the lowest position of the selected column
      *
