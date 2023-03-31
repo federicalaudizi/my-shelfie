@@ -48,6 +48,18 @@ public class PersonalObjectiveCard{
     }
 
     /**
+     * Constructor of the personal objective, creates the objective with a pattern passed as parameter, this constructor is deprecated because it is used only for testing purposes
+     *
+     * @param pattern Pattern that has to be used
+     *
+     * @author Federic0
+     */
+    @Deprecated
+    PersonalObjectiveCard(PersonalObjectivePattern pattern){
+        this.objective = pattern;
+    }
+
+    /**
      * Method that checks how many points the player has earned with the personal objective
      *
      * @author Federico
