@@ -43,7 +43,7 @@ class Game {
      *
      * @param numOfPlayers represents the number of Players
      */
-    private void chooseFirstPlayer(int numOfPlayers) {
+    void chooseFirstPlayer(int numOfPlayers) {
         Random random = new Random();
         currentPlayerIndex = random.nextInt(numOfPlayers) + 1;
         firstPlayerSeat = currentPlayerIndex; //salvo il primo giocatore per decidere chi gioca nell'ultimo turno
@@ -52,7 +52,7 @@ class Game {
     /**
      * This method decides who's next turn modifying the currentPlayerIndex.
      */
-    private void nextTurn() {
+    void nextTurn() {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
 
@@ -77,7 +77,7 @@ class Game {
      *
      * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
      */
-    private void gameTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
+     void gameTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
         board.checkBoard();
         board.pickTile(c1,c2,c3);
         checkGoals();
@@ -88,11 +88,12 @@ class Game {
             nextTurn();
     }
 
+
     /**
      *This method manages the last Turn. Every player plays his last move.
      * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
      */
-    private void gameFinalTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException{
+     void gameFinalTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException{
         board.checkBoard();
         board.pickTile(c1,c2,c3);
         checkGoals();
@@ -114,11 +115,21 @@ class Game {
     }
 
     /**@return the winner player*/
-    private Player winner(){
+     Player winner(){
         int results[] = new int[4];
         for(int i=0;i<players.size();i++){
             results[i]= players.get(i).calculatePoints();
         }
         return players.get(findMax(results));
     }
+
+    int getCurrentPlayerIndex(){
+         return currentPlayerIndex;
+    }
+
+    int getFirstPlayerSeat(){
+         return firstPlayerSeat;
+    }
+
+
 }
