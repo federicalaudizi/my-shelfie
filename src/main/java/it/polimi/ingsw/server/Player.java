@@ -119,4 +119,21 @@ public class Player {
                 "},\nendGameCard=" + endGameCard +
                 "\n}";
     }
+
+    /**
+     * Checks if the given object is equal to this player
+     *
+     * @author Federico
+     *
+     * @param other the object to be compared
+     * @return true if the given object is equal to this player, false otherwise
+     */
+    public boolean equals(Player other) {
+        if (this == other) return true;
+        if (other == null) return false;
+        return endGameCard == other.endGameCard &&
+                playerShelf.equals(other.playerShelf) &&
+                objectiveCard.equals(other.objectiveCard) &&
+                pointCards.equals(other.pointCards);
+    }
 }
