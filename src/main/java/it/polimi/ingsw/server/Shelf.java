@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @author Federico
  */
 public class Shelf {
-    private Tile[][] contents;
+    private final Tile[][] contents;
 
     /**
      * Constructor of the class
@@ -21,6 +21,9 @@ public class Shelf {
      */
     Shelf(){
         this.contents = new Tile[5][6];
+        for(Tile[] row : contents){
+            Arrays.fill(row, Tile.EMPTY);
+        }
     }
 
     /**
@@ -35,7 +38,7 @@ public class Shelf {
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
                 Tile toAdd = toCopy.getTile(new Coordinate(i, j));
-                if(toAdd != null) contents[i][j] = toAdd;
+                contents[i][j] = toAdd;
             }
         }
     }
@@ -48,7 +51,7 @@ public class Shelf {
     boolean isFull(){
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
-                if(contents[i][j] == null){
+                if(contents[i][j] == Tile.EMPTY){
                     return false;
                 }
             }
@@ -98,7 +101,7 @@ public class Shelf {
      */
     private void insertTile(int column, Tile tile){
         int row = 0;
-        while(contents[column][row] != null) row++;
+        while(contents[column][row] != Tile.EMPTY) row++;
 
         contents[column][row] = tile;
     }
@@ -115,7 +118,7 @@ public class Shelf {
         int takenSlots = 0;
 
         for (Tile checkedTile : contents[column]) {
-            if(checkedTile != null) {
+            if(checkedTile != Tile.EMPTY) {
                 takenSlots += 1;
             }
         }
@@ -136,7 +139,7 @@ public class Shelf {
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
-                if(!exploredSlots[i][j] && contents[i][j] != null){
+                if(!exploredSlots[i][j] && contents[i][j] != Tile.EMPTY){
                     int count = 1;
                     int curColumn = i;
                     int curRow = j;
@@ -156,7 +159,6 @@ public class Shelf {
                         curColumn = i;
                     }
 
-                    curColumn = i;
                     curRow = j;
 
                     //Explore to the right
@@ -196,18 +198,65 @@ public class Shelf {
      */
     @Override
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
-        result += "SHELF:\n";
-        result += "___________________________\n";
         for (int j = 5; j >= 0; j--) {
             for (int i = 0; i < 5; i++) {
-                result += "| "+contents[i][j];
+                result.append("| ").append(contents[i][j]);
             }
-            result += " |\n";
+            result.append(" |\n");
         }
-        result += "---------------------------\n";
 
-        return result;
+        return result.toString();
+    }
+
+    /**
+     * Method that checks if two shelves are equal
+     *
+     * @author Federico
+     *
+     * @param other the shelf to compare to
+     * @return true if the shelves are equal, false otherwise
+     */
+    boolean equals(Shelf other) {
+        for(int i= 0; i < 5; i++){
+            for(int j = 0; j < 6; j++){
+                if(contents[i][j] != other.contents[i][j]) return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method that checks if a shelf contains a specific tile
+     *
+     * @author Federico
+     *
+     * @param tile the tile to check
+     * @return true if the shelf contains the tile, false otherwise
+     */
+    boolean contains(Tile tile){
+        for(Tile[] columns : contents){
+            for(Tile checkedTile : columns){
+                if(checkedTile == tile) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method that checks if a shelf is empty
+     *
+     * @author Federico
+     *
+     * @return true if the shelf is empty, false otherwise
+     */
+    boolean isEmpty() {
+        for (Tile[] columns : contents) {
+            for (Tile checkedTile : columns) {
+                if (checkedTile != Tile.EMPTY) return false;
+            }
+        }
+        return true;
     }
 }

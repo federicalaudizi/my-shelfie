@@ -10,13 +10,14 @@ import java.util.Random;
  */
 class Game {
     private final ArrayList<Player> players;
-    private Board board;
+    private final Board board;
     private final CollectiveObjectiveCard collectiveObjectiveCard1;
     private final CollectiveObjectiveCard collectiveObjectiveCard2;
-    private PointDeck pointCardDeck1;
-    private PointDeck pointCardDeck2;
+    private final PointDeck pointCardDeck1;
+    private final PointDeck pointCardDeck2;
     private boolean lastTurn;
     private int currentPlayerIndex;
+    private int lastPlayer;
     private int firstPlayerSeat;
 
     Game(int numOfPlayers) throws IllegalArgumentException{
@@ -24,8 +25,9 @@ class Game {
         for(int i=0;i<numOfPlayers;i++){
             players.add(new Player(new PersonalObjectiveCard()));
         }
-        currentPlayerIndex = 0;
+        chooseFirstPlayer(numOfPlayers);
         collectiveObjectiveCard1 = CollectiveObjectiveCard.getRandomCard();
+        assert collectiveObjectiveCard1 != null;
         collectiveObjectiveCard2 = CollectiveObjectiveCard.getRandomCard(collectiveObjectiveCard1);
         pointCardDeck1 = new PointDeck(numOfPlayers);
         pointCardDeck2 = new PointDeck(numOfPlayers);
@@ -35,7 +37,6 @@ class Game {
             throw new IllegalArgumentException();
         }
         lastTurn = false;
-        firstPlayerSeat = 0;
     }
 
     /**
@@ -43,17 +44,25 @@ class Game {
      *
      * @param numOfPlayers represents the number of Players
      */
-    private void chooseFirstPlayer(int numOfPlayers) {
+     private void chooseFirstPlayer(int numOfPlayers) {
         Random random = new Random();
         currentPlayerIndex = random.nextInt(numOfPlayers) + 1;
-        firstPlayerSeat = currentPlayerIndex; //salvo il primo giocatore per decidere chi gioca nell'ultimo turno
+        firstPlayerSeat = currentPlayerIndex;
+        lastPlayer = firstPlayerSeat - 1;
+        if(lastPlayer == 0){
+            lastPlayer=numOfPlayers;
+        }
     }
 
     /**
      * This method decides who's next turn modifying the currentPlayerIndex.
      */
-    private void nextTurn() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    void nextTurn() {
+        if(lastTurn && currentPlayerIndex!=lastPlayer){
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        } else if (!lastTurn) {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        }
     }
 
     /**
@@ -77,7 +86,7 @@ class Game {
      *
      * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
      */
-    private void gameTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
+     void playerTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
         board.checkBoard();
         board.pickTile(c1,c2,c3);
         checkGoals();
@@ -86,17 +95,7 @@ class Game {
                 players.get(currentPlayerIndex).setEndGameCard();
             }
             nextTurn();
-    }
 
-    /**
-     *This method manages the last Turn. Every player plays his last move.
-     * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
-     */
-    private void gameFinalTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException{
-        board.checkBoard();
-        board.pickTile(c1,c2,c3);
-        checkGoals();
-        nextTurn();
     }
 
     /**
@@ -114,11 +113,34 @@ class Game {
     }
 
     /**@return the winner player*/
-    private Player winner(){
+     public Player getWinner(){
         int results[] = new int[4];
         for(int i=0;i<players.size();i++){
             results[i]= players.get(i).calculatePoints();
         }
         return players.get(findMax(results));
     }
+
+    /**@return a copy of the current player*/
+    public Player getCurrentPlayer(){
+         return new Player(players.get(getCurrentPlayerIndex()));
+    }
+
+
+    /**@return the current player index*/
+    int getCurrentPlayerIndex(){
+         return currentPlayerIndex;
+    }
+
+    /**@return the last player*/
+    int getLastPlayer(){
+         return lastPlayer;
+    }
+
+    /**@return a copy of the first player*/
+    public Player getFirstPlayerSeat(){
+        return new Player(players.get(firstPlayerSeat));
+    }
+
+
 }
