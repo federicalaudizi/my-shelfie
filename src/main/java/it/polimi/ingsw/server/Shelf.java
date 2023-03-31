@@ -1,213 +1,213 @@
-    package it.polimi.ingsw.server;
+package it.polimi.ingsw.server;
 
-    import it.polimi.ingsw.server.exceptions.fullColumnException;
-    import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
-    import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import it.polimi.ingsw.server.exceptions.fullColumnException;
+import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
+import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 
-    import java.util.Arrays;
+import java.util.Arrays;
+
+/**
+ * Class that defines a shelf
+ *
+ * @author Federico
+ */
+public class Shelf {
+    private Tile[][] contents;
 
     /**
-     * Class that defines a shelf
+     * Constructor of the class
      *
      * @author Federico
      */
-    public class Shelf {
-        private Tile[][] contents;
+    Shelf(){
+        this.contents = new Tile[5][6];
+    }
 
-        /**
-         * Constructor of the class
-         *
-         * @author Federico
-         */
-        Shelf(){
-            this.contents = new Tile[5][6];
+    /**
+     * Copy constructor of the class
+     *
+     * @param toCopy Shelf that has to be copied
+     */
+    Shelf(Shelf toCopy){
+        this.contents = new Tile[5][6];
+
+        //Fills the new shelf contents with the toAdd one
+        for (int i = 0; i < 5 ; i++) {
+            for (int j = 0; j < 6; j++) {
+                Tile toAdd = toCopy.getTile(new Coordinate(i, j));
+                if(toAdd != null) contents[i][j] = toAdd;
+            }
         }
+    }
 
-        /**
-         * Copy constructor of the class
-         *
-         * @param toCopy Shelf that has to be copied
-         */
-        Shelf(Shelf toCopy){
-            this.contents = new Tile[5][6];
-
-            //Fills the new shelf contents with the toAdd one
-            for (int i = 0; i < 5 ; i++) {
-                for (int j = 0; j < 6; j++) {
-                    Tile toAdd = toCopy.getTile(new Coordinate(i, j));
-                    if(toAdd != null) contents[i][j] = toAdd;
+    /**
+     * Checks if the shelf is full
+     *
+     * @return Returns true if the shelf is full, false otherwise
+     */
+    boolean isFull(){
+        for (int i = 0; i < 5 ; i++) {
+            for (int j = 0; j < 6; j++) {
+                if(contents[i][j] == null){
+                    return false;
                 }
             }
         }
+        return true;
+    }
 
-        /**
-         * Checks if the shelf is full
-         *
-         * @return Returns true if the shelf is full, false otherwise
-         */
-        boolean isFull(){
-            for (int i = 0; i < 5 ; i++) {
-                for (int j = 0; j < 6; j++) {
-                    if(contents[i][j] == null){
-                        return false;
-                    }
-                }
+    /**
+     * Method that gives the tile present at a specified coordinate
+     *
+     * @author Federico
+     *
+     * @param coordinate the coordinates of the requested tile
+     * @return the tile present at the specified coordinates
+     */
+    Tile getTile(Coordinate coordinate) {
+        return contents[coordinate.getX()][coordinate.getY()];
+    }
+
+    /**
+     * Adds up to three tiles into the shelf in a specified column and in a specified order,
+     * the first tile of the array gets placed in the lowest position of the selected column
+     *
+     * @author Federico
+     *
+     * @param column the number of the column where to place the tiles
+     * @param tiles array containing the tiles in the intended placement order
+     * @throws tooManyTilesException Exception thrown when the array is made of more than 3 tiles
+     * @throws notEnoughTilesException Exception thrown when the array is empty
+     * @throws fullColumnException Exception thrown when the selected column is full or there are not enough slots available
+     */
+    void addTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+        if(tiles.length > 3) throw new tooManyTilesException();
+        if(tiles.length == 0) throw new notEnoughTilesException();
+        if(availableSlots(column) < tiles.length) throw new fullColumnException();
+
+        for (Tile toAdd : tiles) insertTile(column, toAdd);
+    }
+
+    /**
+     * Helper method to insert a tile into a column
+     *
+     * @author Federico
+     *
+     * @param column number of the column where to insert the tile
+     * @param tile tile to be inserted
+     */
+    private void insertTile(int column, Tile tile){
+        int row = 0;
+        while(contents[column][row] != null) row++;
+
+        contents[column][row] = tile;
+    }
+
+    /**
+     * Helper method that returns how many empty slots are left in a column
+     *
+     * @author Federico
+     *
+     * @param column number of the column
+     * @return number of available slots
+     */
+    private int availableSlots(int column){
+        int takenSlots = 0;
+
+        for (Tile checkedTile : contents[column]) {
+            if(checkedTile != null) {
+                takenSlots += 1;
             }
-            return true;
         }
 
-        /**
-         * Method that gives the tile present at a specified coordinate
-         *
-         * @author Federico
-         *
-         * @param coordinate the coordinates of the requested tile
-         * @return the tile present at the specified coordinates
-         */
-        Tile getTile(Coordinate coordinate) {
-            return contents[coordinate.getX()][coordinate.getY()];
-        }
+        return 6 - takenSlots;
+    }
 
-        /**
-         * Adds up to three tiles into the shelf in a specified column and in a specified order,
-         * the first tile of the array gets placed in the lowest position of the selected column
-         *
-         * @author Federico
-         *
-         * @param column the number of the column where to place the tiles
-         * @param tiles array containing the tiles in the intended placement order
-         * @throws tooManyTilesException Exception thrown when the array is made of more than 3 tiles
-         * @throws notEnoughTilesException Exception thrown when the array is empty
-         * @throws fullColumnException Exception thrown when the selected column is full or there are not enough slots available
-         */
-        void addTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
-            if(tiles.length > 3) throw new tooManyTilesException();
-            if(tiles.length == 0) throw new notEnoughTilesException();
-            if(availableSlots(column) < tiles.length) throw new fullColumnException();
+    /**
+     * Method that calculates how many points are worth the various tile clusters in the shelf by scanning whole the shelf grid
+     *
+     * @author Federico
+     *
+     * @return amount of points that the clusters are worth
+     */
+    int getTileClusterPoints(){
+        int points = 0;
+        boolean[][] exploredSlots = new boolean[5][6];
 
-            for (Tile toAdd : tiles) insertTile(column, toAdd);
-        }
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 6; j++) {
+                if(!exploredSlots[i][j] && contents[i][j] != null){
+                    int count = 1;
+                    int curColumn = i;
+                    int curRow = j;
 
-        /**
-         * Helper method to insert a tile into a column
-         *
-         * @author Federico
-         *
-         * @param column number of the column where to insert the tile
-         * @param tile tile to be inserted
-         */
-        private void insertTile(int column, Tile tile){
-            int row = 0;
-            while(contents[column][row] != null) row++;
-
-            contents[column][row] = tile;
-        }
-
-        /**
-         * Helper method that returns how many empty slots are left in a column
-         *
-         * @author Federico
-         *
-         * @param column number of the column
-         * @return number of available slots
-         */
-        private int availableSlots(int column){
-            int takenSlots = 0;
-
-            for (Tile checkedTile : contents[column]) {
-                if(checkedTile != null) {
-                    takenSlots += 1;
-                }
-            }
-
-            return 6 - takenSlots;
-        }
-
-        /**
-         * Method that calculates how many points are worth the various tile clusters in the shelf by scanning whole the shelf grid
-         *
-         * @author Federico
-         *
-         * @return amount of points that the clusters are worth
-         */
-        int getTileClusterPoints(){
-            int points = 0;
-            boolean[][] exploredSlots = new boolean[5][6];
-
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 6; j++) {
-                    if(!exploredSlots[i][j] && contents[i][j] != null){
-                        int count = 1;
-                        int curColumn = i;
-                        int curRow = j;
-
-                        //Explore upwards
-                        while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5){
-                            count++;
-                            curRow++;
-                            exploredSlots[curColumn][curRow] = true;
-
-                            //Explore to the right
-                            while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
-                                count++;
-                                curColumn++;
-                                exploredSlots[curColumn][curRow] = true;
-                            }
-                            curColumn = i;
-                        }
-
-                        curColumn = i;
-                        curRow = j;
+                    //Explore upwards
+                    while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5){
+                        count++;
+                        curRow++;
+                        exploredSlots[curColumn][curRow] = true;
 
                         //Explore to the right
                         while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
                             count++;
                             curColumn++;
                             exploredSlots[curColumn][curRow] = true;
-
-                            //Explore upwards
-                            while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5) {
-                                count++;
-                                curRow++;
-                                exploredSlots[curColumn][curRow] = true;
-                            }
-                            curRow = j;
                         }
-
-                        //Assign points
-                        if(count == 3) points += 2;
-                        else if(count == 4) points += 3;
-                        else if(count == 5) points += 5;
-                        else if(count >= 6) points += 8;
+                        curColumn = i;
                     }
-                }
 
+                    curColumn = i;
+                    curRow = j;
+
+                    //Explore to the right
+                    while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
+                        count++;
+                        curColumn++;
+                        exploredSlots[curColumn][curRow] = true;
+
+                        //Explore upwards
+                        while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5) {
+                            count++;
+                            curRow++;
+                            exploredSlots[curColumn][curRow] = true;
+                        }
+                        curRow = j;
+                    }
+
+                    //Assign points
+                    if(count == 3) points += 2;
+                    else if(count == 4) points += 3;
+                    else if(count == 5) points += 5;
+                    else if(count >= 6) points += 8;
+                }
             }
 
-            return points;
         }
 
-        /**
-         * Method that generates a string that represents the shelf
-         *
-         * @author Federico
-         *
-         * @return the shelf formatted as a viewable string
-         */
-        @Override
-        public String toString() {
-            String result = "";
-
-            result += "SHELF:\n";
-            result += "___________________________\n";
-            for (int j = 5; j >= 0; j--) {
-                for (int i = 0; i < 5; i++) {
-                    result += "| "+contents[i][j];
-                }
-                result += " |\n";
-            }
-            result += "---------------------------\n";
-
-            return result;
-        }
+        return points;
     }
+
+    /**
+     * Method that generates a string that represents the shelf
+     *
+     * @author Federico
+     *
+     * @return the shelf formatted as a viewable string
+     */
+    @Override
+    public String toString() {
+        String result = "";
+
+        result += "SHELF:\n";
+        result += "___________________________\n";
+        for (int j = 5; j >= 0; j--) {
+            for (int i = 0; i < 5; i++) {
+                result += "| "+contents[i][j];
+            }
+            result += " |\n";
+        }
+        result += "---------------------------\n";
+
+        return result;
+    }
+}
