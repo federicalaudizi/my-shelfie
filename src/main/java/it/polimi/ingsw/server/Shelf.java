@@ -209,4 +209,54 @@ public class Shelf {
 
         return result.toString();
     }
+
+    /**
+     * Method that checks if two shelves are equal
+     *
+     * @author Federico
+     *
+     * @param other the shelf to compare to
+     * @return true if the shelves are equal, false otherwise
+     */
+    boolean equals(Shelf other) {
+        for(int i= 0; i < 5; i++){
+            for(int j = 0; j < 6; j++){
+                if(contents[i][j] != other.contents[i][j]) return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method that checks if a shelf contains a specific tile
+     *
+     * @author Federico
+     *
+     * @param tile the tile to check
+     * @return true if the shelf contains the tile, false otherwise
+     */
+    boolean contains(Tile tile){
+        for(Tile[] columns : contents){
+            for(Tile checkedTile : columns){
+                if(checkedTile == tile) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method that checks if a shelf is empty
+     *
+     * @author Federico
+     *
+     * @return true if the shelf is empty, false otherwise
+     */
+    boolean isEmpty() {
+        for (Tile[] columns : contents) {
+            for (Tile checkedTile : columns) {
+                if (checkedTile != Tile.EMPTY) return false;
+            }
+        }
+        return true;
+    }
 }
