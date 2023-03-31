@@ -112,12 +112,11 @@ public class Player {
 
     @Override
     public String toString() {
-        //TODO: Adapt the toString method when accessory classes are ready
-        return "Player{" +
-                "playerShelf=" + playerShelf +
-                ", objectiveCard=" + objectiveCard +
-                ", pointCards=" + pointCards +
-                ", endGameCard=" + endGameCard +
-                '}';
+        return "Player{\n" +
+                "playerShelf={\n" + playerShelf +
+                "},\nobjectiveCard={\n" + objectiveCard +
+                "},\npointCards={\n" + pointCards +
+                "},\nendGameCard=" + endGameCard +
+                "\n}";
     }
 }
