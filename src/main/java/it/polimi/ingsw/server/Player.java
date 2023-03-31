@@ -63,21 +63,7 @@ public class Player {
         if(endGameCard) points += 1;
 
         //Adding points from the Personal objective
-        switch (objectiveCard.checkObjective(new Shelf(playerShelf))){
-            case 1:
-                points += 1;
-            case 2:
-                points += 2;
-            case 3:
-                points += 4;
-            case 4:
-                points += 6;
-            case 5:
-                points += 9;
-            case 6:
-                points += 12;
-            default:
-        }
+        points += objectiveCard.checkObjective(new Shelf(playerShelf));
 
         //Adding points from the earned point cards
         for(PointCard card : pointCards){
