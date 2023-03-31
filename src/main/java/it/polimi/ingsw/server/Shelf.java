@@ -12,7 +12,7 @@ import java.util.Arrays;
  * @author Federico
  */
 public class Shelf {
-    private Tile[][] contents;
+    private final Tile[][] contents;
 
     /**
      * Constructor of the class
