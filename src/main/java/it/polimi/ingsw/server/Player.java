@@ -32,6 +32,20 @@ public class Player {
     }
 
     /**
+     * Copy constructor of the class
+     *
+     * @author Federico
+     *
+     * @param toCopy Player to be copied
+     */
+    Player(Player toCopy){
+        this.playerShelf = new Shelf(toCopy.playerShelf);
+        this.objectiveCard = new PersonalObjectiveCard(toCopy.objectiveCard);
+        this.pointCards = new ArrayList<>(toCopy.pointCards);
+        this.endGameCard = toCopy.endGameCard;
+    }
+
+    /**
      * Returns a copy of the player shelf
      *
      * @author Federico
