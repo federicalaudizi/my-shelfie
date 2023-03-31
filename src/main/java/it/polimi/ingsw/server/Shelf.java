@@ -198,18 +198,15 @@ public class Shelf {
      */
     @Override
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
-        result += "SHELF:\n";
-        result += "___________________________\n";
         for (int j = 5; j >= 0; j--) {
             for (int i = 0; i < 5; i++) {
-                result += "| "+contents[i][j];
+                result.append("| ").append(contents[i][j]);
             }
-            result += " |\n";
+            result.append(" |\n");
         }
-        result += "---------------------------\n";
 
-        return result;
+        return result.toString();
     }
 }
