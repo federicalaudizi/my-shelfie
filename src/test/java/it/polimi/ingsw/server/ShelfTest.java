@@ -1,8 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.exceptions.fullColumnException;
-import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
-import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 import junit.framework.TestCase;
 
 public class ShelfTest extends TestCase {
@@ -28,8 +25,32 @@ public class ShelfTest extends TestCase {
         assertTrue(testingShelf.isFull());
     }
 
-    //A test that checks if the testGetTile gets the right tile
-    public void testGetTile() throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+    public void testIsEmpty() throws Exception{
+        Shelf testingShelf = new Shelf();
+        assertTrue(testingShelf.isEmpty());
+        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        assertFalse(testingShelf.isEmpty());
+    }
+
+    public void testContains() throws Exception {
+        Shelf testingShelf = new Shelf();
+        testingShelf.addTiles(0, new Tile[]{Tile.TROFEI});
+        assertFalse(testingShelf.contains(Tile.GATTI));
+        testingShelf.addTiles(0, new Tile[]{Tile.GATTI});
+        assertTrue(testingShelf.contains(Tile.GATTI));
+    }
+
+    public void testEquals() throws Exception{
+        Shelf testingShelf = new Shelf();
+        Shelf comparingShelf = new Shelf();
+        assertTrue(testingShelf.equals(comparingShelf));
+        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        assertFalse(testingShelf.equals(comparingShelf));
+        comparingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        assertTrue(testingShelf.equals(comparingShelf));
+    }
+
+    public void testGetTile() throws Exception {
         Shelf testingShelf = new Shelf();
         testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
         assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 0)));
