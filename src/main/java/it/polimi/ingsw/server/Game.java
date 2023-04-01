@@ -10,13 +10,14 @@ import java.util.Random;
  */
 class Game {
     private final ArrayList<Player> players;
-    private Board board;
+    private final Board board;
     private final CollectiveObjectiveCard collectiveObjectiveCard1;
     private final CollectiveObjectiveCard collectiveObjectiveCard2;
-    private PointDeck pointCardDeck1;
-    private PointDeck pointCardDeck2;
+    private final PointDeck pointCardDeck1;
+    private final PointDeck pointCardDeck2;
     private boolean lastTurn;
     private int currentPlayerIndex;
+    private int lastPlayer;
     private int firstPlayerSeat;
 
     Game(int numOfPlayers) throws IllegalArgumentException{
@@ -24,8 +25,9 @@ class Game {
         for(int i=0;i<numOfPlayers;i++){
             players.add(new Player(new PersonalObjectiveCard()));
         }
-        currentPlayerIndex = 0;
+        chooseFirstPlayer(numOfPlayers);
         collectiveObjectiveCard1 = CollectiveObjectiveCard.getRandomCard();
+        assert collectiveObjectiveCard1 != null;
         collectiveObjectiveCard2 = CollectiveObjectiveCard.getRandomCard(collectiveObjectiveCard1);
         pointCardDeck1 = new PointDeck(numOfPlayers);
         pointCardDeck2 = new PointDeck(numOfPlayers);
@@ -35,25 +37,33 @@ class Game {
             throw new IllegalArgumentException();
         }
         lastTurn = false;
-        firstPlayerSeat = 0;
     }
 
     /**
-     * This method chooses randomly the first player in the given range of players
-     *
+     * This method chooses randomly the first player in the given range of players, sets the first and
+     * the last player
      * @param numOfPlayers represents the number of Players
      */
-    void chooseFirstPlayer(int numOfPlayers) {
+     private void chooseFirstPlayer(int numOfPlayers) {
         Random random = new Random();
         currentPlayerIndex = random.nextInt(numOfPlayers) + 1;
-        firstPlayerSeat = currentPlayerIndex; //salvo il primo giocatore per decidere chi gioca nell'ultimo turno
+        firstPlayerSeat = currentPlayerIndex;
+        lastPlayer = firstPlayerSeat - 1;
+        if(lastPlayer == 0){
+            lastPlayer=numOfPlayers;
+        }
     }
 
     /**
      * This method decides who's next turn modifying the currentPlayerIndex.
+     * If it is the last turn the game goes on until it reaches the last player
      */
     void nextTurn() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        if(lastTurn && currentPlayerIndex!=lastPlayer){
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        } else if (!lastTurn) {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        }
     }
 
     /**
@@ -61,23 +71,36 @@ class Game {
      * taking the upper card in the deck.
      */
     private void checkGoals() {
-        if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
-            players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints());
-        }
-        if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
-            players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints());
+        int status = players.get(currentPlayerIndex).getPointCardStatus();
+
+        if (status == 0) {
+            if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
+            }
+            if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
+            }
+        }else if (status == 1) {
+                if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                    players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
+                }
+        } else if (status == 2) {
+            if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
+            }
         }
     }
+
 
 
     /**
      * This method manages the turn.
      * It makes the player make the move, then it checks if the player has achieved some
      * common objective and if anyone has completed his shelf.
-     *
+     * Finally, it passes the turn
      * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
      */
-     void gameTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
+     void playerTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
         board.checkBoard();
         board.pickTile(c1,c2,c3);
         checkGoals();
@@ -86,18 +109,7 @@ class Game {
                 players.get(currentPlayerIndex).setEndGameCard();
             }
             nextTurn();
-    }
 
-
-    /**
-     *This method manages the last Turn. Every player plays his last move.
-     * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
-     */
-     void gameFinalTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException{
-        board.checkBoard();
-        board.pickTile(c1,c2,c3);
-        checkGoals();
-        nextTurn();
     }
 
     /**
@@ -115,7 +127,7 @@ class Game {
     }
 
     /**@return the winner player*/
-     Player winner(){
+     public Player getWinner(){
         int results[] = new int[4];
         for(int i=0;i<players.size();i++){
             results[i]= players.get(i).calculatePoints();
@@ -123,12 +135,25 @@ class Game {
         return players.get(findMax(results));
     }
 
+    /**@return a copy of the current player*/
+    public Player getCurrentPlayer(){
+         return new Player(players.get(getCurrentPlayerIndex()));
+    }
+
+
+    /**@return the current player index*/
     int getCurrentPlayerIndex(){
          return currentPlayerIndex;
     }
 
-    int getFirstPlayerSeat(){
-         return firstPlayerSeat;
+    /**@return the last player*/
+    int getLastPlayer(){
+         return lastPlayer;
+    }
+
+    /**@return a copy of the first player*/
+    public Player getFirstPlayerSeat(){
+        return new Player(players.get(firstPlayerSeat));
     }
 
 

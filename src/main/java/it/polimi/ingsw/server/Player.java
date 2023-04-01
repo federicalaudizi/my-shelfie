@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Player {
     private final Shelf playerShelf;
     private final PersonalObjectiveCard objectiveCard;
-    private final ArrayList<PointCard> pointCards;
+    private final PointCard[] pointCards;
     private boolean endGameCard;
 
     /**
@@ -27,7 +27,7 @@ public class Player {
     Player(PersonalObjectiveCard objectiveCard){
         this.playerShelf = new Shelf();
         this.objectiveCard = new PersonalObjectiveCard(objectiveCard);
-        this.pointCards = new ArrayList<>();
+        this.pointCards = new PointCard[2];
         this.endGameCard = false;
     }
 
@@ -41,7 +41,10 @@ public class Player {
     Player(Player toCopy){
         this.playerShelf = new Shelf(toCopy.playerShelf);
         this.objectiveCard = new PersonalObjectiveCard(toCopy.objectiveCard);
-        this.pointCards = new ArrayList<>(toCopy.pointCards);
+        this.pointCards = new PointCard[2];
+        for(int i = 0; i < 2; i++){
+            this.pointCards[i] = new PointCard(toCopy.pointCards[i].getValue());
+        }
         this.endGameCard = toCopy.endGameCard;
     }
 
@@ -77,12 +80,47 @@ public class Player {
     }
 
     /**
-     * Adds the givenCard to the point cards owned by the player
+     * Adds the givenCard to the point cards owned by the player, this method is deprecated and will be removed in the future
+     *
+     * @author Federico
      *
      * @param givenCard the card passed to the player
      */
+    @Deprecated
     void assignPointCard(PointCard givenCard){
-        pointCards.add(givenCard);
+        if(pointCards[0] != null){
+            pointCards[0] = givenCard;
+            return;
+        }
+        if(pointCards[1] != null){
+            pointCards[1] = givenCard;
+        }
+    }
+
+    /**
+     * Adds the givenCard to the point cards owned by the player
+     *
+     * @author Federico
+     *
+     * @param givenCard the card passed to the player
+     * @param sourceDeck the deck from which the card was drawn
+     */
+    void assignPointCard(PointCard givenCard, int sourceDeck){
+        pointCards[sourceDeck] = givenCard;
+    }
+
+    /**
+     * Returns the status of the point cards owned by the player
+     *
+     * @author Federico
+     *
+     * @return 0 if the player has no point cards, 1 if the player has a point card from the first deck, 2 if the player has a point card from the second deck, 3 if the player all point cards
+     */
+    int getPointCardStatus(){
+        if(pointCards[0] == null && pointCards[1] == null) return 0;
+        else if(pointCards[0] != null && pointCards[1] == null) return 1;
+        else if(pointCards[0] == null) return 2;
+        else return 3;
     }
 
     /**
@@ -118,5 +156,22 @@ public class Player {
                 "},\npointCards={\n" + pointCards +
                 "},\nendGameCard=" + endGameCard +
                 "\n}";
+    }
+
+    /**
+     * Checks if the given object is equal to this player
+     *
+     * @author Federico
+     *
+     * @param other the object to be compared
+     * @return true if the given object is equal to this player, false otherwise
+     */
+    public boolean equals(Player other) {
+        if (this == other) return true;
+        if (other == null) return false;
+        return endGameCard == other.endGameCard &&
+                playerShelf.equals(other.playerShelf) &&
+                objectiveCard.equals(other.objectiveCard) &&
+                pointCards.equals(other.pointCards);
     }
 }

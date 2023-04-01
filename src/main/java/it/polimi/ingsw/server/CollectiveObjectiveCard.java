@@ -29,6 +29,7 @@ public abstract class CollectiveObjectiveCard {
             return null;
         }
     }
+
     public static CollectiveObjectiveCard getRandomCard(CollectiveObjectiveCard other) {
         List<Class<? extends CollectiveObjectiveCard>> subclasses = getAllPossibleCards();
 
@@ -73,17 +74,18 @@ public abstract class CollectiveObjectiveCard {
      */
     static class PatternEight extends CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
-            Set<Tile> squareValues = new HashSet<>();
             int count = 0;
-            for (int i = 0; i < 6; i++){
-                for (int j = 0; j < 5; j++){
-                    Coordinate tileCoordinate = new Coordinate(i, j);
-                    // devo fare check che sia diverso da unknown
-                    squareValues.add(shelf.getTile(tileCoordinate));
-                    if (squareValues.size() <= 3){
-                        count++;
-                        if (count == 4){
-                            return true;
+            for (int i = 0; i < 6; i++) {
+                Set<Tile> squareValues = new HashSet<>();
+                for (int j = 0; j < 5; j++) {
+                    Coordinate tileCoordinate = new Coordinate(j, i);
+                    if (shelf.getTile(tileCoordinate) != Tile.EMPTY) {
+                        squareValues.add(shelf.getTile(tileCoordinate));
+                        if (squareValues.size() <= 3 & j == 4) {
+                            count++;
+                            if (count == 4) {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -99,15 +101,15 @@ public abstract class CollectiveObjectiveCard {
      */
     static class PatternEleven extends CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
-            for (int i = 0; i < 4; i++){
-                for (int j = 0; j < 2; j++){
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 2; j++) {
                     Coordinate upLeft = new Coordinate(i, j);
-                    Coordinate middle = new Coordinate(i+1, j+1);
+                    Coordinate middle = new Coordinate(i + 1, j + 1);
                     Coordinate upRight = new Coordinate(i, j + 2);
-                    Coordinate bottomLeft = new Coordinate(i+2, j);
-                    Coordinate bottomRight = new Coordinate(i+2, j+2);
+                    Coordinate bottomLeft = new Coordinate(i + 2, j);
+                    Coordinate bottomRight = new Coordinate(i + 2, j + 2);
                     if (shelf.getTile(upLeft) == shelf.getTile(upRight) & shelf.getTile(upLeft) == shelf.getTile(middle)
-                       & shelf.getTile(upLeft) == shelf.getTile(bottomLeft) & shelf.getTile(upLeft) == shelf.getTile(bottomRight))
+                            & shelf.getTile(upLeft) == shelf.getTile(bottomLeft) & shelf.getTile(upLeft) == shelf.getTile(bottomRight))
                         return true;
                 }
             }
@@ -127,12 +129,14 @@ public abstract class CollectiveObjectiveCard {
             for (int col = 0; col < 5; col++) {
                 Set<Tile> distinctValues = new HashSet<>();
                 for (int row = 0; row < 6; row++) {
-                    Coordinate tileCoordinate = new Coordinate(row, col);
-                    distinctValues.add(shelf.getTile(tileCoordinate));
+                    Coordinate tileCoordinate = new Coordinate(col, row);
+                    if (shelf.getTile(tileCoordinate) != Tile.EMPTY) {
+                        distinctValues.add(shelf.getTile(tileCoordinate));
+                    }
                 }
                 if (distinctValues.size() <= 3) {
                     count++;
-                    if(count == 3){
+                    if (count == 3) {
                         return true;
                     }
                 }
@@ -148,43 +152,59 @@ public abstract class CollectiveObjectiveCard {
      */
     static class PatternFour extends CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
-            for (int i = 0; i <= 4; i++) {
+            for (int i = 0; i < 4; i++) {
                 for (int j = 0; j <= 3; j++) {
                     // Check if the 2x2 square starting at (i,j) contains 4 of the same enum value
                     Coordinate tileCoordinate = new Coordinate(i, j);
                     Set<Tile> squareValues = new HashSet<>();
-                    squareValues.add(shelf.getTile(tileCoordinate));
+                    if (shelf.getTile(tileCoordinate) != Tile.EMPTY) {
+                        squareValues.add(shelf.getTile(tileCoordinate));
+                    }
 
-                    Coordinate tileCoordinateBottomLeft = new Coordinate(i+1, j);
-                    squareValues.add(shelf.getTile(tileCoordinateBottomLeft));
+                    Coordinate tileCoordinateBottomLeft = new Coordinate(i + 1, j);
+                    if (shelf.getTile(tileCoordinateBottomLeft) != Tile.EMPTY) {
+                        squareValues.add(shelf.getTile(tileCoordinateBottomLeft));
+                    }
 
-                    Coordinate tileCoordinateTopRight = new Coordinate(i, j+1);
-                    squareValues.add(shelf.getTile(tileCoordinateTopRight));
+                    Coordinate tileCoordinateTopRight = new Coordinate(i, j + 1);
+                    if (shelf.getTile(tileCoordinateTopRight) != Tile.EMPTY) {
+                        squareValues.add(shelf.getTile(tileCoordinateTopRight));
+                    }
 
-                    Coordinate tileCoordinateBottomRight = new Coordinate(i+1, j+1);
-                    squareValues.add(shelf.getTile(tileCoordinateBottomRight));
+                    Coordinate tileCoordinateBottomRight = new Coordinate(i + 1, j + 1);
+                    if (shelf.getTile(tileCoordinateBottomRight) != Tile.EMPTY) {
+                        squareValues.add(shelf.getTile(tileCoordinateBottomRight));
+                    }
 
                     if (squareValues.size() == 1) {
                         // Found a group of 4, so iterate over the remaining 2x2 squares to find another group
-                        for (int k = i; k <= 4; k++) {
+                        for (int k = i; k < 5; k++) {
                             for (int l = 0; l <= 3; l++) {
                                 if (k == i && l < j + 2) {
                                     // Skip the 2x2 square we already found
                                     continue;
                                 }
                                 // Check if the 2x2 square starting at (k,l) contains 4 of the same enum value
-                                Coordinate otherTileCoordinate = new Coordinate(k, l);
+                                Coordinate otherTileCoordinate = new Coordinate(l, k);
                                 Set<Tile> otherSquareValues = new HashSet<>();
-                                otherSquareValues.add(shelf.getTile(otherTileCoordinate));
+                                if (shelf.getTile(otherTileCoordinate) != Tile.EMPTY) {
+                                    otherSquareValues.add(shelf.getTile(otherTileCoordinate));
+                                }
 
-                                Coordinate otherTileCoordinateBottomLeft = new Coordinate(k+1, l);
-                                otherSquareValues.add(shelf.getTile(otherTileCoordinateBottomLeft));
+                                Coordinate otherTileCoordinateBottomLeft = new Coordinate(l + 1, k);
+                                if (shelf.getTile(otherTileCoordinateBottomLeft) != Tile.EMPTY) {
+                                    otherSquareValues.add(shelf.getTile(otherTileCoordinateBottomLeft));
+                                }
 
-                                Coordinate otherTileCoordinateTopRight = new Coordinate(k, l+1);
-                                otherSquareValues.add(shelf.getTile(otherTileCoordinateTopRight));
+                                Coordinate otherTileCoordinateTopRight = new Coordinate(l, k + 1);
+                                if (shelf.getTile(otherTileCoordinateTopRight) != Tile.EMPTY) {
+                                    otherSquareValues.add(shelf.getTile(otherTileCoordinateTopRight));
+                                }
 
-                                Coordinate otherTileCoordinateBottomRight = new Coordinate(k+1, l+1);
-                                otherSquareValues.add(shelf.getTile(otherTileCoordinateBottomRight));
+                                Coordinate otherTileCoordinateBottomRight = new Coordinate(l + 1, k + 1);
+                                if (shelf.getTile(otherTileCoordinateBottomRight) != Tile.EMPTY) {
+                                    otherSquareValues.add(shelf.getTile(otherTileCoordinateBottomRight));
+                                }
                                 if (otherSquareValues.size() == 1) {
                                     // Found another group of 4, so we're done
                                     return true;
@@ -209,20 +229,22 @@ public abstract class CollectiveObjectiveCard {
             int count = 0;
 
             for (int i = 0; i < 5; i++) {
-                for (int j = 1; j < 6; j++) {
+                Set<Tile> column = new HashSet<>();
+                for (int j = 0; j < 6; j++) {
                     Coordinate tileCoordinate = new Coordinate(i, j);
-                    Coordinate decrementedCoordinate = new Coordinate(i, j - 1);
-                    if (shelf.getTile(tileCoordinate) == shelf.getTile(decrementedCoordinate)) {
-                        break;
-                    } else if (j == 5) {
-                        count++;
-                        if (count == 2) {
-                            return true;
+                    if (shelf.getTile(tileCoordinate) != Tile.EMPTY) {
+                        column.add(shelf.getTile(tileCoordinate));
+                        if (column.size() == 6) {
+                            count++;
+                            if (count == 2) {
+                                return true;
+                            }
                         }
                     }
-
                 }
+
             }
+
             return false;
         }
     }
@@ -238,13 +260,13 @@ public abstract class CollectiveObjectiveCard {
             int count = 0;
 
             //check vertically
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 6; j++) {
                     Coordinate tileCoordinate = new Coordinate(i, j);
                     Coordinate tileCoordinateIncremented = new Coordinate(i + 1, j);
-                    if (shelf.getTile(tileCoordinate) == shelf.getTile(tileCoordinateIncremented)) {
+                    if (shelf.getTile(tileCoordinate) == shelf.getTile(tileCoordinateIncremented) & shelf.getTile(tileCoordinate) != Tile.EMPTY & shelf.getTile(tileCoordinateIncremented) != Tile.EMPTY) {
                         count++;
-                        if (count == 6){
+                        if (count == 6) {
                             return true;
                         }
                     }
@@ -253,12 +275,12 @@ public abstract class CollectiveObjectiveCard {
 
             //check horizontally
             for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 4; j++) {
+                for (int j = 0; j < 5; j++) {
                     Coordinate tileCoordinate = new Coordinate(i, j);
                     Coordinate tileCoordinateIncremented = new Coordinate(i, j + 1);
-                    if (shelf.getTile(tileCoordinate) == shelf.getTile(tileCoordinateIncremented)) {
+                    if (shelf.getTile(tileCoordinate) == shelf.getTile(tileCoordinateIncremented) & shelf.getTile(tileCoordinate) != Tile.EMPTY & shelf.getTile(tileCoordinateIncremented) != Tile.EMPTY) {
                         count++;
-                        if (count == 6){
+                        if (count == 6) {
                             return true;
                         }
                     }
@@ -290,7 +312,7 @@ public abstract class CollectiveObjectiveCard {
                 j++;
             }
 
-            for (int i = 4; i > 0 ; i--) {
+            for (int i = 4; i > 0; i--) {
                 Coordinate tileCoordinate = new Coordinate(k, i);
                 Coordinate incrementedCoordinate = new Coordinate(k + 1, i - 1);
                 if (shelf.getTile(tileCoordinate) != shelf.getTile(incrementedCoordinate)) {
@@ -304,7 +326,7 @@ public abstract class CollectiveObjectiveCard {
 
             j = 0;
 
-            for (int i = 1; i < 5; i ++) {
+            for (int i = 1; i < 5; i++) {
                 Coordinate tileCoordinate = new Coordinate(i, j);
                 Coordinate incrementedCoordinate = new Coordinate(i + 1, j + 1);
                 if (shelf.getTile(tileCoordinate) != shelf.getTile(incrementedCoordinate)) {
@@ -318,7 +340,7 @@ public abstract class CollectiveObjectiveCard {
 
             k = 1;
 
-            for (int i = 4; i > 0; i--){
+            for (int i = 4; i > 0; i--) {
                 Coordinate tileCoordinate = new Coordinate(k, i);
                 Coordinate incrementedCoordinate = new Coordinate(k + 1, i - 1);
                 if (shelf.getTile(tileCoordinate) != shelf.getTile(incrementedCoordinate)) {
@@ -344,9 +366,8 @@ public abstract class CollectiveObjectiveCard {
             int count = 0;
             for (Tile type : Tile.values()) {
                 for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 4; j++) {
+                    for (int j = 0; j < 6; j++) {
                         Coordinate tileCoordinate = new Coordinate(i, j);
-                        Coordinate tileCoordinateIncremented = new Coordinate(i, j + 1);
                         if (shelf.getTile(tileCoordinate) == type) {
                             count++;
                             if (count == 8) {
@@ -357,7 +378,7 @@ public abstract class CollectiveObjectiveCard {
                 }
                 count = 0;
             }
-           return false;
+            return false;
         }
     }
 
@@ -370,18 +391,18 @@ public abstract class CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
             int count = 0;
             for (int j = 0; j < 6; j++) {
-                for (int i = 1; i < 5; i++) {
+                Set<Tile> column = new HashSet<>();
+                for (int i = 0; i < 5; i++) {
                     Coordinate tileCoordinate = new Coordinate(i, j);
-                    Coordinate decrementedCoordinate = new Coordinate(i, j - 1);
-                    if (shelf.getTile(tileCoordinate) == shelf.getTile(decrementedCoordinate)) {
-                        break;
-                    } else if (j == 5) {
-                        count++;
-                        if (count == 2) {
-                            return true;
+                    if (shelf.getTile(tileCoordinate) != Tile.EMPTY) {
+                        column.add(shelf.getTile(tileCoordinate));
+                        if (column.size() == 5) {
+                            count++;
+                            if (count == 2) {
+                                return true;
+                            }
                         }
                     }
-
                 }
             }
             return false;
@@ -397,9 +418,9 @@ public abstract class CollectiveObjectiveCard {
         @Override
         public boolean checkObjective(Shelf shelf) {
             Coordinate upperLeft = new Coordinate(0, 0);
-            Coordinate upperRight = new Coordinate(0, 4);
-            Coordinate bottomLeft = new Coordinate(5, 0);
-            Coordinate bottomRight = new Coordinate(5, 5);
+            Coordinate upperRight = new Coordinate(0, 5);
+            Coordinate bottomLeft = new Coordinate(4, 0);
+            Coordinate bottomRight = new Coordinate(4, 5);
 
             return shelf.getTile(upperLeft) == shelf.getTile(upperRight) && shelf.getTile(bottomLeft) == shelf.getTile(bottomRight)
                     && shelf.getTile(upperLeft) == shelf.getTile(bottomRight) && shelf.getTile(upperRight) == shelf.getTile(bottomRight)
@@ -416,24 +437,27 @@ public abstract class CollectiveObjectiveCard {
     static class PatternTwelve extends CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
 
-            boolean increasing = false;
+            int[] countColumn = {0, 0, 0, 0, 0};
+            int k = 0;
 
             for (int i = 0; i < 5; i++) {
-                boolean isIncreasing = true;
-                for (int j = 1; j < 6; j++) {
+                for (int j = 0; j < 6; j++) {
                     Coordinate tileCoordinate = new Coordinate(i, j);
-                    Coordinate tileCoordinateDecremented = new Coordinate(i , j - i);
-                    if (shelf.getTile(tileCoordinate).ordinal() != shelf.getTile(tileCoordinateDecremented).ordinal() - 1) {
-                        isIncreasing = false;
+                    if (shelf.getTile(tileCoordinate) != Tile.EMPTY) {
+                        countColumn[k]++;
                     }
                 }
-                if (isIncreasing) {
-                    increasing = true;
+                k++;
+                if ((countColumn[0] == 1 & countColumn[1] == 2 & countColumn[2] == 3 & countColumn[3] == 4 & countColumn[4] == 5) ||
+                        (countColumn[0] == 5 & countColumn[1] == 4 & countColumn[2] == 3 & countColumn[3] == 2 & countColumn[4] == 1)
+                        || (countColumn[0] == 2 & countColumn[1] == 3 & countColumn[2] == 4 & countColumn[3] == 5 & countColumn[4] == 6)
+                        || (countColumn[0] == 6 & countColumn[1] == 5 & countColumn[2] == 4 & countColumn[3] == 3 & countColumn[4] == 2)) {
+                    return true;
                 }
 
             }
 
-            return increasing ;
+            return false;
         }
     }
 
@@ -445,49 +469,48 @@ public abstract class CollectiveObjectiveCard {
     static class PatternTwo extends CollectiveObjectiveCard {
 
         public boolean checkObjective(Shelf shelf) {
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
-                    if (hasFourGroupsOfFourStartingAt(i, j, shelf)) {
-                        return true;
+            int outerCount = 0;
+            int[][] visited = new int[5][6];
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 6; j++) {
+                    if (hasFourAdjacentTilesStartingAt(i, j, shelf, visited)) {
+                        outerCount++;
+                        if (outerCount == 4) {
+                            return true;
+                        }
                     }
                 }
             }
             return false;
         }
 
-        private boolean hasFourGroupsOfFourStartingAt(int row, int col, Shelf shelf) {
-
-            Coordinate tileCoordinate = new Coordinate(row, col);
-            Tile tileType = shelf.getTile(tileCoordinate);
-            int[][] visited = new int[6][5];
+        private boolean hasFourAdjacentTilesStartingAt(int row, int col, Shelf shelf, int[][] visited) {
+            Tile tileType = shelf.getTile(new Coordinate(row, col));
             int count = dfs(row, col, tileType, visited, shelf);
-            if (count < 4) {
-                return false;
+            if (count >= 4) {
+                count = 0;
+                return true;
             }
-            visited[row][col] = 2; // mark as visited
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
-                    if (visited[i][j] == 1 && dfs(i, j, tileType, visited, shelf) < 4) {
-                        return false;
-                    }
-                }
-            }
-            return true;
+            count = 0;
+            return false;
         }
 
 
         private int dfs(int row, int col, Tile tileType, int[][] visited, Shelf shelf) {
-            if (row < 0 || row >= 6 || col < 0 || col >= 5) {
-                return 0;
-            }
             Coordinate tileCoordinate = new Coordinate(row, col);
 
-            if (shelf.getTile(tileCoordinate) != tileType) {
+            if (row < 0 || row >= 5 || col < 0 || col >= 6) {
                 return 0;
             }
-            if (visited[row][col] > 0) {
-                return visited[row][col] - 1; // already visited
+
+            if (shelf.getTile(tileCoordinate) != tileType || shelf.getTile(tileCoordinate) == Tile.EMPTY) {
+                return 0;
             }
+
+            if (visited[row][col] > 0) {
+                return 0; // already visited
+            }
+
             visited[row][col] = 1; // mark as visiting
             int count = 1;
             count += dfs(row - 1, col, tileType, visited, shelf);
