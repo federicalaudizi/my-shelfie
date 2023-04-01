@@ -29,6 +29,9 @@ public class Board {
             // Setup non-playable areas for the number of players selected
             nonPlayableTileInit(playerNumber);
         } else throw new IllegalArgumentException("Player number not in range.");
+
+        // Fill board with random tiles from bag
+        repopulate();
     }
 
     /**
