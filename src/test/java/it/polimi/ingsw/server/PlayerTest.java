@@ -16,8 +16,8 @@ public class PlayerTest {
         Assert.assertTrue(player.getShelf().isEmpty());
         Assert.assertTrue(comparingShelf.equals(player.getShelf()));
 
-        player.addPlayerTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        comparingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        player.addPlayerTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        comparingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         Assert.assertFalse(player.getShelf().isEmpty());
         Assert.assertTrue(comparingShelf.equals(player.getShelf()));
     }
@@ -32,9 +32,9 @@ public class PlayerTest {
         Assert.assertEquals(1, player.calculatePoints());
         player.assignPointCard(new PointCard(4));
         Assert.assertEquals(5, player.calculatePoints());
-        player.addPlayerTiles(0, new Tile[]{Tile.PIANTE, Tile.PIANTE, Tile.PIANTE});
+        player.addPlayerTiles(0, new Tile[]{Tile.PLANTS, Tile.PLANTS, Tile.PLANTS});
         Assert.assertEquals(8, player.calculatePoints());
-        player.addPlayerTiles(1, new Tile[]{Tile.PIANTE});
+        player.addPlayerTiles(1, new Tile[]{Tile.PLANTS});
         Assert.assertEquals(9, player.calculatePoints());
     }
 
@@ -53,8 +53,8 @@ public class PlayerTest {
         player = new Player(playerObjectve);
         comparingShelf = new Shelf();
 
-        player.addPlayerTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        comparingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        player.addPlayerTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        comparingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
 
         Assert.assertTrue(comparingShelf.equals(player.getShelf()));
     }

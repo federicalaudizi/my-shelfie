@@ -106,111 +106,111 @@ public class PersonalObjectiveCard{
      */
     enum PersonalObjectivePattern{
         FIRST_PATTERN(new HashMap<>() {{
-            put(new Coordinate(2, 5), Tile.TROFEI); //Cyan
-            put(new Coordinate(4, 5), Tile.GATTI); //Green
-            put(new Coordinate(3, 3), Tile.LIBRI); //White
-            put(new Coordinate(1, 1), Tile.GIOCHI); //Yellow
-            put(new Coordinate(3, 1), Tile.CORNICI); //Blue
-            put(new Coordinate(0, 0), Tile.PIANTE); //Pink
+            put(new Coordinate(2, 5), Tile.TROPHIES); //Cyan
+            put(new Coordinate(4, 5), Tile.CATS); //Green
+            put(new Coordinate(3, 3), Tile.BOOKS); //White
+            put(new Coordinate(1, 1), Tile.GAMES); //Yellow
+            put(new Coordinate(3, 1), Tile.FRAMES); //Blue
+            put(new Coordinate(0, 0), Tile.PLANTS); //Pink
         }}),
 
         SECOND_PATTERN(new HashMap<>() {{
-            put(new Coordinate(1, 4), Tile.TROFEI); //Cyan
-            put(new Coordinate(3, 0), Tile.GATTI); //Green
-            put(new Coordinate(2, 2), Tile.LIBRI); //White
-            put(new Coordinate(0, 0), Tile.GIOCHI); //Yellow
-            put(new Coordinate(1, 2), Tile.CORNICI); //Blue
-            put(new Coordinate(1, 4), Tile.PIANTE); //Pink
+            put(new Coordinate(1, 4), Tile.TROPHIES); //Cyan
+            put(new Coordinate(3, 0), Tile.CATS); //Green
+            put(new Coordinate(2, 2), Tile.BOOKS); //White
+            put(new Coordinate(0, 0), Tile.GAMES); //Yellow
+            put(new Coordinate(1, 2), Tile.FRAMES); //Blue
+            put(new Coordinate(1, 4), Tile.PLANTS); //Pink
         }}),
 
         THIRD_PATTERN(new HashMap<>() {{
-            put(new Coordinate(0, 2), Tile.TROFEI); //Cyan
-            put(new Coordinate(0, 5), Tile.GATTI); //Green
-            put(new Coordinate(2, 0), Tile.LIBRI); //White
-            put(new Coordinate(4, 1), Tile.GIOCHI); //Yellow
-            put(new Coordinate(3, 4), Tile.CORNICI); //Blue
-            put(new Coordinate(1, 3), Tile.PIANTE); //Pink
+            put(new Coordinate(0, 2), Tile.TROPHIES); //Cyan
+            put(new Coordinate(0, 5), Tile.CATS); //Green
+            put(new Coordinate(2, 0), Tile.BOOKS); //White
+            put(new Coordinate(4, 1), Tile.GAMES); //Yellow
+            put(new Coordinate(3, 4), Tile.FRAMES); //Blue
+            put(new Coordinate(1, 3), Tile.PLANTS); //Pink
         }}),
 
         FOURTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(3, 0), Tile.TROFEI); //Cyan
-            put(new Coordinate(4, 1), Tile.GATTI); //Green
-            put(new Coordinate(1, 4), Tile.LIBRI); //White
-            put(new Coordinate(0, 3), Tile.GIOCHI); //Yellow
-            put(new Coordinate(2, 2), Tile.CORNICI); //Blue
-            put(new Coordinate(2, 5), Tile.PIANTE); //Pink
+            put(new Coordinate(3, 0), Tile.TROPHIES); //Cyan
+            put(new Coordinate(4, 1), Tile.CATS); //Green
+            put(new Coordinate(1, 4), Tile.BOOKS); //White
+            put(new Coordinate(0, 3), Tile.GAMES); //Yellow
+            put(new Coordinate(2, 2), Tile.FRAMES); //Blue
+            put(new Coordinate(2, 5), Tile.PLANTS); //Pink
         }}),
 
         FIFTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(0, 3), Tile.TROFEI); //Cyan
-            put(new Coordinate(2, 1), Tile.GATTI); //Green
-            put(new Coordinate(1, 1), Tile.LIBRI); //White
-            put(new Coordinate(4, 5), Tile.GIOCHI); //Yellow
-            put(new Coordinate(2, 3), Tile.CORNICI); //Blue
-            put(new Coordinate(3, 2), Tile.PIANTE); //Pink
+            put(new Coordinate(0, 3), Tile.TROPHIES); //Cyan
+            put(new Coordinate(2, 1), Tile.CATS); //Green
+            put(new Coordinate(1, 1), Tile.BOOKS); //White
+            put(new Coordinate(4, 5), Tile.GAMES); //Yellow
+            put(new Coordinate(2, 3), Tile.FRAMES); //Blue
+            put(new Coordinate(3, 2), Tile.PLANTS); //Pink
         }}),
 
         SIXTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(1, 1), Tile.TROFEI); //Cyan
-            put(new Coordinate(2, 3), Tile.GATTI); //Green
-            put(new Coordinate(4, 2), Tile.LIBRI); //White
-            put(new Coordinate(2, 5), Tile.GIOCHI); //Yellow
-            put(new Coordinate(0, 0), Tile.CORNICI); //Blue
-            put(new Coordinate(4, 1), Tile.PIANTE); //Pink
+            put(new Coordinate(1, 1), Tile.TROPHIES); //Cyan
+            put(new Coordinate(2, 3), Tile.CATS); //Green
+            put(new Coordinate(4, 2), Tile.BOOKS); //White
+            put(new Coordinate(2, 5), Tile.GAMES); //Yellow
+            put(new Coordinate(0, 0), Tile.FRAMES); //Blue
+            put(new Coordinate(4, 1), Tile.PLANTS); //Pink
         }}),
 
         SEVENTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(2, 0), Tile.TROFEI); //Cyan
-            put(new Coordinate(4, 4), Tile.GATTI); //Green
-            put(new Coordinate(3, 3), Tile.LIBRI); //White
-            put(new Coordinate(1, 2), Tile.GIOCHI); //Yellow
-            put(new Coordinate(2, 5), Tile.CORNICI); //Blue
-            put(new Coordinate(0, 5), Tile.PIANTE); //Pink
+            put(new Coordinate(2, 0), Tile.TROPHIES); //Cyan
+            put(new Coordinate(4, 4), Tile.CATS); //Green
+            put(new Coordinate(3, 3), Tile.BOOKS); //White
+            put(new Coordinate(1, 2), Tile.GAMES); //Yellow
+            put(new Coordinate(2, 5), Tile.FRAMES); //Blue
+            put(new Coordinate(0, 5), Tile.PLANTS); //Pink
         }}),
 
         EIGHTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(3, 1), Tile.TROFEI); //Cyan
-            put(new Coordinate(0, 3), Tile.GATTI); //Green
-            put(new Coordinate(4, 2), Tile.LIBRI); //White
-            put(new Coordinate(2, 3), Tile.GIOCHI); //Yellow
-            put(new Coordinate(4, 0), Tile.CORNICI); //Blue
-            put(new Coordinate(1, 4), Tile.PIANTE); //Pink
+            put(new Coordinate(3, 1), Tile.TROPHIES); //Cyan
+            put(new Coordinate(0, 3), Tile.CATS); //Green
+            put(new Coordinate(4, 2), Tile.BOOKS); //White
+            put(new Coordinate(2, 3), Tile.GAMES); //Yellow
+            put(new Coordinate(4, 0), Tile.FRAMES); //Blue
+            put(new Coordinate(1, 4), Tile.PLANTS); //Pink
         }}),
 
         NINTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(2, 3), Tile.TROFEI); //Cyan
-            put(new Coordinate(1, 4), Tile.GATTI); //Green
-            put(new Coordinate(3, 1), Tile.LIBRI); //White
-            put(new Coordinate(3, 0), Tile.GIOCHI); //Yellow
-            put(new Coordinate(4, 5), Tile.CORNICI); //Blue
-            put(new Coordinate(0, 2), Tile.PIANTE); //Pink
+            put(new Coordinate(2, 3), Tile.TROPHIES); //Cyan
+            put(new Coordinate(1, 4), Tile.CATS); //Green
+            put(new Coordinate(3, 1), Tile.BOOKS); //White
+            put(new Coordinate(3, 0), Tile.GAMES); //Yellow
+            put(new Coordinate(4, 5), Tile.FRAMES); //Blue
+            put(new Coordinate(0, 2), Tile.PLANTS); //Pink
         }}),
 
         TENTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(4, 5), Tile.TROFEI); //Cyan
-            put(new Coordinate(3, 2), Tile.GATTI); //Green
-            put(new Coordinate(0, 3), Tile.LIBRI); //White
-            put(new Coordinate(1, 4), Tile.GIOCHI); //Yellow
-            put(new Coordinate(1, 1), Tile.CORNICI); //Blue
-            put(new Coordinate(0, 3), Tile.PIANTE); //Pink
+            put(new Coordinate(4, 5), Tile.TROPHIES); //Cyan
+            put(new Coordinate(3, 2), Tile.CATS); //Green
+            put(new Coordinate(0, 3), Tile.BOOKS); //White
+            put(new Coordinate(1, 4), Tile.GAMES); //Yellow
+            put(new Coordinate(1, 1), Tile.FRAMES); //Blue
+            put(new Coordinate(0, 3), Tile.PLANTS); //Pink
         }}),
 
         ELEVENTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(3, 2), Tile.TROFEI); //Cyan
-            put(new Coordinate(0, 0), Tile.GATTI); //Green
-            put(new Coordinate(2, 5), Tile.LIBRI); //White
-            put(new Coordinate(4, 1), Tile.GIOCHI); //Yellow
-            put(new Coordinate(2, 3), Tile.CORNICI); //Blue
-            put(new Coordinate(1, 4), Tile.PIANTE); //Pink
+            put(new Coordinate(3, 2), Tile.TROPHIES); //Cyan
+            put(new Coordinate(0, 0), Tile.CATS); //Green
+            put(new Coordinate(2, 5), Tile.BOOKS); //White
+            put(new Coordinate(4, 1), Tile.GAMES); //Yellow
+            put(new Coordinate(2, 3), Tile.FRAMES); //Blue
+            put(new Coordinate(1, 4), Tile.PLANTS); //Pink
         }}),
 
         TWELFTH_PATTERN(new HashMap<>() {{
-            put(new Coordinate(4, 2), Tile.TROFEI); //Cyan
-            put(new Coordinate(1, 2), Tile.GATTI); //Green
-            put(new Coordinate(0, 0), Tile.LIBRI); //White
-            put(new Coordinate(3, 4), Tile.GIOCHI); //Yellow
-            put(new Coordinate(0, 4), Tile.CORNICI); //Blue
-            put(new Coordinate(2, 3), Tile.PIANTE); //Pink
+            put(new Coordinate(4, 2), Tile.TROPHIES); //Cyan
+            put(new Coordinate(1, 2), Tile.CATS); //Green
+            put(new Coordinate(0, 0), Tile.BOOKS); //White
+            put(new Coordinate(3, 4), Tile.GAMES); //Yellow
+            put(new Coordinate(0, 4), Tile.FRAMES); //Blue
+            put(new Coordinate(2, 3), Tile.PLANTS); //Pink
         }}),
         ;
         private final HashMap<Coordinate, Tile> pattern;

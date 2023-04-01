@@ -27,14 +27,14 @@ public class PersonalObjectiveCardTest {
             }
             Shelf shelf = new Shelf();
 
-            shelf.addTiles(0, new Tile[]{Tile.PIANTE});
-            shelf.addTiles(1, new Tile[]{Tile.GATTI, Tile.GIOCHI});
-            shelf.addTiles(2, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-            shelf.addTiles(2, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.TROFEI});
-            shelf.addTiles(3, new Tile[]{Tile.GATTI, Tile.CORNICI, Tile.GATTI});
-            shelf.addTiles(3, new Tile[]{Tile.LIBRI});
-            shelf.addTiles(4, new Tile[]{Tile.LIBRI, Tile.GATTI, Tile.GATTI});
-            shelf.addTiles(4, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+            shelf.addTiles(0, new Tile[]{Tile.PLANTS});
+            shelf.addTiles(1, new Tile[]{Tile.CATS, Tile.GAMES});
+            shelf.addTiles(2, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+            shelf.addTiles(2, new Tile[]{Tile.CATS, Tile.CATS, Tile.TROPHIES});
+            shelf.addTiles(3, new Tile[]{Tile.CATS, Tile.FRAMES, Tile.CATS});
+            shelf.addTiles(3, new Tile[]{Tile.BOOKS});
+            shelf.addTiles(4, new Tile[]{Tile.BOOKS, Tile.CATS, Tile.CATS});
+            shelf.addTiles(4, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
 
             System.out.println("Test " + i);
             System.out.println(card);

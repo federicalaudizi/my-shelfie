@@ -9,18 +9,18 @@ public class ShelfTest extends TestCase {
 
         assertFalse(testingShelf.isFull());
 
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         assertFalse(testingShelf.isFull());
 
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(1, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(1, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(2, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(2, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(3, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(3, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(4, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(4, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(1, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(1, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(2, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(2, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(3, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(3, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(4, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(4, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         System.out.println(testingShelf);
         assertTrue(testingShelf.isFull());
     }
@@ -28,42 +28,42 @@ public class ShelfTest extends TestCase {
     public void testIsEmpty() throws Exception{
         Shelf testingShelf = new Shelf();
         assertTrue(testingShelf.isEmpty());
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         assertFalse(testingShelf.isEmpty());
     }
 
     public void testContains() throws Exception {
         Shelf testingShelf = new Shelf();
-        testingShelf.addTiles(0, new Tile[]{Tile.TROFEI});
-        assertFalse(testingShelf.contains(Tile.GATTI));
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI});
-        assertTrue(testingShelf.contains(Tile.GATTI));
+        testingShelf.addTiles(0, new Tile[]{Tile.TROPHIES});
+        assertFalse(testingShelf.contains(Tile.CATS));
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS});
+        assertTrue(testingShelf.contains(Tile.CATS));
     }
 
     public void testEquals() throws Exception{
         Shelf testingShelf = new Shelf();
         Shelf comparingShelf = new Shelf();
         assertTrue(testingShelf.equals(comparingShelf));
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         assertFalse(testingShelf.equals(comparingShelf));
-        comparingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        comparingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         assertTrue(testingShelf.equals(comparingShelf));
     }
 
     public void testGetTile() throws Exception {
         Shelf testingShelf = new Shelf();
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 0)));
-        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 1)));
-        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 2)));
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertEquals(Tile.CATS, testingShelf.getTile(new Coordinate(0, 0)));
+        assertEquals(Tile.CATS, testingShelf.getTile(new Coordinate(0, 1)));
+        assertEquals(Tile.CATS, testingShelf.getTile(new Coordinate(0, 2)));
     }
 
     public void testAddTiles() throws Exception {
         Shelf testingShelf = new Shelf();
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 0)));
-        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 1)));
-        assertEquals(Tile.GATTI, testingShelf.getTile(new Coordinate(0, 2)));
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertEquals(Tile.CATS, testingShelf.getTile(new Coordinate(0, 0)));
+        assertEquals(Tile.CATS, testingShelf.getTile(new Coordinate(0, 1)));
+        assertEquals(Tile.CATS, testingShelf.getTile(new Coordinate(0, 2)));
     }
 
     public void testGetTileClusterPoints() throws Exception {
@@ -72,11 +72,11 @@ public class ShelfTest extends TestCase {
         int testingPoints = testingShelf.getTileClusterPoints();
         assertEquals(0, testingPoints);
 
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         testingPoints = testingShelf.getTileClusterPoints();
         assertEquals(2, testingPoints);
 
-        testingShelf.addTiles(2, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
+        testingShelf.addTiles(2, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         testingPoints = testingShelf.getTileClusterPoints();
         assertEquals(4, testingPoints);
     }
@@ -86,8 +86,8 @@ public class ShelfTest extends TestCase {
 
         System.out.println(testingShelf);
 
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI, Tile.GATTI, Tile.GATTI});
-        testingShelf.addTiles(0, new Tile[]{Tile.GATTI});
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS});
 
         System.out.println(testingShelf);
     }

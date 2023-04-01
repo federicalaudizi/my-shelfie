@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 
@@ -13,22 +12,22 @@ public class Bag {
         tiles = new ArrayList<>(remainingTiles);
 
         for (int i = 0; i < 22; i++) {
-            tiles.add(Tile.PIANTE);
+            tiles.add(Tile.PLANTS);
         }
         for (int i = 0; i < 22; i++) {
-            tiles.add(Tile.CORNICI);
+            tiles.add(Tile.FRAMES);
         }
         for (int i = 0; i < 22; i++) {
-            tiles.add(Tile.GATTI);
+            tiles.add(Tile.CATS);
         }
         for (int i = 0; i < 22; i++) {
-            tiles.add(Tile.GIOCHI);
+            tiles.add(Tile.GAMES);
         }
         for (int i = 0; i < 22; i++) {
-            tiles.add(Tile.LIBRI);
+            tiles.add(Tile.BOOKS);
         }
         for (int i = 0; i < 22; i++) {
-            tiles.add(Tile.TROFEI);
+            tiles.add(Tile.TROPHIES);
         }
     }
 
