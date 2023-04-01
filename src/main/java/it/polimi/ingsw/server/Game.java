@@ -40,8 +40,8 @@ class Game {
     }
 
     /**
-     * This method chooses randomly the first player in the given range of players
-     *
+     * This method chooses randomly the first player in the given range of players, sets the first and
+     * the last player
      * @param numOfPlayers represents the number of Players
      */
      private void chooseFirstPlayer(int numOfPlayers) {
@@ -56,6 +56,7 @@ class Game {
 
     /**
      * This method decides who's next turn modifying the currentPlayerIndex.
+     * If it is the last turn the game goes on until it reaches the last player
      */
     void nextTurn() {
         if(lastTurn && currentPlayerIndex!=lastPlayer){
@@ -70,20 +71,33 @@ class Game {
      * taking the upper card in the deck.
      */
     private void checkGoals() {
-        if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
-            players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints());
-        }
-        if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
-            players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints());
+        int status = players.get(currentPlayerIndex).getPointCardStatus();
+
+        if (status == 0) {
+            if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
+            }
+            if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
+            }
+        }else if (status == 1) {
+                if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                    players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
+                }
+        } else if (status == 2) {
+            if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
+            }
         }
     }
+
 
 
     /**
      * This method manages the turn.
      * It makes the player make the move, then it checks if the player has achieved some
      * common objective and if anyone has completed his shelf.
-     *
+     * Finally, it passes the turn
      * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
      */
      void playerTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {

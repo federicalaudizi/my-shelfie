@@ -33,9 +33,10 @@ public class PointDeck {
     }
     /**
      * @return the card with maximum disposable points for that common objective card
-     *
      */
     PointCard takePoints(){
         return cards.pop();
     }
+
+
 }
