@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
+import it.polimi.ingsw.server.model.Board;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

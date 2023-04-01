@@ -1,5 +1,6 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.Game;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;

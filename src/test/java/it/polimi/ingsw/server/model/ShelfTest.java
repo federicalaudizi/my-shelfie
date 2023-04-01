@@ -1,5 +1,8 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.Coordinate;
+import it.polimi.ingsw.server.model.Shelf;
+import it.polimi.ingsw.server.model.Tile;
 import junit.framework.TestCase;
 
 public class ShelfTest extends TestCase {

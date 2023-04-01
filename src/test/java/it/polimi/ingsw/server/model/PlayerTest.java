@@ -1,5 +1,6 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.*;
 import org.junit.*;
 
 public class PlayerTest {

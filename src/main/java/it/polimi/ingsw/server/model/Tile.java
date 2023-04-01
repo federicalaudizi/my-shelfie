@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.model;
 
 /**
  * This class describes the tiles in the game.

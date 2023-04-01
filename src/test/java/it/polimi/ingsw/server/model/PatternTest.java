@@ -1,5 +1,8 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.CollectiveObjectiveCard;
+import it.polimi.ingsw.server.model.Shelf;
+import it.polimi.ingsw.server.model.Tile;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;

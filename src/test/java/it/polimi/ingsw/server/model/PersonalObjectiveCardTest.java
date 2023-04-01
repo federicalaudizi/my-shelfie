@@ -1,8 +1,11 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import it.polimi.ingsw.server.model.PersonalObjectiveCard;
+import it.polimi.ingsw.server.model.Shelf;
+import it.polimi.ingsw.server.model.Tile;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
