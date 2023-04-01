@@ -5,7 +5,6 @@ package it.polimi.ingsw.server;
  * Every game contains 132 cards, divided equally in 6 groups.
  * Other than the standard types defined by the game rules, two types OUTSIDE_GAME_BOARD and EMPTY describe,
  * respectively, a tile on the board that is not in the playing area and an empty tile on the board.
- *
  * Every enum object has a type and a colour, except for OUTSIDE_GAME_BOARD and EMPTY, where the colour is "N/A"
  * (Not Applicable).
  *
