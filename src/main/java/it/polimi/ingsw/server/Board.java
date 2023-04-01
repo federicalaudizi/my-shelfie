@@ -22,12 +22,11 @@ public class Board {
      * @author Mario Merlo
      */
     Board(int playerNumber) throws IllegalArgumentException {
+        // Check for player number in range
         if(playerNumber >= 2 && playerNumber <= 4) {
             board = new Tile[MAX_X][MAX_Y];
 
-            for (int i = 0; i < MAX_X; i++)
-                Arrays.fill(board[i], null);
-
+            // Setup non-playable areas for the number of players selected
             nonPlayableTileInit(playerNumber);
         } else throw new IllegalArgumentException("Player number not in range.");
     }
