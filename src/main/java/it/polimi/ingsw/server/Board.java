@@ -94,14 +94,14 @@ public class Board {
             board[6][6] = Tile.OUTSIDE_GAME_BOARD;
             board[8][5] = Tile.OUTSIDE_GAME_BOARD;
         } else {
-            board[0][3] = null;
-            board[2][2] = null;
-            board[2][6] = null;
-            board[3][8] = null;
-            board[5][0] = null;
-            board[6][2] = null;
-            board[6][6] = null;
-            board[8][5] = null;
+            board[0][3] = Tile.EMPTY;
+            board[2][2] = Tile.EMPTY;
+            board[2][6] = Tile.EMPTY;
+            board[3][8] = Tile.EMPTY;
+            board[5][0] = Tile.EMPTY;
+            board[6][2] = Tile.EMPTY;
+            board[6][6] = Tile.EMPTY;
+            board[8][5] = Tile.EMPTY;
         }
     }
 
@@ -124,14 +124,14 @@ public class Board {
             board[7][3] = Tile.OUTSIDE_GAME_BOARD;
             board[8][4] = Tile.OUTSIDE_GAME_BOARD;
         } else {
-            board[0][4] = null;
-            board[1][5] = null;
-            board[3][1] = null;
-            board[4][0] = null;
-            board[4][8] = null;
-            board[5][7] = null;
-            board[7][3] = null;
-            board[8][4] = null;
+            board[0][4] = Tile.EMPTY;
+            board[1][5] = Tile.EMPTY;
+            board[3][1] = Tile.EMPTY;
+            board[4][0] = Tile.EMPTY;
+            board[4][8] = Tile.EMPTY;
+            board[5][7] = Tile.EMPTY;
+            board[7][3] = Tile.EMPTY;
+            board[8][4] = Tile.EMPTY;
         }
     }
 
@@ -204,7 +204,7 @@ public class Board {
      */
     private void removeTile(Coordinate coord) throws InvalidParameterException {
         if(board[coord.getX()][coord.getY()] != Tile.OUTSIDE_GAME_BOARD)
-            board[coord.getX()][coord.getY()] = null;
+            board[coord.getX()][coord.getY()] = Tile.EMPTY;
         else throw new InvalidParameterException();
     }
 
@@ -220,8 +220,8 @@ public class Board {
         // Inner board check: only the first 8 rows and columns are checked, to avoid breaking boundaries.
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j < 8; j++) {
-                if(board[i][j] != null && board[i][j] != Tile.OUTSIDE_GAME_BOARD)
-                    toRepopulate = (board[i + 1][j] == null && board[i][j + 1] == null) ||
+                if(board[i][j] != Tile.EMPTY && board[i][j] != Tile.OUTSIDE_GAME_BOARD)
+                    toRepopulate = (board[i + 1][j] == Tile.EMPTY && board[i][j + 1] == Tile.EMPTY) ||
                                    (board[i + 1][j] == Tile.OUTSIDE_GAME_BOARD && board[i][j + 1] == Tile.OUTSIDE_GAME_BOARD);
                 if(!toRepopulate) break;
             }
@@ -231,14 +231,14 @@ public class Board {
         // to check them in the same way as for all the other tiles.
         while(toRepopulate) {
             if(board[3][8] != Tile.OUTSIDE_GAME_BOARD)
-                toRepopulate = (board[4][8] == null && board[3][7] == null) ||
-                               (board[4][8] == Tile.OUTSIDE_GAME_BOARD && board[3][7] == null);
+                toRepopulate = (board[4][8] == Tile.EMPTY && board[3][7] == Tile.EMPTY) ||
+                               (board[4][8] == Tile.OUTSIDE_GAME_BOARD && board[3][7] == Tile.EMPTY);
             if(board[4][8] != Tile.OUTSIDE_GAME_BOARD)
-                toRepopulate = board[4][7] == null;
+                toRepopulate = board[4][7] == Tile.EMPTY;
             if(board[8][4] != Tile.OUTSIDE_GAME_BOARD)
-                toRepopulate = board[8][5] == null && board[7][4] == null;
+                toRepopulate = board[8][5] == Tile.EMPTY && board[7][4] == Tile.EMPTY;
             if(board[8][5] != Tile.OUTSIDE_GAME_BOARD)
-                toRepopulate = board[7][5] == null;
+                toRepopulate = board[7][5] == Tile.EMPTY;
         }
 
         // If toRepopulate remains true up to this point, then there are no more tiles in groups of at least two, thus
@@ -255,7 +255,7 @@ public class Board {
     private void repopulate() {
         for(int i = 0; i < 9; i++) {
             for(int j = 0; j < 9; j++) {
-                if(board[i][j] == null) {
+                if(board[i][j] == Tile.EMPTY) {
                     board[i][j] = Tile.valueOf(bag.extract().getType());
                 }
             }
@@ -274,21 +274,21 @@ public class Board {
 
         for(int i = 0; i < MAX_X; i++) {
             for(int j = 0; j < MAX_Y; j++) {
-                if(board[i][j] == null)
+                if(board[i][j] == Tile.EMPTY)
                     output.append("e ");
                 if(board[i][j] == Tile.OUTSIDE_GAME_BOARD)
                     output.append("x ");
-                if(board[i][j] == Tile.GATTI)
+                if(board[i][j] == Tile.CATS)
                     output.append("g ");
-                if(board[i][j] == Tile.CORNICI)
+                if(board[i][j] == Tile.FRAMES)
                     output.append("b ");
-                if(board[i][j] == Tile.GIOCHI)
+                if(board[i][j] == Tile.GAMES)
                     output.append("y ");
-                if(board[i][j] == Tile.LIBRI)
+                if(board[i][j] == Tile.BOOKS)
                     output.append("b ");
-                if(board[i][j] == Tile.PIANTE)
+                if(board[i][j] == Tile.PLANTS)
                     output.append("m ");
-                if(board[i][j] == Tile.TROFEI)
+                if(board[i][j] == Tile.TROPHIES)
                     output.append("a ");
             }
             output.append("\n");
