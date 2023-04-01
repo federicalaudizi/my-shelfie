@@ -3,7 +3,6 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
 
 import java.security.InvalidParameterException;
-import java.util.Arrays;
 
 /**
  * This class creates, initializes and manages the game's board.
