@@ -139,15 +139,53 @@ public class Board {
      * Returns whether a tile has a free side and is thus pickable from the board.
      * @param coord Specifies the coordinate of the tile on the board.
      * @return true if the tile has at least a side with no other tiles attached, false if not.
+     * @throws IllegalArgumentException If the coordinate that is passed to the method identifies a tile that is either
+     *                                  empty or outside the game board, this exception is thrown.
      * @author Mario Merlo
      */
+    private boolean isPickable(Coordinate coord) throws IllegalArgumentException {
+        // Saving coordinate to make code more readable and avoid subsequent method calls.
+        int x = coord.getX();
+        int y = coord.getY();
 
-    //TODO: throw exception when checking outside of matrix boundaries.
-    private boolean isPickable(Coordinate coord) {
-        return  board[coord.getX() + 1][coord.getY()] == null ||
-                board[coord.getX() - 1][coord.getY()] == null ||
-                board[coord.getX()][coord.getY() + 1] == null ||
-                board[coord.getX()][coord.getY() - 1] == null;
+        // The check only makes sense when called upon a playable tile.
+        // If this condition is not met, then the method throws an exception.
+        if(board[x][y] != Tile.EMPTY && board[x][y] != Tile.OUTSIDE_GAME_BOARD) {
+            // Checking for specific limit cases
+            if(x == 0) {
+                if(y == 3)
+                    return board[1][3] == Tile.EMPTY || board[0][4] == Tile.EMPTY || board[0][4] == Tile.OUTSIDE_GAME_BOARD;
+                if(y == 4)
+                    return board[0][3] == Tile.EMPTY || board[1][4] == Tile.EMPTY;
+            } else if(x == 3) {
+                if(y == 8)
+                    return board[3][7] == Tile.EMPTY || board[4][8] == Tile.EMPTY || board[4][8] == Tile.OUTSIDE_GAME_BOARD;
+            } else if(x == 4) {
+                if(y == 0)
+                    return board[5][0] == Tile.EMPTY || board[4][1] == Tile.EMPTY;
+                if(y == 8)
+                    return board[3][8] == Tile.EMPTY || board[4][7] == Tile.EMPTY;
+            } else if(x == 5) {
+                if(y == 0)
+                    return board[4][0] == Tile.EMPTY || board[4][0] == Tile.OUTSIDE_GAME_BOARD || board[5][1] == Tile.EMPTY;
+            } else if(x == 8) {
+                if(y == 4)
+                    return board[7][4] == Tile.EMPTY || board[8][5] == Tile.EMPTY;
+                if(y == 5)
+                    return board[7][5] == Tile.EMPTY || board[8][4] == Tile.EMPTY || board[8][4] == Tile.OUTSIDE_GAME_BOARD;
+            } else // Checking for the general case
+                return  board[x + 1][y] == Tile.EMPTY ||
+                        board[x - 1][y] == Tile.EMPTY ||
+                        board[x][y + 1] == Tile.EMPTY ||
+                        board[x][y - 1] == Tile.EMPTY ||
+                        board[x + 1][y] == Tile.OUTSIDE_GAME_BOARD ||
+                        board[x - 1][y] == Tile.OUTSIDE_GAME_BOARD ||
+                        board[x][y + 1] == Tile.OUTSIDE_GAME_BOARD ||
+                        board[x][y - 1] == Tile.OUTSIDE_GAME_BOARD;
+        } else throw new IllegalArgumentException();
+
+        // Default failure case
+        return false;
     }
 
     /**
