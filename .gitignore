@@ -10,8 +10,8 @@
 # Ignore game assets
 assets/*
 
-#ignore target folder
-target/
+# Ignore target folder
+target/*
 
 # User-specific stuff
 .idea/**/workspace.xml
