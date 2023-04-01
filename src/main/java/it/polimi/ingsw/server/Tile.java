@@ -7,6 +7,7 @@ public enum Tile {
     CORNICI("Cornici"),
     TROFEI("Trofei"),
     PIANTE("Piante"),
+    EMPTY("Empty"),
     OUTSIDE_GAME_BOARD("Outside Game Board");
 
     private final String type;

@@ -63,7 +63,7 @@ public class PatternTest {
         testingShelf.addTiles(3, new Tile[]{Tile.GIOCHI, Tile.TROFEI, Tile.GIOCHI});
         testingShelf.addTiles(3, new Tile[]{Tile.TROFEI, Tile.PIANTE, Tile.PIANTE});
         testingShelf.addTiles(4, new Tile[]{Tile.GIOCHI, Tile.CORNICI, Tile.CORNICI});
-        testingShelf.addTiles(4, new Tile[]{Tile.CORNICI, Tile.GATTI, Tile.GATTI});
+        testingShelf.addTiles(4, new Tile[]{Tile.CORNICI, Tile.CORNICI, Tile.GATTI});
 
         System.out.println(testingShelf);
         assertTrue(pattern.checkObjective(testingShelf));
