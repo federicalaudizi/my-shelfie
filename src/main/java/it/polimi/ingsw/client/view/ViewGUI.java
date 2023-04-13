@@ -1,5 +1,4 @@
 package it.polimi.ingsw.client.view;
 
-public abstract class View {
-
+public class ViewGUI extends View {
 }
