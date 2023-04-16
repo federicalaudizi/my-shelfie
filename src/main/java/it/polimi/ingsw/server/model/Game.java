@@ -8,7 +8,7 @@ import java.util.Random;
  *
  * @author Sara Massarelli
  */
-class Game {
+public class Game {
     private final ArrayList<Player> players;
     private final Board board;
     private final CollectiveObjectiveCard collectiveObjectiveCard1;
@@ -20,7 +20,7 @@ class Game {
     private int lastPlayer;
     private int firstPlayerSeat;
 
-    Game(int numOfPlayers) throws IllegalArgumentException{
+    public Game(int numOfPlayers) throws IllegalArgumentException{
         players = new ArrayList<Player>();
         for(int i=0;i<numOfPlayers;i++){
             players.add(new Player(new PersonalObjectiveCard()));
