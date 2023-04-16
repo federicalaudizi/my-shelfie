@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import static it.polimi.ingsw.server.controller.network.Command.CommandCode.*;
+
 /**
  * This class handles the exchange of messages with the client and runs as a thread.
  * This class represents che client on the server side, being a thread, after its initialization, it will run on command by the game controller it is associated to.
@@ -47,6 +49,7 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public void run() {
         //TODO: Implement handshake
+        dataOut.println(new Command(WELCOME, "Welcome to the game!"));
         //TODO: Implement login
 
         //TODO: Implement game creation/joining
