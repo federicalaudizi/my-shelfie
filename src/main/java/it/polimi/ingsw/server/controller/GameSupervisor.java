@@ -1,63 +1,49 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.server.controller.network.ClientHandler;
 import it.polimi.ingsw.server.exceptions.NonExsistentGameException;
+import it.polimi.ingsw.server.exceptions.PlayerIdTakenException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
- * This class manages the creation of games and the association of players to games.
+ * This class is used to manage the games and the players
  *
  * @author Federico
+ *
+ * @param <T> is the type of the id of the players and the games
  */
-public class GameSupervisor {
-    private long lastPlayerId;
-    private long lastGameId;
-    private final ArrayList<Long> players;
-    private final ArrayList<Long> gamesId;
-    private final HashMap<Long, GameController> games; // Relates the game
-    private final HashMap<Long, Long> participants;
+public abstract class GameSupervisor<T> {
 
     /**
-     * This constructor initializes the GameSupervisor.
-     */
-    GameSupervisor() {
-        this.lastPlayerId = 0;
-        this.lastGameId = 0;
-        this.players = new ArrayList<>();
-        this.gamesId = new ArrayList<>();
-        this.games = new HashMap<>();
-        this.participants = new HashMap<>();
-    }
-
-    /**
-     * This method adds a new player to the list of players.
+     * This method adds a new player to the list of players that are logged in
      *
      * @author Federico
      *
-     * @return the id of the new player
+     * @param handler the client handler of the player
+     * @throws PlayerIdTakenException if the id of the player is already taken
      */
-    long addPlayer() {
-        long newPlayerId = lastPlayerId;
-        players.add(newPlayerId);
-        lastPlayerId++;
-        return newPlayerId;
-    }
+    public abstract void  addUser(T playerId, ClientHandler handler) throws PlayerIdTakenException;
 
     /**
-     * This method creates a new game and adds it to the list of games. It does not add the creator to the game as a participant
+     * Allows for a user that previously logged in to be recognized again
      *
      * @author Federico
      *
-     * @return the id of the new game
+     * @param playerId the id of the player
+     * @param handler the client handler of the player
      */
-    long newGame() {
-        long newGameId = lastGameId;
-        gamesId.add(newGameId);
-        games.put(newGameId, new GameController());
-        lastGameId++;
-        return newGameId;
-    }
+    public abstract void userLogin(T playerId, ClientHandler handler);
+
+    /**
+     * This method creates a new game and adds it to the list of games
+     *
+     * @author Federico
+     *
+     * @param numberOfPlayers the number of players that will play the game
+     * @return the id of the game
+     */
+    public abstract T newGame(int numberOfPlayers);
 
     /**
      * This method adds a player to a game
@@ -66,59 +52,86 @@ public class GameSupervisor {
      *
      * @param playerId the id of the player
      * @param gameId the id of the game
-     * @return true if the game exists, false otherwise
-     * @throws NonExsistentGameException if the game that the player wants to join does not exist
+     * @throws NonExsistentGameException if the game does not exsits
+     * @return the game controller of the game
      */
-    GameController joinGame(long playerId, long gameId) throws NonExsistentGameException {
-        if (games.containsKey(gameId)) {
-            participants.put(playerId, gameId);
-            return games.get(gameId);
-        }else throw new NonExsistentGameException();
-    }
+    public abstract GameController<T> joinGame(T playerId, T gameId) throws NonExsistentGameException;
 
     /**
-     * This method returns the id of all games
+     * This method lets a player rejoin a game that
      *
      * @author Federico
      *
-     * @return the id of all games
+     * @param playerId the playerId that wants to join a game
+     * @return the game controller of the playing game
+     * @throws NonExsistentGameException if there is no game associated to that player
      */
-    ArrayList<Long> getGamesId() {
-        return new ArrayList<>(gamesId);
-    }
+    public abstract GameController<T> joinGame(T playerId) throws NonExsistentGameException;
 
     /**
-     * This method checks if a player has already been created
+     * This method returns the list of the ids of the games that are currently running
      *
      * @author Federico
      *
-     * @param id the id of the player
+     * @return the list of the ids of the games that are currently running
+     */
+    public abstract ArrayList<T> getGamesId();
+
+    /**
+     * this method returns the game controller of a game by its id
+     *
+     * @author Federico
+     *
+     * @param gameId the id of the game
+     * @return the game controller of the game
+     */
+    public abstract GameController<T> getGamebyId(T gameId);
+
+    /**
+     * This method returns whether a player exists or not
+     *
+     * @author Federico
+     *
+     * @param playerId the id of the player
      * @return true if the player exists, false otherwise
      */
-    boolean playerExists(long id) {
-        return players.contains(id);
-    }
+    public abstract boolean playerExists(T playerId);
 
     /**
-     * This method checks if a player is in any game
+     * This method returns whether a game exists or not
      *
      * @author Federico
      *
-     * @param id the id of the player
+     * @param gameId the id of the game
+     * @return true if the game exists, false otherwise
+     */
+    public abstract boolean gameExists(T gameId);
+
+    /**
+     * This method returns whether a player is in a game or not
+     *
+     * @author Federico
+     *
+     * @param playerId the id of the player
      * @return true if the player is in a game, false otherwise
      */
-    boolean playerIsInGame(long id) {
-        return participants.containsKey(id);
-    }
+    public abstract boolean playerIsInGame(T playerId);
 
     /**
-     * This method removes a player's id from the list of players.
+     * This method ends a game
      *
      * @author Federico
      *
-     * @param id the id of the player to remove
+     * @param gameId the id of the game
      */
-    void removePlayer(long id) {
-        players.remove(id);
-    }
+    public abstract void gameOver(T gameId);
+
+    /**
+     * This method removes a player from the list of players
+     *
+     * @author Federico
+     *
+     * @param playerId the id of the player
+     */
+    public abstract void removePlayer(T playerId);
 }
