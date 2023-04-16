@@ -1,17 +1,21 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.controller.network;
+
+import it.polimi.ingsw.server.controller.GameSupervisorString;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-//This class creates a threaded server that can handle multiple clients
-public class SocketServer {
+/**
+ * This class is the server of the socket connection
+ */
+public class SocketServer extends Server{
     private final int port;
-    private final GameSupervisor ongoingGames;
+    private final GameSupervisorString ongoingGames;
 
     public SocketServer(int port) {
         this.port = port;
-        this.ongoingGames = new GameSupervisor();
+        this.ongoingGames = new GameSupervisorString();
     }
 
     public void startServer() {
@@ -23,7 +27,7 @@ public class SocketServer {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket.getInetAddress().getHostName());
 
-                Thread clientThread = new Thread(new ClientHandler(clientSocket, ongoingGames));
+                Thread clientThread = new Thread(new SocketClientHandler(clientSocket, ongoingGames));
                 clientThread.start();
             }
         } catch (IOException e) {
