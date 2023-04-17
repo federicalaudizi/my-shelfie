@@ -28,15 +28,48 @@ public abstract class ClientHandler implements Runnable{
      */
     public abstract void sendGameState(String gameState);
 
+    /**
+     * This method signals the client that a response was accepted
+     *
+     * @author Federico
+     */
     public abstract void sendOk();
 
+    /**
+     * This method asks the client to select a set of tiles
+     *
+     * @return an array of tiles
+     * @author Federico
+     */
     public abstract Tile[] getTiles();
 
+    /**
+     * This method signals the client that the selected tiles are not valid
+     *
+     * @author Federico
+     */
     public abstract void badTile();
 
+    /**
+     * This method asks the client to select a column
+     *
+     * @return the column selected by the client
+     * @author Federico
+     */
     public abstract int getColumn();
 
+    /**
+     * This method signals the client that the selected column is not valid
+     *
+     * @author Federico
+     */
     public abstract void badColumn();
 
+    /**
+     * This method asks the client to select a row
+     *
+     * @param leaderboard a JSON object containing the leaderboard
+     * @author Federico
+     */
     public abstract void gameOver(JSONObject leaderboard);
 }
