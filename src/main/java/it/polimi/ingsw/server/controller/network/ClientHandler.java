@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.server.exceptions.AnswerNotReadyException;
+import it.polimi.ingsw.server.model.Tile;
+import org.json.JSONObject;
 
 /**
  * This class handles the exchange of messages with the client and runs as a thread.
@@ -26,20 +28,15 @@ public abstract class ClientHandler implements Runnable{
      */
     public abstract void sendGameState(String gameState);
 
-    /**
-     * This method signals the client handler to send a command to the client
-     *
-     * @param command the command to be sent
-     * @author Federico
-     */
-    public abstract void sendCommand(Command command);
+    public abstract void sendOk();
 
-    /**
-     * This method is used to retrieve the answer to a command sent by the client handler
-     *
-     * @throws AnswerNotReadyException if the answer is not ready yet
-     * @return the answer to the command sent by the client handler as a string
-     * @author Federico
-     */
-    public abstract String getAnswer() throws AnswerNotReadyException;
+    public abstract Tile[] getTiles();
+
+    public abstract void badTile();
+
+    public abstract int getColumn();
+
+    public abstract void badColumn();
+
+    public abstract void gameOver(JSONObject leaderboard);
 }
