@@ -1,5 +1,9 @@
 package it.polimi.ingsw.server.controller.network;
 
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
 /**
  * This class represents a command sent by the server to the client
  * It contains the command code and the arguments of the command
@@ -8,21 +12,34 @@ package it.polimi.ingsw.server.controller.network;
  */
 class Command {
     private final CommandCode code;
-    private final String[] args;
+    private final JSONObject[] args;
 
-    Command(CommandCode code, String[] args) {
+    Command(CommandCode code, JSONObject[] args) {
         this.code = code;
         this.args = args;
     }
 
-    Command(CommandCode code, String arg) {
+    Command(CommandCode code, JSONObject arg) {
         this.code = code;
-        this.args = new String[]{arg};
+        this.args = new JSONObject[]{arg};
+    }
+
+    Command(CommandCode code) {
+        this.code = code;
+        this.args = new JSONObject[]{};
     }
 
     @Override
     public String toString() {
-        return code + ":" + String.join("?", args);
+        StringBuilder ret = new StringBuilder();
+
+        ret.append("{\"code\": \"").append(code).append("\", \"args\": [");
+        for(JSONObject arg : args){
+            ret.append(arg.toString()).append(", ");
+        }
+        ret.append("]}");
+
+        return ret.toString();
     }
 
     /**
