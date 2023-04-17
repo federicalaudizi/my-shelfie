@@ -79,11 +79,12 @@ public class Shelf {
      *
      * @param column the number of the column where to place the tiles
      * @param tiles array containing the tiles in the intended placement order
-     * @throws tooManyTilesException Exception thrown when the array is made of more than 3 tiles
+     * @throws tooManyTilesException Exception thrown when the array is made of more than 3 tiles or there is not a column with enough free spaces
      * @throws notEnoughTilesException Exception thrown when the array is empty
      * @throws fullColumnException Exception thrown when the selected column is full or there are not enough slots available
      */
     void addTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+        //TODO: tooManyTilesException to be sent when there are more tiles than free spaces in any column
         if(tiles.length > 3) throw new tooManyTilesException();
         if(tiles.length == 0) throw new notEnoughTilesException();
         if(availableSlots(column) < tiles.length) throw new fullColumnException();
