@@ -43,6 +43,9 @@ class Command {
         /** sent when the client connects to the server */
         WELCOME("101"),
 
+        /** sent when the game ends, the argument should be the winner's id, arguments should be the leaderboard */
+        GAME_OVER("121"),
+
 
         /** sent when the client sends a valid command, there could be an argument if needed*/
         OK("200"),
@@ -76,6 +79,8 @@ class Command {
         TILES_REQUEST("322"),
         /** sent when the client needs to select the column on the shelf */
         COLUMN_REQUEST("323"),
+        /** sent by the server when the client has to update its game state, the argument should be the game state JSON object */
+        VIEW_UPDATE_REQUEST("324"),
 
 
         /** sent when the client sends an invalid command */
