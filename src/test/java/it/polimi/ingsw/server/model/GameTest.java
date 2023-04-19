@@ -12,54 +12,6 @@ public class GameTest {
     Game g2 = new Game(2);
     Game g3 = new Game(3);
     Game g4 = new Game(4);
-        @Test
-    public void testNextTurn(){
-
-            //Check if nextTurn() works with two players
-            int previousIndex = g2.getCurrentPlayerIndex();
-            g2.nextTurn();
-            assertEquals((previousIndex +1)%2, g2.getCurrentPlayerIndex());
-            previousIndex = g2.getCurrentPlayerIndex();
-            g2.nextTurn();
-            assertEquals((previousIndex +1)%2, g2.getCurrentPlayerIndex());
-            previousIndex = g2.getCurrentPlayerIndex();
-            g2.nextTurn();
-            assertEquals((previousIndex +1)%2, g2.getCurrentPlayerIndex());
-            previousIndex = g2.getCurrentPlayerIndex();
-            g2.nextTurn();
-            assertEquals((previousIndex +1)%2, g2.getCurrentPlayerIndex());
-
-            //Check if nextTurn() works with three players
-             previousIndex = g3.getCurrentPlayerIndex();
-            g3.nextTurn();
-            assertEquals((previousIndex +1)%3, g3.getCurrentPlayerIndex() );
-            previousIndex = g3.getCurrentPlayerIndex();
-            g3.nextTurn();
-            assertEquals((previousIndex +1)%3, g3.getCurrentPlayerIndex());
-            previousIndex = g3.getCurrentPlayerIndex();
-            g3.nextTurn();
-            assertEquals((previousIndex +1)%3, g3.getCurrentPlayerIndex());
-            previousIndex = g3.getCurrentPlayerIndex();
-            g3.nextTurn();
-            assertEquals((previousIndex +1)%3, g3.getCurrentPlayerIndex());
-
-            //Check if nextTurn() works with four players
-            previousIndex = g4.getCurrentPlayerIndex();
-            g4.nextTurn();
-            assertEquals((previousIndex +1)%4, g4.getCurrentPlayerIndex() );
-            previousIndex = g4.getCurrentPlayerIndex();
-            g4.nextTurn();
-            assertEquals((previousIndex +1)%4, g4.getCurrentPlayerIndex() );
-            previousIndex = g4.getCurrentPlayerIndex();
-            g4.nextTurn();
-            assertEquals((previousIndex +1)%4, g4.getCurrentPlayerIndex() );
-            previousIndex = g4.getCurrentPlayerIndex();
-            g4.nextTurn();
-            assertEquals((previousIndex +1)%4, g4.getCurrentPlayerIndex() );
-            previousIndex = g4.getCurrentPlayerIndex();
-            g4.nextTurn();
-            assertEquals((previousIndex +1)%4, g4.getCurrentPlayerIndex() );
-        }
 
         @Test
         public void testChooseFirstPlayer(){

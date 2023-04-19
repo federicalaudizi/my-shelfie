@@ -1,30 +1,68 @@
 package it.polimi.ingsw.server.controller;
 
-
+import it.polimi.ingsw.server.controller.network.Command;
 import it.polimi.ingsw.server.model.Game;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /**
- * This class is the abstract class that represents a game controller.
- * Game controller holds a list client handler that are subscribed to this game so that it can send them messages and control the flow of the game.
- * Game controller also holds the game model and allows its subscribers to see the state of the model so that it can send the state to the players
- * The game controller should run as a thread, after its creation it gets started by its creator, then it will wait for all players to join before starting the game.
- * All players will be subscribed by their id, so that even if a player disconnects, the game can continue and the player can reconnect and continue playing with a different ClientHandler.
- *
- * @param <T> the type of definition of the player, it can be a string, an integer, a class, etc.
- * @author Sara, Federica
- */
-public abstract class GameController<T> implements Runnable{
+ * Game Controller
+ * @author Federica & Sara
+ * */
 
-    private ArrayList<T> players;
-    private Game game;
-    private GameSupervisor<T> ongoingGames;
+public class GameController<T> implements Runnable {
+
+    private final Game game;
+    private final ArrayList<T> players;
+    private final T gameId;
+    private boolean isOver;
+
+      GameController(int playerNumber, T gameId ) {
+          players= new ArrayList<T>();
+          this.gameId = gameId;
+          game = new Game(playerNumber);
+          isOver= false;
+    }
+
+    T getGameState(){
+
+        return null;
+    }
+
+    void addPlayer(T handler){
+        players.add(handler);
+    }
+
+    void setPlayerConnectionStatus(boolean status, T player){
+
+    }
+
 
     /**
-     * This method adds a player to the list of subscribed players.
-     *
-     * @param player the player identifier to be added to the list of subscribed players
+     * This method decides who's next turn modifying the currentPlayerIndex.
+     * If it is the last turn the game goes on until it reaches the last player
      */
-    public abstract void addPlayer(T player);
+    void turnHandler(){
+        if(game.isLastTurn()&& game.getCurrentPlayerIndex()!=game.getLastPlayer()){
+            game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % players.size());
+        } else if (!game.isLastTurn()) {
+            game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % players.size());
+        }
+        else{
+            isOver = true;
+            Command.CommandCode.GAME_OVER;
+        }
+    }
+
+    @Override
+    public void run() {
+        while(!isOver){
+            //get tiles
+            game.chooseTiles(c1,c2,c3); // capire come dire al player dei common objective
+            //get column
+            game.insertInShelf(column, tiles);
+            turnHandler();
+        }
+    }
 }

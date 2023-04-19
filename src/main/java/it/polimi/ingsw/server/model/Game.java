@@ -1,5 +1,9 @@
 package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
+import it.polimi.ingsw.server.exceptions.fullColumnException;
+import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
+import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -54,17 +58,6 @@ public class Game {
         }
     }
 
-    /**
-     * This method decides who's next turn modifying the currentPlayerIndex.
-     * If it is the last turn the game goes on until it reaches the last player
-     */
-    void nextTurn() {
-        if(lastTurn && currentPlayerIndex!=lastPlayer){
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        } else if (!lastTurn) {
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        }
-    }
 
     /**
      * Checks if the player in turn has achieved common goals and, if so, assigns them the score
@@ -92,24 +85,34 @@ public class Game {
     }
 
 
-
     /**
-     * This method manages the turn.
-     * It makes the player make the move, then it checks if the player has achieved some
-     * common objective and if anyone has completed his shelf.
-     * Finally, it passes the turn
+     * This method checks if the board needs to be repopulate and removes the chosen tiles
+     * from the board
+     *
      * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
      */
-     void playerTurn(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
+     public void chooseTiles(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
         board.checkBoard();
         board.pickTile(c1,c2,c3);
-        checkGoals();
-            if (players.get(currentPlayerIndex).getShelf().isFull()) {
-                lastTurn = true;
-                players.get(currentPlayerIndex).setEndGameCard();
-            }
-            nextTurn();
+    }
 
+
+    /**
+     * This method handles the insertion of tiles into the shelf.
+     * The player is allowed to insert their tiles into a selected column of the shelf.
+     * Subsequently, the method checks if this insertion enables the player to achieve some shared objectives.
+     * Additionally, the method verifies if the player's shelf has become full, and if so, it sets
+     * the player's turn as the last one.
+     * @param column of the shelf where to place the tiles
+     * @param tiles to place in the shelf
+     * */
+    public void insertInShelf(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+        players.get(currentPlayerIndex).addPlayerTiles(column, tiles);
+        checkGoals();
+        if (players.get(currentPlayerIndex).getShelf().isFull()) {
+            lastTurn = true;
+            players.get(currentPlayerIndex).setEndGameCard();
+        }
     }
 
     /**
@@ -142,18 +145,32 @@ public class Game {
 
 
     /**@return the current player index*/
-    int getCurrentPlayerIndex(){
+    public int getCurrentPlayerIndex(){
          return currentPlayerIndex;
     }
 
+
+    /**
+     * setter of player index*/
+    public void setCurrentPlayerIndex(int newIndex){
+        currentPlayerIndex = newIndex;
+    }
+
     /**@return the last player*/
-    int getLastPlayer(){
+    public int getLastPlayer(){
          return lastPlayer;
     }
 
     /**@return a copy of the first player*/
     public Player getFirstPlayerSeat(){
         return new Player(players.get(firstPlayerSeat));
+    }
+
+    /**
+     * getter for the last Turn
+     * @return if the turn is the last one*/
+    public boolean isLastTurn(){
+        return lastTurn;
     }
 
 
