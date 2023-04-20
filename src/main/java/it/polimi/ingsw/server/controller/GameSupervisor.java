@@ -5,133 +5,177 @@ import it.polimi.ingsw.server.exceptions.NonExsistentGameException;
 import it.polimi.ingsw.server.exceptions.PlayerIdTakenException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
- * This class is used to manage the games and the players
+ * This class manages the creation of games and the association of players to games.
+ * It also keeps track of the games that are currently running, the players that are currently playing and the players that are currently waiting for a game to start.
  *
  * @author Federico
- *
- * @param <T> is the type of the id of the players and the games
  */
-public abstract class GameSupervisor<T> {
+public class GameSupervisor{
+
+    private final ArrayList<String> gamesId;
+    private final ArrayList<String> playersId;
+    private final HashMap<String, GameController<String>> games;
+    private final HashMap<String, ClientHandler> players;
+    private final HashMap<String, String> playersGames;
+
+    public GameSupervisor(){
+        gamesId = new ArrayList<>();
+        playersId = new ArrayList<>();
+        games = new HashMap<>();
+        players = new HashMap<>();
+        playersGames = new HashMap<>();
+    }
 
     /**
      * This method adds a new player to the list of players that are logged in
      *
-     * @author Federico
-     *
      * @param handler the client handler of the player
-     * @throws PlayerIdTakenException if the id of the player is already taken
+     * @author Federico
      */
-    public abstract void  addUser(T playerId, ClientHandler handler) throws PlayerIdTakenException;
+    public void addUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
+        if(playersId.contains(playerId)) throw new PlayerIdTakenException();
+        playersId.add(playerId);
+        players.put(playerId, handler);
+    }
 
     /**
      * Allows for a user that previously logged in to be recognized again
      *
-     * @author Federico
-     *
      * @param playerId the id of the player
-     * @param handler the client handler of the player
+     * @param handler  the client handler of the player
+     * @author Federico
      */
-    public abstract void userLogin(T playerId, ClientHandler handler);
+    public void userLogin(String playerId, ClientHandler handler) {
+        players.put(playerId, handler);
+    }
 
     /**
-     * This method creates a new game and adds it to the list of games
-     *
-     * @author Federico
+     * This method creates a new game and adds it to the list of games, after its creation, joinGame should be called
      *
      * @param numberOfPlayers the number of players that will play the game
      * @return the id of the game
+     * @author Federico
      */
-    public abstract T newGame(int numberOfPlayers);
+    public String newGame(int numberOfPlayers) {
+        //TODO: implement this method when GameController is completed
+        return null;
+    }
 
     /**
      * This method adds a player to a game
      *
-     * @author Federico
-     *
      * @param playerId the id of the player
-     * @param gameId the id of the game
-     * @throws NonExsistentGameException if the game does not exsits
+     * @param gameId   the id of the game
      * @return the game controller of the game
+     * @author Federico
      */
-    public abstract GameController<T> joinGame(T playerId, T gameId) throws NonExsistentGameException;
+    public GameController joinGame(String playerId, String gameId) {
+        playersGames.put(playerId, gameId);
+        return games.get(gameId);
+    }
 
     /**
      * This method lets a player rejoin a game that
      *
-     * @author Federico
-     *
      * @param playerId the playerId that wants to join a game
      * @return the game controller of the playing game
      * @throws NonExsistentGameException if there is no game associated to that player
+     * @author Federico
      */
-    public abstract GameController<T> joinGame(T playerId) throws NonExsistentGameException;
+    public GameController joinGame(String playerId) throws NonExsistentGameException {
+        return null;
+    }
 
     /**
      * This method returns the list of the ids of the games that are currently running
      *
-     * @author Federico
-     *
      * @return the list of the ids of the games that are currently running
+     * @author Federico
      */
-    public abstract ArrayList<T> getGamesId();
+    public ArrayList<String> getGamesId() {
+        return new ArrayList<>(gamesId);
+    }
 
     /**
      * this method returns the game controller of a game by its id
      *
-     * @author Federico
-     *
      * @param gameId the id of the game
      * @return the game controller of the game
+     * @author Federico
      */
-    public abstract GameController<T> getGamebyId(T gameId);
+    public GameController getGamebyId(String gameId) {
+        return games.get(gameId);
+    }
 
     /**
      * This method returns whether a player exists or not
      *
-     * @author Federico
-     *
      * @param playerId the id of the player
      * @return true if the player exists, false otherwise
+     * @author Federico
      */
-    public abstract boolean playerExists(T playerId);
+    public boolean playerExists(String playerId) {
+        return playersId.contains(playerId);
+    }
 
     /**
      * This method returns whether a game exists or not
      *
-     * @author Federico
-     *
      * @param gameId the id of the game
      * @return true if the game exists, false otherwise
+     * @author Federico
      */
-    public abstract boolean gameExists(T gameId);
+    public boolean gameExists(String gameId) {
+        return gamesId.contains(gameId);
+    }
 
     /**
      * This method returns whether a player is in a game or not
      *
-     * @author Federico
-     *
      * @param playerId the id of the player
      * @return true if the player is in a game, false otherwise
+     * @author Federico
      */
-    public abstract boolean playerIsInGame(T playerId);
+    public boolean playerIsInGame(String playerId) {
+        return playersGames.containsKey(playerId);
+    }
 
     /**
      * This method ends a game
      *
-     * @author Federico
-     *
      * @param gameId the id of the game
+     * @author Federico
      */
-    public abstract void gameOver(T gameId);
+    public void gameOver(String gameId) {
+        //TODO: what should the supervisor do when a game ends?
+    }
 
     /**
      * This method removes a player from the list of players
      *
-     * @author Federico
-     *
      * @param playerId the id of the player
+     * @author Federico
      */
-    public abstract void removePlayer(T playerId);
+    public void removePlayer(String playerId) {
+        //TODO: what should the supervisor do when a player disconnects?
+    }
+
+    /**
+     * This is a helper method that generates random strings
+     *
+     * @return a random string
+     * @author Federico
+     */
+    private String randomString(){
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomString = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            int index = (int)(characters.length() * Math.random());
+            randomString.append(characters.charAt(index));
+        }
+        return randomString.toString();
+    }
 }

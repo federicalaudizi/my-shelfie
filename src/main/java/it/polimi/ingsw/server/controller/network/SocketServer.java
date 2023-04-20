@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller.network;
 
-import it.polimi.ingsw.server.controller.GameSupervisorString;
+import it.polimi.ingsw.server.controller.GameSupervisor;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -11,11 +11,11 @@ import java.net.Socket;
  */
 public class SocketServer extends Server{
     private final int port;
-    private final GameSupervisorString ongoingGames;
+    private final GameSupervisor ongoingGames;
 
     public SocketServer(int port) {
         this.port = port;
-        this.ongoingGames = new GameSupervisorString();
+        this.ongoingGames = new GameSupervisor();
     }
 
     public void startServer() {

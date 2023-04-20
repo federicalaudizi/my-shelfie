@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.server.controller.GameController;
-import it.polimi.ingsw.server.controller.GameSupervisorString;
+import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.model.Coordinate;
 import org.json.JSONObject;
 
@@ -23,11 +23,11 @@ public class SocketClientHandler extends ClientHandler{
     private final Socket clientSocket;
     private PrintWriter dataOut;
     private BufferedReader dataIn;
-    private final GameSupervisorString ongoingGames;
+    private final GameSupervisor ongoingGames;
     private GameController<String> game; //Is this the right way to do it?
     private long thisPlayerId;
 
-    public SocketClientHandler(Socket clientSocket, GameSupervisorString ongoingGames) {
+    public SocketClientHandler(Socket clientSocket, GameSupervisor ongoingGames) {
         this.clientSocket = clientSocket;
         this.ongoingGames = ongoingGames;
 
@@ -58,7 +58,7 @@ public class SocketClientHandler extends ClientHandler{
 
     @Override
     public void sendGameState(JSONObject gameState) throws IOException {
-        dataOut.println(new Message(VIEW_UPDATE_REQUEST, gameState));
+        dataOut.println(new Message(GAME_UPDATE, gameState));
         if(dataIn.readLine().equals(new Message(OK).toString())){
             this.sendGameState(gameState);
         }
@@ -83,13 +83,13 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public Coordinate[] getTiles() {
         // Send the request
-        dataOut.println(new Message(TILES_REQUEST));
+        dataOut.println(new Message(GET_TILES));
 
         // Wait for the response, if it is not valid, catch up by asking again
         try {
             JSONObject answer = new JSONObject(dataIn.readLine());
 
-            if(answer.getString("code").equals(TILES_RESPONSE.toString())){
+            if(answer.getString("code").equals(SEND_TILES.toString())){
                 JSONObject[] args = (JSONObject[]) answer.get("args");
                 Coordinate[] tiles = new Coordinate[args.length];
 
@@ -106,7 +106,7 @@ public class SocketClientHandler extends ClientHandler{
                 return this.getTiles();
             }
         } catch (IOException e) {
-            dataOut.println(new Message(BAD_TILES_ERROR));
+            dataOut.println(new Message(BAD_TILES));
             return this.getTiles();
         }
     }
@@ -118,7 +118,7 @@ public class SocketClientHandler extends ClientHandler{
      */
     @Override
     public void badTile() {
-        dataOut.println(new Message(BAD_TILES_ERROR));
+        dataOut.println(new Message(BAD_TILES));
     }
 
     /**
@@ -130,12 +130,12 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public int getColumn() {
         // Send the request
-        dataOut.println(new Message(COLUMN_REQUEST));
+        dataOut.println(new Message(GET_COLUMN));
 
         try {
             JSONObject answer = new JSONObject(dataIn.readLine());
 
-            if(answer.getString("code").equals(COLUMN_RESPONSE.toString())){
+            if(answer.getString("code").equals(SEND_COLUMN.toString())){
                 int column = answer.getInt("args");
 
                 // Send the confirmation
@@ -147,7 +147,7 @@ public class SocketClientHandler extends ClientHandler{
                 return this.getColumn();
             }
         } catch (IOException e) {
-            dataOut.println(new Message(BAD_COLUMN_ERROR));
+            dataOut.println(new Message(BAD_COLUMN));
             return this.getColumn();
         }
     }
@@ -159,7 +159,7 @@ public class SocketClientHandler extends ClientHandler{
      */
     @Override
     public void badColumn() {
-        dataOut.println(new Message(BAD_COLUMN_ERROR));
+        dataOut.println(new Message(BAD_COLUMN));
     }
 
     /**
