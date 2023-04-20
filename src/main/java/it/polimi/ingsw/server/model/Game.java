@@ -4,8 +4,9 @@ import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * This class manages game's initialization.
@@ -62,6 +63,8 @@ public class Game {
     /**
      * Checks if the player in turn has achieved common goals and, if so, assigns them the score
      * taking the upper card in the deck.
+     *
+     * @return the deck's number of the achieved Objective
      */
     private int checkGoals() {
         int status = players.get(currentPlayerIndex).getPointCardStatus();
@@ -94,6 +97,7 @@ public class Game {
      * This method checks if the board needs to be repopulate and removes the chosen tiles
      * from the board
      *
+     * @return an array with the chosen tiles
      * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
      */
      public Tile[] chooseTiles(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
@@ -110,6 +114,8 @@ public class Game {
      * the player's turn as the last one.
      * @param column of the shelf where to place the tiles
      * @param tiles to place in the shelf
+     * @return 0 if none collective objective has been achieved with the move, 1 if has been achieved
+     * the first collective objective, 2 if has been achieved the second collective objective
      * */
     public int insertInShelf(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         players.get(currentPlayerIndex).addPlayerTiles(column, tiles);
@@ -124,24 +130,29 @@ public class Game {
      * @return the maximum value in a given array of int.
      * @param array is the given array
      */
-    private int findMax(int array[]){
+    private int findMax(int[] array){
         int max = array[0];
-        for(int i=0;i< array.length;i++){
-            if(array[i]>max){
-                max= array[i];
+        for (int j : array) {
+            if (j > max) {
+                max = j;
             }
         }
         return max;
     }
 
-    /**@return the winner player*/
-     public Player getWinner(){
-        int results[] = new int[4];
-        for(int i=0;i<players.size();i++){
-            results[i]= players.get(i).calculatePoints();
+    /**
+     * @return the leaderboard*/
+    public List<Player> getRankedPlayers() {
+        Map<Player, Integer> playerScoreMap = new HashMap<>();
+        for (Player player : players) {
+            int score = player.calculatePoints();
+            playerScoreMap.put(player, score);
         }
-        return players.get(findMax(results));
+        List<Player> rankedPlayers = new ArrayList<>(playerScoreMap.keySet());
+        rankedPlayers.sort(Comparator.comparingInt(playerScoreMap::get).reversed());
+        return rankedPlayers;
     }
+
 
     /**@return a copy of the current player*/
     public Player getCurrentPlayer(){
