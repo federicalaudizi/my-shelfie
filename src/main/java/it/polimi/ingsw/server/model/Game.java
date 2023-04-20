@@ -4,9 +4,7 @@ import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * This class manages game's initialization.
@@ -126,32 +124,24 @@ public class Game {
         return checkGoals();
     }
 
-    /**
-     * @return the maximum value in a given array of int.
-     * @param array is the given array
-     */
-    private int findMax(int[] array){
-        int max = array[0];
-        for (int j : array) {
-            if (j > max) {
-                max = j;
-            }
-        }
-        return max;
-    }
 
     /**
-     * @return the leaderboard*/
-    public List<Player> getRankedPlayers() {
+     * @return a HashMap with the player as key and the player's score
+     * as value, sorted in descending order based on the player's score.*/
+    public Map<Player, Integer> getRankedPlayers() {
         Map<Player, Integer> playerScoreMap = new HashMap<>();
         for (Player player : players) {
             int score = player.calculatePoints();
             playerScoreMap.put(player, score);
         }
-        List<Player> rankedPlayers = new ArrayList<>(playerScoreMap.keySet());
-        rankedPlayers.sort(Comparator.comparingInt(playerScoreMap::get).reversed());
-        return rankedPlayers;
+        Map<Player, Integer> sortedPlayerScoreMap = new LinkedHashMap<>();
+        playerScoreMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(entry -> sortedPlayerScoreMap.put(entry.getKey(), entry.getValue()));
+        return sortedPlayerScoreMap;
     }
+
 
 
     /**@return a copy of the current player*/
