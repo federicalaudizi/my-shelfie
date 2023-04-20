@@ -32,7 +32,7 @@ public class Message {
     public String toString() {
         StringBuilder ret = new StringBuilder();
 
-        ret.append("{\"code\": \"").append(code).append("\", \"args\": [");
+        ret.append("{\"code\": \"").append(code).append("\", \"body\": [");
         for(JSONObject arg : args){
             ret.append(arg.toString()).append(", ");
         }
@@ -55,61 +55,56 @@ public class Message {
      *
      * @author Federico
      */
-    enum CommandCode {
-        /** sent when the client connects to the server */
+    public enum CommandCode {
+        /** Welcome Command code */
         WELCOME("101"),
 
-        /** sent when the game ends, the argument should be the winner's id, arguments should be the leaderboard */
+        /** Sent by the server when the game ends, the argument should be the leaderboard */
         GAME_OVER("121"),
+        /** Sent at the end of every turn in order to let the client update the player's view. */
+        GAME_UPDATE("122"),
 
 
-        /** sent when the client sends a valid command, there could be an argument if needed*/
+        /** An acknowledgement message that is sent when the contents of a previous response are valid */
         OK("200"),
-        /** sent when the player selects the player id, the argument should be the player id */
-        NEW_PLAYER_ID_RESPONSE("212"),
-        /** sent when the player selects the player id, the argument should be the player id */
-        OLD_PLAYER_ID_RESPONSE("213"),
-        /** sent when the player selects the game id, the argument should be the game id */
-        GAME_ID_RESPONSE("214"),
-        /** sent when the player wants to create a new game, there should be no arguments*/
-        NEW_GAME_RESPONSE("215"),
-        /** sent when the player wants to join an existing game, there should be no arguments*/
-        JOIN_GAME_RESPONSE("216"),
 
-        /** sent when the client has to select the tiles, the arguments should be the tiles in order of selections */
-        TILES_RESPONSE("221"),
-        /** sent when the client has to select the column on the shelf, the argument should be the column */
-        COLUMN_RESPONSE("222"),
+        /** Sent by the server when the player requested to join a game, the argument should be a list of active games */
+        GAMES_ID_RESPONSE("211"),
+        /** Sent by the client when he wants to join an existing game, the argument should be the game id */
+        JOIN_GAME_RESPONSE("211"),
+
+        /** Sent by the client when he has to select the tiles, the arguments should be the tiles in order of selections */
+        SEND_TILES("221"),
+        /** Sent by the client has to select the column on the shelf, the argument should be the column */
+        SEND_COLUMN("222"),
 
 
-        /** Sent when the client has to log in */
+        /** Sent by the client at the first login, argument should be the player id */
         LOGIN_REQUEST("311"),
-        /** Sent when the client has to select whether to create a new game or join an existing one, no arguments needed */
-        GAME_CREATION_REQUEST("312"),
-        /** sent when the client has to select a game id, the arguments of this command should be the game ids */
-        GAME_ID_REQUEST("313"),
+        /** Sent by the client at reconnection, argument should be the player id */
+        RECONNECT("311"),
+        /** Sent by the client when he wants to create a new game, the argument should be the number of players */
+        NEW_GAME_REQUEST("312"),
+        /** Sent by the client if he wants to join an exsisting game */
+        JOIN_GAME_REQUEST("313"),
 
-        /** sent when the client needs to update the game state*/
-        GAME_STATE_REQUEST("321"),
         /** sent when the client needs to select the tiles */
-        TILES_REQUEST("322"),
+        GET_TILES("321"),
         /** sent when the client needs to select the column on the shelf */
-        COLUMN_REQUEST("323"),
-        /** sent by the server when the client has to update its game state, the argument should be the game state JSON object */
-        VIEW_UPDATE_REQUEST("324"),
+        GET_COLUMN("322"),
 
 
-        /** sent when the client sends an invalid command */
+        /** Sent by the server when the client sends an invalid command */
         GENERIC_ERROR("400"),
 
-        /** sent when the client sends an invalid player id */
-        BAD_PLAYER_ID_ERROR("411"),
-        /** sent when the client sends an invalid game id */
-        BAD_GAME_ID_ERROR("412"),
-        /** Sent when the client selects invalid tiles */
-        BAD_TILES_ERROR("421"),
-        /** sent when the client selects an invalid column on the shelf */
-        BAD_COLUMN_ERROR("422"),
+        /** Sent by the server to the client if the chosen username already exsits */
+        USERNAME_TAKEN("411"),
+        /** Sent by the server when the client sends an invalid game id */
+        BAD_GAME_ID("412"),
+        /** Sent by the server when the client selects invalid tiles */
+        BAD_TILES("421"),
+        /** Sent by the server when the client selects an invalid column on the shelf */
+        BAD_COLUMN("422"),
         ;
 
         private final String code;
