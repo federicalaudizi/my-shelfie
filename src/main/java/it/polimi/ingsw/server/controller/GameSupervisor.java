@@ -164,6 +164,17 @@ public class GameSupervisor{
     }
 
     /**
+     * This method returns the client handler of a player by its id
+     *
+     * @param playerId the id of the player
+     * @return the client handler of the player
+     * @author Federico
+     */
+    public ClientHandler getClientHandlerById(String playerId){
+        return players.get(playerId);
+    }
+
+    /**
      * This is a helper method that generates random strings
      *
      * @return a random string

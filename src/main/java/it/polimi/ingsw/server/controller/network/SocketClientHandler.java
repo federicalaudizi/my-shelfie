@@ -51,7 +51,7 @@ public class SocketClientHandler extends ClientHandler{
         // clientSocket heartbeat
         while (true) {
             if(!clientSocket.isConnected()){
-                game.
+
             }
         }
     }
