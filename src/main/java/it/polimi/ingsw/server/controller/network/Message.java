@@ -32,7 +32,7 @@ public class Message {
     public String toString() {
         StringBuilder ret = new StringBuilder();
 
-        ret.append("{\"code\": \"").append(code).append("\", \"body\": [");
+        ret.append("{\"header\": \"").append(code).append("\", \"body\": [");
         for(JSONObject arg : args){
             ret.append(arg.toString()).append(", ");
         }
