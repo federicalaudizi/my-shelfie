@@ -1,8 +1,11 @@
 package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.server.exceptions.AnswerNotReadyException;
+import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Tile;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 /**
  * This class handles the exchange of messages with the client and runs as a thread.
@@ -23,10 +26,10 @@ public abstract class ClientHandler implements Runnable{
     /**
      * This method signals the client handler to send the game state to the client
      *
-     * @param gameState the game state to be sent packetized as a String
+     * @param gameState the game state to be sent packetized as a JSON object
      * @author Federico
      */
-    public abstract void sendGameState(String gameState);
+    public abstract void sendGameState(JSONObject gameState) throws IOException;
 
     /**
      * This method signals the client that a response was accepted
@@ -41,7 +44,7 @@ public abstract class ClientHandler implements Runnable{
      * @return an array of tiles
      * @author Federico
      */
-    public abstract Tile[] getTiles();
+    public abstract Coordinate[] getTiles();
 
     /**
      * This method signals the client that the selected tiles are not valid

@@ -9,21 +9,21 @@ import org.json.JSONObject;
  *
  * @author Federico
  */
-class Command {
+public class Message {
     private final CommandCode code;
     private final JSONObject[] args;
 
-    Command(CommandCode code, JSONObject[] args) {
+    Message(CommandCode code, JSONObject[] args) {
         this.code = code;
         this.args = args;
     }
 
-    Command(CommandCode code, JSONObject arg) {
+    Message(CommandCode code, JSONObject arg) {
         this.code = code;
         this.args = new JSONObject[]{arg};
     }
 
-    Command(CommandCode code) {
+    Message(CommandCode code) {
         this.code = code;
         this.args = new JSONObject[]{};
     }
