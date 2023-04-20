@@ -82,7 +82,7 @@ public class Message {
         /** Sent by the client at the first login, argument should be the player id */
         LOGIN_REQUEST("311"),
         /** Sent by the client at reconnection, argument should be the player id */
-        RECONNECT("311"),
+        RECONNECT("314"),
         /** Sent by the client when he wants to create a new game, the argument should be the number of players */
         NEW_GAME_REQUEST("312"),
         /** Sent by the client if he wants to join an exsisting game */
