@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.controller.network.ClientHandler;
+import it.polimi.ingsw.server.exceptions.FullGameException;
 import it.polimi.ingsw.server.exceptions.NonExsistentGameException;
 import it.polimi.ingsw.server.exceptions.PlayerIdTakenException;
 
@@ -72,9 +73,9 @@ public class GameSupervisor{
      * @return the game controller of the game
      * @author Federico
      */
-    public GameController joinGame(String playerId, String gameId) {
-        playersGames.put(playerId, gameId);
-        return games.get(gameId);
+    public GameController joinGame(String playerId, String gameId) throws FullGameException, NonExsistentGameException {
+        //TODO: implement this method when GameController is completed
+        return null;
     }
 
     /**
@@ -106,7 +107,7 @@ public class GameSupervisor{
      * @return the game controller of the game
      * @author Federico
      */
-    public GameController getGamebyId(String gameId) {
+    public GameController getGameById(String gameId) {
         return games.get(gameId);
     }
 
@@ -117,7 +118,7 @@ public class GameSupervisor{
      * @return true if the player exists, false otherwise
      * @author Federico
      */
-    public boolean playerExists(String playerId) {
+    public boolean userExists(String playerId) {
         return playersId.contains(playerId);
     }
 
@@ -139,7 +140,7 @@ public class GameSupervisor{
      * @return true if the player is in a game, false otherwise
      * @author Federico
      */
-    public boolean playerIsInGame(String playerId) {
+    public boolean userIsInGame(String playerId) {
         return playersGames.containsKey(playerId);
     }
 
@@ -159,8 +160,8 @@ public class GameSupervisor{
      * @param playerId the id of the player
      * @author Federico
      */
-    public void removePlayer(String playerId) {
-        //TODO: what should the supervisor do when a player disconnects?
+    private void removeUser(String playerId) {
+        //TODO: implement method
     }
 
     /**
