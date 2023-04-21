@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.controller.network.Command;
+
+import it.polimi.ingsw.server.controller.network.ClientHandler;
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
@@ -9,8 +10,11 @@ import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
 
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -21,24 +25,41 @@ import java.util.ArrayList;
 public class GameController<T> implements Runnable {
 
     private final Game game;
-    private final ArrayList<T> players;
+    private final Map<String, ClientHandler> playerToClientHandlerMap;
+    private final List<String> turnOrder;
     private final T gameId;
     private boolean isOver;
+    private int currentTurnIndex;
 
-      GameController(int playerNumber, T gameId ) {
-          players= new ArrayList<T>();
+      GameController(int playerNumber, T gameId) {
+          playerToClientHandlerMap = new HashMap<>();
           this.gameId = gameId;
           game = new Game(playerNumber);
           isOver= false;
+          turnOrder = new ArrayList<>();
+          currentTurnIndex = game.getCurrentPlayerIndex();
     }
 
-    T getGameState(){
-        return new Command(Command.CommandCode.GAME_UPDATE, "Game status");
+
+    /**
+     * sends the client the game state*/
+    void getGameState(){
+          String currentPlayerId = turnOrder.get(currentTurnIndex);
+          getClientHandler(currentPlayerId).sendGameState(game);
     }
 
-    void addPlayer(T handler){
-        players.add(handler);
+    /***/
+    void addPlayer(String playerId, ClientHandler handler){
+        playerToClientHandlerMap.put(playerId, handler);
     }
+
+    /**
+     * @param playerId of the client handler
+     * @return Client Handler referred to that playerId*/
+    ClientHandler getClientHandler(String playerId){
+          return playerToClientHandlerMap.get(playerId);
+    }
+
 
     void setPlayerConnectionStatus(boolean status, T player){
 
@@ -46,29 +67,20 @@ public class GameController<T> implements Runnable {
 
 
     /**
-     * This method decides who's next turn modifying the currentPlayerIndex.
+     * This method decides who's next turn modifying the currentTurnIndex.
      * If it is the last turn the game goes on until it reaches the last player
      */
     void turnHandler(){
-        if(game.isLastTurn()&& game.getCurrentPlayerIndex()!=game.getLastPlayer()){
-            game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % players.size());
-        } else if (!game.isLastTurn()) {
-            game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % players.size());
+        if(currentTurnIndex % (turnOrder.size()-1) != 0 && !game.isLastTurn()){
+            currentTurnIndex = (currentTurnIndex +1 )% turnOrder.size();
         }
         else{
             isOver = true;
-            new Command (Command.CommandCode.GAME_OVER, "The game is over");
+            String currentPlayerId = turnOrder.get(currentTurnIndex);
+            getClientHandler(currentPlayerId).gameOver(game.getRankedPlayers());
         }
     }
 
-    //capire chi gestisce ingresso primo giocatore e chiede numero di giocatori
-    public void setUpGame(){
-        int playerNumber;
-        playerNumber = new Command(Command.CommandCode.NEW_GAME_RESPONSE, "set player number");
-        for(int i=0; i<playerNumber;i++){
-            players.add()
-        }
-    }
 
     @Override
     public void run() {
@@ -76,25 +88,24 @@ public class GameController<T> implements Runnable {
             int column;
             Tile[] tiles;
             Coordinate[] coordinates;
-            coordinates = new Command(Command.CommandCode.TILES_RESPONSE, "you've chosen your tiles");
+            String currentPlayerId = turnOrder.get(currentTurnIndex);
+            coordinates = getClientHandler(currentPlayerId).getTiles();
             try {
                 tiles = game.chooseTiles(coordinates[0],coordinates[1],coordinates[2]);
-                new Command(Command.CommandCode.OK, "Ok");
+                getClientHandler(currentPlayerId).sendOk();
             } catch (TileUnpickableException e) {
+                getClientHandler(currentPlayerId).badTile();
                 throw new RuntimeException(e);
-                new Command(Command.CommandCode.BAD_TILES_ERROR, "Error Tiles");
             }
-            column = new Command(Command.CommandCode.COLUMN_RESPONSE, "Column");
+            column = getClientHandler(currentPlayerId).getColumn();
+            getClientHandler(currentPlayerId).sendOk();
             try {
-                int k = game.insertInShelf(column, tiles);
-                if(k==1){
-                    new Command(Command.CommandCode.COLLECTIVE_OBJ_ACHIEVED, "You achieved the first collective obj");
-                } else if (k==2) {
-                    new Command(Command.CommandCode.COLLECTIVE_OBJ_ACHIEVED, "You achieved the second collective obj");
-                }
+                game.insertInShelf(column, tiles); //vogliamo avvisare quando qualcuno raggiunge obiettivo comune?
+                getClientHandler(currentPlayerId).sendOk();
+
             } catch (tooManyTilesException | notEnoughTilesException | fullColumnException e) {
+                getClientHandler(currentPlayerId).badColumn();
                 throw new RuntimeException(e);
-                new Command(Command.CommandCode.BAD_COLUMN_ERROR, "Column error");
             }
             turnHandler();
         }

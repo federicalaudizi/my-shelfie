@@ -22,6 +22,7 @@ public class Game {
     private int currentPlayerIndex;
     private int lastPlayer;
     private int firstPlayerSeat;
+    private boolean isOver;
 
     public Game(int numOfPlayers) throws IllegalArgumentException{
         players = new ArrayList<Player>();
@@ -40,6 +41,7 @@ public class Game {
             throw new IllegalArgumentException();
         }
         lastTurn = false;
+        isOver = false;
     }
 
     /**
@@ -54,6 +56,21 @@ public class Game {
         lastPlayer = firstPlayerSeat - 1;
         if(lastPlayer == 0){
             lastPlayer=numOfPlayers;
+        }
+    }
+
+
+    /**
+     * This method manages the turn modifying the current player index.
+     * */
+    private void nextTurn(){
+        if(lastTurn && currentPlayerIndex!=lastPlayer){
+            currentPlayerIndex = ((currentPlayerIndex+1)% players.size());
+        } else if (!lastTurn) {
+            currentPlayerIndex = ((currentPlayerIndex+1)% players.size());
+        }
+        else{
+            isOver= true;
         }
     }
 
@@ -177,6 +194,12 @@ public class Game {
      * @return if the turn is the last one*/
     public boolean isLastTurn(){
         return lastTurn;
+    }
+
+    /**
+     * @return the number of players in the game*/
+    public int getNumberOfPlayers(){
+        return players.size();
     }
 
 
