@@ -2,13 +2,11 @@ package it.polimi.ingsw.server.controller;
 
 
 import it.polimi.ingsw.server.controller.network.ClientHandler;
-import it.polimi.ingsw.server.exceptions.TileUnpickableException;
-import it.polimi.ingsw.server.exceptions.fullColumnException;
-import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
-import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
+import org.json.JSONObject;
 
 
 import java.util.ArrayList;
@@ -30,14 +28,19 @@ public class GameController<T> implements Runnable {
     private final T gameId;
     private boolean isOver;
     private int currentTurnIndex;
+    private int maxPlayers;
 
       GameController(int playerNumber, T gameId) {
           playerToClientHandlerMap = new HashMap<>();
+          //aggiungere effettivamente giocatori e eccezione per raggiungimento giocatori
+          // quando si connette il primo addUser, connessione  e disocnnessione
+          //gestire salto giocatori
           this.gameId = gameId;
           game = new Game(playerNumber);
           isOver= false;
           turnOrder = new ArrayList<>();
           currentTurnIndex = game.getCurrentPlayerIndex();
+          maxPlayers = playerNumber;
     }
 
 
@@ -45,11 +48,13 @@ public class GameController<T> implements Runnable {
      * sends the client the game state*/
     void getGameState(){
           String currentPlayerId = turnOrder.get(currentTurnIndex);
-          getClientHandler(currentPlayerId).sendGameState(game);
+          getClientHandler(currentPlayerId).sendGameState();
     }
 
     /***/
-    void addPlayer(String playerId, ClientHandler handler){
+    void addPlayer(String playerId, ClientHandler handler) throws MaxPlayersReachedException {
+        if(playerToClientHandlerMap.size() >= maxPlayers)
+            throw new MaxPlayersReachedException();
         playerToClientHandlerMap.put(playerId, handler);
     }
 
@@ -77,8 +82,9 @@ public class GameController<T> implements Runnable {
         else{
             isOver = true;
             String currentPlayerId = turnOrder.get(currentTurnIndex);
-            getClientHandler(currentPlayerId).gameOver(game.getRankedPlayers());
+            getClientHandler(currentPlayerId).gameOver((JSONObject) game.getRankedPlayers());
         }
+        game.nextTurn();
     }
 
 

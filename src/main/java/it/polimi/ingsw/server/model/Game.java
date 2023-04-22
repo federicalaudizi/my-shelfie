@@ -25,7 +25,7 @@ public class Game {
     private boolean isOver;
 
     public Game(int numOfPlayers) throws IllegalArgumentException{
-        players = new ArrayList<Player>();
+        players = new ArrayList<>();
         for(int i=0;i<numOfPlayers;i++){
             players.add(new Player(new PersonalObjectiveCard()));
         }
@@ -63,7 +63,7 @@ public class Game {
     /**
      * This method manages the turn modifying the current player index.
      * */
-    private void nextTurn(){
+    public void nextTurn(){
         if(lastTurn && currentPlayerIndex!=lastPlayer){
             currentPlayerIndex = ((currentPlayerIndex+1)% players.size());
         } else if (!lastTurn) {
