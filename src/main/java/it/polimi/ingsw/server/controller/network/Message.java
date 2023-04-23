@@ -10,22 +10,17 @@ import org.json.JSONObject;
  * @author Federico
  */
 public class Message {
-    private final CommandCode code;
-    private final JSONObject[] args;
+    private final Header header;
+    private final JSONArray body;
 
-    Message(CommandCode code, JSONObject[] args) {
-        this.code = code;
-        this.args = args;
+    public Message(Header header, JSONArray body) {
+        this.header = header;
+        this.body = body;
     }
 
-    Message(CommandCode code, JSONObject arg) {
-        this.code = code;
-        this.args = new JSONObject[]{arg};
-    }
-
-    Message(CommandCode code) {
-        this.code = code;
-        this.args = new JSONObject[]{};
+    public Message(Header header) {
+        this.header = header;
+        body = new JSONArray();
     }
 
     @Override
