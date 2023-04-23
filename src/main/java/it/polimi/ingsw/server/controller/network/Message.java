@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.controller.network;
 
-import org.json.JSONObject;
-
+import org.json.JSONArray;
 
 /**
  * This class represents a command sent by the server to the client
