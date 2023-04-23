@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
 import it.polimi.ingsw.server.model.Board;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -72,5 +73,12 @@ public class BoardTest {
                 x x x x e e x x x\s
                 """;
         assertEquals(board4.toString(), fourPlayerBoard);
+    }
+
+    @Test
+    public void boardToJSONTest() {
+        Board board = new Board(2);
+        JSONObject JSONBoard = board.toJSON();
+        System.out.println(JSONBoard);
     }
 }
