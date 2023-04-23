@@ -25,15 +25,10 @@ public class Message {
 
     @Override
     public String toString() {
-        StringBuilder ret = new StringBuilder();
-
-        ret.append("{\"header\": \"").append(code).append("\", \"body\": [");
-        for(JSONObject arg : args){
-            ret.append(arg.toString()).append(", ");
-        }
-        ret.append("]}");
-
-        return ret.toString();
+        return "{\n" +
+               "\t\"header\": " + header.toString() + ",\n" +
+               "\t\"body\": " + body.toString() + "\n" +
+               "}";
     }
 
     /**
