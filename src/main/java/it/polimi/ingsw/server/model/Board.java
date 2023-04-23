@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
+import org.json.JSONObject;
 
 import java.security.InvalidParameterException;
 
@@ -332,5 +333,11 @@ public class Board {
         }
 
         return output.toString();
+    }
+
+    public JSONObject toJSON() {
+        JSONObject JSONBoard = new JSONObject();
+        JSONBoard.put("board", this.toString());
+        return JSONBoard;
     }
 }
