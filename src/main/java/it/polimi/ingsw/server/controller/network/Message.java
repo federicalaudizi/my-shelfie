@@ -6,7 +6,7 @@ import org.json.JSONArray;
  * This class represents a command sent by the server to the client
  * It contains the command code and the arguments of the command
  *
- * @author Federico
+ * @author Federico Liuzzi, Mario Merlo
  */
 public class Message {
     private final Header header;
