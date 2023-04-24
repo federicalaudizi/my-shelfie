@@ -247,4 +247,9 @@ public class PersonalObjectiveCard{
             return ret.toString();
         }
     }
+
+    public String toJson() {
+        StringBuilder sb = new StringBuilder();
+        return sb.toString();
+    }
 }

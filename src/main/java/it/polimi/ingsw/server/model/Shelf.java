@@ -275,4 +275,32 @@ public class Shelf {
         }
         return true;
     }
+
+    public String toJson() {
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{");
+        jsonBuilder.append("\"contents\":[");
+
+        // Iterate through the contents array and construct JSON objects for each Tile
+        for (int i = 0; i < contents.length; i++) {
+            jsonBuilder.append("[");
+            for (int j = 0; j < contents[i].length; j++) {
+                jsonBuilder.append("{");
+                jsonBuilder.append("\"color\":\"").append(contents[i][j].getColour()).append("\",");
+                jsonBuilder.append("}");
+                if (j < contents[i].length - 1) {
+                    jsonBuilder.append(",");
+                }
+            }
+            jsonBuilder.append("]");
+            if (i < contents.length - 1) {
+                jsonBuilder.append(",");
+            }
+        }
+
+        jsonBuilder.append("]");
+        jsonBuilder.append("}");
+        return jsonBuilder.toString();
+    }
 }
+

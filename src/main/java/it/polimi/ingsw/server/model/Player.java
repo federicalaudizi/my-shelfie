@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Class that represents the player
@@ -172,4 +174,20 @@ public class Player {
                 objectiveCard.equals(other.objectiveCard) &&
                 pointCards.equals(other.pointCards);
     }
+
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("playerShelf", playerShelf.toJson());
+        jsonObject.put("objectiveCard", objectiveCard.toJson());
+        JSONArray pointCardsJsonArray = new JSONArray();
+        for (PointCard card : pointCards) {
+            if (card != null) {
+                pointCardsJsonArray.put(card.toJson());
+            }
+        }
+        jsonObject.put("pointCards", pointCardsJsonArray);
+        jsonObject.put("endGameCard", endGameCard);
+        return jsonObject;
+    }
+
 }

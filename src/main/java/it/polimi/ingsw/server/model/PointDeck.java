@@ -38,5 +38,20 @@ public class PointDeck {
         return cards.pop();
     }
 
+    public String toJson() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("\"cards\": [");
+        for (int i = 0; i < cards.size(); i++) {
+            PointCard card = cards.get(i);
+            sb.append(card.toJson()); // Assuming PointCard class has a toJson() method
+            if (i < cards.size() - 1) {
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        sb.append("}");
+        return sb.toString();
+    }
 
 }

@@ -468,7 +468,6 @@ public abstract class CollectiveObjectiveCard {
      * @author Federica
      */
     static class PatternTwo extends CollectiveObjectiveCard {
-
         public boolean checkObjective(Shelf shelf) {
             int outerCount = 0;
             int[][] visited = new int[5][6];
@@ -484,7 +483,6 @@ public abstract class CollectiveObjectiveCard {
             }
             return false;
         }
-
         private boolean hasFourAdjacentTilesStartingAt(int row, int col, Shelf shelf, int[][] visited) {
             Tile tileType = shelf.getTile(new Coordinate(row, col));
             int count = dfs(row, col, tileType, visited, shelf);
@@ -495,8 +493,6 @@ public abstract class CollectiveObjectiveCard {
             count = 0;
             return false;
         }
-
-
         private int dfs(int row, int col, Tile tileType, int[][] visited, Shelf shelf) {
             Coordinate tileCoordinate = new Coordinate(row, col);
 
@@ -522,11 +518,11 @@ public abstract class CollectiveObjectiveCard {
             return count;
         }
 
-        public JSONObject toJson() {
-            JSONObject obj = new JSONObject();
-            obj.put("cardType", this.getClass().getName());
-            obj.put("completed", checkObjective());
-            return obj;
-        }
+    }
+    public JSONObject toJson(Shelf shelf) {
+        JSONObject obj = new JSONObject();
+        obj.put("cardType", this.getClass().getName());
+        obj.put("completed", checkObjective(shelf));
+        return obj;
     }
 }

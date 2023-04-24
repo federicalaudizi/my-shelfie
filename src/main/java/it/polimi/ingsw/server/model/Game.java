@@ -3,6 +3,8 @@ import it.polimi.ingsw.server.exceptions.TileUnpickableException;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -202,5 +204,25 @@ public class Game {
         return players.size();
     }
 
-
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        JSONArray playersJson = new JSONArray();
+        for (Player player : players) {
+            playersJson.put(player.toJson());
+        }
+        json.put("players", playersJson);
+        json.put("board", board.toJSON());
+        json.put("collectiveObjectiveCard1", collectiveObjectiveCard1.toJson(players.get(currentPlayerIndex).getShelf()));
+        json.put("collectiveObjectiveCard2", collectiveObjectiveCard2.toJson(players.get(currentPlayerIndex).getShelf()));
+        json.put("pointCardDeck1", pointCardDeck1.toJson());
+        json.put("pointCardDeck2", pointCardDeck2.toJson());
+        json.put("lastTurn", lastTurn);
+        json.put("currentPlayerIndex", currentPlayerIndex);
+        json.put("lastPlayer", lastPlayer);
+        json.put("firstPlayerSeat", firstPlayerSeat);
+        json.put("isOver", isOver);
+        return json;
+    }
 }
+
+
