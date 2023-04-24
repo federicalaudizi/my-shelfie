@@ -19,7 +19,7 @@ import java.util.Map;
  * @author Federica & Sara
  * */
 
-public class GameController<T> implements Runnable {
+public class GameController implements Runnable {
 
     private final Object lock = new Object();
 
@@ -27,13 +27,13 @@ public class GameController<T> implements Runnable {
     private final Map<String, ClientHandler> playerToClientHandlerMap;
     private  Map<String, Integer> connectedPlayers;
     private final List<String> turnOrder;
-    private final T gameId;
+    private final String gameId;
     private boolean isOver;
     private int currentTurnIndex;
 
 
 
-      GameController(int playerNumber, T gameId) {
+      GameController(int playerNumber, String gameId) {
           playerToClientHandlerMap = new HashMap<>();
           this.gameId = gameId;
           game = new Game(playerNumber);
