@@ -1,9 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.controller.network.ClientHandler;
-import it.polimi.ingsw.server.exceptions.FullGameException;
-import it.polimi.ingsw.server.exceptions.NonExsistentGameException;
-import it.polimi.ingsw.server.exceptions.PlayerIdTakenException;
+import it.polimi.ingsw.server.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,16 +13,11 @@ import java.util.HashMap;
  * @author Federico
  */
 public class GameSupervisor{
-
-    private final ArrayList<String> gamesId;
-    private final ArrayList<String> playersId;
-    private final HashMap<String, GameController<String>> games;
-    private final HashMap<String, ClientHandler> players;
-    private final HashMap<String, String> playersGames;
+    private final HashMap<String, GameController> games; //Associates a game to its id
+    private final HashMap<String, ClientHandler> players; //Associates a player to his client handler
+    private final HashMap<String, String> playersGames; //Associates a player to the game he is playing
 
     public GameSupervisor(){
-        gamesId = new ArrayList<>();
-        playersId = new ArrayList<>();
         games = new HashMap<>();
         players = new HashMap<>();
         playersGames = new HashMap<>();
@@ -36,9 +29,8 @@ public class GameSupervisor{
      * @param handler the client handler of the player
      * @author Federico
      */
-    public void addUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
-        if(playersId.contains(playerId)) throw new PlayerIdTakenException();
-        playersId.add(playerId);
+    public void newUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
+        if(players.containsKey(playerId)) throw new PlayerIdTakenException();
         players.put(playerId, handler);
     }
 
@@ -49,8 +41,10 @@ public class GameSupervisor{
      * @param handler  the client handler of the player
      * @author Federico
      */
-    public void userLogin(String playerId, ClientHandler handler) {
+    public GameController oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
+        if(!players.containsKey(playerId)) throw new PlayerDoesNotExistsException();
         players.put(playerId, handler);
+        return games.get(playersGames.get(playerId));
     }
 
     /**
@@ -61,8 +55,11 @@ public class GameSupervisor{
      * @author Federico
      */
     public String newGame(int numberOfPlayers) {
-        //TODO: implement this method when GameController is completed
-        return null;
+        String newGameId = randomString();
+        GameController game = new GameController(numberOfPlayers, newGameId);
+        games.put(newGameId, game);
+
+        return newGameId;
     }
 
     /**
@@ -73,21 +70,12 @@ public class GameSupervisor{
      * @return the game controller of the game
      * @author Federico
      */
-    public GameController joinGame(String playerId, String gameId) throws FullGameException, NonExsistentGameException {
-        //TODO: implement this method when GameController is completed
-        return null;
-    }
-
-    /**
-     * This method lets a player rejoin a game that
-     *
-     * @param playerId the playerId that wants to join a game
-     * @return the game controller of the playing game
-     * @throws NonExsistentGameException if there is no game associated to that player
-     * @author Federico
-     */
-    public GameController joinGame(String playerId) throws NonExsistentGameException {
-        return null;
+    public GameController joinGame(String playerId, String gameId) throws NonExsistentGameException, ReachedMaxNumberOfPlayers {
+        if(!games.containsKey(gameId)) throw new NonExsistentGameException();
+        GameController game = games.get(gameId);
+        game.addPlayer(playerId, players.get(playerId));
+        playersGames.put(playerId, gameId);
+        return game;
     }
 
     /**
@@ -97,7 +85,7 @@ public class GameSupervisor{
      * @author Federico
      */
     public ArrayList<String> getGamesId() {
-        return new ArrayList<>(gamesId);
+        return new ArrayList<>(games.keySet());
     }
 
     /**
@@ -119,7 +107,7 @@ public class GameSupervisor{
      * @author Federico
      */
     public boolean userExists(String playerId) {
-        return playersId.contains(playerId);
+        return players.containsKey(playerId);
     }
 
     /**
@@ -130,7 +118,7 @@ public class GameSupervisor{
      * @author Federico
      */
     public boolean gameExists(String gameId) {
-        return gamesId.contains(gameId);
+        return games.containsKey(gameId);
     }
 
     /**
@@ -152,16 +140,6 @@ public class GameSupervisor{
      */
     public void gameOver(String gameId) {
         //TODO: what should the supervisor do when a game ends?
-    }
-
-    /**
-     * This method removes a player from the list of players
-     *
-     * @param playerId the id of the player
-     * @author Federico
-     */
-    private void removeUser(String playerId) {
-        //TODO: implement method
     }
 
     /**
