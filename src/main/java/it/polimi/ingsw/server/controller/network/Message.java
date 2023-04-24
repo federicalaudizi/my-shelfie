@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.network;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * This class represents a command sent by the server to the client
@@ -11,6 +12,12 @@ import org.json.JSONArray;
 public class Message {
     private final Header header;
     private final JSONArray body;
+
+    public Message(Header header, JSONObject body) {
+        this.header = header;
+        this.body = new JSONArray();
+        this.body.put(body);
+    }
 
     public Message(Header header, JSONArray body) {
         this.header = header;
@@ -104,6 +111,11 @@ public class Message {
 
         public int getCode() {
             return code;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(code);
         }
     }
 }
