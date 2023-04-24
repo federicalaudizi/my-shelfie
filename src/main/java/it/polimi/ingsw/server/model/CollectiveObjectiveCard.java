@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import org.json.JSONObject;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Modifier;
@@ -519,6 +520,13 @@ public abstract class CollectiveObjectiveCard {
             count += dfs(row, col + 1, tileType, visited, shelf);
             visited[row][col] = 2; // mark as visited
             return count;
+        }
+
+        public JSONObject toJson() {
+            JSONObject obj = new JSONObject();
+            obj.put("cardType", this.getClass().getName());
+            obj.put("completed", checkObjective());
+            return obj;
         }
     }
 }
