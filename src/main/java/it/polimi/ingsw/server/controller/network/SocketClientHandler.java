@@ -2,9 +2,7 @@ package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameSupervisor;
-import it.polimi.ingsw.server.exceptions.FullGameException;
-import it.polimi.ingsw.server.exceptions.NonExsistentGameException;
-import it.polimi.ingsw.server.exceptions.PlayerIdTakenException;
+import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.Coordinate;
 import org.json.JSONObject;
 
@@ -14,7 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import static it.polimi.ingsw.server.controller.network.Message.CommandCode.*;
+import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
 /**
  * This class handles the exchange of messages with the client and runs as a thread.
@@ -47,13 +45,11 @@ public class SocketClientHandler extends ClientHandler{
     public void run() {
         loginPhase();
 
-        //TODO: Check joinGamePhase() and createGamePhase() for errors
-        joinGamePhase();
-
         // clientSocket heartbeat
         while (true) {
             if(!clientSocket.isConnected()){
-                //TODO: Implement disconnection when GameController is implemented
+                game.notifyDisconnection(thisPlayerId);
+                break;
             }
         }
     }
@@ -105,10 +101,11 @@ public class SocketClientHandler extends ClientHandler{
                 return tiles;
             } else {
                 // The response was not valid, ask again
+                dataOut.println(new Message(GENERIC_ERROR));
                 return this.getTiles();
             }
         } catch (IOException e) {
-            dataOut.println(new Message(BAD_TILES));
+            dataOut.println(new Message(GENERIC_ERROR));
             return this.getTiles();
         }
     }
@@ -138,16 +135,16 @@ public class SocketClientHandler extends ClientHandler{
             JSONObject answer = new JSONObject(dataIn.readLine());
 
             if(answer.getString("header").equals(SEND_COLUMN.toString())){
-                int column = answer.getInt("args");
-
-
-                return column;
+                // Send the confirmation
+                dataOut.println(new Message(OK));
+                return answer.getInt("args");
             } else {
                 // The response was not valid, ask again
+                dataOut.println(new Message(GENERIC_ERROR));
                 return this.getColumn();
             }
         } catch (IOException e) {
-            dataOut.println(new Message(BAD_COLUMN));
+            dataOut.println(new Message(GENERIC_ERROR));
             return this.getColumn();
         }
     }
@@ -189,27 +186,24 @@ public class SocketClientHandler extends ClientHandler{
                 JSONObject body = packet.getJSONObject("body");
                 String playerId = body.getString("playerId");
 
-                ongoingGames.addUser(playerId, this);
+                ongoingGames.newUser(playerId, this);
 
                 // Send the confirmation
                 dataOut.println(new Message(OK));
 
+                joinGamePhase();
+
             } else if(header.equals(RECONNECT.toString())){
                 // This is the case of a reconnecting player
                 JSONObject body = packet.getJSONObject("body");
-                String playerId = body.getString("playerId");
 
-                if(ongoingGames.userExists(playerId)){
-                    ongoingGames.userLogin(playerId, this);
-                    // Send the confirmation
-                    dataOut.println(new Message(OK));
-                } else {
-                    // The player does not exist, send the error and restart the login phase
-                    JSONObject response = new JSONObject();
-                    response.put("message", "Player does not exist");
-                    dataOut.println(new Message(GENERIC_ERROR, response));
-                    loginPhase();
-                }
+                thisPlayerId = body.getString("playerId");
+
+                game = ongoingGames.oldUser(thisPlayerId, this);
+                game.notifyConnection(thisPlayerId);
+                // Send the confirmation
+                dataOut.println(new Message(OK));
+
             } else {
                 // The response was not valid, ask again
                 JSONObject response = new JSONObject();
@@ -228,6 +222,12 @@ public class SocketClientHandler extends ClientHandler{
             JSONObject response = new JSONObject();
             response.put("message", "Player already exists");
             dataOut.println(new Message(USERNAME_TAKEN, response));
+            loginPhase();
+        } catch (PlayerDoesNotExistsException e) {
+            // The player does not exist, send the error and restart the login phase
+            JSONObject response = new JSONObject();
+            response.put("message", "Player does not exist");
+            dataOut.println(new Message(GENERIC_ERROR, response));
             loginPhase();
         }
     }
@@ -289,7 +289,7 @@ public class SocketClientHandler extends ClientHandler{
             // An NonExistentGameException occurred, send the error and restart the login phase
             dataOut.println(new Message(BAD_GAME_ID));
             joinGamePhase();
-        } catch (FullGameException e) {
+        } catch (ReachedMaxNumberOfPlayers e) {
             // An FullGameException occurred, send the error and restart the login phase
             dataOut.println(new Message(BAD_GAME_ID));
             joinGamePhase();
