@@ -1,4 +1,7 @@
 package it.polimi.ingsw.server.model;
+
+import org.json.JSONObject;
+
 /**
  * This class creates Point Cards.
  *
@@ -13,6 +16,12 @@ package it.polimi.ingsw.server.model;
 
      int getValue() {
         return value;
+    }
+
+    public JSONObject toJson() {
+        JSONObject obj = new JSONObject();
+        obj.put("value", value);
+        return obj;
     }
 
 }

@@ -28,12 +28,11 @@ public class GameController<T> implements Runnable {
     private final T gameId;
     private boolean isOver;
     private int currentTurnIndex;
-    private int maxPlayers;
+    private final int maxPlayers;
 
       GameController(int playerNumber, T gameId) {
-          playerToClientHandlerMap = new HashMap<>();
-          //aggiungere effettivamente giocatori e eccezione per raggiungimento giocatori
-          // quando si connette il primo addUser, connessione  e disocnnessione
+          this.playerToClientHandlerMap = new HashMap<>();
+          // quando si connette addUser, connessione  e disocnnessione
           //gestire salto giocatori
           this.gameId = gameId;
           game = new Game(playerNumber);
@@ -51,11 +50,16 @@ public class GameController<T> implements Runnable {
           getClientHandler(currentPlayerId).sendGameState();
     }
 
-    /***/
+    /**
+     * This method adds players to the game
+     * @param playerId is the nickname of the player
+     * @param handler is the ClientHandler associated with that playerId
+     * @throws MaxPlayersReachedException when all the players has connected to the game*/
     void addPlayer(String playerId, ClientHandler handler) throws MaxPlayersReachedException {
         if(playerToClientHandlerMap.size() >= maxPlayers)
             throw new MaxPlayersReachedException();
         playerToClientHandlerMap.put(playerId, handler);
+        turnOrder.add(playerId);
     }
 
     /**
@@ -65,10 +69,6 @@ public class GameController<T> implements Runnable {
           return playerToClientHandlerMap.get(playerId);
     }
 
-
-    void setPlayerConnectionStatus(boolean status, T player){
-
-    }
 
 
     /**
@@ -88,6 +88,7 @@ public class GameController<T> implements Runnable {
     }
 
 
+    /**This method starts the thread and manages the turn*/
     @Override
     public void run() {
         while(!isOver){
@@ -97,7 +98,7 @@ public class GameController<T> implements Runnable {
             String currentPlayerId = turnOrder.get(currentTurnIndex);
             coordinates = getClientHandler(currentPlayerId).getTiles();
             try {
-                tiles = game.chooseTiles(coordinates[0],coordinates[1],coordinates[2]);
+                tiles = game.chooseTiles(coordinates[0],coordinates[1],coordinates[2]); //ma dopo che prendo le tile chi comunica alla view questa cosa?
                 getClientHandler(currentPlayerId).sendOk();
             } catch (TileUnpickableException e) {
                 getClientHandler(currentPlayerId).badTile();
