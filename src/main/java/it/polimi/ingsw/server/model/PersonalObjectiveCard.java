@@ -39,6 +39,18 @@ public class PersonalObjectiveCard{
     }
 
     /**
+     * Constructor of the personal objective, creates the objective from a JSONObject
+     *
+     * @param object JSONObject that contains the personal objective
+     *
+     * @author Federico
+     */
+    PersonalObjectiveCard(JSONObject object){
+        int pattern = object.getInt("pattern");
+        this.objective = PersonalObjectivePattern.values()[pattern - 1];
+    }
+
+    /**
      * Copy constructor of the personal objective
      *
      * @param toCopy PersonalObjective that has to be copied
@@ -97,6 +109,31 @@ public class PersonalObjectiveCard{
 
     public String toString(){
         return objective.toString();
+    }
+
+    /**
+     * This method returns a representation of the PersonalObjectiveCard
+     *
+     * @return a JSON representing the PersonalObjectiveCard
+     * @author Federica, Federico
+     */
+    public JSONObject toJson() {
+        JSONObject me = new JSONObject();
+        switch (objective){
+            case FIRST_PATTERN -> me.put("pattern", 1);
+            case SECOND_PATTERN -> me.put("pattern", 2);
+            case THIRD_PATTERN -> me.put("pattern", 3);
+            case FOURTH_PATTERN -> me.put("pattern", 4);
+            case FIFTH_PATTERN -> me.put("pattern", 5);
+            case SIXTH_PATTERN -> me.put("pattern", 6);
+            case SEVENTH_PATTERN -> me.put("pattern", 7);
+            case EIGHTH_PATTERN -> me.put("pattern", 8);
+            case NINTH_PATTERN -> me.put("pattern", 9);
+            case TENTH_PATTERN -> me.put("pattern", 10);
+            case ELEVENTH_PATTERN -> me.put("pattern", 11);
+            case TWELFTH_PATTERN -> me.put("pattern", 12);
+        }
+        return me;
     }
 
     /**
