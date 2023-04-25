@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -39,6 +40,25 @@ public class Shelf {
             for (int j = 0; j < 6; j++) {
                 Tile toAdd = toCopy.getTile(new Coordinate(i, j));
                 contents[i][j] = toAdd;
+            }
+        }
+    }
+
+    /**
+     * Constructor of the class that creates a shelf from a JSONObject
+     *
+     * @param shelf JSONObject containing the shelf
+     * @author Federico
+     */
+    Shelf(JSONObject shelf){
+        this.contents = new Tile[5][6];
+
+        //TODO: How to get the contents of the shelf from the JSONObject?
+        JSONObject[][] array = (JSONObject[][]) shelf.get("contents");
+
+        for (int i = 0; i < 5 ; i++) {
+            for (int j = 0; j < 6; j++) {
+                contents[i][j] = Tile.valueOf(array[i][j].getString("color"));
             }
         }
     }
@@ -84,8 +104,14 @@ public class Shelf {
      * @throws fullColumnException Exception thrown when the selected column is full or there are not enough slots available
      */
     void addTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
-        //TODO: tooManyTilesException to be sent when there are more tiles than free spaces in any column
-        if(tiles.length > 3) throw new tooManyTilesException();
+        boolean freeColumn = false;
+        for(int i=0; i<5; i++){
+            if (availableSlots(i) >= tiles.length) {
+                freeColumn = true;
+                break;
+            }
+        }
+        if(tiles.length > 3 || !freeColumn) throw new tooManyTilesException();
         if(tiles.length == 0) throw new notEnoughTilesException();
         if(availableSlots(column) < tiles.length) throw new fullColumnException();
 
@@ -191,42 +217,6 @@ public class Shelf {
     }
 
     /**
-     * Method that generates a string that represents the shelf
-     *
-     * @author Federico
-     *
-     * @return the shelf formatted as a viewable string
-     */
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-
-        for (int j = 5; j >= 0; j--) {
-            for (int i = 0; i < 5; i++) {
-                if(contents[i][j] == Tile.EMPTY)
-                    result.append("e ");
-                if(contents[i][j] == Tile.OUTSIDE_GAME_BOARD)
-                    result.append("x ");
-                if(contents[i][j] == Tile.CATS)
-                    result.append("g ");
-                if(contents[i][j] == Tile.FRAMES)
-                    result.append("b ");
-                if(contents[i][j] == Tile.GAMES)
-                    result.append("y ");
-                if(contents[i][j] == Tile.BOOKS)
-                    result.append("b ");
-                if(contents[i][j] == Tile.PLANTS)
-                    result.append("m ");
-                if(contents[i][j] == Tile.TROPHIES)
-                    result.append("a ");
-            }
-            result.append(" |\n");
-        }
-
-        return result.toString();
-    }
-
-    /**
      * Method that checks if two shelves are equal
      *
      * @author Federico
@@ -276,7 +266,49 @@ public class Shelf {
         return true;
     }
 
-    public String toJson() {
+    /**
+     * Method that generates a string that represents the shelf
+     *
+     * @author Federico
+     *
+     * @return the shelf formatted as a viewable string
+     */
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+
+        for (int j = 5; j >= 0; j--) {
+            for (int i = 0; i < 5; i++) {
+                if(contents[i][j] == Tile.EMPTY)
+                    result.append("e ");
+                if(contents[i][j] == Tile.OUTSIDE_GAME_BOARD)
+                    result.append("x ");
+                if(contents[i][j] == Tile.CATS)
+                    result.append("g ");
+                if(contents[i][j] == Tile.FRAMES)
+                    result.append("b ");
+                if(contents[i][j] == Tile.GAMES)
+                    result.append("y ");
+                if(contents[i][j] == Tile.BOOKS)
+                    result.append("b ");
+                if(contents[i][j] == Tile.PLANTS)
+                    result.append("m ");
+                if(contents[i][j] == Tile.TROPHIES)
+                    result.append("a ");
+            }
+            result.append(" |\n");
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * This method returns a representation of the shelf
+     *
+     * @return a JSON representing the shelf
+     * @author Federica, Federico
+     */
+    JSONObject toJson() {
         StringBuilder jsonBuilder = new StringBuilder();
         jsonBuilder.append("{");
         jsonBuilder.append("\"contents\":[");
@@ -300,7 +332,7 @@ public class Shelf {
 
         jsonBuilder.append("]");
         jsonBuilder.append("}");
-        return jsonBuilder.toString();
+        return new JSONObject(jsonBuilder.toString());
     }
 }
 
