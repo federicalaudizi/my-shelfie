@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -283,10 +285,5 @@ public class PersonalObjectiveCard{
 
             return ret.toString();
         }
-    }
-
-    public String toJson() {
-        StringBuilder sb = new StringBuilder();
-        return sb.toString();
     }
 }
