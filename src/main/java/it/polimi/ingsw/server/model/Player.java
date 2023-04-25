@@ -49,6 +49,23 @@ public class Player {
     }
 
     /**
+     * Constructor of the class, creates a player from a JSON object
+     *
+     * @author Federico
+     *
+     * @param playerJSON JSON object containing the player data
+     */
+    Player(JSONObject playerJSON){
+        this.playerShelf = new Shelf(playerJSON.getJSONObject("playerShelf"));
+        this.objectiveCard = new PersonalObjectiveCard(playerJSON.getJSONObject("objectiveCard"));
+        this.pointCards = new PointCard[2];
+        for(int i = 0; i < 2; i++){
+            this.pointCards[i] = new PointCard(playerJSON.getJSONArray("pointCards").getJSONObject(i));
+        }
+        this.endGameCard = playerJSON.getBoolean("endGameCard");
+    }
+
+    /**
      * Returns a copy of the player shelf
      *
      * @author Federico
@@ -175,6 +192,12 @@ public class Player {
                 pointCards.equals(other.pointCards);
     }
 
+    /**
+     * This method returns a representation of the player
+     *
+     * @return a JSON representing the player
+     * @author Federica
+     */
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("playerShelf", playerShelf.toJson());
