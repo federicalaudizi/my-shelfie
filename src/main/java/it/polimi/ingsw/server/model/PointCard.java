@@ -14,6 +14,10 @@ import org.json.JSONObject;
        this.value= value;
    }
 
+   PointCard(JSONObject pointCardJSON) {
+       this.value = pointCardJSON.getInt("value");
+   }
+
      int getValue() {
         return value;
     }
