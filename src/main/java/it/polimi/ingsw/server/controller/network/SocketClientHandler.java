@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.Coordinate;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -59,6 +60,24 @@ public class SocketClientHandler extends ClientHandler{
         dataOut.println(new Message(GAME_UPDATE, gameState));
         if(dataIn.readLine().equals(new Message(OK).toString())){
             this.sendGameState(gameState);
+        }
+    }
+
+    /**
+     * This method signals the client handler to send the game state to the client and that an objective has been completed, the message sent is an array of JSON objects, first one being the game state, second one being the completed objective
+     *
+     * @param gameState                 the game state to be sent packetized as a JSON object
+     * @param collectiveObjectiveNumber the number of the collective objective that has been completed
+     * @author Federico
+     */
+    @Override
+    public void sendGameState(JSONObject gameState, int collectiveObjectiveNumber) throws IOException {
+        JSONArray args = new JSONArray();
+        args.put(gameState);
+        args.put(new JSONObject().put("objective", collectiveObjectiveNumber));
+        dataOut.println(new Message(GAME_UPDATE, args));
+        if(dataIn.readLine().equals(new Message(OK).toString())){
+            this.sendGameState(gameState, collectiveObjectiveNumber);
         }
     }
 

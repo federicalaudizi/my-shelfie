@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server.controller.network;
 
-import it.polimi.ingsw.server.exceptions.AnswerNotReadyException;
 import it.polimi.ingsw.server.model.Coordinate;
-import it.polimi.ingsw.server.model.Tile;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -30,6 +28,15 @@ public abstract class ClientHandler implements Runnable{
      * @author Federico
      */
     public abstract void sendGameState(JSONObject gameState) throws IOException;
+
+    /**
+     * This method signals the client handler to send the game state to the client and that an objective has been completed
+     *
+     * @param gameState the game state to be sent packetized as a JSON object
+     * @param collectiveObjectiveNumber the number of the collective objective that has been completed
+     * @author Federico
+     */
+    public abstract void sendGameState(JSONObject gameState, int collectiveObjectiveNumber) throws IOException;
 
     /**
      * This method signals the client that a response was accepted
