@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
@@ -58,7 +59,7 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public void sendGameState(JSONObject gameState) throws IOException {
         dataOut.println(new Message(GAME_UPDATE, gameState));
-        if(dataIn.readLine().equals(new Message(OK).toString())){
+        if(!dataIn.readLine().equals(new Message(OK).toString())){
             this.sendGameState(gameState);
         }
     }
@@ -76,8 +77,27 @@ public class SocketClientHandler extends ClientHandler{
         args.put(gameState);
         args.put(new JSONObject().put("objective", collectiveObjectiveNumber));
         dataOut.println(new Message(GAME_UPDATE, args));
-        if(dataIn.readLine().equals(new Message(OK).toString())){
+        if(!dataIn.readLine().equals(new Message(OK).toString())){
             this.sendGameState(gameState, collectiveObjectiveNumber);
+        }
+    }
+
+    /**
+     * This method signals the client handler to update the board and the players
+     *
+     * @param board   the board to be sent packetized as a JSON object
+     * @param players an array of players to be sent packetized as a JSON object
+     * @throws IOException if an error occurs when sending the message to the client
+     * @author Federico
+     */
+    @Override
+    public void sendGameState(JSONObject board, ArrayList<JSONObject> players) throws IOException {
+        JSONArray args = new JSONArray();
+        args.put(board);
+        args.put(players);
+        dataOut.println(new Message(GAME_UPDATE, args));
+        if(!dataIn.readLine().equals(new Message(OK).toString())){
+            this.sendGameState(board, players);
         }
     }
 
@@ -106,12 +126,18 @@ public class SocketClientHandler extends ClientHandler{
         try {
             JSONObject answer = new JSONObject(dataIn.readLine());
 
-            if(answer.getString("code").equals(SEND_TILES.toString())){
-                JSONObject[] args = (JSONObject[]) answer.get("args");
-                Coordinate[] tiles = new Coordinate[args.length];
+            if(answer.getString("header").equals(SEND_TILES.toString())){
+                JSONArray args = (JSONArray) answer.get("args");
 
-                for(int i = 0; i < args.length; i++){
-                    tiles[i] = new Coordinate(args[i].getInt("x"), args[i].getInt("y"));
+                //TODO: Check if this is the correct way to do it
+
+                Coordinate[] tiles = new Coordinate[args.length()];
+
+                for(int i = 0; i < args.length(); i++){
+                    //tiles[i] = new Coordinate(((JSONObject) args.get(i)).getInt("x"), ((JSONObject) args.get(i)).getInt("y"));
+
+                    //TODO: Check if this is the correct way to do it
+                    tiles[i] = (Coordinate) args.get(i);
                 }
 
                 // Send the confirmation
@@ -156,7 +182,11 @@ public class SocketClientHandler extends ClientHandler{
             if(answer.getString("header").equals(SEND_COLUMN.toString())){
                 // Send the confirmation
                 dataOut.println(new Message(OK));
-                return answer.getInt("args");
+
+                JSONArray args = (JSONArray) answer.get("args");
+                JSONObject column = (JSONObject) args.get(0);
+
+                return column.getInt("column");
             } else {
                 // The response was not valid, ask again
                 dataOut.println(new Message(GENERIC_ERROR));

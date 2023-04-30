@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Coordinate;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This class handles the exchange of messages with the client and runs as a thread.
@@ -25,6 +26,7 @@ public abstract class ClientHandler implements Runnable{
      * This method signals the client handler to send the game state to the client
      *
      * @param gameState the game state to be sent packetized as a JSON object
+     * @throws IOException if an error occurs when sending the message to the client
      * @author Federico
      */
     public abstract void sendGameState(JSONObject gameState) throws IOException;
@@ -34,9 +36,21 @@ public abstract class ClientHandler implements Runnable{
      *
      * @param gameState the game state to be sent packetized as a JSON object
      * @param collectiveObjectiveNumber the number of the collective objective that has been completed
+     * @throws IOException if an error occurs when sending the message to the client
      * @author Federico
      */
     public abstract void sendGameState(JSONObject gameState, int collectiveObjectiveNumber) throws IOException;
+
+    /**
+     * This method signals the client handler to update the board and the players
+     *
+     * @param board the board to be sent packetized as a JSON object
+     * @param players an array of players to be sent packetized as a JSON object
+     * @throws IOException if an error occurs when sending the message to the client
+     *
+     * @author Federico
+     */
+    public abstract void sendGameState(JSONObject board, ArrayList<JSONObject> players) throws IOException;
 
     /**
      * This method signals the client that a response was accepted
