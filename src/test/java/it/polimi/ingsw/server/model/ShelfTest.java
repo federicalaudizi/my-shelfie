@@ -103,6 +103,7 @@ public class ShelfTest extends TestCase {
         testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         testingShelf.addTiles(0, new Tile[]{Tile.CATS});
 
+        System.out.println(testingShelf.toJson());
         JSONArray json = testingShelf.toJson().getJSONArray("contents");
         System.out.println(json);
 
