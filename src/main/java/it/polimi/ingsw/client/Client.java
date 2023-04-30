@@ -21,7 +21,8 @@ public abstract class Client {
 
     abstract void connect();
     abstract void login();
-    abstract void getMove();
+    abstract void move();
+    abstract void viewUpdate(JSONObject gameState);
     abstract JSONObject getReply();
     abstract void send(Message message);
 
