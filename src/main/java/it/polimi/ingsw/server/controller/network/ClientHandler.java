@@ -90,10 +90,18 @@ public abstract class ClientHandler implements Runnable{
     public abstract void badColumn();
 
     /**
-     * This method asks the client to select a row
+     * This method signals the client that the game has ended
      *
      * @param leaderboard a JSON object containing the leaderboard
      * @author Federico
      */
     public abstract void gameOver(JSONObject leaderboard);
+
+    /**
+     * This method signals the client that the game has ended
+     *
+     * @param winner the playerId of the winner
+     * @author Federico
+     */
+    public abstract void gameOver(String winner);
 }

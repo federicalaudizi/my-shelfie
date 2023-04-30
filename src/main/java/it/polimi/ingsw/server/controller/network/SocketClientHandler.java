@@ -215,7 +215,7 @@ public class SocketClientHandler extends ClientHandler{
     }
 
     /**
-     * This method asks the client to select a row
+     * This method signals the client that the game has ended
      *
      * @param leaderboard a JSON object containing the leaderboard
      * @author Federico
@@ -223,6 +223,17 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public void gameOver(JSONObject leaderboard) {
         dataOut.println(new Message(GAME_OVER, leaderboard));
+    }
+
+    /**
+     * This method signals the client that the game has ended
+     *
+     * @param winner the playerId of the winner
+     * @author Federico
+     */
+    @Override
+    public void gameOver(String winner) {
+        dataOut.println(new Message(GAME_OVER, new JSONObject().put("winner", winner)));
     }
 
     /**
