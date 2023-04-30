@@ -14,7 +14,7 @@ import java.util.*;
  * @author Sara Massarelli
  */
 public class Game {
-    private final ArrayList<Player> players;
+    public final ArrayList<Player> players;
     private final Board board;
     private final CollectiveObjectiveCard collectiveObjectiveCard1;
     private final CollectiveObjectiveCard collectiveObjectiveCard2;
@@ -146,7 +146,13 @@ public class Game {
         return checkGoals();
     }
 
-
+    public ArrayList<String> getPlayerId (){
+        ArrayList<String> playersId = new ArrayList<>();
+        for (Player player : players){
+            playersId.add(player.getUsername());
+        }
+        return playersId;
+    }
     /**
      * @return a HashMap with the player as key and the player's score
      * as value, sorted in descending order based on the player's score.*/
@@ -226,6 +232,5 @@ public class Game {
         json.put("isOver", isOver);
         return json;
     }
+
 }
-
-

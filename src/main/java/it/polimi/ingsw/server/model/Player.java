@@ -32,6 +32,9 @@ public class Player {
         this.endGameCard = false;
     }
 
+    public String getUsername(){
+        return username;
+    }
     /**
      * Copy constructor of the class
      *
