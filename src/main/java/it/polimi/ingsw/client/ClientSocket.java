@@ -104,8 +104,101 @@ public class ClientSocket extends Client {
     }
 
     @Override
-    void getMove() {
-        // Ask for tiles to user
+    void move() throws NullPointerException, UnknownError {
+        boolean inputValidation, moveValidation = false, columnValidation = false;
+        ArrayList<Coordinate> coordinates = null;
+        JSONObject body = null, reply;
+        Message.Header replyHeader;
+
+        // Phase 1: ask for tiles to pick
+        while(!moveValidation) {
+            // --- Client-side validation ---
+            // This loop does not break until the input from the user is validated by the client.
+            // The validation checks whether the user input the correct number of coordinates -- between 1 and 3.
+            // The user is also prompted to confirm his own input with the confirmationPrompt method of ViewCLI.
+            inputValidation = false;
+
+            while(!inputValidation) {
+                String input = view.confirmationPrompt("Enter up to three coordinates.\nSyntax: (x, y)[, (x, y), (x, y)]\n Your choice: ");
+                try {
+                    coordinates = parseMoveInput(input);
+                    inputValidation = true;
+                } catch (IllegalStateException e) {
+                    view.okPrompt("You entered an invalid number of coordinates. Retry.");
+                }
+            }
+            try {
+                body = coordsToJson(coordinates);
+            } catch (NullPointerException e) {
+                view.okPrompt("Something went wrong.");
+                e.printStackTrace();
+            }
+
+            // --- Server-side validation ---
+            // The client packages the tiles selected by the user and then sends them to the server in order to be
+            // validated according to the game's rules. This while loop does not break until the server has validated
+            // the player's move.
+            Message tileMessage;
+            if(body != null) {
+                tileMessage = new Message(Message.Header.SEND_TILES, body);
+            } else throw new NullPointerException("The message body was empty.");
+
+            send(tileMessage);
+
+            reply = getReply();
+            replyHeader = Message.Header.valueOf(reply.getString("header"));
+
+            // Check reply to either resend coordinates or continue with the move
+            if(replyHeader.getCode() == 200) {
+                moveValidation = true;
+            } else if(replyHeader.getCode() == 421) {
+                view.okPrompt("The tiles you chose are not valid. Please retry.");
+            } else if(replyHeader.getCode() == 400) {
+                view.okPrompt("A generic error occurred.");
+            } else throw new UnknownError("An unknown error occurred.");
+        }
+
+        // Phase 2: ask for column to put tiles in
+        while(!columnValidation) {
+            inputValidation = false;
+            int column;
+            JSONObject columnBody = null;
+            Message columnMessage;
+
+            while(!inputValidation) {
+                String input = view.confirmationPrompt("Enter the column you want to put the tiles in.\nPossible values: 1 to 5 (including 1 and 5).\nYour choice: ");
+                column = Integer.parseInt(input);
+                if(column >= 0 && column <= 4) {
+                    inputValidation = true;
+                    columnBody = new JSONObject().put("column", column);
+                } else {
+                    view.okPrompt("The column you input is invalid. Retry.");
+                }
+            }
+
+            if(columnBody != null) {
+                columnMessage = new Message(Message.Header.SEND_COLUMN, columnBody);
+            } else throw new NullPointerException("Column message body was empty.");
+
+            send(columnMessage);
+
+            reply = getReply();
+            replyHeader = Message.Header.valueOf(reply.getString("header"));
+
+            if(replyHeader.getCode() == 200) {
+                columnValidation = true;
+            } else if(replyHeader.getCode() == 422) {
+                view.okPrompt("The column you chose is not valid. Please retry.");
+            } else if(replyHeader.getCode() == 400) {
+                view.okPrompt("A generic error occurred.");
+            } else throw new UnknownError("An unknown error occurred.");
+        }
+        view.okPrompt("Your move was correctly sent to the server.");
+    }
+
+    @Override
+    void viewUpdate(JSONObject gameState) {
+
     }
 
     /**
