@@ -117,6 +117,13 @@ public class GameController implements Runnable {
     public void run() {
         setUsernames();
         turnOrder = game.getPlayerId();
+        for (String currentPlayerId : turnOrder) {
+            try {
+                getClientHandler(currentPlayerId).sendGameState(game.toJson());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         while (!isOver) {
             int column;
             Tile[] tiles = new Tile[0];
@@ -170,9 +177,21 @@ public class GameController implements Runnable {
                 try {
                     int numCollObj = game.insertInShelf(column, tiles);
                     if (numCollObj == 0) {
-                        getClientHandler(currentPlayerId).sendGameState(game.toJson());
+                        for (String currentPlayer : turnOrder) {
+                            try {
+                                getClientHandler(currentPlayer).sendGameState(game.getBoard().toJSON(), game.getPlayers());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     } else {
-                        getClientHandler(currentPlayerId).sendGameState(game.toJson(), numCollObj);
+                        for (String currentPlayer : turnOrder) {
+                            try {
+                                getClientHandler(currentPlayer).sendGameState(game.getBoard().toJSON(), game.getPlayers(), numCollObj);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
                     getClientHandler(currentPlayerId).sendOk();
                     exceptionThrown = false;
