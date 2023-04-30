@@ -304,7 +304,7 @@ public class Shelf {
 
     /**
      * This method returns a representation of the shelf
-     * Example: {"string":this.toString(),"contents":[[{"color":"GREEN"},{"color":"N/A"}...],...]}
+     * Example: {"contents":[[{"color":"GREEN"},{"color":"N/A"}...],...]}
      *
      * @return a JSON representing the shelf
      * @author Federica, Federico
@@ -333,7 +333,7 @@ public class Shelf {
 
         jsonBuilder.append("]");
         jsonBuilder.append("}");
-        return new JSONObject(jsonBuilder.toString()).put("string", this.toString());
+        return new JSONObject(jsonBuilder.toString());
     }
 }
 
