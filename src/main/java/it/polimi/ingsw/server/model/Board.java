@@ -336,8 +336,7 @@ public class Board {
     }
 
     public JSONObject toJSON() {
-        JSONObject JSONBoard = new JSONObject();
-        JSONBoard.put("board", this.toString());
-        return JSONBoard;
+        // TODO Reimplement to return an object that's more similar to Player's toJSON's return value
+        return new JSONObject().put("board", this.toString());
     }
 }
