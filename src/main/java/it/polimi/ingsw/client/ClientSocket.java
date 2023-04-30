@@ -24,6 +24,10 @@ public class ClientSocket extends Client {
         super(cli);
     }
 
+    void start() {
+        // TODO Implement this method
+    }
+
     @Override
     void connect() {
         String formattedIp = view.confirmationPrompt("Enter the server's IP (xxx.xxx.xxx.xxx:yyyyy): ");
