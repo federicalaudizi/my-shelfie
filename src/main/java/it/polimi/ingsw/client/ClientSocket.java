@@ -226,7 +226,7 @@ public class ClientSocket extends Client {
      * @param input The input string gathered from the user.
      * @return An ArrayList of Coordinate objects that contain the coordinates gathered from the user.
      */
-    private ArrayList<Coordinate> parseMoveInput(String input) {
+    private ArrayList<Coordinate> parseMoveInput(String input) throws IllegalStateException {
         final Pattern coordinatePattern = Pattern.compile("(\\([0-9],\\s?[0-9]\\))+");
         final Matcher coordinateMatcher = coordinatePattern.matcher(input);
         ArrayList<Coordinate> inputCoords = new ArrayList<>();
@@ -240,6 +240,9 @@ public class ClientSocket extends Client {
             int y = Integer.parseInt(coordinates[1]);
             inputCoords.add(new Coordinate(x, y));
         }
+
+        if(inputCoords.size() == 0 || inputCoords.size() > 3)
+            throw new IllegalStateException("Wrong number of coordinates input.");
 
         return inputCoords;
     }
