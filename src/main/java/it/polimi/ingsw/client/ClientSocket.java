@@ -207,15 +207,17 @@ public class ClientSocket extends Client {
      * @param coords The ArrayList containing the coordinates chosen by the user.
      * @return The JSONObject containing a JSONArray with the aforementioned coordinates.
      */
-    private JSONObject coordsToJson(ArrayList<Coordinate> coords) {
+    private JSONObject coordsToJson(ArrayList<Coordinate> coords) throws NullPointerException {
+        if(coords == null)
+            throw new NullPointerException("Coordinate array was empty.");
         JSONArray JSONCoords = new JSONArray();
         for(Coordinate item : coords)
             JSONCoords.put(item);
 
-        JSONObject JSONMessage = new JSONObject();
-        JSONMessage.put("coordinates", JSONCoords);
+        JSONObject tileBody = new JSONObject();
+        tileBody.put("tiles", JSONCoords);
 
-        return JSONMessage;
+        return tileBody;
     }
 
     /**
