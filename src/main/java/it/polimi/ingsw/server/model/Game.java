@@ -58,6 +58,8 @@ public class Game {
         }
     }
 
+    /**
+     * sets the player's usernames */
     public void setUsernames(ArrayList<String> usernames){
          for(int i=0; i< players.size();i++){
             players.get(i).setPlayerName(usernames.get(i));
@@ -146,6 +148,7 @@ public class Game {
         return checkGoals();
     }
 
+    /***/
     public ArrayList<String> getPlayerId (){
         ArrayList<String> playersId = new ArrayList<>();
         for (Player player : players){
@@ -221,6 +224,8 @@ public class Game {
         return players.size();
     }
 
+    /**
+     * @return game to jason object*/
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         JSONArray playersJson = new JSONArray();
@@ -241,6 +246,8 @@ public class Game {
         return json;
     }
 
+    /**
+     * @return the board of the game*/
     public Board getBoard(){
         return board;
     }

@@ -61,14 +61,6 @@ public class GameController implements Runnable {
     }
 
     /**
-     * sends the client the game state
-     */
-    public void getGameState() throws IOException {
-        String currentPlayerId = turnOrder.get(currentTurnIndex);
-        getClientHandler(currentPlayerId).sendGameState(game.toJson());
-    }
-
-    /**
      * Adds the player to the map of connected players and to the map with their connection status
      *
      * @param playerId the nickname of each player
@@ -84,6 +76,9 @@ public class GameController implements Runnable {
         playerToClientHandlerMap.put(playerId, handler);
     }
 
+    /**
+     * sets the player's username in the game
+     * */
     void setUsernames() {
         ArrayList<String> usernames = new ArrayList<>(playerToClientHandlerMap.keySet());
         game.setUsernames(usernames);
@@ -107,8 +102,9 @@ public class GameController implements Runnable {
             game.nextTurn();
         } else {
             isOver = true;
-            String currentPlayerId = turnOrder.get(currentTurnIndex);
-            getClientHandler(currentPlayerId).gameOver((JSONObject) game.getRankedPlayers());
+            for(String currentPlayer: turnOrder){
+            getClientHandler(currentPlayer).gameOver((JSONObject) game.getRankedPlayers());
+            }
             game.nextTurn();
         }
     }
@@ -147,8 +143,9 @@ public class GameController implements Runnable {
                             lock.wait(5000 - elapsedTime);
                             elapsedTime = System.currentTimeMillis() - startTime;
                         }
+                        //if there is only one player connected he is the winner
                         if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
-                            getClientHandler(currentPlayerId).gameOver((JSONObject) game.getRankedPlayers());
+                            getClientHandler(currentPlayerId).gameOver(currentPlayerId);
                             break;
                         }
                     }
