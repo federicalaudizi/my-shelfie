@@ -233,4 +233,8 @@ public class Game {
         return json;
     }
 
+    public Board getBoard(){
+        return board;
+    }
+
 }
