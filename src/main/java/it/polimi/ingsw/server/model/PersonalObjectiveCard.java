@@ -48,7 +48,7 @@ public class PersonalObjectiveCard{
      * @author Federico
      */
     PersonalObjectiveCard(JSONObject object){
-        int pattern = object.getInt("pattern");
+        int pattern = object.getInt("code");
         this.objective = PersonalObjectivePattern.values()[pattern - 1];
     }
 
@@ -122,19 +122,20 @@ public class PersonalObjectiveCard{
     public JSONObject toJson() {
         JSONObject me = new JSONObject();
         switch (objective){
-            case FIRST_PATTERN -> me.put("pattern", 1);
-            case SECOND_PATTERN -> me.put("pattern", 2);
-            case THIRD_PATTERN -> me.put("pattern", 3);
-            case FOURTH_PATTERN -> me.put("pattern", 4);
-            case FIFTH_PATTERN -> me.put("pattern", 5);
-            case SIXTH_PATTERN -> me.put("pattern", 6);
-            case SEVENTH_PATTERN -> me.put("pattern", 7);
-            case EIGHTH_PATTERN -> me.put("pattern", 8);
-            case NINTH_PATTERN -> me.put("pattern", 9);
-            case TENTH_PATTERN -> me.put("pattern", 10);
-            case ELEVENTH_PATTERN -> me.put("pattern", 11);
-            case TWELFTH_PATTERN -> me.put("pattern", 12);
+            case FIRST_PATTERN -> me.put("code", 1);
+            case SECOND_PATTERN -> me.put("code", 2);
+            case THIRD_PATTERN -> me.put("code", 3);
+            case FOURTH_PATTERN -> me.put("code", 4);
+            case FIFTH_PATTERN -> me.put("code", 5);
+            case SIXTH_PATTERN -> me.put("code", 6);
+            case SEVENTH_PATTERN -> me.put("code", 7);
+            case EIGHTH_PATTERN -> me.put("code", 8);
+            case NINTH_PATTERN -> me.put("code", 9);
+            case TENTH_PATTERN -> me.put("code", 10);
+            case ELEVENTH_PATTERN -> me.put("code", 11);
+            case TWELFTH_PATTERN -> me.put("code", 12);
         }
+        me.put("pattern", objective.toString());
         return me;
     }
 
