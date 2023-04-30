@@ -30,8 +30,13 @@ public class ClientSocket extends Client {
 
     @Override
     void connect() {
-        String formattedIp = view.confirmationPrompt("Enter the server's IP (xxx.xxx.xxx.xxx:yyyyy): ");
-        String[] hostInfo = formattedIp.split(":");
+        boolean isValid = false;
+        String ip = null;
+        while(!isValid) {
+            ip = view.confirmationPrompt("Enter the server's IP (syntax: ip:port): ");
+            isValid = validateIp(ip);
+        }
+        String[] hostInfo = ip.split(":");
         try {
             socket = new Socket(hostInfo[0], Integer.parseInt(hostInfo[1]));
             writer = new OutputStreamWriter(socket.getOutputStream());
@@ -42,6 +47,27 @@ public class ClientSocket extends Client {
         } catch (IOException e) {
             view.okPrompt("Something went wrong.");
         }
+    }
+
+    private boolean validateIp(String ip) {
+        // Split IP and Port
+        String[] portSplit = ip.split(":");
+        // Convert port String to int to perform the comparison
+        int port = Integer.parseInt(portSplit[1]);
+        // If the port is not a valid number, return false
+        if(port <= 0 || port > 65535)
+            return false;
+        // Split IP into the four integers that compose it
+        String[] ipSplit = portSplit[0].split("\\.");
+        for(String item : ipSplit) {
+            // Convert IP Segment to integer for the comparison
+            int ipSegment = Integer.parseInt(item);
+            // If the segment is not a valid number, return false
+            if(ipSegment <= 0 || ipSegment > 255)
+                return false;
+        }
+        // If none of the checks are triggered, the IP is valid
+        return true;
     }
 
     @Override
