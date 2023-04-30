@@ -304,6 +304,7 @@ public class Shelf {
 
     /**
      * This method returns a representation of the shelf
+     * Example: {"contents":[[{"color":"GREEN"},{"color":"N/A"}...],...]}
      *
      * @return a JSON representing the shelf
      * @author Federica, Federico
