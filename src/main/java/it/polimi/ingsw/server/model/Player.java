@@ -16,6 +16,7 @@ public class Player {
     private final PersonalObjectiveCard objectiveCard;
     private final PointCard[] pointCards;
     private boolean endGameCard;
+    private String username;
 
     /**
      * Constructor of the class, assigns a clone of the PersonalObjectiveCard to the player
@@ -165,10 +166,18 @@ public class Player {
         endGameCard = true;
     }
 
+    /**
+     * Sets the player name
+     */
+    void setPlayerName(String username){
+        this.username = new String(username);
+    }
+
     @Override
     public String toString() {
         return "Player{\n" +
-                "playerShelf={\n" + playerShelf +
+                "playerUsername={\n" + username +
+                "}, \nplayerShelf={\n" + playerShelf +
                 "},\nobjectiveCard={\n" + objectiveCard +
                 "},\npointCards={\n" + pointCards +
                 "},\nendGameCard=" + endGameCard +
@@ -200,6 +209,7 @@ public class Player {
      */
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username", username);
         jsonObject.put("playerShelf", playerShelf.toJson());
         jsonObject.put("objectiveCard", objectiveCard.toJson());
         JSONArray pointCardsJsonArray = new JSONArray();
