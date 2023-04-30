@@ -215,8 +215,8 @@ public class Game {
         }
         json.put("players", playersJson);
         json.put("board", board.toJSON());
-        json.put("collectiveObjectiveCard1", collectiveObjectiveCard1.toJson(players.get(currentPlayerIndex).getShelf()));
-        json.put("collectiveObjectiveCard2", collectiveObjectiveCard2.toJson(players.get(currentPlayerIndex).getShelf()));
+        json.put("collectiveObjectiveCard1", collectiveObjectiveCard1.toJson());
+        json.put("collectiveObjectiveCard2", collectiveObjectiveCard2.toJson());
         json.put("pointCardDeck1", pointCardDeck1.toJson());
         json.put("pointCardDeck2", pointCardDeck2.toJson());
         json.put("lastTurn", lastTurn);

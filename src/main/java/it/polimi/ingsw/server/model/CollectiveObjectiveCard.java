@@ -519,10 +519,9 @@ public abstract class CollectiveObjectiveCard {
         }
 
     }
-    public JSONObject toJson(Shelf shelf) {
+    public JSONObject toJson() {
         JSONObject obj = new JSONObject();
-        obj.put("cardType", this.getClass().getName());
-        obj.put("completed", checkObjective(shelf));
+        obj.put("cardType", this.getClass().getSimpleName());
         return obj;
     }
 }
