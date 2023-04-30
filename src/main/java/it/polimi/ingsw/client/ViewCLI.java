@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import java.util.Scanner;
 
 public class ViewCLI extends View {
-    private Client client;
-
     Scanner scanner = new Scanner(System.in);
 
     public ViewCLI(Client client) {
