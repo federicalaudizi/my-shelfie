@@ -76,4 +76,13 @@ public class PlayerTest {
         System.out.println(player);
         Assert.assertTrue(true);
     }
+
+    @Test
+    public void testToJson(){
+        player = new Player(playerObjectve);
+        System.out.println(player.toJson());
+
+        player.assignPointCard(new PointCard(4), 0);
+        System.out.println(player.toJson());
+    }
 }

@@ -6,6 +6,8 @@ import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 /**
  * Class that represents the player
  *
@@ -50,6 +52,7 @@ public class Player {
             this.pointCards[i] = new PointCard(toCopy.pointCards[i].getValue());
         }
         this.endGameCard = toCopy.endGameCard;
+        this.username = toCopy.username;
     }
 
     /**
@@ -173,7 +176,7 @@ public class Player {
      * Sets the player name
      */
     void setPlayerName(String username){
-        this.username = new String(username);
+        this.username = username;
     }
 
     @Override
@@ -201,7 +204,7 @@ public class Player {
         return endGameCard == other.endGameCard &&
                 playerShelf.equals(other.playerShelf) &&
                 objectiveCard.equals(other.objectiveCard) &&
-                pointCards.equals(other.pointCards);
+                Arrays.equals(pointCards, other.pointCards);
     }
 
     /**
@@ -219,6 +222,8 @@ public class Player {
         for (PointCard card : pointCards) {
             if (card != null) {
                 pointCardsJsonArray.put(card.toJson());
+            } else {
+                pointCardsJsonArray.put(new PointCard(0).toJson());
             }
         }
         jsonObject.put("pointCards", pointCardsJsonArray);
