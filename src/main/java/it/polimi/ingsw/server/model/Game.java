@@ -177,6 +177,11 @@ public class Game {
          return new Player(players.get(getCurrentPlayerIndex()));
     }
 
+    public ArrayList<Player> getPlayers(){
+        return players;
+
+    }
+
 
     /**@return the current player index*/
     public int getCurrentPlayerIndex(){
