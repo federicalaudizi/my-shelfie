@@ -32,7 +32,6 @@ public class GameController implements Runnable {
     private int currentTurnIndex;
 
 
-
       GameController(int playerNumber, String gameId) {
           playerToClientHandlerMap = new HashMap<>();
           this.gameId = gameId;
@@ -40,16 +39,23 @@ public class GameController implements Runnable {
           isOver= false;
           turnOrder = new ArrayList<>();
           currentTurnIndex = game.getCurrentPlayerIndex();
+          connectedPlayers = new HashMap<>();
     }
 
-
+    /**
+     * called by the ClientHandler to modify the connection status of the player in disconnected
+     * @param playerId of which ClientHandler needs to modify the status*/
     public void notifyDisconnection(String playerId){
         connectedPlayers.put(playerId, 0);
     }
 
+    /**
+     * called by the ClientHandler to modify the connection status of the player in connected
+     * @param playerId of which ClientHandler needs to modify the status*/
     public void notifyConnection(String playerId){
         connectedPlayers.put(playerId, 1);
     }
+
     /**
      * sends the client the game state*/
     public void getGameState() throws IOException {
@@ -57,13 +63,24 @@ public class GameController implements Runnable {
           getClientHandler(currentPlayerId).sendGameState(game.toJson());
     }
 
-    /***/
-    void addPlayer(String playerId, ClientHandler handler) throws ReachedMaxNumberOfPlayers {
+    /**
+     * Adds the player to the map of connected players and to the map with their connection status
+     * @param playerId the nickname of each player
+     * @param handler the ClientHandler connected to that playerId
+     * @throws ReachedMaxNumberOfPlayers when the number of players reaches the number chosen at
+     * the beginning of the play*/
+    public void addPlayer(String playerId, ClientHandler handler) throws ReachedMaxNumberOfPlayers {
         if (playerToClientHandlerMap.size() >= game.getNumberOfPlayers()){
             throw new ReachedMaxNumberOfPlayers();
         }
         connectedPlayers.put(playerId, 1);
         playerToClientHandlerMap.put(playerId, handler);
+        turnOrder.add(playerId);
+    }
+
+    void setUsernames(){
+        ArrayList<String> usernames = new ArrayList<>(playerToClientHandlerMap.keySet());
+        game.setUsernames(usernames);
     }
 
     /**
@@ -80,26 +97,32 @@ public class GameController implements Runnable {
     void turnHandler(){
         if(currentTurnIndex % (turnOrder.size()-1) != 0 && !game.isLastTurn()){
             currentTurnIndex = (currentTurnIndex +1 )% turnOrder.size();
+            game.nextTurn();
         }
         else{
             isOver = true;
             String currentPlayerId = turnOrder.get(currentTurnIndex);
             getClientHandler(currentPlayerId).gameOver((JSONObject) game.getRankedPlayers());
+            game.nextTurn();
         }
     }
 
-
     @Override
     public void run() {
+        setUsernames();
         while(!isOver){
             int column;
             Tile[] tiles;
             Coordinate[] coordinates;
             String currentPlayerId = turnOrder.get(currentTurnIndex);
-
+            //if the player is not connected and the number of connected players is greater than 0 then
+            // the turn passes automatically to the next player
             if (connectedPlayers.get(currentPlayerId) == 0 && connectedPlayers.values().stream().filter(value -> value == 1).count() > 1){
                 turnHandler();
                 continue;
+                 //If there is only one player connected starts a timer.
+                //If no player has connected before this timer reaches zero, then the game automatically ends;
+                // otherwise, it continues as soon as a second player reconnects.
             } else if (connectedPlayers.values().stream().filter(value -> value == 1).count() == 1){
                 try {
                     // Wait for the condition to be verified, with a timeout of 15 seconds

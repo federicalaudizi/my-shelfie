@@ -27,10 +27,7 @@ public class Game {
     private boolean isOver;
 
     public Game(int numOfPlayers) throws IllegalArgumentException{
-        players = new ArrayList<>();
-        for(int i=0;i<numOfPlayers;i++){
-            players.add(new Player(new PersonalObjectiveCard()));
-        }
+        players = new ArrayList<>(numOfPlayers);
         chooseFirstPlayer(numOfPlayers);
         collectiveObjectiveCard1 = CollectiveObjectiveCard.getRandomCard();
         assert collectiveObjectiveCard1 != null;
@@ -59,6 +56,12 @@ public class Game {
         if(lastPlayer == 0){
             lastPlayer=numOfPlayers;
         }
+    }
+
+    public void setUsernames(ArrayList<String> usernames){
+         for(int i=0; i< players.size();i++){
+            players.get(i).setPlayerName(usernames.get(i));
+         }
     }
 
 
