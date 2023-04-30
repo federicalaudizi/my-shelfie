@@ -1,7 +1,14 @@
 package it.polimi.ingsw.client;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 public abstract class View {
-    abstract void update();
+    HashMap<String, JSONObject> gameData;
+    Client client;
+
+    abstract void update(JSONObject gameState);
 
     abstract String confirmationPrompt(String message);
 
