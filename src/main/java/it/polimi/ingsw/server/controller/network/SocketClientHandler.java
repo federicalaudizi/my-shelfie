@@ -59,7 +59,9 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public void sendGameState(JSONObject gameState) throws IOException {
         dataOut.println(new Message(GAME_UPDATE, gameState));
-        if(!dataIn.readLine().equals(new Message(OK).toString())){
+
+        JSONObject response = new JSONObject(dataIn.readLine());
+        if(!response.getString("header").equals(OK.toString())){
             this.sendGameState(gameState);
         }
     }
@@ -77,7 +79,9 @@ public class SocketClientHandler extends ClientHandler{
         args.put(gameState);
         args.put(new JSONObject().put("objective", collectiveObjectiveNumber));
         dataOut.println(new Message(GAME_UPDATE, args));
-        if(!dataIn.readLine().equals(new Message(OK).toString())){
+
+        JSONObject response = new JSONObject(dataIn.readLine());
+        if(!response.getString("header").equals(OK.toString())){
             this.sendGameState(gameState, collectiveObjectiveNumber);
         }
     }
@@ -96,7 +100,9 @@ public class SocketClientHandler extends ClientHandler{
         args.put(board);
         args.put(players);
         dataOut.println(new Message(GAME_UPDATE, args));
-        if(!dataIn.readLine().equals(new Message(OK).toString())){
+
+        JSONObject response = new JSONObject(dataIn.readLine());
+        if(!response.getString("header").equals(OK.toString())){
             this.sendGameState(board, players);
         }
     }
