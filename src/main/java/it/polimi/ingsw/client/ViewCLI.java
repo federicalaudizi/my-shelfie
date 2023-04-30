@@ -14,32 +14,9 @@ public class ViewCLI extends View {
         this.client = client;
     }
 
-    public String getInput() {
-
-    }
-
-    private String composeView(JSONObject gameStatus) {
-        JSONObject board = (JSONObject) gameStatus.get("board");
-        JSONArray shelves = gameStatus.getJSONArray("shelves");
-        String[] objectives = new String[2];
-        // objectives[0] = gameStatus.get()
-
-        // TODO Get a map with both the shelf and the username of the player with that shelf
-        String[] shelves = client.getShelves();
-        StringBuilder shelfFormatter = new StringBuilder();
-        StringBuilder boardFormatter = new StringBuilder();
-
-        // Add three newlines at the end of every shelf
-        for(String shelf : shelves)
-            shelfFormatter.append(shelf).append("\n\n\n");
-
-        // Add title to board
-        boardFormatter.append("- Board -\n").append(board);
-
-        // Combine board and shelves horizontally
-        String[] boardSplits;
-        boardSplits = boardFormatter.toString().split("\n");
-
+    private String composeView(JSONObject gameState) {
+        // TODO Implement this method
+        return null;
     }
 
     @Override
