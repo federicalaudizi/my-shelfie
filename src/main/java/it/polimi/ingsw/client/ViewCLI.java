@@ -20,8 +20,25 @@ public class ViewCLI extends View {
     }
 
     @Override
-    void update() {
+    void update(JSONObject gameState) {
+        // If there is no data about the game stored in the view, then this is the
+        // first turn in the game and the view can save some immutable data in order
+        // to reprint it when needed.
 
+        // TODO Refactor to make more efficient
+
+        gameData.put(gameState.getJSONArray("players").getJSONObject(0).getString("username"), gameState.get)
+
+        if(gameData.isEmpty()) {
+            gameData.put("board", gameState.getJSONObject("board"));
+            gameData.put("players", gameState.getJSONObject("players"));
+            gameData.put("objective1", gameState.getJSONObject("collectiveObjectiveCard1"));
+            gameData.put("objective2", gameState.getJSONObject("collectiveObjectiveCard2"));
+            gameData.put("pointDeck1", gameState.getJSONObject("pointCardDeck1"));
+            gameData.put("pointDeck2", gameState.getJSONObject("pointCardDeck2"));
+        } else { // Otherwise, only the updated objects are actually updated in the HashMap
+
+        }
     }
 
     @Override
