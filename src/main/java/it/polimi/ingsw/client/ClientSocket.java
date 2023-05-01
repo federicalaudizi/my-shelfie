@@ -270,10 +270,12 @@ public class ClientSocket extends Client {
     }
 
     @Override
-    JSONObject getReply() throws NullPointerException {
-        JSONObject reply = null;
+    Message getReply() throws NullPointerException {
+        Message reply = null;
+        JSONObject replyJSON;
         try {
-            reply = new JSONObject(reader.read());
+            replyJSON = new JSONObject(reader.read());
+            reply = new Message(Message.Header.valueOf(replyJSON.getString("header")), replyJSON.getJSONObject("body"));
         } catch (IOException e) {
             e.printStackTrace();
         }
