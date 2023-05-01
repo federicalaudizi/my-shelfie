@@ -11,14 +11,14 @@ import java.net.Socket;
  */
 public class SocketServer extends Server{
     private final int port;
-    private final GameSupervisor ongoingGames;
 
-    public SocketServer(int port) {
+    public SocketServer(int port, GameSupervisor ongoingGames) {
+        super(ongoingGames);
         this.port = port;
-        this.ongoingGames = new GameSupervisor();
     }
 
-    public void startServer() {
+    @Override
+    public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             System.out.println("Server started on port " + port);
@@ -33,10 +33,5 @@ public class SocketServer extends Server{
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        SocketServer server = new SocketServer(5000);
-        server.startServer();
     }
 }
