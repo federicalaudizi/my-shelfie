@@ -133,13 +133,21 @@ public class GameSupervisor{
     }
 
     /**
-     * This method ends a game
+     * This method ends a game, the game controller should call this method right before it stops its thread
      *
      * @param gameId the id of the game
      * @author Federico
      */
     public void gameOver(String gameId) {
         //TODO: what should the supervisor do when a game ends?
+
+        //Remove players association to the game
+        for(String playerId : players.keySet()){
+            if(playersGames.get(playerId).equals(gameId)) playersGames.remove(playerId);
+        }
+
+        //Remove record of the game
+        games.remove(gameId);
     }
 
     /**
