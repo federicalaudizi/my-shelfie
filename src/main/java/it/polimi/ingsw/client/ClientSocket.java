@@ -25,7 +25,29 @@ public class ClientSocket extends Client {
     }
 
     void start() {
-        // TODO Implement this method
+        boolean gameOver = false;
+        // First step: connect to the game server
+        connect();
+
+        // Second step: log into the server
+        login();
+
+        // Third step: create new game or join a game
+        // TODO Implement third step
+
+        while(!gameOver) {
+            Message reply = getReply();
+            int headerCode = reply.getHeaderCode();
+
+            // Fourth step: when asked for a move, provide it
+            if(headerCode == 321)
+                move();
+            // Fifth step: execute game over operations when Game Over is sent by the server
+            else if(headerCode == 121) {
+                gameOver = true;
+                gameOver(reply);
+            }
+        }
     }
 
     @Override
