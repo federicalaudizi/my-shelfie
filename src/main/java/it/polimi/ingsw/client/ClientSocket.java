@@ -113,7 +113,6 @@ public class ClientSocket extends Client {
                     view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
                     loggedIn = true;
                 } else if(headerCode == 411) {
-                    // TODO Send username taken message to View
                     setUsername(view.confirmationPrompt("Username taken. Enter a new username: "));
                 } else if(headerCode == 400) {
                     // A generic error occurred. The client throws an exception.
