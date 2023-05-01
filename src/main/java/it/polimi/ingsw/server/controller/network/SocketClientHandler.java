@@ -29,6 +29,8 @@ public class SocketClientHandler extends ClientHandler{
     private GameController game;
     private String thisPlayerId;
 
+    private boolean gameOver;
+
     public SocketClientHandler(Socket clientSocket, GameSupervisor ongoingGames) {
         this.clientSocket = clientSocket;
         this.ongoingGames = ongoingGames;
@@ -47,11 +49,17 @@ public class SocketClientHandler extends ClientHandler{
         loginPhase();
 
         // clientSocket heartbeat
-        while (true) {
+        while (!gameOver) {
             if(!clientSocket.isConnected()){
                 game.notifyDisconnection(thisPlayerId);
                 break;
             }
+        }
+
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -210,6 +218,7 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public void gameOver(JSONObject leaderboard) {
         dataOut.println(new Message(GAME_OVER, leaderboard));
+        gameOver = true;
     }
 
     /**
@@ -221,6 +230,7 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public void gameOver(String winner) {
         dataOut.println(new Message(GAME_OVER, new JSONObject().put("winner", winner)));
+        gameOver = true;
     }
 
     /**
