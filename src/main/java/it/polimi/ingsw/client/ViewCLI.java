@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.server.model.Player;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ViewCLI extends View {
@@ -24,7 +26,7 @@ public class ViewCLI extends View {
 
         // TODO Refactor to make more efficient
 
-        gameData.put(gameState.getJSONArray("players").getJSONObject(0).getString("username"), gameState.get)
+        // gameData.put(gameState.getJSONArray("players").getJSONObject(0).getString("username"), gameState.get)
 
         if(gameData.isEmpty()) {
             gameData.put("board", gameState.getJSONObject("board"));
