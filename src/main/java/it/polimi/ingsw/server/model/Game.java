@@ -27,18 +27,23 @@ public class Game {
     private boolean isOver;
 
     public Game(int numOfPlayers) throws IllegalArgumentException{
-        players = new ArrayList<>(numOfPlayers);
+        players = new ArrayList<>();
+
+        for(int i=0; i<numOfPlayers; i++){
+            players.add(new Player(new PersonalObjectiveCard()));
+        }
+
         chooseFirstPlayer(numOfPlayers);
+
         collectiveObjectiveCard1 = CollectiveObjectiveCard.getRandomCard();
         assert collectiveObjectiveCard1 != null;
         collectiveObjectiveCard2 = CollectiveObjectiveCard.getRandomCard(collectiveObjectiveCard1);
+
         pointCardDeck1 = new PointDeck(numOfPlayers);
         pointCardDeck2 = new PointDeck(numOfPlayers);
-        try{
-            board = new Board(numOfPlayers);
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException();
-        }
+
+        board = new Board(numOfPlayers);
+
         lastTurn = false;
         isOver = false;
     }
@@ -225,24 +230,36 @@ public class Game {
     }
 
     /**
-     * @return game to jason object*/
+     * @return game to json object
+     *
+     * @author Federica, Federico
+     */
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        JSONArray playersJson = new JSONArray();
-        for (Player player : players) {
-            playersJson.put(player.toJson());
-        }
-        json.put("players", playersJson);
+
+        //Inserting the board
         json.put("board", board.toJSON());
-        json.put("collectiveObjectiveCard1", collectiveObjectiveCard1.toJson());
-        json.put("collectiveObjectiveCard2", collectiveObjectiveCard2.toJson());
-        json.put("pointCardDeck1", pointCardDeck1.toJson());
-        json.put("pointCardDeck2", pointCardDeck2.toJson());
-        json.put("lastTurn", lastTurn);
-        json.put("currentPlayerIndex", currentPlayerIndex);
-        json.put("lastPlayer", lastPlayer);
-        json.put("firstPlayerSeat", firstPlayerSeat);
-        json.put("isOver", isOver);
+
+        //Inserting the players
+        JSONArray JSONArrayPlayers = new JSONArray();
+        for (Player player : players) {
+            JSONArrayPlayers.put(player.toJson());
+        }
+        json.put("players", JSONArrayPlayers);
+
+        //Inserting the objectives
+        JSONArray JSONArrayObjectives = new JSONArray();
+        JSONArrayObjectives.put(collectiveObjectiveCard1.getClass().getSimpleName());
+        JSONArrayObjectives.put(collectiveObjectiveCard2.getClass().getSimpleName());
+        json.put("objectives", JSONArrayObjectives);
+
+
+        //Inserting the decks
+        JSONArray JSONArrayDecks = new JSONArray();
+        JSONArrayDecks.put(pointCardDeck1.topValue());
+        JSONArrayDecks.put(pointCardDeck2.topValue());
+        json.put("pointDecks", JSONArrayDecks);
+
         return json;
     }
 

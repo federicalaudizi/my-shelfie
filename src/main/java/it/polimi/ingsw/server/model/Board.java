@@ -13,8 +13,8 @@ import java.security.InvalidParameterException;
  */
 public class Board {
     private final int MAX_X = 9, MAX_Y = 9;
-    private Tile[][] board;
-    private Bag bag = new Bag();
+    private final Tile[][] board;
+    private final Bag bag = new Bag();
 
     /**
      * Initializes the board for the current game.
@@ -295,7 +295,7 @@ public class Board {
         for(int i = 0; i < 9; i++) {
             for(int j = 0; j < 9; j++) {
                 if(board[i][j] == Tile.EMPTY) {
-                    board[i][j] = Tile.valueOf(bag.extract().getType());
+                    board[i][j] = bag.extract();
                 }
             }
         }

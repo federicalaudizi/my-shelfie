@@ -5,10 +5,11 @@ import java.util.Random;
 
 
 public class Bag {
-    private ArrayList<Tile> tiles;
+    private final ArrayList<Tile> tiles;
+    private int remainingTiles;
 
     public Bag() {
-        int remainingTiles = 132;
+        remainingTiles = 132;
         tiles = new ArrayList<>(remainingTiles);
 
         for (int i = 0; i < 22; i++) {
@@ -33,7 +34,8 @@ public class Bag {
 
     Tile extract() {
         Random rand = new Random();
-        int index = rand.nextInt();
+        int index = rand.nextInt(0, remainingTiles);
+        remainingTiles--;
         return tiles.remove(index);
     }
 
