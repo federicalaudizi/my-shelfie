@@ -56,55 +56,28 @@ public class SocketClientHandler extends ClientHandler{
         }
     }
 
+    /**
+     * This method sends the first gamestate to the client
+     *
+     * @param gameState the gamestate to send to the client
+     * @throws IOException if an error occurs with the data stream
+     */
     @Override
     public void sendGameState(JSONObject gameState) throws IOException {
-        dataOut.println(new Message(GAME_UPDATE, gameState));
 
-        JSONObject response = new JSONObject(dataIn.readLine());
-        if(!response.getString("header").equals(OK.toString())){
-            this.sendGameState(gameState);
-        }
     }
 
     /**
-     * This method signals the client handler to send the game state to the client and that an objective has been completed, the message sent is an array of JSON objects, first one being the game state, second one being the completed objective
+     * This method sends the updates of the gamestate to the client at the end of each player's turn
      *
-     * @param gameState                 the game state to be sent packetized as a JSON object
-     * @param collectiveObjectiveNumber the number of the collective objective that has been completed
-     * @author Federico
+     * @param board           the board of the game
+     * @param player          the player who just played
+     * @param pointDeckValues the values of the point decks
+     * @throws IOException if an error occurs with the data stream
      */
     @Override
-    public void sendGameState(JSONObject gameState, int collectiveObjectiveNumber) throws IOException {
-        JSONArray args = new JSONArray();
-        args.put(gameState);
-        args.put(new JSONObject().put("objective", collectiveObjectiveNumber));
-        dataOut.println(new Message(GAME_UPDATE, args));
+    public void sendGameState(JSONObject board, JSONObject player, int[] pointDeckValues) throws IOException {
 
-        JSONObject response = new JSONObject(dataIn.readLine());
-        if(!response.getString("header").equals(OK.toString())){
-            this.sendGameState(gameState, collectiveObjectiveNumber);
-        }
-    }
-
-    /**
-     * This method signals the client handler to update the board and the players
-     *
-     * @param board   the board to be sent packetized as a JSON object
-     * @param players an array of players to be sent packetized as a JSON object
-     * @throws IOException if an error occurs when sending the message to the client
-     * @author Federico
-     */
-    @Override
-    public void sendGameState(JSONObject board, ArrayList<JSONObject> players) throws IOException {
-        JSONArray args = new JSONArray();
-        args.put(board);
-        args.put(players);
-        dataOut.println(new Message(GAME_UPDATE, args));
-
-        JSONObject response = new JSONObject(dataIn.readLine());
-        if(!response.getString("header").equals(OK.toString())){
-            this.sendGameState(board, players);
-        }
     }
 
     /**

@@ -23,34 +23,22 @@ public abstract class ClientHandler implements Runnable{
     public abstract void run();
 
     /**
-     * This method signals the client handler to send the game state to the client
+     * This method sends the first gamestate to the client
      *
-     * @param gameState the game state to be sent packetized as a JSON object
-     * @throws IOException if an error occurs when sending the message to the client
-     * @author Federico
+     * @param gameState the gamestate to send to the client
+     * @throws IOException if an error occurs with the data stream
      */
     public abstract void sendGameState(JSONObject gameState) throws IOException;
 
     /**
-     * This method signals the client handler to send the game state to the client and that an objective has been completed
+     * This method sends the updates of the gamestate to the client at the end of each player's turn
      *
-     * @param gameState the game state to be sent packetized as a JSON object
-     * @param collectiveObjectiveNumber the number of the collective objective that has been completed
-     * @throws IOException if an error occurs when sending the message to the client
-     * @author Federico
+     * @param board the board of the game
+     * @param player the player who just played
+     * @param pointDeckValues the values of the point decks
+     * @throws IOException if an error occurs with the data stream
      */
-    public abstract void sendGameState(JSONObject gameState, int collectiveObjectiveNumber) throws IOException;
-
-    /**
-     * This method signals the client handler to update the board and the players
-     *
-     * @param board the board to be sent packetized as a JSON object
-     * @param players an array of players to be sent packetized as a JSON object
-     * @throws IOException if an error occurs when sending the message to the client
-     *
-     * @author Federico
-     */
-    public abstract void sendGameState(JSONObject board, ArrayList<JSONObject> players) throws IOException;
+    public abstract void sendGameState(JSONObject board, JSONObject player, int[] pointDeckValues) throws IOException;
 
     /**
      * This method signals the client that a response was accepted
