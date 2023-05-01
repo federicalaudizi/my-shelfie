@@ -29,7 +29,7 @@ public class GameSupervisor{
      * @param handler the client handler of the player
      * @author Federico
      */
-    public void newUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
+    public synchronized void newUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
         if(players.containsKey(playerId)) throw new PlayerIdTakenException();
         players.put(playerId, handler);
     }
@@ -41,7 +41,7 @@ public class GameSupervisor{
      * @param handler  the client handler of the player
      * @author Federico
      */
-    public GameController oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
+    public synchronized GameController oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
         if(!players.containsKey(playerId)) throw new PlayerDoesNotExistsException();
         players.put(playerId, handler);
         return games.get(playersGames.get(playerId));
@@ -54,7 +54,7 @@ public class GameSupervisor{
      * @return the id of the game
      * @author Federico
      */
-    public String newGame(int numberOfPlayers) {
+    public synchronized String newGame(int numberOfPlayers) {
         String newGameId = randomString();
         GameController game = new GameController(numberOfPlayers, newGameId);
         games.put(newGameId, game);
@@ -70,7 +70,7 @@ public class GameSupervisor{
      * @return the game controller of the game
      * @author Federico
      */
-    public GameController joinGame(String playerId, String gameId) throws NonExsistentGameException, ReachedMaxNumberOfPlayers {
+    public synchronized GameController joinGame(String playerId, String gameId) throws NonExsistentGameException, ReachedMaxNumberOfPlayers {
         if(!games.containsKey(gameId)) throw new NonExsistentGameException();
         GameController game = games.get(gameId);
         game.addPlayer(playerId, players.get(playerId));
