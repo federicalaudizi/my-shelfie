@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.security.InvalidParameterException;
@@ -335,8 +336,24 @@ public class Board {
         return output.toString();
     }
 
+    /**
+     * Returns a JSONObject representation of the board
+     * @return a JSONObject containing a "board" field, which in turn contains an array of arrays representing the
+     *         whole board
+     */
     public JSONObject toJSON() {
-        // TODO Reimplement to return an object that's more similar to Player's toJSON's return value
-        return new JSONObject().put("board", this.toString());
+        JSONArray contents = new JSONArray(), row = new JSONArray();
+        for(int i = 0; i < MAX_X; i++) {
+            for(int j = 0; j < MAX_Y; j++) {
+                // Add tile to row
+                row.put(board[i][j]);
+            }
+            // Add row to board contents
+            contents.put(row);
+            // Clear row to restart the process
+            row.clear();
+        }
+        // Return correctly-formatted JSONObject
+        return new JSONObject().put("board", contents);
     }
 }
