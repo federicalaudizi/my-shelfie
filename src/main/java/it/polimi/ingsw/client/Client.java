@@ -27,7 +27,7 @@ public abstract class Client {
         // TODO Finish implementation
     }
     abstract void viewUpdate(JSONObject gameState);
-    abstract JSONObject getReply();
+    abstract Message getReply();
     abstract void send(Message message);
 
     /**
