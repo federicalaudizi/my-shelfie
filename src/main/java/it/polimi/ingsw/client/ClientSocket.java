@@ -95,7 +95,7 @@ public class ClientSocket extends Client {
     @Override
     void login() {
         JSONArray body = new JSONArray();
-        body.put(new JSONObject().put("username", username));
+        body.put(new JSONObject().put("username", this.getUsername()));
         Message loginMessage = new Message(Message.Header.LOGIN_REQUEST, body);
         send(loginMessage);
 
@@ -110,7 +110,7 @@ public class ClientSocket extends Client {
                 int headerCode = Message.Header.valueOf(reply.getString("header")).getCode();
 
                 if(headerCode == 200) {
-                    // TODO Send login confirmed message to View
+                    view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
                     loggedIn = true;
                 } else if(headerCode == 411) {
                     // TODO Send username taken message to View
