@@ -220,7 +220,7 @@ public class ClientSocket extends Client {
 
     @Override
     void viewUpdate(JSONObject gameState) {
-
+        // TODO Implement this
     }
 
     /**
