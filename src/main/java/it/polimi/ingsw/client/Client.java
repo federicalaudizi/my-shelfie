@@ -9,7 +9,7 @@ import org.json.*;
  * @author Mario Merlo
  */
 public abstract class Client {
-    String username;
+    private String username;
     final View view;
 
     public Client(boolean cli) {
