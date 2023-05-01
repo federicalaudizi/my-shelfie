@@ -29,6 +29,15 @@ public class Message {
         body = new JSONArray();
     }
 
+    // TODO These two methods are temporary and may be removed
+    public int getHeaderCode() {
+        return this.header.getCode();
+    }
+
+    public JSONArray getBody() {
+        return body;
+    }
+
     @Override
     public String toString() {
         return "{\n" +
