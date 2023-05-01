@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
@@ -64,7 +63,12 @@ public class SocketClientHandler extends ClientHandler{
      */
     @Override
     public void sendGameState(JSONObject gameState) throws IOException {
+        dataOut.println(new Message(GAME_UPDATE, gameState));
 
+        JSONObject answer = new JSONObject(dataIn.readLine());
+
+        // If the client does not acknowledge the message, send it again
+        if(answer.getInt("header") != OK.getCode()) sendGameState(gameState);
     }
 
     /**
@@ -77,7 +81,17 @@ public class SocketClientHandler extends ClientHandler{
      */
     @Override
     public void sendGameState(JSONObject board, JSONObject player, int[] pointDeckValues) throws IOException {
+        JSONObject body = new JSONObject();
+        body.put("board", board);
+        body.put("player", player);
+        body.put("pointDeckValues", new JSONArray(pointDeckValues));
 
+        dataOut.println(new Message(GAME_UPDATE, body));
+
+        JSONObject answer = new JSONObject(dataIn.readLine());
+
+        // If the client does not acknowledge the message, send it again
+        if(answer.getInt("header") != OK.getCode()) sendGameState(board, player, pointDeckValues);
     }
 
     /**
