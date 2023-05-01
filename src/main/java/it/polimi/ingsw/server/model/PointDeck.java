@@ -43,6 +43,13 @@ public class PointDeck {
         return cards.pop();
     }
 
+    /**
+     * @return the value of the card on top of the deck
+     */
+    int topValue() {
+        return cards.peek().getValue();
+    }
+
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         JSONArray cardArray = new JSONArray();
