@@ -57,4 +57,14 @@ public class ViewCLI extends View {
         System.out.println("Press any key to continue");
         scanner.nextLine();
     }
+
+    @Override
+    void gameOverScreen(ArrayList<Player> leaderboard) {
+        // TODO Finish implementation
+    }
+
+    @Override
+    void gameOverScreen(String winnerUsername) {
+        // TODO Finish implementation
+    }
 }
