@@ -128,8 +128,9 @@ public class ClientSocket extends Client {
     void move() throws NullPointerException, UnknownError {
         boolean inputValidation, moveValidation = false, columnValidation = false;
         ArrayList<Coordinate> coordinates = null;
-        JSONObject body = null, reply;
-        Message.Header replyHeader;
+        JSONObject body = null;
+        Message reply;
+        int headerCode;
 
         // Phase 1: ask for tiles to pick
         while(!moveValidation) {
@@ -167,14 +168,14 @@ public class ClientSocket extends Client {
             send(tileMessage);
 
             reply = getReply();
-            replyHeader = Message.Header.valueOf(reply.getString("header"));
+            headerCode = reply.getHeaderCode();
 
             // Check reply to either resend coordinates or continue with the move
-            if(replyHeader.getCode() == 200) {
+            if(headerCode == 200) {
                 moveValidation = true;
-            } else if(replyHeader.getCode() == 421) {
+            } else if(headerCode == 421) {
                 view.okPrompt("The tiles you chose are not valid. Please retry.");
-            } else if(replyHeader.getCode() == 400) {
+            } else if(headerCode == 400) {
                 view.okPrompt("A generic error occurred.");
             } else throw new UnknownError("An unknown error occurred.");
         }
@@ -204,13 +205,13 @@ public class ClientSocket extends Client {
             send(columnMessage);
 
             reply = getReply();
-            replyHeader = Message.Header.valueOf(reply.getString("header"));
+            headerCode = reply.getHeaderCode();
 
-            if(replyHeader.getCode() == 200) {
+            if(headerCode == 200) {
                 columnValidation = true;
-            } else if(replyHeader.getCode() == 422) {
+            } else if(headerCode == 422) {
                 view.okPrompt("The column you chose is not valid. Please retry.");
-            } else if(replyHeader.getCode() == 400) {
+            } else if(headerCode == 400) {
                 view.okPrompt("A generic error occurred.");
             } else throw new UnknownError("An unknown error occurred.");
         }
