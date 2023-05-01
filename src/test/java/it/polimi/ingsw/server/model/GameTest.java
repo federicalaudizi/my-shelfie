@@ -9,12 +9,12 @@ import static junit.framework.TestCase.assertTrue;
  * @author Sara
  * */
 public class GameTest {
-    Game g2 = new Game(2);
-    Game g3 = new Game(3);
-    Game g4 = new Game(4);
 
         @Test
         public void testChooseFirstPlayer(){
+            Game g2 = new Game(2);
+            Game g3 = new Game(3);
+            Game g4 = new Game(4);
 
             //Checks if chooseFirstPlayer chooses correctly the first player in a game with 2 players and if
             // assigns correctly the first and the last player
@@ -39,5 +39,11 @@ public class GameTest {
             assertTrue(g4.getLastPlayer() >=1 && g4.getLastPlayer() <=4);
         }
 
+    @Test
+    public void testToJson(){
+            Game game = new Game(3);
 
+            System.out.println(game.toJson());
+            System.out.println(game.toJson().get("objectives"));
+    }
 }
