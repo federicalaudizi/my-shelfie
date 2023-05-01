@@ -22,6 +22,10 @@ public abstract class Client {
     abstract void connect();
     abstract void login();
     abstract void move();
+    void gameOver(Message gameOverMessage) {
+        JSONArray messageBody = gameOverMessage.getBody();
+        // TODO Finish implementation
+    }
     abstract void viewUpdate(JSONObject gameState);
     abstract JSONObject getReply();
     abstract void send(Message message);
