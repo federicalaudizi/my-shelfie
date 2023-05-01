@@ -4,13 +4,12 @@ import it.polimi.ingsw.server.model.Coordinate;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * This class handles the exchange of messages with the client and runs as a thread.
  * This class represents che client on the server side, being a thread, after its initialization, it will run on command by the game controller it is associated to.
  * The logic behind it is that it first handshakes with the client, handles its login, then deals with the player the creation or joining of a game.
- * After that, it will be at the disposal of the game controller, which will send the commands that the player has to execute.
+ * After that, it will be at the service of the game controller, which will send the commands that the player has to execute.
  *
  * @author Federico
  */
