@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller.network;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.exceptions.*;
-import it.polimi.ingsw.server.model.Coordinate;
+import it.polimi.ingsw.server.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -70,8 +70,8 @@ public class SocketClientHandler extends ClientHandler{
      * @throws IOException if an error occurs with the data stream
      */
     @Override
-    public void sendGameState(JSONObject gameState) throws IOException {
-        dataOut.println(new Message(GAME_UPDATE, gameState));
+    public void sendGameState(Game gameState) throws IOException {
+        dataOut.println(new Message(GAME_UPDATE, gameState.toJson()));
 
         JSONObject answer = new JSONObject(dataIn.readLine());
 
@@ -88,10 +88,10 @@ public class SocketClientHandler extends ClientHandler{
      * @throws IOException if an error occurs with the data stream
      */
     @Override
-    public void sendGameState(JSONObject board, JSONObject player, int[] pointDeckValues) throws IOException {
+    public void sendGameState(Board board, Player player, int[] pointDeckValues) throws IOException {
         JSONObject body = new JSONObject();
-        body.put("board", board);
-        body.put("player", player);
+        body.put("board", board.toJSON());
+        body.put("player", player.toJson());
         body.put("pointDeckValues", new JSONArray(pointDeckValues));
 
         dataOut.println(new Message(GAME_UPDATE, body));
@@ -315,7 +315,7 @@ public class SocketClientHandler extends ClientHandler{
             } else if(header.equals(JOIN_GAME_REQUEST.toString())){
                 // This is the case of a joining game
                 JSONObject gamesList = new JSONObject();
-                gamesList.put("games", ongoingGames.getGamesId());
+                gamesList.put("games", ongoingGames.getGameIds());
                 // Send the list of games
                 dataOut.println(new Message(GAMES_ID_RESPONSE, gamesList));
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.server.model.Coordinate;
+import it.polimi.ingsw.server.model.*;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public abstract class ClientHandler implements Runnable{
      * @param gameState the gamestate to send to the client
      * @throws IOException if an error occurs with the data stream
      */
-    public abstract void sendGameState(JSONObject gameState) throws IOException;
+    public abstract void sendGameState(Game gameState) throws IOException;
 
     /**
      * This method sends the updates of the gamestate to the client at the end of each player's turn
@@ -37,7 +38,7 @@ public abstract class ClientHandler implements Runnable{
      * @param pointDeckValues the values of the point decks
      * @throws IOException if an error occurs with the data stream
      */
-    public abstract void sendGameState(JSONObject board, JSONObject player, int[] pointDeckValues) throws IOException;
+    public abstract void sendGameState(Board board, Player player, int[] pointDeckValues) throws IOException;
 
     /**
      * This method signals the client that a response was accepted
