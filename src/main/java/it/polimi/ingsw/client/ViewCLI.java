@@ -3,7 +3,10 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.server.model.Player;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ViewCLI extends View {
@@ -76,12 +79,23 @@ public class ViewCLI extends View {
     }
 
     @Override
-    void gameOverScreen(ArrayList<Player> leaderboard) {
-        // TODO Finish implementation
-    }
-
-    @Override
-    void gameOverScreen(String winnerUsername) {
-        // TODO Finish implementation
+    void gameOverScreen(HashMap<String, Integer> leaderboard) {
+        try {
+            Runtime.getRuntime().exec(new String[] { "clear" });
+        } catch (IOException e) {
+            System.out.println("Unable to clear screen. Printing below game view.");
+        } finally {
+            Map.Entry<String, Integer> entry = leaderboard.entrySet().iterator().next();
+            String winner = entry.getKey();
+            if(winner.equals(client.getUsername()))
+                System.out.println("                                YOU WON!                                ");
+            else
+                System.out.println("                             " + winner + " WON!                             ");
+            System.out.println("                         | " + winner + " | " + entry.getValue() + " |                         ");
+            boolean donePrinting = false;
+            for(Map.Entry<String, Integer> player : leaderboard.entrySet()) {
+                System.out.println("                         | " + player.getKey() + " | " + player.getValue() + " |                         ");
+            }
+        }
     }
 }
