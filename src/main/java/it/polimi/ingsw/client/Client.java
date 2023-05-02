@@ -27,8 +27,13 @@ public abstract class Client {
     abstract void startGame() throws UnknownError, IOException;
     abstract void move() throws NullPointerException, UnknownError, IOException;
     void gameOver(Message gameOverMessage) {
-        JSONArray messageBody = gameOverMessage.getBody();
-        // TODO Finish implementation
+        JSONArray leaderboardJSON = gameOverMessage.getBody().getJSONObject(0).getJSONArray("leaderboard");
+        HashMap<String, Integer> leaderboard = new HashMap<>();
+        for(int i = 0; i < leaderboardJSON.length(); i++) {
+            JSONObject player = leaderboardJSON.getJSONObject(i);
+            leaderboard.put(player.getString("playerId"), Integer.parseInt(player.getString("points")));
+        }
+        view.gameOverScreen(leaderboard);
     }
     abstract void reconnect() throws IOException;
     abstract void viewUpdate(JSONObject gameState);
