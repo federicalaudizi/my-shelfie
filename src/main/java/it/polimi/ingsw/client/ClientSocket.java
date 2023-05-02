@@ -14,8 +14,6 @@ import java.util.regex.Pattern;
 
 public class ClientSocket extends Client {
     private Socket socket;
-    private InputStream inputStream;
-    private OutputStream outputStream;
     private OutputStreamWriter writer;
     private InputStreamReader reader;
     private BufferedReader bufferedReader;
