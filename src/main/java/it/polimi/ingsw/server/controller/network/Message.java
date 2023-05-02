@@ -3,6 +3,9 @@ package it.polimi.ingsw.server.controller.network;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.Arrays;
+
 /**
  * This class represents a command sent by the server to the client
  * It contains the command code and the arguments of the command
@@ -12,6 +15,12 @@ import org.json.JSONObject;
 public class Message {
     private final Header header;
     private final JSONArray body;
+
+    public Message(String message) throws IOException{
+        JSONObject jsonMessage = new JSONObject(message);
+        header = Arrays.stream(Header.values()).filter(h -> h.getCode() == jsonMessage.getInt("header")).findFirst().orElseThrow(IOException::new);
+        body = jsonMessage.getJSONArray("body");
+    }
 
     public Message(Header header, JSONObject body) {
         this.header = header;
@@ -48,15 +57,8 @@ public class Message {
 
     /**
      * This enum contains all the command codes that the server can send to the client
-     * @FirstDigit: Type of command
-     * @1: Information commands
-     * @2: Positive responses
-     * @3: Requests
-     * @4: Errors
-     *
-     * @SecondDigit Context of the command
-     * @1: Login related
-     * @2: Game related
+     * ()Type of command:(1:Information commands; 2:Positive responses; 3:Requests; 4:Errors)                                       
+     * ()Context of the command:(1:Login related; 2:Game related)
      *
      * @author Federico
      */
