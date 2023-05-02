@@ -3,6 +3,9 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.server.controller.network.Message;
 import org.json.*;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 /**
  * This class handles the interactions between the user and the server.
  *
@@ -19,17 +22,18 @@ public abstract class Client {
             view = new ViewGUI(this);
     }
 
-    abstract void connect();
-    abstract void login();
-    abstract void startGame();
-    abstract void move();
+    abstract void connect() throws IOException;
+    abstract void login() throws IOException;
+    abstract void startGame() throws UnknownError, IOException;
+    abstract void move() throws NullPointerException, UnknownError, IOException;
     void gameOver(Message gameOverMessage) {
         JSONArray messageBody = gameOverMessage.getBody();
         // TODO Finish implementation
     }
+    abstract void reconnect() throws IOException;
     abstract void viewUpdate(JSONObject gameState);
-    abstract Message getReply();
-    abstract void send(Message message);
+    abstract Message getReply() throws NullPointerException;
+    abstract void send(Message message) throws IOException;
 
     /**
      * Gets the player's username.
