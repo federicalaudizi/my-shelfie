@@ -79,6 +79,26 @@ public class ViewCLI extends View {
     }
 
     @Override
+    String gameIdSelection(ArrayList<String> gameIds) {
+        System.out.println("Select one of the following game IDs:");
+        for(String gameId : gameIds)
+            System.out.println(gameId);
+        while(true) {
+            System.out.println("Your choice: ");
+            String choice = scanner.nextLine();
+            if(gameIds.contains(choice)) {
+                System.out.print("Are you sure this is ok? (y/n) ");
+                String confirmation = scanner.nextLine();
+                if(confirmation.equals("y")) {
+                    return choice;
+                }
+            } else {
+                System.out.println("You selected an invalid game ID. Please retry.");
+            }
+        }
+    }
+
+    @Override
     void gameOverScreen(HashMap<String, Integer> leaderboard) {
         try {
             Runtime.getRuntime().exec(new String[] { "clear" });
