@@ -299,6 +299,53 @@ public class ClientSocket extends Client {
     }
 
     @Override
+    void reconnect() throws IOException {
+        int attempts = 0;
+        boolean reconnected = false;
+        while(!reconnected && attempts < 3) {
+            if(!socket.isConnected())
+                connect();
+
+            Message reconnectionMessage = new Message(Message.Header.RECONNECT, new JSONObject().put("playerId", getUsername()));
+            send(reconnectionMessage);
+
+            int replyHeaderCode = getReply().getHeaderCode();
+            if(replyHeaderCode == 200) {
+                view.okPrompt("Successfully reconnected to server.");
+                reconnected = true;
+            } else if (replyHeaderCode == 400) {
+                attempts++;
+                view.okPrompt("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
+                switch(attempts) {
+                    case 1 -> {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    case 2 -> {
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    case 3 -> {
+                        try {
+                            Thread.sleep(30000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        }
+        if(!reconnected || attempts == 2)
+            throw new IOException("Unable to reconnect.");
+    }
+
+    @Override
     void viewUpdate(JSONObject gameState) {
         // TODO Implement this
     }
