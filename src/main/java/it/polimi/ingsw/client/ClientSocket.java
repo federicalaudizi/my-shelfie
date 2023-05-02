@@ -58,7 +58,7 @@ public class ClientSocket extends Client {
     }
 
     @Override
-    void connect() {
+    void connect() throws IOException {
         boolean isValid = false;
         String ip = null;
         while(!isValid) {
@@ -73,8 +73,10 @@ public class ClientSocket extends Client {
             bufferedReader = new BufferedReader(reader);
         } catch (UnknownHostException e) {
             view.okPrompt("The host does not exist. Retry.");
+            throw new UnknownHostException(e.getMessage());
         } catch (IOException e) {
             view.okPrompt("Something went wrong.");
+            throw new IOException(e.getMessage());
         }
     }
 
@@ -100,7 +102,7 @@ public class ClientSocket extends Client {
     }
 
     @Override
-    void login() {
+    void login() throws IOException {
         JSONArray body = new JSONArray();
         body.put(new JSONObject().put("username", this.getUsername()));
         Message loginMessage = new Message(Message.Header.LOGIN_REQUEST, body);
@@ -126,13 +128,13 @@ public class ClientSocket extends Client {
                     throw new RuntimeException("Unknown error");
                 }
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new IOException(e.getMessage());
             }
         }
     }
 
     @Override
-    void startGame() throws UnknownError {
+    void startGame() throws UnknownError, IOException {
         String[] options = { "Create new game", "Join existing game" };
         int choice = view.choicePrompt("What do you want to do?", options);
         switch(choice) {
@@ -163,7 +165,7 @@ public class ClientSocket extends Client {
     }
 
     @Override
-    void move() throws NullPointerException, UnknownError {
+    void move() throws NullPointerException, UnknownError, IOException {
         boolean inputValidation, moveValidation = false, columnValidation = false;
         ArrayList<Coordinate> coordinates = null;
         JSONObject body = null;
@@ -203,7 +205,11 @@ public class ClientSocket extends Client {
                 tileMessage = new Message(Message.Header.SEND_TILES, body);
             } else throw new NullPointerException("The message body was empty.");
 
-            send(tileMessage);
+            try {
+                send(tileMessage);
+            } catch (IOException e) {
+                throw new IOException(e.getMessage());
+            }
 
             reply = getReply();
             headerCode = reply.getHeaderCode();
@@ -324,12 +330,12 @@ public class ClientSocket extends Client {
     }
 
     @Override
-    public void send(Message message) {
+    public void send(Message message) throws IOException {
         try {
             writer.write(message.toString());
             writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException(e.getMessage());
         }
     }
 }
