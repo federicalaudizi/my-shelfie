@@ -6,9 +6,7 @@ import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,22 +22,22 @@ public class GameController implements Runnable {
 
     private final Object lock = new Object();
     private final Game game;
+    private final GameSupervisor ongoingGames;
     private final Map<String, ClientHandler> playerToClientHandlerMap;
-    private Map<String, Integer> connectedPlayers;
-    private ArrayList<String> turnOrder;
+    private final Map<String, Integer> connectedPlayers;
+    private final ArrayList<String> players;
     private final String gameId;
     private boolean isOver;
-    private int currentTurnIndex;
 
 
-    GameController(int playerNumber, String gameId) {
+    GameController(int playerNumber, String gameId, GameSupervisor ongoingGames) {
         playerToClientHandlerMap = new HashMap<>();
         this.gameId = gameId;
         game = new Game(playerNumber);
         isOver = false;
-        turnOrder = new ArrayList<>();
-        currentTurnIndex = game.getCurrentPlayerIndex();
+        players = new ArrayList<>();
         connectedPlayers = new HashMap<>();
+        this.ongoingGames = ongoingGames;
     }
 
     /**
@@ -77,57 +75,42 @@ public class GameController implements Runnable {
     }
 
     /**
-     * sets the player's username in the game
-     */
-    void setUsernames() {
-        ArrayList<String> usernames = new ArrayList<>(playerToClientHandlerMap.keySet());
-        game.setUsernames(usernames);
-    }
-
-    /**
      * @param playerId of the client handler
      * @return Client Handler referred to that playerId
      */
-    ClientHandler getClientHandler(String playerId) {
+    private ClientHandler getClientHandler(String playerId) {
         return playerToClientHandlerMap.get(playerId);
-    }
-
-    /**
-     * This method decides who's next turn modifying the currentTurnIndex.
-     * If it is the last turn the game goes on until it reaches the last player
-     */
-    void turnHandler() {
-        if (currentTurnIndex % (turnOrder.size() - 1) != 0 && !game.isLastTurn()) {
-            currentTurnIndex = (currentTurnIndex + 1) % turnOrder.size();
-            game.nextTurn();
-        } else {
-            isOver = true;
-            for (String currentPlayer : turnOrder) {
-                getClientHandler(currentPlayer).gameOver((JSONObject) game.getRankedPlayers());
-            }
-            game.nextTurn();
-        }
     }
 
     @Override
     public void run() {
-        setUsernames();
-        turnOrder = game.getPlayerId();
-        for (String currentPlayerId : turnOrder) {
+        //aspetto che si connettano tutti
+        while(playerToClientHandlerMap.size() < game.getNumberOfPlayers()){
             try {
-                getClientHandler(currentPlayerId).sendGameState(game);
-            } catch (IOException e) {
+                wait();
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
+
+        //mettere in palyers i giocatori nell'ordine che voglio imporre
+        players.addAll(playerToClientHandlerMap.keySet());
+
+        game.setUsernames(players);
+
+        // Mandiamo il primo gamestate a tutti
+        for (String currentPlayerId : players) {
+            getClientHandler(currentPlayerId).sendGameState(game);
+        }
+
+        //cominciamo a giocare
         while (!isOver) {
             Tile[] tiles;
-            String currentPlayerId = turnOrder.get(currentTurnIndex);
+            String currentPlayerId = players.get(game.getCurrentPlayerIndex());
             //if the player is not connected and the number of connected players is greater than 0 then
             // the turn passes automatically to the next player
             if (connectedPlayers.get(currentPlayerId) == 0 && connectedPlayers.values().stream().filter(value -> value == 1).count() > 1) {
-                turnHandler();
-                continue;
+                isOver = game.nextTurn();
                 //If there is only one player connected starts a timer.
                 //If no player has connected before this timer reaches zero, then the game automatically ends;
                 // otherwise, it continues as soon as a second player reconnects.
@@ -143,20 +126,40 @@ public class GameController implements Runnable {
                         }
                         //if there is only one player connected he is the winner
                         if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
-                            getClientHandler(currentPlayerId).gameOver(currentPlayerId);
-                            break;
+                            isOver = true;
                         }
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+            }  else if (connectedPlayers.values().stream().filter(value -> value == 1).count() == 0){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }   else {
+                tiles = getTiles(currentPlayerId);
+                tilesInShelf(tiles, currentPlayerId);
+                isOver = game.nextTurn();
             }
 
-            tiles = getTiles(currentPlayerId);
-            tilesInShelf(tiles, currentPlayerId);
-
-            turnHandler();
+            ongoingGames.gameOver(gameId);
         }
+
+        HashMap<String, Integer> leaderboard = game.getRankedPlayers();
+        for(String player: leaderboard.keySet()){
+            if(connectedPlayers.get(player) == 0){
+                leaderboard.put(player, -1);
+            }
+        }
+        for(String player: players){
+            if(connectedPlayers.get(player) == 1) {
+                getClientHandler(player).gameOver(leaderboard);
+            }
+        }
+
+
     }
 
     /**
@@ -180,19 +183,15 @@ public class GameController implements Runnable {
     private void tilesInShelf(Tile[] tiles, String currentPlayerId) {
         int column;
         column = getClientHandler(currentPlayerId).getColumn();
-        getClientHandler(currentPlayerId).sendOk();
 
         try {
             game.insertInShelf(column, tiles);
-            for (String currentPlayer : turnOrder) {
+            for (String currentPlayer : players) {
                 getClientHandler(currentPlayer).sendGameState(game.getBoard(), game.getCurrentPlayer(), game.getPointsValue());
             }
             getClientHandler(currentPlayerId).sendOk();
         } catch (fullColumnException e) {
             getClientHandler(currentPlayerId).badColumn();
-            tilesInShelf(tiles, currentPlayerId);
-            throw new RuntimeException(e);
-        } catch (IOException e) {
             tilesInShelf(tiles, currentPlayerId);
             throw new RuntimeException(e);
         } catch (tooManyTilesException | notEnoughTilesException ignored) {
