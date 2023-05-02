@@ -125,6 +125,37 @@ public class ClientSocket extends Client {
     }
 
     @Override
+    void startGame() throws UnknownError {
+        String[] options = { "Create new game", "Join existing game" };
+        int choice = view.choicePrompt("What do you want to do?", options);
+        switch(choice) {
+            case 1:
+                boolean gameCreated = false;
+                while(!gameCreated) {
+                    boolean playerNumberValid = false;
+                    int playerNumber = 0;
+                    while(!playerNumberValid) {
+                        playerNumber = Integer.parseInt(view.confirmationPrompt("Enter the number of players (between 2 and 4): "));
+                        if(playerNumber < 2 || playerNumber > 4)
+                            view.okPrompt("You entered an invalid number of players. Please retry.");
+                        else playerNumberValid = true;
+                    }
+                    Message newGameMessage = new Message(Message.Header.NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber));
+                    send(newGameMessage);
+
+                    int headerCode = getReply().getHeaderCode();
+
+                    if(headerCode == 200) {
+                        view.okPrompt("The game was correctly created.");
+                        gameCreated = true;
+                    } else if(headerCode == 400) {
+                        view.okPrompt("An error occurred. Please retry.");
+                    } else throw new UnknownError("An unknown error occurred.");
+                }
+        }
+    }
+
+    @Override
     void move() throws NullPointerException, UnknownError {
         boolean inputValidation, moveValidation = false, columnValidation = false;
         ArrayList<Coordinate> coordinates = null;

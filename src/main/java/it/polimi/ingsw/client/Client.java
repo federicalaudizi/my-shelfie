@@ -21,6 +21,7 @@ public abstract class Client {
 
     abstract void connect();
     abstract void login();
+    abstract void startGame();
     abstract void move();
     void gameOver(Message gameOverMessage) {
         JSONArray messageBody = gameOverMessage.getBody();
