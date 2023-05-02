@@ -158,13 +158,13 @@ public class Game {
     /**
      * @return a HashMap with the player as key and the player's score
      * as value, sorted in descending order based on the player's score.*/
-    public Map<Player, Integer> getRankedPlayers() {
-        Map<Player, Integer> playerScoreMap = new HashMap<>();
+    public HashMap<String, Integer> getRankedPlayers() {
+        HashMap<String, Integer> playerScoreMap = new HashMap<>();
         for (Player player : players) {
             int score = player.calculatePoints();
-            playerScoreMap.put(player, score);
+            playerScoreMap.put(player.getUsername(), score);
         }
-        Map<Player, Integer> sortedPlayerScoreMap = new LinkedHashMap<>();
+        HashMap<String, Integer> sortedPlayerScoreMap = new LinkedHashMap<>();
         playerScoreMap.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
