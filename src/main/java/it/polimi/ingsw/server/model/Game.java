@@ -75,7 +75,7 @@ public class Game {
     /**
      * This method manages the turn modifying the current player index.
      * */
-    public void nextTurn(){
+    public boolean nextTurn(){
         if(lastTurn && currentPlayerIndex!=lastPlayer){
             currentPlayerIndex = ((currentPlayerIndex+1)% players.size());
         } else if (!lastTurn) {
@@ -84,6 +84,7 @@ public class Game {
         else{
             isOver= true;
         }
+        return isOver;
     }
 
 
