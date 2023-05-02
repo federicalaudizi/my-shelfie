@@ -78,7 +78,7 @@ public class GameController implements Runnable {
 
     /**
      * sets the player's username in the game
-     * */
+     */
     void setUsernames() {
         ArrayList<String> usernames = new ArrayList<>(playerToClientHandlerMap.keySet());
         game.setUsernames(usernames);
@@ -102,8 +102,8 @@ public class GameController implements Runnable {
             game.nextTurn();
         } else {
             isOver = true;
-            for(String currentPlayer: turnOrder){
-            getClientHandler(currentPlayer).gameOver((JSONObject) game.getRankedPlayers());
+            for (String currentPlayer : turnOrder) {
+                getClientHandler(currentPlayer).gameOver((JSONObject) game.getRankedPlayers());
             }
             game.nextTurn();
         }
@@ -121,9 +121,7 @@ public class GameController implements Runnable {
             }
         }
         while (!isOver) {
-            int column;
-            Tile[] tiles = new Tile[0];
-            Coordinate[] coordinates;
+            Tile[] tiles;
             String currentPlayerId = turnOrder.get(currentTurnIndex);
             //if the player is not connected and the number of connected players is greater than 0 then
             // the turn passes automatically to the next player
@@ -153,40 +151,51 @@ public class GameController implements Runnable {
                     throw new RuntimeException(e);
                 }
             }
-            boolean exceptionThrown = true;
-            while (exceptionThrown) {
-                coordinates = getClientHandler(currentPlayerId).getTiles();
-                try {
-                    tiles = game.chooseTiles(coordinates[0], coordinates[1], coordinates[2]);
-                    getClientHandler(currentPlayerId).sendOk();
-                    exceptionThrown = false;
-                } catch (TileUnpickableException e) {
-                    getClientHandler(currentPlayerId).badTile();
-                    throw new RuntimeException(e);
-                }
-            }
 
-            exceptionThrown = true;
-            while (exceptionThrown) {
-                column = getClientHandler(currentPlayerId).getColumn();
-                getClientHandler(currentPlayerId).sendOk();
+            tiles = getTiles(currentPlayerId);
+            tilesInShelf(tiles, currentPlayerId);
 
-                try {
-                    game.insertInShelf(column, tiles);
-                    for (String currentPlayer : turnOrder) {
-                            getClientHandler(currentPlayer).sendGameState(game.getBoard(),game.getCurrentPlayer(), game.getPointsValue());
-                    }
-
-                    getClientHandler(currentPlayerId).sendOk();
-                    exceptionThrown = false;
-                } catch (tooManyTilesException | notEnoughTilesException | fullColumnException e) {
-                    getClientHandler(currentPlayerId).badColumn();
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
             turnHandler();
+        }
+    }
+
+    /**
+     * Private method used to keep asking the user to pick some tiles until they are in the correct position
+     * or the correct amount
+     */
+    private Tile[] getTiles(String currentPlayerId) {
+        Coordinate[] coordinates = getClientHandler(currentPlayerId).getTiles();
+        Tile[] tiles;
+        try {
+            tiles = game.chooseTiles(coordinates[0], coordinates[1], coordinates[2]);
+            getClientHandler(currentPlayerId).sendOk();
+        } catch (TileUnpickableException | NullPointerException e) {
+            getClientHandler(currentPlayerId).badTile();
+            getTiles(currentPlayerId);
+            throw new RuntimeException(e);
+        }
+        return tiles;
+    }
+
+    private void tilesInShelf(Tile[] tiles, String currentPlayerId) {
+        int column;
+        column = getClientHandler(currentPlayerId).getColumn();
+        getClientHandler(currentPlayerId).sendOk();
+
+        try {
+            game.insertInShelf(column, tiles);
+            for (String currentPlayer : turnOrder) {
+                getClientHandler(currentPlayer).sendGameState(game.getBoard(), game.getCurrentPlayer(), game.getPointsValue());
+            }
+            getClientHandler(currentPlayerId).sendOk();
+        } catch (fullColumnException e) {
+            getClientHandler(currentPlayerId).badColumn();
+            tilesInShelf(tiles, currentPlayerId);
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            tilesInShelf(tiles, currentPlayerId);
+            throw new RuntimeException(e);
+        } catch (tooManyTilesException | notEnoughTilesException ignored) {
         }
     }
 }
