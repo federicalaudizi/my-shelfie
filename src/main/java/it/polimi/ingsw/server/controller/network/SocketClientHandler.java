@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
 
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
@@ -67,16 +68,18 @@ public class SocketClientHandler extends ClientHandler{
      * This method sends the first gamestate to the client
      *
      * @param gameState the gamestate to send to the client
-     * @throws IOException if an error occurs with the data stream
      */
     @Override
-    public void sendGameState(Game gameState) throws IOException {
+    public void sendGameState(Game gameState) {
         dataOut.println(new Message(GAME_UPDATE, gameState.toJson()));
 
-        JSONObject answer = new JSONObject(dataIn.readLine());
-
-        // If the client does not acknowledge the message, send it again
-        if(answer.getInt("header") != OK.getCode()) sendGameState(gameState);
+        try {
+            JSONObject answer = new JSONObject(dataIn.readLine());
+            // If the client does not acknowledge the message, send it again
+            if(answer.getInt("header") != OK.getCode()) sendGameState(gameState);
+        } catch (IOException e) {
+            sendGameState(gameState);
+        }
     }
 
     /**
@@ -85,10 +88,9 @@ public class SocketClientHandler extends ClientHandler{
      * @param board           the board of the game
      * @param player          the player who just played
      * @param pointDeckValues the values of the point decks
-     * @throws IOException if an error occurs with the data stream
      */
     @Override
-    public void sendGameState(Board board, Player player, int[] pointDeckValues) throws IOException {
+    public void sendGameState(Board board, Player player, int[] pointDeckValues){
         JSONObject body = new JSONObject();
         body.put("board", board.toJSON());
         body.put("player", player.toJson());
@@ -96,10 +98,14 @@ public class SocketClientHandler extends ClientHandler{
 
         dataOut.println(new Message(GAME_UPDATE, body));
 
-        JSONObject answer = new JSONObject(dataIn.readLine());
+        try {
+            JSONObject answer = new JSONObject(dataIn.readLine());
 
-        // If the client does not acknowledge the message, send it again
-        if(answer.getInt("header") != OK.getCode()) sendGameState(board, player, pointDeckValues);
+            // If the client does not acknowledge the message, send it again
+            if(answer.getInt("header") != OK.getCode()) sendGameState(board, player, pointDeckValues);
+        } catch (IOException e) {
+            sendGameState(board, player, pointDeckValues);
+        }
     }
 
     /**
@@ -216,20 +222,8 @@ public class SocketClientHandler extends ClientHandler{
      * @author Federico
      */
     @Override
-    public void gameOver(JSONObject leaderboard) {
-        dataOut.println(new Message(GAME_OVER, leaderboard));
-        gameOver = true;
-    }
-
-    /**
-     * This method signals the client that the game has ended
-     *
-     * @param winner the playerId of the winner
-     * @author Federico
-     */
-    @Override
-    public void gameOver(String winner) {
-        dataOut.println(new Message(GAME_OVER, new JSONObject().put("winner", winner)));
+    public void gameOver(HashMap<String, Integer> leaderboard) {
+        // dataOut.println(new Message(GAME_OVER, leaderboard));
         gameOver = true;
     }
 

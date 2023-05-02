@@ -2,9 +2,8 @@ package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.*;
-import org.json.JSONObject;
 
-import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * This class handles the exchange of messages with the client and runs as a thread.
@@ -26,9 +25,8 @@ public abstract class ClientHandler implements Runnable{
      * This method sends the first gamestate to the client
      *
      * @param gameState the gamestate to send to the client
-     * @throws IOException if an error occurs with the data stream
      */
-    public abstract void sendGameState(Game gameState) throws IOException;
+    public abstract void sendGameState(Game gameState);
 
     /**
      * This method sends the updates of the gamestate to the client at the end of each player's turn
@@ -36,9 +34,8 @@ public abstract class ClientHandler implements Runnable{
      * @param board the board of the game
      * @param player the player who just played
      * @param pointDeckValues the values of the point decks
-     * @throws IOException if an error occurs with the data stream
      */
-    public abstract void sendGameState(Board board, Player player, int[] pointDeckValues) throws IOException;
+    public abstract void sendGameState(Board board, Player player, int[] pointDeckValues);
 
     /**
      * This method signals the client that a response was accepted
@@ -83,13 +80,5 @@ public abstract class ClientHandler implements Runnable{
      * @param leaderboard a JSON object containing the leaderboard
      * @author Federico
      */
-    public abstract void gameOver(JSONObject leaderboard);
-
-    /**
-     * This method signals the client that the game has ended
-     *
-     * @param winner the playerId of the winner
-     * @author Federico
-     */
-    public abstract void gameOver(String winner);
+    public abstract void gameOver(HashMap<String, Integer> leaderboard);
 }

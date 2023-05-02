@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server.controller.network;
 
+import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Coordinate;
-import org.json.JSONObject;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Player;
 
-import java.io.IOException;
+import java.util.HashMap;
 
 public class RMIClientHandler extends ClientHandler {
     /**
@@ -20,10 +22,9 @@ public class RMIClientHandler extends ClientHandler {
      * This method sends the first gamestate to the client
      *
      * @param gameState the gamestate to send to the client
-     * @throws IOException if an error occurs with the data stream
      */
     @Override
-    public void sendGameState(JSONObject gameState) throws IOException {
+    public void sendGameState(Game gameState) {
 
     }
 
@@ -33,10 +34,9 @@ public class RMIClientHandler extends ClientHandler {
      * @param board           the board of the game
      * @param player          the player who just played
      * @param pointDeckValues the values of the point decks
-     * @throws IOException if an error occurs with the data stream
      */
     @Override
-    public void sendGameState(JSONObject board, JSONObject player, int[] pointDeckValues) throws IOException {
+    public void sendGameState(Board board, Player player, int[] pointDeckValues) {
 
     }
 
@@ -99,18 +99,7 @@ public class RMIClientHandler extends ClientHandler {
      * @author Federico
      */
     @Override
-    public void gameOver(JSONObject leaderboard) {
-
-    }
-
-    /**
-     * This method signals the client that the game has ended
-     *
-     * @param winner the playerId of the winner
-     * @author Federico
-     */
-    @Override
-    public void gameOver(String winner) {
+    public void gameOver(HashMap<String, Integer> leaderboard) {
 
     }
 }
