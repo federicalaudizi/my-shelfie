@@ -179,25 +179,9 @@ public class Game {
          return new Player(players.get(getCurrentPlayerIndex()));
     }
 
-    public ArrayList<JSONObject> getPlayers(){
-       ArrayList<JSONObject> playersInJason= new ArrayList<>();
-       for(Player player: players){
-           playersInJason.add(player.toJson());
-       }
-        return playersInJason;
-    }
-
-
     /**@return the current player index*/
     public int getCurrentPlayerIndex(){
          return currentPlayerIndex;
-    }
-
-
-    /**
-     * setter of player index*/
-    public void setCurrentPlayerIndex(int newIndex){
-        currentPlayerIndex = newIndex;
     }
 
     /**@return the last player*/
@@ -263,9 +247,9 @@ public class Game {
         return new Board(getNumberOfPlayers());
     }
 
+    /**@return array with the maximum disposable points in the decks*/
     public int[] getPointsValue(){
-        int[] points = {pointCardDeck1.topValue(), pointCardDeck2.topValue()};
-        return points;
+        return new int[]{pointCardDeck1.topValue(), pointCardDeck2.topValue()};
     }
 
 }
