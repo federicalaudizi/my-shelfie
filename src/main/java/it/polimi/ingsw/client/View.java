@@ -18,7 +18,7 @@ public abstract class View {
 
     abstract int choicePrompt(String message, String[] options);
 
-    abstract void gameOverScreen(ArrayList<Player> leaderboard);
+    abstract String gameIdSelection(ArrayList<String> gameIds);
 
     abstract void gameOverScreen(String winnerUsername);
 }
