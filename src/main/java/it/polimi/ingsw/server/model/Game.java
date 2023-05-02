@@ -90,33 +90,27 @@ public class Game {
     /**
      * Checks if the player in turn has achieved common goals and, if so, assigns them the score
      * taking the upper card in the deck.
-     *
-     * @return the deck's number of the achieved Objective
      */
-    private int checkGoals() {
+    private void checkGoals() {
         int status = players.get(currentPlayerIndex).getPointCardStatus();
 
         if (status == 0) {
             if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
-                return 1;
+                return;
             }
             if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
-                return 2;
             }
         }else if (status == 1) {
                 if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                     players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
-                    return 2;
                 }
         } else if (status == 2) {
             if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
-                return 1;
             }
         }
-            return 0;
     }
 
 
@@ -139,18 +133,17 @@ public class Game {
      * Subsequently, the method checks if this insertion enables the player to achieve some shared objectives.
      * Additionally, the method verifies if the player's shelf has become full, and if so, it sets
      * the player's turn as the last one.
+     *
      * @param column of the shelf where to place the tiles
-     * @param tiles to place in the shelf
-     * @return 0 if none collective objective has been achieved with the move, 1 if has been achieved
-     * the first collective objective, 2 if has been achieved the second collective objective
-     * */
-    public int insertInShelf(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+     * @param tiles  to place in the shelf
+     */
+    public void insertInShelf(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         players.get(currentPlayerIndex).addPlayerTiles(column, tiles);
         if (players.get(currentPlayerIndex).getShelf().isFull()) {
             lastTurn = true;
             players.get(currentPlayerIndex).setEndGameCard();
         }
-        return checkGoals();
+        checkGoals();
     }
 
     /***/
@@ -180,7 +173,7 @@ public class Game {
 
 
 
-    /**@return a copy of the current player*/
+    /**@return  a copy of the current player*/
     public Player getCurrentPlayer(){
          return new Player(players.get(getCurrentPlayerIndex()));
     }
@@ -266,7 +259,12 @@ public class Game {
     /**
      * @return the board of the game*/
     public Board getBoard(){
-        return board;
+        return new Board(getNumberOfPlayers());
+    }
+
+    public int[] getPointsValue(){
+        int[] points = {pointCardDeck1.topValue(), pointCardDeck2.topValue()};
+        return points;
     }
 
 }
