@@ -155,6 +155,7 @@ public class Game {
         }
         return playersId;
     }
+
     /**
      * @return a HashMap with the player as key and the player's score
      * as value, sorted in descending order based on the player's score.*/
