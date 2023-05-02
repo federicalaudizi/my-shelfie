@@ -61,6 +61,21 @@ public class ViewCLI extends View {
     }
 
     @Override
+    int choicePrompt(String message, String[] options) {
+        while(true) {
+            System.out.println(message);
+            for(int i = 0; i < options.length; i++)
+                System.out.println(i + 1 + ". " + options[i]);
+            System.out.println("Your choice: ");
+            int choice = scanner.nextInt();
+            System.out.print("Are you sure this is ok? (y/n) ");
+            String selection = scanner.nextLine();
+            if(selection.equals("y"))
+                return choice;
+        }
+    }
+
+    @Override
     void gameOverScreen(ArrayList<Player> leaderboard) {
         // TODO Finish implementation
     }

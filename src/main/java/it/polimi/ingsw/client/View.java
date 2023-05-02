@@ -16,6 +16,8 @@ public abstract class View {
 
     abstract void okPrompt(String message);
 
+    abstract int choicePrompt(String message, String[] options);
+
     abstract void gameOverScreen(ArrayList<Player> leaderboard);
 
     abstract void gameOverScreen(String winnerUsername);
