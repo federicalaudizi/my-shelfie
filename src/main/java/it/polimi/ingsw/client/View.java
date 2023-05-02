@@ -20,5 +20,5 @@ public abstract class View {
 
     abstract String gameIdSelection(ArrayList<String> gameIds);
 
-    abstract void gameOverScreen(String winnerUsername);
+    abstract void gameOverScreen(HashMap<String, Integer> leaderboard);
 }
