@@ -305,6 +305,7 @@ public class ClientSocket extends Client {
         Message reply = null;
         JSONObject replyJSON;
         try {
+            // TODO Change this to new constructor
             replyJSON = new JSONObject(reader.read());
             reply = new Message(Message.Header.valueOf(replyJSON.getString("header")), replyJSON.getJSONObject("body"));
         } catch (IOException e) {
