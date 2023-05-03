@@ -308,10 +308,12 @@ public class SocketClientHandler extends ClientHandler{
                 dataOut.println(new Message(OK));
             } else if(header.equals(JOIN_GAME_REQUEST.toString())){
                 // This is the case of a joining game
-                JSONObject gamesList = new JSONObject();
-                gamesList.put("games", ongoingGames.getGameIds());
+                JSONObject message = new JSONObject();
+                JSONArray gamesList = new JSONArray();
+                gamesList.put(ongoingGames.getGameIds());
+                message.put("games", gamesList);
                 // Send the list of games
-                dataOut.println(new Message(GAMES_ID_RESPONSE, gamesList));
+                dataOut.println(new Message(GAMES_ID_RESPONSE, message));
 
                 packet = new JSONObject(dataIn.readLine());
                 header = packet.getString("header");
