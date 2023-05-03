@@ -1,16 +1,15 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.model.Player;
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public abstract class View {
-    HashMap<String, JSONObject> gameData;
     Client client;
 
-    abstract void update(JSONObject gameState);
+    abstract void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement);
 
     abstract String confirmationPrompt(String message);
 
