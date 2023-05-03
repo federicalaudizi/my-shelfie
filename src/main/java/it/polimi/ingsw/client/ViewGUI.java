@@ -1,9 +1,10 @@
 package it.polimi.ingsw.client;
 
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class ViewGUI extends View {
     Client client;
@@ -12,7 +13,7 @@ public class ViewGUI extends View {
     }
 
     @Override
-    void update(JSONObject gameState) {
+    void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement) {
         // TODO Implement
     }
 
