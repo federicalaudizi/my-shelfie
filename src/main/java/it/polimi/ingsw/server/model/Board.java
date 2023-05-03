@@ -74,6 +74,13 @@ public class Board {
                 fourPlayerBoardInit(true);
             }
         }
+
+        for(int i = 0; i < MAX_X; i++) {
+            for(int j = 0; j < MAX_Y; j++) {
+                if(board[i][j] == null)
+                    board[i][j] = Tile.EMPTY;
+            }
+        }
     }
 
     /**
