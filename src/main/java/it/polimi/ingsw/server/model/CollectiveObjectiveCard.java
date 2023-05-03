@@ -69,13 +69,14 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern eight
+     * Concrete class for pattern eight: Four lines each formed by 5 tiles of maximum three different types.
      *
      * @author Federica
      */
     static class PatternEight extends CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
             int count = 0;
+
             for (int i = 0; i < 6; i++) {
                 Set<Tile> squareValues = new HashSet<>();
                 for (int j = 0; j < 5; j++) {
@@ -96,7 +97,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern eleven
+     * Concrete class for pattern eleven: PatternOne: Five tiles of the same type forming an X.
      *
      * @author Federica
      */
@@ -119,7 +120,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern five
+     * Concrete class for pattern five: Three columns each formed by 6 tiles of maximum 3 different types.
      *
      * @author Federica
      */
@@ -147,7 +148,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern four
+     * Concrete class for pattern four: Two groups each containing 4 tiles of the same type in a 2x2 square.
      *
      * @author Federica
      */
@@ -221,7 +222,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern nine
+     * Concrete class for pattern nine: Two columns each formed by 6 different types of tiles.
      *
      * @author Federica
      */
@@ -251,7 +252,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern one
+     * Concrete class for pattern one: Six groups each containing at least two tiles of the same type.
      *
      * @author Federica
      */
@@ -293,7 +294,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern seven
+     * Concrete class for pattern seven: Five tiles of the same type forming a diagonal.
      *
      * @author Federica
      */
@@ -358,7 +359,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern six
+     * Concrete class for pattern six: Eight tiles of the same type.
      *
      * @author Federica
      */
@@ -384,7 +385,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern ten
+     * Concrete class for pattern ten: Two lines each formed by 5 different types of tiles.
      *
      * @author Federica
      */
@@ -411,7 +412,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern three
+     * Concrete class for pattern three: Four tiles of the same type in the four corners of the bookshelf.
      *
      * @author Federica
      */
@@ -431,7 +432,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern twelve
+     * Concrete class for pattern twelve: Five columns of increasing or decreasing height.
      *
      * @author Federica
      */
@@ -463,7 +464,7 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern two
+     * Concrete class for pattern two: Four groups each containing al least 4 tiles of the same type.
      *
      * @author Federica
      */
