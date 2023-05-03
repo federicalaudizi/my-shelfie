@@ -119,7 +119,7 @@ public class GameController implements Runnable {
                     Thread.sleep(15000);
                     //if there is only one player connected he is the winner
                     if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
-                        isOver = true;
+                                                                      isOver = true;
                     }
                 } catch (InterruptedException e) {
                     // a player has just reconnected, if there are less than 2 players it waits other 15 seconds of other players to join
