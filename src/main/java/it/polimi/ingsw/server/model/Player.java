@@ -94,7 +94,9 @@ public class Player {
 
         //Adding points from the earned point cards
         for(PointCard card : pointCards){
-            points += card.getValue();
+            if (card != null) {
+                points += card.getValue();
+            }
         }
 
         //Adding points from the shelf clusters
@@ -112,11 +114,11 @@ public class Player {
      */
     @Deprecated
     void assignPointCard(PointCard givenCard){
-        if(pointCards[0] != null){
+        if(pointCards[0] == null){
             pointCards[0] = givenCard;
             return;
         }
-        if(pointCards[1] != null){
+        if(pointCards[1] == null){
             pointCards[1] = givenCard;
         }
     }
