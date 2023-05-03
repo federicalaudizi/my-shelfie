@@ -147,15 +147,6 @@ public class Game {
         checkGoals();
     }
 
-    /***/
-    public ArrayList<String> getPlayerId (){
-        ArrayList<String> playersId = new ArrayList<>();
-        for (Player player : players){
-            playersId.add(player.getUsername());
-        }
-        return playersId;
-    }
-
     /**
      * @return a HashMap with the player as key and the player's score
      * as value, sorted in descending order based on the player's score.*/
