@@ -20,7 +20,6 @@ import java.util.Map;
 
 public class GameController implements Runnable {
 
-    private final Object lock = new Object();
     private final Game game;
     private final GameSupervisor ongoingGames;
     private final Map<String, ClientHandler> playerToClientHandlerMap;
@@ -85,7 +84,7 @@ public class GameController implements Runnable {
     @Override
     public void run() {
         //aspetto che si connettano tutti
-        while(playerToClientHandlerMap.size() < game.getNumberOfPlayers()){
+        while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -114,31 +113,34 @@ public class GameController implements Runnable {
                 //If there is only one player connected starts a timer.
                 //If no player has connected before this timer reaches zero, then the game automatically ends;
                 // otherwise, it continues as soon as a second player reconnects.
-            } else if (connectedPlayers.values().stream().filter(value -> value == 1).count() == 1) {
+            } else if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
                 try {
-                    // Wait for the condition to be verified, with a timeout of 15 seconds
-                    synchronized (lock) {
-                        long startTime = System.currentTimeMillis();
-                        long elapsedTime = 0;
-                        while (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1 && elapsedTime < 15000) {
-                            lock.wait(5000 - elapsedTime);
-                            elapsedTime = System.currentTimeMillis() - startTime;
-                        }
-                        //if there is only one player connected he is the winner
-                        if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
-                            isOver = true;
-                        }
+                    // Wait for a player to re-connect, maximum 15 seconds
+                    Thread.sleep(15000);
+                    //if there is only one player connected he is the winner
+                    if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
+                                                                      isOver = true;
                     }
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    // a player has just reconnected, if there are less than 2 players it waits other 15 seconds of other players to join
+                    if (connectedPlayers.values().stream().filter(value -> value == 1).count() == 1) {
+                        try {
+                            Thread.sleep(15000);
+                            if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
+                                isOver = true;
+                            }
+                        } catch (InterruptedException ex) {
+                            tiles = getTiles(currentPlayerId);
+                            tilesInShelf(tiles, currentPlayerId);
+                            isOver = game.nextTurn();
+                        }
+                    } else {
+                        tiles = getTiles(currentPlayerId);
+                        tilesInShelf(tiles, currentPlayerId);
+                        isOver = game.nextTurn();
+                    }
                 }
-            }  else if (connectedPlayers.values().stream().filter(value -> value == 1).count() == 0){
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }   else {
+            } else {
                 tiles = getTiles(currentPlayerId);
                 tilesInShelf(tiles, currentPlayerId);
                 isOver = game.nextTurn();
@@ -148,13 +150,15 @@ public class GameController implements Runnable {
         }
 
         HashMap<String, Integer> leaderboard = game.getRankedPlayers();
-        for(String player: leaderboard.keySet()){
-            if(connectedPlayers.get(player) == 0){
+        for (
+                String player : leaderboard.keySet()) {
+            if (connectedPlayers.get(player) == 0) {
                 leaderboard.put(player, -1);
             }
         }
-        for(String player: players){
-            if(connectedPlayers.get(player) == 1) {
+        for (
+                String player : players) {
+            if (connectedPlayers.get(player) == 1) {
                 getClientHandler(player).gameOver(leaderboard);
             }
         }
