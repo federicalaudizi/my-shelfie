@@ -191,7 +191,7 @@ public class GameController implements Runnable {
         try {
             game.insertInShelf(column, tiles);
             for (String currentPlayer : players) {
-                getClientHandler(currentPlayer).sendGameState(game.getBoard(), game.getCurrentPlayer(), game.getPointsValue());
+                getClientHandler(currentPlayer).sendGameState(game.getBoard(), game.getCurrentPlayer(), game.getPointsValue(), game.isLastTurn());
             }
             getClientHandler(currentPlayerId).sendOk();
         } catch (fullColumnException e) {

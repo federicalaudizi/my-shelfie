@@ -34,9 +34,10 @@ public class RMIClientHandler extends ClientHandler {
      * @param board           the board of the game
      * @param player          the player who just played
      * @param pointDeckValues the values of the point decks
+     * @param lastTurnFlag    true if we are in the last turn, false otherwise
      */
     @Override
-    public void sendGameState(Board board, Player player, int[] pointDeckValues) {
+    public void sendGameState(Board board, Player player, int[] pointDeckValues, boolean lastTurnFlag) {
 
     }
 
