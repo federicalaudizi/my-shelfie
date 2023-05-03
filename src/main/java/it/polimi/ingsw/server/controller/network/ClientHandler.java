@@ -34,8 +34,9 @@ public abstract class ClientHandler implements Runnable{
      * @param board the board of the game
      * @param player the player who just played
      * @param pointDeckValues the values of the point decks
+     * @param lastTurnFlag true if we are in the last turn, false otherwise
      */
-    public abstract void sendGameState(Board board, Player player, int[] pointDeckValues);
+    public abstract void sendGameState(Board board, Player player, int[] pointDeckValues, boolean lastTurnFlag);
 
     /**
      * This method signals the client that a response was accepted
