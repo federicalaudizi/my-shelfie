@@ -178,7 +178,7 @@ public class ClientSocket extends Client {
                             for (int i = 0; i < gameListJSON.length(); i++)
                                 gameList.add(gameListJSON.getString(i));
                             String selectedGame = view.gameIdSelection(gameList);
-                            Message joinGameMessage = new Message(Message.Header.JOIN_GAME_REQUEST, new JSONObject().put("gameId", selectedGame));
+                            Message joinGameMessage = new Message(Message.Header.JOIN_GAME_RESPONSE, new JSONObject().put("gameId", selectedGame));
                             send(joinGameMessage);
                             int gameJoinHeaderCode = getReply().getHeaderCode();
                             if (gameJoinHeaderCode == 200) {
