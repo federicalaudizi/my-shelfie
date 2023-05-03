@@ -12,7 +12,7 @@ public class ViewCLI extends View {
         this.client = client;
     }
 
-    private String composeView(JSONObject gameState) {
+    private String composeView() {
         // TODO Implement this method
         return null;
     }
