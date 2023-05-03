@@ -50,8 +50,8 @@ public class Message {
     @Override
     public String toString() {
         return "{" +
-               "\"header\": " + header.toString() + "," +
-               "\"body\": " + body.toString() +
+               "\"header\":" + header.toString() + "," +
+               "\"body\":" + body.toString() +
                "}";
     }
 
