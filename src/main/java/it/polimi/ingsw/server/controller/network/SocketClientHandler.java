@@ -258,6 +258,7 @@ public class SocketClientHandler extends ClientHandler{
 
                 game = ongoingGames.oldUser(thisPlayerId, this);
                 game.notifyConnection(thisPlayerId);
+                notifyAll();
                 // Send the confirmation
                 dataOut.println(new Message(OK));
 
@@ -308,20 +309,24 @@ public class SocketClientHandler extends ClientHandler{
                 dataOut.println(new Message(OK));
             } else if(header.equals(JOIN_GAME_REQUEST.toString())){
                 // This is the case of a joining game
-                JSONObject gamesList = new JSONObject();
-                gamesList.put("games", ongoingGames.getGameIds());
+                JSONObject message = new JSONObject();
+                JSONArray gamesList = new JSONArray();
+                gamesList.put(ongoingGames.getGameIds());
+                message.put("games", gamesList);
                 // Send the list of games
-                dataOut.println(new Message(GAMES_ID_RESPONSE, gamesList));
+                dataOut.println(new Message(GAMES_ID_RESPONSE, message));
 
                 packet = new JSONObject(dataIn.readLine());
                 header = packet.getString("header");
 
                 // Wait for the selected gameId
                 if(header.equals(JOIN_GAME_RESPONSE.toString())){
+
                     JSONObject body = packet.getJSONObject("body");
                     String gameId = body.getString("gameId");
                     game = ongoingGames.joinGame(thisPlayerId, gameId);
                     dataOut.println(new Message(OK));
+
                 } else {
                     // The response was not valid, ask again
                     JSONObject response = new JSONObject();
