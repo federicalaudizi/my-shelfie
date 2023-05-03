@@ -115,7 +115,7 @@ public abstract class Client {
     }
     abstract void reconnect() throws IOException;
     abstract Message getReply() throws NullPointerException;
-    abstract void send(Message message) throws IOException;
+    abstract void send(Message message);
 
     /**
      * Gets the player's username.
