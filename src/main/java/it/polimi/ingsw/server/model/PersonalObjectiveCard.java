@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -36,6 +38,18 @@ public class PersonalObjectiveCard{
         }
         usedPatterns.add(pattern);
         this.objective = pattern;
+    }
+
+    /**
+     * Constructor of the personal objective, creates the objective from a JSONObject
+     *
+     * @param object JSONObject that contains the personal objective
+     *
+     * @author Federico
+     */
+    PersonalObjectiveCard(JSONObject object){
+        int pattern = object.getInt("code");
+        this.objective = PersonalObjectivePattern.values()[pattern - 1];
     }
 
     /**
@@ -97,6 +111,32 @@ public class PersonalObjectiveCard{
 
     public String toString(){
         return objective.toString();
+    }
+
+    /**
+     * This method returns a representation of the PersonalObjectiveCard
+     *
+     * @return a JSON representing the PersonalObjectiveCard
+     * @author Federica, Federico
+     */
+    public JSONObject toJson() {
+        JSONObject me = new JSONObject();
+        switch (objective){
+            case FIRST_PATTERN -> me.put("code", 1);
+            case SECOND_PATTERN -> me.put("code", 2);
+            case THIRD_PATTERN -> me.put("code", 3);
+            case FOURTH_PATTERN -> me.put("code", 4);
+            case FIFTH_PATTERN -> me.put("code", 5);
+            case SIXTH_PATTERN -> me.put("code", 6);
+            case SEVENTH_PATTERN -> me.put("code", 7);
+            case EIGHTH_PATTERN -> me.put("code", 8);
+            case NINTH_PATTERN -> me.put("code", 9);
+            case TENTH_PATTERN -> me.put("code", 10);
+            case ELEVENTH_PATTERN -> me.put("code", 11);
+            case TWELFTH_PATTERN -> me.put("code", 12);
+        }
+        me.put("pattern", objective.toString());
+        return me;
     }
 
     /**

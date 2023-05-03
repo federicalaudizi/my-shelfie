@@ -3,6 +3,10 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 /**
  * Class that represents the player
@@ -14,6 +18,7 @@ public class Player {
     private final PersonalObjectiveCard objectiveCard;
     private final PointCard[] pointCards;
     private boolean endGameCard;
+    private String username;
 
     /**
      * Constructor of the class, assigns a clone of the PersonalObjectiveCard to the player
@@ -29,6 +34,9 @@ public class Player {
         this.endGameCard = false;
     }
 
+    public String getUsername(){
+        return username;
+    }
     /**
      * Copy constructor of the class
      *
@@ -44,6 +52,24 @@ public class Player {
             this.pointCards[i] = new PointCard(toCopy.pointCards[i].getValue());
         }
         this.endGameCard = toCopy.endGameCard;
+        this.username = toCopy.username;
+    }
+
+    /**
+     * Constructor of the class, creates a player from a JSON object
+     *
+     * @author Federico
+     *
+     * @param playerJSON JSON object containing the player data
+     */
+    Player(JSONObject playerJSON){
+        this.playerShelf = new Shelf(playerJSON.getJSONObject("playerShelf"));
+        this.objectiveCard = new PersonalObjectiveCard(playerJSON.getJSONObject("objectiveCard"));
+        this.pointCards = new PointCard[2];
+        for(int i = 0; i < 2; i++){
+            this.pointCards[i] = new PointCard(playerJSON.getJSONArray("pointCards").getJSONObject(i));
+        }
+        this.endGameCard = playerJSON.getBoolean("endGameCard");
     }
 
     /**
@@ -146,10 +172,18 @@ public class Player {
         endGameCard = true;
     }
 
+    /**
+     * Sets the player name
+     */
+    void setPlayerName(String username){
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "Player{\n" +
-                "playerShelf={\n" + playerShelf +
+                "playerUsername={\n" + username +
+                "}, \nplayerShelf={\n" + playerShelf +
                 "},\nobjectiveCard={\n" + objectiveCard +
                 "},\npointCards={\n" + pointCards +
                 "},\nendGameCard=" + endGameCard +
@@ -170,6 +204,31 @@ public class Player {
         return endGameCard == other.endGameCard &&
                 playerShelf.equals(other.playerShelf) &&
                 objectiveCard.equals(other.objectiveCard) &&
-                pointCards.equals(other.pointCards);
+                Arrays.equals(pointCards, other.pointCards);
     }
+
+    /**
+     * This method returns a representation of the player
+     *
+     * @return a JSON representing the player
+     * @author Federica
+     */
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username", username);
+        jsonObject.put("playerShelf", playerShelf.toJson());
+        jsonObject.put("objectiveCard", objectiveCard.toJson());
+        JSONArray pointCardsJsonArray = new JSONArray();
+        for (PointCard card : pointCards) {
+            if (card != null) {
+                pointCardsJsonArray.put(card.toJson());
+            } else {
+                pointCardsJsonArray.put(new PointCard(0).toJson());
+            }
+        }
+        jsonObject.put("pointCards", pointCardsJsonArray);
+        jsonObject.put("endGameCard", endGameCard);
+        return jsonObject;
+    }
+
 }

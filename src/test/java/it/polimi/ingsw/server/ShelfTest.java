@@ -1,11 +1,6 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.model.Coordinate;
-import it.polimi.ingsw.server.model.Shelf;
-import it.polimi.ingsw.server.model.Tile;
 import junit.framework.TestCase;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class ShelfTest extends TestCase {
 
@@ -95,23 +90,5 @@ public class ShelfTest extends TestCase {
         testingShelf.addTiles(0, new Tile[]{Tile.CATS});
 
         System.out.println(testingShelf);
-    }
-
-    public void testToJson() throws Exception{
-        Shelf testingShelf = new Shelf();
-
-        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
-        testingShelf.addTiles(0, new Tile[]{Tile.CATS});
-
-        System.out.println(testingShelf.toJson());
-        JSONArray json = testingShelf.toJson().getJSONArray("contents");
-        System.out.println(json);
-
-        for (int i=0; i<json.length(); i++){
-            for (int j=0; j<json.getJSONArray(i).length(); j++){
-                System.out.print(json.getJSONArray(i).getJSONObject(j).get("color")+", ");
-            }
-            System.out.println();
-        }
     }
 }
