@@ -45,7 +45,8 @@ public class ClientSocket extends Client {
                 else if(headerCode == 121) {
                     gameOver = true;
                     gameOver(reply);
-                }
+                } else if(headerCode == 122)
+                    update(reply.getBody().getJSONObject(0));
             }
         } catch (IOException e) {
             try {
@@ -343,11 +344,6 @@ public class ClientSocket extends Client {
         }
         if(!reconnected || attempts == 2)
             throw new IOException("Unable to reconnect.");
-    }
-
-    @Override
-    void viewUpdate(JSONObject gameState) {
-        // TODO Implement this
     }
 
     /**
