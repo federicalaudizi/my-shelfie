@@ -49,9 +49,9 @@ public class Message {
 
     @Override
     public String toString() {
-        return "{\n" +
-               "\t\"header\": " + header.toString() + ",\n" +
-               "\t\"body\": " + body.toString() + "\n" +
+        return "{" +
+               "\"header\": " + header.toString() + "," +
+               "\"body\": " + body.toString() +
                "}";
     }
 
