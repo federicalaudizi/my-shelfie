@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class ClientSocket extends Client {
     private Socket socket;
-    private OutputStreamWriter writer;
+    private PrintWriter writer;
     private InputStreamReader reader;
     private BufferedReader bufferedReader;
 
@@ -69,7 +69,7 @@ public class ClientSocket extends Client {
         String[] hostInfo = ip.split(":");
         try {
             socket = new Socket(hostInfo[0], Integer.parseInt(hostInfo[1]));
-            writer = new OutputStreamWriter(socket.getOutputStream());
+            writer = new PrintWriter(socket.getOutputStream());
             reader = new InputStreamReader(socket.getInputStream());
             bufferedReader = new BufferedReader(reader);
         } catch (UnknownHostException e) {
@@ -104,20 +104,21 @@ public class ClientSocket extends Client {
 
     @Override
     void login() throws IOException {
-        JSONArray body = new JSONArray();
-        body.put(new JSONObject().put("username", this.getUsername()));
-        Message loginMessage = new Message(Message.Header.LOGIN_REQUEST, body);
-        send(loginMessage);
-
+        setUsername(view.confirmationPrompt("Enter a username: "));
         boolean loggedIn = false;
         String line;
-        JSONObject reply;
+        Message reply;
 
         while(!loggedIn) {
             try {
+                JSONArray body = new JSONArray();
+                body.put(new JSONObject().put("username", this.getUsername()));
+                Message loginMessage = new Message(Message.Header.LOGIN_REQUEST, body);
+                send(loginMessage);
+
                 line = bufferedReader.readLine();
-                reply = new JSONObject(line);
-                int headerCode = Message.Header.valueOf(reply.getString("header")).getCode();
+                reply = new Message(line);
+                int headerCode = reply.getHeaderCode();
 
                 if(headerCode == 200) {
                     view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
@@ -153,11 +154,7 @@ public class ClientSocket extends Client {
                             else playerNumberValid = true;
                         }
                         Message newGameMessage = new Message(Message.Header.NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber));
-                        try {
-                            send(newGameMessage);
-                        } catch (IOException e) {
-                            throw new IOException(e.getMessage());
-                        }
+                        send(newGameMessage);
 
                         int headerCode = getReply().getHeaderCode();
 
@@ -242,11 +239,7 @@ public class ClientSocket extends Client {
                 tileMessage = new Message(Message.Header.SEND_TILES, body);
             } else throw new NullPointerException("The message body was empty.");
 
-            try {
-                send(tileMessage);
-            } catch (IOException e) {
-                throw new IOException(e.getMessage());
-            }
+            send(tileMessage);
 
             reply = getReply();
             headerCode = reply.getHeaderCode();
@@ -398,23 +391,28 @@ public class ClientSocket extends Client {
         JSONObject replyJSON;
         try {
             // TODO Change this to new constructor
-            replyJSON = new JSONObject(reader.read());
-            reply = new Message(Message.Header.valueOf(replyJSON.getString("header")), replyJSON.getJSONObject("body"));
+            // replyJSON = new JSONObject(reader.read());
+            // reply = new Message(Message.Header.valueOf(replyJSON.getString("header")), replyJSON.getJSONArray("body"));
+            reply = new Message(bufferedReader.readLine());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(reply != null)
+        if(reply != null) {
+            // TODO Remove debug statement
+            System.out.println(reply);
             return reply;
+        }
         else throw new NullPointerException("Reply was empty.");
     }
 
     @Override
-    public void send(Message message) throws IOException {
-        try {
-            writer.write(message.toString());
-            writer.flush();
-        } catch (IOException e) {
-            throw new IOException(e.getMessage());
-        }
+    public void send(Message message) {
+        writer.print(message.toString() + "\n");
+        writer.flush();
+    }
+
+    public static void main(String[] args) {
+        ClientSocket client = new ClientSocket(true);
+        client.start();
     }
 }
