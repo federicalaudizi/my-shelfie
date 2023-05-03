@@ -56,8 +56,10 @@ public class GameSupervisor{
      */
     public synchronized String newGame(int numberOfPlayers) {
         String newGameId = randomString();
-        GameController game = new GameController(numberOfPlayers, newGameId);
+        GameController game = new GameController(numberOfPlayers, newGameId, this);
         games.put(newGameId, game);
+
+        new Thread(game).start();
 
         return newGameId;
     }
@@ -75,6 +77,7 @@ public class GameSupervisor{
         GameController game = games.get(gameId);
         game.addPlayer(playerId, players.get(playerId));
         playersGames.put(playerId, gameId);
+        notifyAll();
         return game;
     }
 
