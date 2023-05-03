@@ -49,7 +49,7 @@ public class ViewCLI extends View {
             for(int i = 0; i < options.length; i++)
                 System.out.println(i + 1 + ". " + options[i]);
             System.out.println("Your choice: ");
-            int choice = scanner.nextInt();
+            int choice = Integer.parseInt(scanner.nextLine());
             System.out.print("Are you sure this is ok? (y/n) ");
             String selection = scanner.nextLine();
             if(selection.equals("y"))
