@@ -91,7 +91,6 @@ public class ViewCLI extends View {
             else
                 System.out.println("                             " + winner + " WON!                             ");
             System.out.println("                         | " + winner + " | " + entry.getValue() + " |                         ");
-            boolean donePrinting = false;
             for(Map.Entry<String, Integer> player : leaderboard.entrySet()) {
                 System.out.println("                         | " + player.getKey() + " | " + player.getValue() + " |                         ");
             }
