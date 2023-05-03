@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.model.Player;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ViewGUI extends View {
     Client client;
@@ -28,12 +28,19 @@ public class ViewGUI extends View {
     }
 
     @Override
-    void gameOverScreen(ArrayList<Player> leaderboard) {
+    int choicePrompt(String message, String[] options) {
         // TODO Implement
+        return 0;
     }
 
     @Override
-    void gameOverScreen(String winnerUsername) {
+    String gameIdSelection(ArrayList<String> gameIds) {
+        // TODO Implement
+        return null;
+    }
+
+    @Override
+    void gameOverScreen(HashMap<String, Integer> leaderboard) {
         // TODO Implement
     }
 }
