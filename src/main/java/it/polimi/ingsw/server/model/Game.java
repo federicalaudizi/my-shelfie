@@ -55,11 +55,11 @@ public class Game {
      */
      private void chooseFirstPlayer(int numOfPlayers) {
         Random random = new Random();
-        currentPlayerIndex = random.nextInt(numOfPlayers) + 1;
+        currentPlayerIndex = random.nextInt(numOfPlayers);
         firstPlayerSeat = currentPlayerIndex;
         lastPlayer = firstPlayerSeat - 1;
-        if(lastPlayer == 0){
-            lastPlayer=numOfPlayers;
+        if(lastPlayer == -1){
+            lastPlayer=numOfPlayers-1;
         }
     }
 
@@ -183,7 +183,7 @@ public class Game {
 
     /**@return a copy of the first player*/
     public Player getFirstPlayerSeat(){
-        return new Player(players.get(firstPlayerSeat));
+        return players.get(firstPlayerSeat);
     }
 
     /**
