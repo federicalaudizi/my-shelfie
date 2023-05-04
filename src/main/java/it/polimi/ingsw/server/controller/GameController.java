@@ -27,7 +27,7 @@ public class GameController implements Runnable {
     private final ArrayList<String> players;
     private final String gameId;
     private boolean isOver;
-
+    private final Object waitLock;
 
     GameController(int playerNumber, String gameId, GameSupervisor ongoingGames) {
         playerToClientHandlerMap = new HashMap<>();
@@ -37,6 +37,7 @@ public class GameController implements Runnable {
         players = new ArrayList<>();
         connectedPlayers = new HashMap<>();
         this.ongoingGames = ongoingGames;
+        this.waitLock = new Object();
     }
 
     /**
@@ -55,6 +56,9 @@ public class GameController implements Runnable {
      */
     public void notifyConnection(String playerId) {
         connectedPlayers.put(playerId, 1);
+        synchronized (waitLock) {
+            waitLock.notifyAll();
+        }
     }
 
     /**
@@ -71,22 +75,17 @@ public class GameController implements Runnable {
         }
         connectedPlayers.put(playerId, 1);
         playerToClientHandlerMap.put(playerId, handler);
-    }
+        System.out.println(gameId+": "+playerId+" joined this game!");
 
-    /**
-     * @param playerId of the client handler
-     * @return Client Handler referred to that playerId
-     */
-    private ClientHandler getClientHandler(String playerId) {
-        return playerToClientHandlerMap.get(playerId);
+        synchronized (waitLock) {
+            waitLock.notifyAll();
+        }
     }
 
     @Override
     public void run() {
         //aspetto che si connettano tutti
-        while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
-
-        }
+        waitAllPlayers();
 
         //mettere in palyers i giocatori nell'ordine che voglio imporre
         players.addAll(playerToClientHandlerMap.keySet());
@@ -145,21 +144,7 @@ public class GameController implements Runnable {
             ongoingGames.gameOver(gameId);
         }
 
-        HashMap<String, Integer> leaderboard = game.getRankedPlayers();
-        for (
-                String player : leaderboard.keySet()) {
-            if (connectedPlayers.get(player) == 0) {
-                leaderboard.put(player, -1);
-            }
-        }
-        for (
-                String player : players) {
-            if (connectedPlayers.get(player) == 1) {
-                getClientHandler(player).gameOver(leaderboard);
-            }
-        }
-
-
+        gameOver();
     }
 
     /**
@@ -196,5 +181,57 @@ public class GameController implements Runnable {
             throw new RuntimeException(e);
         } catch (tooManyTilesException | notEnoughTilesException ignored) {
         }
+    }
+
+    /**
+     * @param playerId of the client handler
+     * @return Client Handler referred to that playerId
+     */
+    private ClientHandler getClientHandler(String playerId) {
+        return playerToClientHandlerMap.get(playerId);
+    }
+
+    /**
+     * This method loops until all players connect
+     *
+     * @author Federica, Sara
+     */
+    private void waitAllPlayers(){
+        while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
+
+            System.out.println(gameId+": Waiting for players to join, "+playerToClientHandlerMap.size()+" out of "+game.getNumberOfPlayers());
+
+            try {
+                synchronized (waitLock) {
+                    waitLock.wait();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("Thread Interrupted");
+            }
+        }
+    }
+
+    /**
+     * This method handles the gameOver procedure
+     *
+     * @author Federica, Sara
+     */
+    private void gameOver(){
+        HashMap<String, Integer> leaderboard = game.getRankedPlayers();
+
+        for (String player : leaderboard.keySet()) {
+            if (connectedPlayers.get(player) == 0) {
+                leaderboard.put(player, -1);
+            }
+        }
+
+        for (String player : players) {
+            if (connectedPlayers.get(player) == 1) {
+                getClientHandler(player).gameOver(leaderboard);
+            }
+        }
+
+        ongoingGames.gameOver(gameId);
     }
 }
