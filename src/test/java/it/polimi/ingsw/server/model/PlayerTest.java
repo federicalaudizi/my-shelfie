@@ -1,13 +1,12 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.*;
 import org.junit.*;
 
 public class PlayerTest {
     Player player;
     PersonalObjectiveCard playerObjectve = new PersonalObjectiveCard(PersonalObjectiveCard.PersonalObjectivePattern.FIRST_PATTERN);
     Shelf comparingShelf;
-
+    Game g;
 
     @Test
     public void testGetShelf() throws Exception {
@@ -41,7 +40,7 @@ public class PlayerTest {
 
     @Test
     public void testAssignPointCard() {
-        playerObjectve = new PersonalObjectiveCard();
+        playerObjectve = new PersonalObjectiveCard(g);
         player = new Player(playerObjectve);
         comparingShelf = new Shelf();
 
@@ -62,7 +61,7 @@ public class PlayerTest {
 
     @Test
     public void testSetEndGameCard() {
-        playerObjectve = new PersonalObjectiveCard();
+        playerObjectve = new PersonalObjectiveCard(g);
         player = new Player(playerObjectve);
         comparingShelf = new Shelf();
 

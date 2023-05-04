@@ -30,7 +30,7 @@ public class Game {
         players = new ArrayList<>();
 
         for(int i=0; i<numOfPlayers; i++){
-            players.add(new Player(new PersonalObjectiveCard()));
+            players.add(new Player(new PersonalObjectiveCard(this)));
         }
 
         chooseFirstPlayer(numOfPlayers);

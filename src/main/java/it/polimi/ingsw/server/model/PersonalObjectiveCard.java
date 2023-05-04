@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -18,9 +19,10 @@ public class PersonalObjectiveCard{
     private final PersonalObjectivePattern objective;
 
     /**
-     * Array that contains already used patterns
+     * HashMap that contains already used patterns
      */
-    private static final ArrayList<PersonalObjectivePattern> usedPatterns = new ArrayList<>();
+
+    public static final HashMap<Game,List<PersonalObjectivePattern>>usedPattern = new HashMap<>();
 
     /**
      * Constructor of the personal objective, creates the objective choosing a random pattern from the PersonalObjectivePattern enum that hasn't been used yet
@@ -28,17 +30,26 @@ public class PersonalObjectiveCard{
      * @author Federico
      *
      * @throws IllegalStateException when all personal objective cards have been handled, this exception should be impossible to reach
+     *
+     * @param game in which PersonalObjectiveCards are used
      */
-    PersonalObjectiveCard() throws IllegalStateException{
-        if(usedPatterns.size() == PersonalObjectivePattern.values().length) throw new IllegalStateException("All the personal objectives have been used");
-        Random random = new Random();
-        PersonalObjectivePattern pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
-        while(usedPatterns.contains(pattern)){
-            pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
+
+
+        PersonalObjectiveCard(Game game) throws IllegalStateException{
+            List<PersonalObjectivePattern> patterns = usedPattern.getOrDefault(game, new ArrayList<>());
+            if (patterns.size() == PersonalObjectivePattern.values().length) {
+                throw new IllegalStateException("All the personal objectives have been used for this game");
+            }
+            Random random = new Random();
+            PersonalObjectivePattern pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
+            while (patterns.contains(pattern)) {
+                pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
+            }
+            patterns.add(pattern);
+            usedPattern.put(game, patterns);
+            this.objective = pattern;
         }
-        usedPatterns.add(pattern);
-        this.objective = pattern;
-    }
+
 
     /**
      * Constructor of the personal objective, creates the objective from a JSONObject
