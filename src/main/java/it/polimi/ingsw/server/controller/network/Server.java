@@ -13,9 +13,9 @@ public abstract class Server implements Runnable{
         GameSupervisor games = new GameSupervisor();
 
         Server socketServer = new SocketServer(5000, games);
-        Server rmiServer = new RMIServer(games);
+        //Server rmiServer = new RMIServer(games);
 
         socketServer.run();
-        rmiServer.run();
+        //rmiServer.run();
     }
 }

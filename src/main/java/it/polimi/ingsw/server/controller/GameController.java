@@ -85,11 +85,7 @@ public class GameController implements Runnable {
     public void run() {
         //aspetto che si connettano tutti
         while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+
         }
 
         //mettere in palyers i giocatori nell'ordine che voglio imporre

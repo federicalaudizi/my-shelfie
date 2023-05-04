@@ -235,57 +235,60 @@ public class SocketClientHandler extends ClientHandler{
      * @author Federico
      */
     private void loginPhase() {
+        Message recievedMessage;
+        JSONObject response;
         try {
             // Wait for the login request
-            JSONObject packet = new JSONObject(dataIn.readLine());
-            String header = packet.getString("header");
+            recievedMessage = new Message(dataIn.readLine());
+            System.out.println(clientSocket.getInetAddress()+": "+recievedMessage);
 
-            if(header.equals(LOGIN_REQUEST.toString())){
+            if(recievedMessage.getHeaderCode() == LOGIN_REQUEST.getCode()){
                 // This is the case of a new player
-                JSONObject body = packet.getJSONObject("body");
-                String playerId = body.getString("playerId");
+                JSONArray body = recievedMessage.getBody();
+                String playerId = body.getJSONObject(0).getString("username");
 
                 ongoingGames.newUser(playerId, this);
 
                 // Send the confirmation
+                System.out.println(clientSocket.getInetAddress()+": Successfully logged in");
                 dataOut.println(new Message(OK));
 
                 joinGamePhase();
 
-            } else if(header.equals(RECONNECT.toString())){
+            } else if(recievedMessage.getHeaderCode() == RECONNECT.getCode()){
                 // This is the case of a reconnecting player
-                JSONObject body = packet.getJSONObject("body");
-
-                thisPlayerId = body.getString("playerId");
+                JSONArray body = recievedMessage.getBody();
+                thisPlayerId = body.getJSONObject(0).getString("username");
 
                 game = ongoingGames.oldUser(thisPlayerId, this);
                 game.notifyConnection(thisPlayerId);
                 notifyAll();
                 // Send the confirmation
+                System.out.println(clientSocket.getInetAddress()+": Successfully reconnected");
                 dataOut.println(new Message(OK));
 
             } else {
                 // The response was not valid, ask again
-                JSONObject response = new JSONObject();
+                response = new JSONObject();
                 response.put("message", "Wrong request received");
                 dataOut.println(new Message(GENERIC_ERROR, response));
                 loginPhase();
             }
         } catch (IOException e) {
             // An IOException occurred, send the error and restart the login phase
-            JSONObject response = new JSONObject();
+            response = new JSONObject();
             response.put("message", "IOException");
             dataOut.println(new Message(GENERIC_ERROR, response));
             loginPhase();
         } catch (PlayerIdTakenException e) {
             // The player already exists, send the error and restart the login phase
-            JSONObject response = new JSONObject();
+            response = new JSONObject();
             response.put("message", "Player already exists");
             dataOut.println(new Message(USERNAME_TAKEN, response));
             loginPhase();
         } catch (PlayerDoesNotExistsException e) {
             // The player does not exist, send the error and restart the login phase
-            JSONObject response = new JSONObject();
+            response = new JSONObject();
             response.put("message", "Player does not exist");
             dataOut.println(new Message(GENERIC_ERROR, response));
             loginPhase();
@@ -298,63 +301,73 @@ public class SocketClientHandler extends ClientHandler{
      * @author Federico
      */
     private void joinGamePhase(){
+        Message recievedMessage;
+        JSONObject response;
         try {
-            JSONObject packet = new JSONObject(dataIn.readLine());
-            String header = packet.getString("header");
+            // Wait for the game request
 
-            if(header.equals(NEW_GAME_REQUEST.toString())){
+            recievedMessage = new Message(dataIn.readLine());
+            System.out.println(clientSocket.getInetAddress()+": "+recievedMessage);
+
+            if(recievedMessage.getHeaderCode() == NEW_GAME_REQUEST.getCode()){
                 // This is the case of a new game
-                JSONObject body = packet.getJSONObject("body");
-                int playerNumber = body.getInt("playerNumber");
+                JSONArray body = recievedMessage.getBody();
+                int playerNumber = body.getJSONObject(0).getInt("playerNumber");
                 String newGameId = ongoingGames.newGame(playerNumber);
                 game = ongoingGames.joinGame(thisPlayerId, newGameId);
+                System.out.println(clientSocket.getInetAddress()+": Successfully created a new game");
                 dataOut.println(new Message(OK));
-            } else if(header.equals(JOIN_GAME_REQUEST.toString())){
+            } else if(recievedMessage.getHeaderCode() == JOIN_GAME_REQUEST.getCode()){
                 // This is the case of a joining game
-                JSONObject message = new JSONObject();
-                JSONArray gamesList = new JSONArray();
-                gamesList.put(ongoingGames.getGameIds());
-                message.put("games", gamesList);
+                response = new JSONObject();
+                response.put("games", ongoingGames.getGameIds());
                 // Send the list of games
-                dataOut.println(new Message(GAMES_ID_RESPONSE, message));
+                System.out.println(clientSocket.getInetAddress()+": Wants to join a game");
+                dataOut.println(new Message(GAMES_ID_RESPONSE, response));
 
-                packet = new JSONObject(dataIn.readLine());
-                header = packet.getString("header");
+                recievedMessage = new Message(dataIn.readLine());
+                System.out.println(clientSocket.getInetAddress()+": "+recievedMessage);
 
                 // Wait for the selected gameId
-                if(header.equals(JOIN_GAME_RESPONSE.toString())){
+                if(recievedMessage.getHeaderCode() == JOIN_GAME_RESPONSE.getCode()){
 
-                    JSONObject body = packet.getJSONObject("body");
-                    String gameId = body.getString("gameId");
+                    JSONArray body = recievedMessage.getBody();
+                    String gameId = body.getJSONObject(0).getString("gameId");
                     game = ongoingGames.joinGame(thisPlayerId, gameId);
+                    System.out.println(clientSocket.getInetAddress()+": Joined a game");
                     dataOut.println(new Message(OK));
 
                 } else {
                     // The response was not valid, ask again
-                    JSONObject response = new JSONObject();
+                    response = new JSONObject();
                     response.put("message", "Wrong request received");
+                    System.out.println(clientSocket.getInetAddress()+": Wrong request received");
                     dataOut.println(new Message(GENERIC_ERROR, response));
                     joinGamePhase();
                 }
             } else {
                 // The response was not valid, ask again
-                JSONObject response = new JSONObject();
+                response = new JSONObject();
                 response.put("message", "Wrong request received");
+                System.out.println(clientSocket.getInetAddress()+": Wrong request received");
                 dataOut.println(new Message(GENERIC_ERROR, response));
                 joinGamePhase();
             }
         } catch (IOException e) {
             // An IOException occurred, send the error and restart the login phase
-            JSONObject response = new JSONObject();
+            response = new JSONObject();
             response.put("message", "IOException");
+            System.out.println(clientSocket.getInetAddress()+": IOException");
             dataOut.println(new Message(GENERIC_ERROR, response));
             joinGamePhase();
         } catch (NonExsistentGameException e) {
             // An NonExistentGameException occurred, send the error and restart the login phase
+            System.out.println(clientSocket.getInetAddress()+": Game does not exist");
             dataOut.println(new Message(BAD_GAME_ID));
             joinGamePhase();
         } catch (ReachedMaxNumberOfPlayers e) {
             // An FullGameException occurred, send the error and restart the login phase
+            System.out.println(clientSocket.getInetAddress()+": Game does not exist");
             dataOut.println(new Message(BAD_GAME_ID));
             joinGamePhase();
         }
