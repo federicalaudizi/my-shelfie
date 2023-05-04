@@ -380,7 +380,7 @@ public class ClientSocket extends Client {
             if(!socket.isConnected())
                 connect();
 
-            Message reconnectionMessage = new Message(Message.Header.RECONNECT, new JSONObject().put("playerId", getUsername()));
+            Message reconnectionMessage = new Message(Message.Header.RECONNECT, new JSONObject().put("username", getUsername()));
             send(reconnectionMessage);
 
             int replyHeaderCode = getReply().getHeaderCode();
@@ -389,7 +389,8 @@ public class ClientSocket extends Client {
                 reconnected = true;
             } else if (replyHeaderCode == 400) {
                 attempts++;
-                view.okPrompt("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
+                // TODO Change type of prompt: do not require any key to continue
+                System.out.println("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
                 switch(attempts) {
                     case 1 -> {
                         try {
@@ -415,8 +416,9 @@ public class ClientSocket extends Client {
                 }
             }
         }
-        if(!reconnected || attempts == 2)
+        if(!reconnected) {
             throw new IOException("Unable to reconnect.");
+        }
     }
 
     /**
