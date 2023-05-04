@@ -23,6 +23,7 @@ import static it.polimi.ingsw.server.controller.network.Message.Header.*;
  * After that, it will be at the disposal of the game controller, which will send the commands that the player has to execute.
  */
 public class SocketClientHandler extends ClientHandler{
+    //TODO: every time i wait for someone answer i should not kill everything
     private final Socket clientSocket;
     private PrintWriter dataOut;
     private BufferedReader dataIn;
@@ -47,21 +48,24 @@ public class SocketClientHandler extends ClientHandler{
 
     @Override
     public void run() {
-        loginPhase();
+        try{
+            loginPhase();
+        } catch (Exception e){
+            System.out.println(clientSocket.getInetAddress()+": Login exception: "+e.getMessage());
+            closeSocket();
+            throw new RuntimeException(e);
+        }
 
         // clientSocket heartbeat
-        while (!gameOver) {
+        while (!gameOver && clientSocket.isConnected()) {
             if(!clientSocket.isConnected()){
                 game.notifyDisconnection(thisPlayerId);
+                System.out.println(clientSocket.getInetAddress()+": Disconnected!");
                 break;
             }
         }
 
-        try {
-            clientSocket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        closeSocket();
     }
 
     /**
@@ -245,9 +249,9 @@ public class SocketClientHandler extends ClientHandler{
             if(recievedMessage.getHeaderCode() == LOGIN_REQUEST.getCode()){
                 // This is the case of a new player
                 JSONArray body = recievedMessage.getBody();
-                String playerId = body.getJSONObject(0).getString("username");
+                thisPlayerId = body.getJSONObject(0).getString("username");
 
-                ongoingGames.newUser(playerId, this);
+                ongoingGames.newUser(thisPlayerId, this);
 
                 // Send the confirmation
                 System.out.println(clientSocket.getInetAddress()+": Successfully logged in");
@@ -262,7 +266,6 @@ public class SocketClientHandler extends ClientHandler{
 
                 game = ongoingGames.oldUser(thisPlayerId, this);
                 game.notifyConnection(thisPlayerId);
-                notifyAll();
                 // Send the confirmation
                 System.out.println(clientSocket.getInetAddress()+": Successfully reconnected");
                 dataOut.println(new Message(OK));
@@ -370,6 +373,15 @@ public class SocketClientHandler extends ClientHandler{
             System.out.println(clientSocket.getInetAddress()+": Game does not exist");
             dataOut.println(new Message(BAD_GAME_ID));
             joinGamePhase();
+        }
+    }
+
+    private void closeSocket(){
+        System.out.println(clientSocket.getInetAddress()+": Closing.");
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
