@@ -12,16 +12,28 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The client used when communicating to the server via Socket
+ * @author Mario Merlo
+ */
 public class ClientSocket extends Client {
     private Socket socket;
     private PrintWriter writer;
-    private InputStreamReader reader;
     private BufferedReader bufferedReader;
 
+    /**
+     * The class constructor calls the abstract parent class Client to build a new instance of the client
+     * @param cli Specifies whether the client should start in CLI-mode or GUI-mode
+     * @author Mario Merlo
+     */
     public ClientSocket(boolean cli) {
         super(cli);
     }
 
+    /**
+     * Starts the client by cycling through the game phases such as connection, login and move parsing
+     * @author Mario Merlo
+     */
     void start() {
         boolean gameOver = false;
         try {
@@ -58,6 +70,12 @@ public class ClientSocket extends Client {
         }
     }
 
+    /**
+     * Connects to the specified IP and port through the client's socket
+     * @throws IOException If the connection is compromised and the client disconnects inadvertently, this exception
+     *                     is thrown.
+     * @author Mario Merlo
+     */
     @Override
     void connect() throws IOException {
         boolean isValid = false;
@@ -70,7 +88,7 @@ public class ClientSocket extends Client {
         try {
             socket = new Socket(hostInfo[0], Integer.parseInt(hostInfo[1]));
             writer = new PrintWriter(socket.getOutputStream());
-            reader = new InputStreamReader(socket.getInputStream());
+            InputStreamReader reader = new InputStreamReader(socket.getInputStream());
             bufferedReader = new BufferedReader(reader);
         } catch (UnknownHostException e) {
             view.okPrompt("The host does not exist. Retry.");
@@ -81,6 +99,11 @@ public class ClientSocket extends Client {
         }
     }
 
+    /**
+     * Checks whether the passed IP and port combo is valid
+     * @param ip The string formatted as ip:port
+     * @return true if the passed IP is valid, false otherwise
+     */
     private boolean validateIp(String ip) {
         // Split IP and Port
         String[] portSplit = ip.split(":");
@@ -102,6 +125,11 @@ public class ClientSocket extends Client {
         return true;
     }
 
+    /**
+     * Prompts the user for a username and logs into the connected server
+     * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void login() throws IOException {
         setUsername(view.confirmationPrompt("Enter a username: "));
@@ -135,6 +163,13 @@ public class ClientSocket extends Client {
         }
     }
 
+    /**
+     * This method asks the user whether they want to create a new game or join an existing game and then proceeds to
+     * communicate the choice to the server.
+     * @throws UnknownError If an unknown response is sent by the server, this exception is thrown
+     * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void startGame() throws UnknownError, IOException {
         String[] options = { "Create new game", "Join existing game" };
@@ -198,6 +233,12 @@ public class ClientSocket extends Client {
         }
     }
 
+    /**
+     * This method prompts the user to enter a move, validates it and sends it to the server.
+     * @throws NullPointerException
+     * @throws UnknownError
+     * @throws IOException
+     */
     @Override
     void move() throws NullPointerException, UnknownError, IOException {
         boolean inputValidation, moveValidation = false, columnValidation = false;
@@ -388,11 +429,7 @@ public class ClientSocket extends Client {
     @Override
     Message getReply() throws NullPointerException {
         Message reply = null;
-        JSONObject replyJSON;
         try {
-            // TODO Change this to new constructor
-            // replyJSON = new JSONObject(reader.read());
-            // reply = new Message(Message.Header.valueOf(replyJSON.getString("header")), replyJSON.getJSONArray("body"));
             reply = new Message(bufferedReader.readLine());
         } catch (IOException e) {
             e.printStackTrace();
