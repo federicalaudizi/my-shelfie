@@ -37,7 +37,6 @@ public class ViewCLI extends View {
     @Override
     void okPrompt(String message) {
         System.out.println(message);
-        System.out.println();
         System.out.println("Press any key to continue");
         scanner.nextLine();
     }
@@ -48,7 +47,7 @@ public class ViewCLI extends View {
             System.out.println(message);
             for(int i = 0; i < options.length; i++)
                 System.out.println(i + 1 + ". " + options[i]);
-            System.out.println("Your choice: ");
+            System.out.print("Your choice: ");
             int choice = Integer.parseInt(scanner.nextLine());
             System.out.print("Are you sure this is ok? (y/n) ");
             String selection = scanner.nextLine();
@@ -63,7 +62,7 @@ public class ViewCLI extends View {
         for(String gameId : gameIds)
             System.out.println(gameId);
         while(true) {
-            System.out.println("Your choice: ");
+            System.out.print("Your choice: ");
             String choice = scanner.nextLine();
             if(gameIds.contains(choice)) {
                 System.out.print("Are you sure this is ok? (y/n) ");
