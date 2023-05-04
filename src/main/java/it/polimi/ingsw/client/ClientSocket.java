@@ -491,6 +491,11 @@ public class ClientSocket extends Client {
 
     public static void main(String[] args) {
         ClientSocket client = new ClientSocket(true);
-        client.start();
+        try {
+            client.start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Exiting...");
+        }
     }
 }
