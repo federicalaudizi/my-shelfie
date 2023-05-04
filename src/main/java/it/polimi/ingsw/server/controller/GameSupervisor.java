@@ -77,7 +77,6 @@ public class GameSupervisor{
         GameController game = games.get(gameId);
         game.addPlayer(playerId, players.get(playerId));
         playersGames.put(playerId, gameId);
-        notifyAll();
         return game;
     }
 
