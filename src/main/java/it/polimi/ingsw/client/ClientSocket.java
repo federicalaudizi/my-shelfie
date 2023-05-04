@@ -67,6 +67,7 @@ public class ClientSocket extends Client {
             try {
                 reconnect();
             } catch (IOException ex) {
+                // TODO Close socket on exit
                 view.okPrompt("Unable to reconnect. Exiting.");
                 throw new RuntimeException(ex);
             }
