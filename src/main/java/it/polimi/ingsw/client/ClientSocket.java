@@ -140,29 +140,58 @@ public class ClientSocket extends Client {
         boolean loggedIn = false;
         String line;
         Message reply;
+        String[] options = { "Create or join a new game", "Reconnect to an ongoing game" };
 
-        while(!loggedIn) {
-            try {
-                JSONArray body = new JSONArray();
-                body.put(new JSONObject().put("username", this.getUsername()));
-                Message loginMessage = new Message(Message.Header.LOGIN_REQUEST, body);
-                send(loginMessage);
+        int choice = view.choicePrompt("What do you want to do?", options);
+        switch(choice) {
+            case 1 -> {
+                while(!loggedIn) {
+                    try {
+                        JSONArray body = new JSONArray();
+                        body.put(new JSONObject().put("username", this.getUsername()));
+                        Message loginMessage = new Message(Message.Header.LOGIN_REQUEST, body);
+                        send(loginMessage);
 
-                line = bufferedReader.readLine();
-                reply = new Message(line);
-                int headerCode = reply.getHeaderCode();
+                        line = bufferedReader.readLine();
+                        reply = new Message(line);
+                        int headerCode = reply.getHeaderCode();
 
-                if(headerCode == 200) {
-                    view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
-                    loggedIn = true;
-                } else if(headerCode == 411) {
-                    setUsername(view.confirmationPrompt("Username taken. Enter a new username: "));
-                } else if(headerCode == 400) {
-                    // A generic error occurred. The client throws an exception.
-                    throw new RuntimeException("Unknown error");
+                        if(headerCode == 200) {
+                            view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
+                            loggedIn = true;
+                        } else if(headerCode == 411) {
+                            setUsername(view.confirmationPrompt("Username taken. Enter a new username: "));
+                        } else if(headerCode == 400) {
+                            // A generic error occurred. The client throws an exception.
+                            throw new RuntimeException("Unknown error");
+                        }
+                    } catch (IOException e) {
+                        throw new IOException(e.getMessage());
+                    }
                 }
-            } catch (IOException e) {
-                throw new IOException(e.getMessage());
+            }
+            case 2 -> {
+                reconnect();
+                /*while(!loggedIn) {
+                    try {
+                        JSONArray body = new JSONArray();
+                        body.put(new JSONObject().put("username", getUsername()));
+                        Message reconnectMessage = new Message(Message.Header.RECONNECT, body);
+                        send(reconnectMessage);
+
+                        line = bufferedReader.readLine();
+                        reply = new Message(line);
+                        int headerCode = reply.getHeaderCode();
+
+                        if(headerCode == 200) {
+                            view.okPrompt("You successfully reconnected to your ongoing game.");
+                            loggedIn = true;
+                        } else if(headerCode == 400)
+                            view.okPrompt("Something went wrong during the reconnection. Please retry.");
+                    } catch (IOException e) {
+                        throw new IOException(e.getMessage());
+                    }
+                }*/
             }
         }
     }
@@ -207,30 +236,36 @@ public class ClientSocket extends Client {
                     operationCompleted = true;
                 }
                 case 2 -> {
-                    boolean gameJoined = false;
-                    while (!gameJoined) {
+                    boolean gameJoined = false, noGames = true;
+                    while (!gameJoined || noGames) {
                         send(new Message(Message.Header.JOIN_GAME_REQUEST));
                         Message gameListMessage = getReply();
                         if (gameListMessage.getHeaderCode() == 211) {
                             JSONArray gameListJSON = gameListMessage.getBody().getJSONObject(0).getJSONArray("games");
                             ArrayList<String> gameList = new ArrayList<>();
-                            for (int i = 0; i < gameListJSON.length(); i++)
-                                gameList.add(gameListJSON.getString(i));
-                            String selectedGame = view.gameIdSelection(gameList);
-                            Message joinGameMessage = new Message(Message.Header.JOIN_GAME_RESPONSE, new JSONObject().put("gameId", selectedGame));
-                            send(joinGameMessage);
-                            int gameJoinHeaderCode = getReply().getHeaderCode();
-                            if (gameJoinHeaderCode == 200) {
-                                view.okPrompt("You correctly joined the game.");
-                                gameJoined = true;
-                            } else if (gameJoinHeaderCode == 412) {
-                                view.okPrompt("This game does not exist on the server. Please retry.");
-                            } else if (gameJoinHeaderCode == 400) {
-                                view.okPrompt("An error occurred. Please retry.");
-                            } else throw new UnknownError("An unknown error occurred.");
+                            if(gameListJSON.length() != 0) {
+                                for (int i = 0; i < gameListJSON.length(); i++)
+                                    gameList.add(gameListJSON.getString(i));
+                                String selectedGame = view.gameIdSelection(gameList);
+                                Message joinGameMessage = new Message(Message.Header.JOIN_GAME_RESPONSE, new JSONObject().put("gameId", selectedGame));
+                                send(joinGameMessage);
+                                int gameJoinHeaderCode = getReply().getHeaderCode();
+                                if (gameJoinHeaderCode == 200) {
+                                    view.okPrompt("You correctly joined the game.");
+                                    gameJoined = true;
+                                    operationCompleted = true;
+                                } else if (gameJoinHeaderCode == 412) {
+                                    view.okPrompt("This game does not exist on the server. Please retry.");
+                                } else if (gameJoinHeaderCode == 400) {
+                                    view.okPrompt("An error occurred. Please retry.");
+                                } else throw new UnknownError("An unknown error occurred.");
+                            } else {
+                                view.okPrompt("There are no ongoing games on this server. Creating a new game.");
+                                noGames = false;
+                                choice = 1;
+                            }
                         }
                     }
-                    operationCompleted = true;
                 }
                 default -> view.okPrompt("You entered an invalid option. Please retry.");
             }
