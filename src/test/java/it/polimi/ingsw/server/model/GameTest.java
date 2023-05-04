@@ -3,13 +3,12 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
-import it.polimi.ingsw.server.model.Game;
 import org.junit.Test;
 
 import java.util.HashMap;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
+
 /**Test for Game
  * @author Sara
  * */
@@ -21,27 +20,15 @@ public class GameTest {
             Game g3 = new Game(3);
             Game g4 = new Game(4);
 
-            //Checks if chooseFirstPlayer chooses correctly the first player in a game with 2 players and if
-            // assigns correctly the first and the last player
-            System.out.println("First Player:" +g2.getFirstPlayerSeat());
-            assertTrue(g2.getCurrentPlayerIndex() >=1 && g2.getCurrentPlayerIndex() <=2);
-            System.out.println("Last Player:" + g2.getLastPlayer());
-            assertTrue(g2.getLastPlayer() >=1 && g2.getLastPlayer() <=2);
+            //Verify that when the game start the current player and the first player are the same
+            assertEquals(g2.getFirst(), g2.getCurrentPlayerIndex());
+            assertEquals(g3.getFirst(), g3.getCurrentPlayerIndex());
+            assertEquals(g4.getFirst(), g4.getCurrentPlayerIndex());
 
-
-            //Checks if chooseFirstPlayer chooses correctly the first player in a game with 3 players and if
-            // assigns correctly the first and the last player
-            System.out.println("First Player:" + g3.getFirstPlayerSeat());
-            assertTrue(g3.getCurrentPlayerIndex() >=1 && g3.getCurrentPlayerIndex() <=3);
-            System.out.println("Last Player:" + g3.getLastPlayer());
-            assertTrue(g3.getLastPlayer() >=1 && g3.getLastPlayer() <=3);
-
-            //Checks if chooseFirstPlayer chooses correctly the first player in a game with 4 players and if
-            // assigns correctly the first and the last player
-            System.out.println("First Player:" +g4.getFirstPlayerSeat());
-            assertTrue(g4.getCurrentPlayerIndex() >=1 && g4.getCurrentPlayerIndex() <=4);
-            System.out.println("Last Player:" + g4.getLastPlayer());
-            assertTrue(g4.getLastPlayer() >=1 && g4.getLastPlayer() <=4);
+            //Checks if the range of the chosen player is correct
+            assertTrue(g2.getFirst()>=0 && g2.getFirst()<=1);
+            assertTrue(g3.getFirst()>=0 && g3.getFirst()<=2);
+            assertTrue(g4.getFirst()>=0 && g4.getFirst()<=3);
         }
 
     @Test
@@ -117,4 +104,5 @@ public class GameTest {
 
         assertEquals(h2,g4.getRankedPlayers());
     }
+
 }
