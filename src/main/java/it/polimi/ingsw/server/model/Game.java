@@ -244,4 +244,8 @@ public class Game {
         return new int[]{pointCardDeck1.topValue(), pointCardDeck2.topValue()};
     }
 
+
+    public int getFirst(){
+        return firstPlayerSeat;
+    }
 }
