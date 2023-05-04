@@ -116,7 +116,7 @@ public class Game {
 
 
     /**
-     * This method checks if the board needs to be repopulate and removes the chosen tiles
+     * This method checks if the board needs to be repopulated and removes the chosen tiles
      * from the board
      *
      * @return an array with the chosen tiles

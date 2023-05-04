@@ -29,6 +29,15 @@ public class GameController implements Runnable {
     private boolean isOver;
     private final Object waitLock;
 
+
+    /**
+     * Constructor for the game controller
+     *
+     * @param playerNumber is the number of players in the game
+     * @param  gameId is the identifier of the game
+     * @param ongoingGames is the reference to the game supervisor
+     *
+     * */
     GameController(int playerNumber, String gameId, GameSupervisor ongoingGames) {
         playerToClientHandlerMap = new HashMap<>();
         this.gameId = gameId;
@@ -82,22 +91,28 @@ public class GameController implements Runnable {
         }
     }
 
+
+    /**
+     * this thread manages the player turn.
+     * Firstly it waits until all the players are connected.
+     * When all the players are connected sends to all the client handlers the game state, then the game can start.
+     * */
     @Override
     public void run() {
-        //aspetto che si connettano tutti
+        //waiting for all the players to be connected
         waitAllPlayers();
 
-        //mettere in palyers i giocatori nell'ordine che voglio imporre
+        //players added to the map
         players.addAll(playerToClientHandlerMap.keySet());
 
         game.setUsernames(players);
 
-        // Mandiamo il primo gamestate a tutti
+        // Sends the first game update to all the client handlers
         for (String currentPlayerId : players) {
             getClientHandler(currentPlayerId).sendGameState(game);
         }
 
-        //cominciamo a giocare
+        //let's start playing
         while (!isOver) {
             Tile[] tiles;
             String currentPlayerId = players.get(game.getCurrentPlayerIndex());
@@ -150,6 +165,10 @@ public class GameController implements Runnable {
     /**
      * Private method used to keep asking the user to pick some tiles until they are in the correct position
      * or the correct amount
+     *
+     * @param currentPlayerId is the player in turn
+     *
+     * @return an array with the chosen tiles
      */
     private Tile[] getTiles(String currentPlayerId) {
         Coordinate[] coordinates = getClientHandler(currentPlayerId).getTiles();
@@ -165,6 +184,13 @@ public class GameController implements Runnable {
         return tiles;
     }
 
+    /**
+     * Private method to insert the tiles chosen by the player in the correct shelf
+     *
+     * @param tiles an array with the chosen tiles
+     * @param  currentPlayerId is the player in turn
+     *
+     * */
     private void tilesInShelf(Tile[] tiles, String currentPlayerId) {
         int column;
         column = getClientHandler(currentPlayerId).getColumn();
