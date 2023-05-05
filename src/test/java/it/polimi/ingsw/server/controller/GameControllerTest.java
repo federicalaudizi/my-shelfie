@@ -35,7 +35,31 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testNotifyConnection() throws ReachedMaxNumberOfPlayers {
+        GameSupervisor gameSupervisor = new GameSupervisor();
+        GameController gameController = new GameController(4,"ABCDEF", gameSupervisor);
+        ClientHandler clientHandler1 = new SocketClientHandler(new Socket(), gameSupervisor);
+        ClientHandler clientHandler2 = new SocketClientHandler(new Socket(), gameSupervisor);
+        ClientHandler clientHandler3 = new SocketClientHandler(new Socket(), gameSupervisor);
+        ClientHandler clientHandler4 = new SocketClientHandler(new Socket(), gameSupervisor);
 
+        gameController.addPlayer("sassa", clientHandler1);
+        gameController.addPlayer("chiari", clientHandler2);
+        gameController.addPlayer("fede",clientHandler3 );
+        gameController.addPlayer("mario", clientHandler4);
+
+        gameController.notifyDisconnection("chiari");
+        gameController.notifyDisconnection("fede");
+
+        gameController.notifyConnection("fede");
+
+        HashMap<String, Integer> c = new HashMap<>();
+
+        c.put("sassa", 1);
+        c.put("chiari",0);
+        c.put("fede", 1);
+        c.put("mario", 1);
+
+        assertEquals(c,gameController.getConnectedPlayers());
     }
 
     public void testAddPlayer() throws ReachedMaxNumberOfPlayers {
