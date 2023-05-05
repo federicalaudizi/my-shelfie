@@ -229,11 +229,11 @@ public class Board {
             throw new NullPointerException("At least one coordinate must not be null.");
         }
 
-        if(coord2 != null && isPickable(coord2)) {
+        if(coord2 != null && isPickable(coord2) && (coord1.getX() == coord2.getX() || coord1.getY() == coord2.getY())) {
             pickableTiles[1] = Tile.valueOf(board[coord2.getX()][coord2.getY()].getType());
         } else throw new TileUnpickableException();
 
-        if(coord3 != null && isPickable(coord3)) {
+        if(coord3 != null && isPickable(coord3) && (coord1.getX() == coord3.getX() || coord1.getY() == coord3.getY())) {
             pickableTiles[2] = Tile.valueOf(board[coord3.getX()][coord3.getY()].getType());
         } else throw new TileUnpickableException();
 
