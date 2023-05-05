@@ -27,7 +27,7 @@ public class Game {
     private boolean isOver;
 
     public Game(int numOfPlayers) throws IllegalArgumentException{
-        players = new ArrayList<>();
+        this.players = new ArrayList<>();
 
         for(int i=0; i<numOfPlayers; i++){
             players.add(new Player(new PersonalObjectiveCard(this)));
@@ -35,17 +35,17 @@ public class Game {
 
         chooseFirstPlayer(numOfPlayers);
 
-        collectiveObjectiveCard1 = CollectiveObjectiveCard.getRandomCard();
+        this.collectiveObjectiveCard1 = CollectiveObjectiveCard.getRandomCard();
         assert collectiveObjectiveCard1 != null;
-        collectiveObjectiveCard2 = CollectiveObjectiveCard.getRandomCard(collectiveObjectiveCard1);
+        this.collectiveObjectiveCard2 = CollectiveObjectiveCard.getRandomCard(collectiveObjectiveCard1);
 
-        pointCardDeck1 = new PointDeck(numOfPlayers);
-        pointCardDeck2 = new PointDeck(numOfPlayers);
+        this.pointCardDeck1 = new PointDeck(numOfPlayers);
+        this.pointCardDeck2 = new PointDeck(numOfPlayers);
 
-        board = new Board(numOfPlayers);
+        this.board = new Board(numOfPlayers);
 
-        lastTurn = false;
-        isOver = false;
+        this.lastTurn = false;
+        this.isOver = false;
     }
 
     /**
