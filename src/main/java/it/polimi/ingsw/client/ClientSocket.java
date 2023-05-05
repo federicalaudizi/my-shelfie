@@ -473,8 +473,7 @@ public class ClientSocket extends Client {
             // TODO Remove debug statement
             System.out.println(reply);
             return reply;
-        }
-        else throw new NullPointerException("Reply was empty.");
+        } else throw new NullPointerException("Reply was empty.");
     }
 
     /**
