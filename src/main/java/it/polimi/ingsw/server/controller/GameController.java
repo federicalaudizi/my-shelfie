@@ -64,9 +64,7 @@ public class GameController implements Runnable {
      */
     public void notifyConnection(String playerId) {
         connectedPlayers.put(playerId, 1);
-        synchronized (waitLock) {
-            waitLock.notifyAll();
-        }
+        waitLock.notifyAll();
     }
 
     /**
@@ -85,7 +83,7 @@ public class GameController implements Runnable {
         playerToClientHandlerMap.put(playerId, handler);
         System.out.println(gameId+": "+playerId+" joined this game!");
 
-        synchronized (waitLock) {
+        synchronized (waitLock){
             waitLock.notifyAll();
         }
     }
@@ -229,17 +227,18 @@ public class GameController implements Runnable {
      * @author Federica, Sara
      */
     private void waitAllPlayers(){
-        while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
-            synchronized (System.out){
-            System.out.println(gameId+": Waiting for players to join, "+playerToClientHandlerMap.size()+" out of "+game.getNumberOfPlayers());}
-
-            try {
-                synchronized (waitLock) {
-                    waitLock.wait();
+        synchronized (waitLock) {
+            while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
+                synchronized (System.out) {
+                    System.out.println(gameId + ": Waiting for players to join, " + playerToClientHandlerMap.size() + " out of " + game.getNumberOfPlayers());
                 }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.err.println("Thread Interrupted");
+
+                try {
+                    waitLock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Thread Interrupted");
+                }
             }
         }
     }
