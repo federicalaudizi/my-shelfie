@@ -260,4 +260,24 @@ public class GameController implements Runnable {
 
         ongoingGames.gameOver(gameId);
     }
+
+    /**
+     * getter for playerToClientHandlerMap implemented for testing
+     *
+     * @return playerToClientHandlerMap
+     *
+     * */
+    public HashMap<String, ClientHandler> getPlayerToClientHandlerMap(){
+        return playerToClientHandlerMap;
+    }
+
+    /**
+     * getter for connectedPlayers implemented for testing
+     *
+     * @return connectedPlayer
+     *
+     * */
+    public HashMap<String, Integer> getConnectedPlayers(){
+        return connectedPlayers;
+    }
 }
