@@ -16,6 +16,13 @@ public class Board {
     private final Tile[][] board;
     private final Bag bag = new Bag();
 
+    // TODO This constructor must be removed once the test phase is over
+    Board() {
+        board = new Tile[MAX_X][MAX_Y];
+        nonPlayableTileInit(2);
+        board[5][5] = Tile.CATS;
+    }
+
     /**
      * Initializes the board for the current game.
      * @param playerNumber The effective dimension of the board depends on the number of players in the game.
