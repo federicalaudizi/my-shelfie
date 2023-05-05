@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.Tile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -111,8 +110,14 @@ public class GameController implements Runnable {
         for (String currentPlayerId : players) {
             getClientHandler(currentPlayerId).sendGameState(game);
         }
-
+        System.out.println("Let's start playing!");
         //let's start playing
+        playGame();
+
+        gameOver();
+    }
+
+    private void playGame(){
         while (!isOver) {
             Tile[] tiles;
             String currentPlayerId = players.get(game.getCurrentPlayerIndex());
@@ -129,7 +134,7 @@ public class GameController implements Runnable {
                     Thread.sleep(15000);
                     //if there is only one player connected he is the winner
                     if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
-                                                                      isOver = true;
+                        isOver = true;
                     }
                 } catch (InterruptedException e) {
                     // a player has just reconnected, if there are less than 2 players it waits other 15 seconds of other players to join
@@ -158,8 +163,6 @@ public class GameController implements Runnable {
 
             ongoingGames.gameOver(gameId);
         }
-
-        gameOver();
     }
 
     /**
@@ -224,8 +227,8 @@ public class GameController implements Runnable {
      */
     private void waitAllPlayers(){
         while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
-
-            System.out.println(gameId+": Waiting for players to join, "+playerToClientHandlerMap.size()+" out of "+game.getNumberOfPlayers());
+            synchronized (System.out){
+            System.out.println(gameId+": Waiting for players to join, "+playerToClientHandlerMap.size()+" out of "+game.getNumberOfPlayers());}
 
             try {
                 synchronized (waitLock) {
