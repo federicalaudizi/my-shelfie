@@ -47,7 +47,8 @@ public class PointDeck {
      * @return the value of the card on top of the deck
      */
     int topValue() {
-        return cards.peek().getValue();
+        if(!cards.empty()) return cards.peek().getValue();
+        else return 0;
     }
 
     public JSONObject toJson() {
