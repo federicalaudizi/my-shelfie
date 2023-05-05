@@ -234,17 +234,23 @@ public class Game {
     }
 
     /**
-     * @return the board of the game*/
+     * @return the board of the game
+     * */
     public Board getBoard(){
         return new Board(getNumberOfPlayers());
     }
 
-    /**@return array with the maximum disposable points in the decks*/
+    /**
+     * @return array with the maximum disposable points in the decks
+     * */
     public int[] getPointsValue(){
         return new int[]{pointCardDeck1.topValue(), pointCardDeck2.topValue()};
     }
 
-
+    /**
+     * @return the index of the first player
+     *
+     * */
     public int getFirst(){
         return firstPlayerSeat;
     }

@@ -22,8 +22,8 @@ public class GameController implements Runnable {
 
     private final Game game;
     private final GameSupervisor ongoingGames;
-    private final Map<String, ClientHandler> playerToClientHandlerMap;
-    private final Map<String, Integer> connectedPlayers;
+    private final HashMap<String, ClientHandler> playerToClientHandlerMap;
+    private final HashMap<String, Integer> connectedPlayers;
     private final ArrayList<String> players;
     private final String gameId;
     private boolean isOver;
@@ -38,7 +38,7 @@ public class GameController implements Runnable {
      * @param ongoingGames is the reference to the game supervisor
      *
      * */
-    GameController(int playerNumber, String gameId, GameSupervisor ongoingGames) {
+    public GameController(int playerNumber, String gameId, GameSupervisor ongoingGames) {
         playerToClientHandlerMap = new HashMap<>();
         this.gameId = gameId;
         game = new Game(playerNumber);
