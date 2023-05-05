@@ -170,29 +170,7 @@ public class ClientSocket extends Client {
                     }
                 }
             }
-            case 2 -> {
-                reconnect();
-                /*while(!loggedIn) {
-                    try {
-                        JSONArray body = new JSONArray();
-                        body.put(new JSONObject().put("username", getUsername()));
-                        Message reconnectMessage = new Message(Message.Header.RECONNECT, body);
-                        send(reconnectMessage);
-
-                        line = bufferedReader.readLine();
-                        reply = new Message(line);
-                        int headerCode = reply.getHeaderCode();
-
-                        if(headerCode == 200) {
-                            view.okPrompt("You successfully reconnected to your ongoing game.");
-                            loggedIn = true;
-                        } else if(headerCode == 400)
-                            view.okPrompt("Something went wrong during the reconnection. Please retry.");
-                    } catch (IOException e) {
-                        throw new IOException(e.getMessage());
-                    }
-                }*/
-            }
+            case 2 -> reconnect();
         }
     }
 
