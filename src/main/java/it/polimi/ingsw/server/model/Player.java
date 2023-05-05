@@ -49,7 +49,8 @@ public class Player {
         this.objectiveCard = new PersonalObjectiveCard(toCopy.objectiveCard);
         this.pointCards = new PointCard[2];
         for(int i = 0; i < 2; i++){
-            this.pointCards[i] = new PointCard(toCopy.pointCards[i].getValue());
+            if(toCopy.pointCards[i] == null) this.pointCards[i] = null;
+            else this.pointCards[i] = new PointCard(toCopy.pointCards[i].getValue());
         }
         this.endGameCard = toCopy.endGameCard;
         this.username = toCopy.username;
