@@ -282,7 +282,7 @@ public class Board {
 
         // Outliers check: in three and four player modes, these tiles must be checked as well, but it is not necessary
         // to check them in the same way as for all the other tiles.
-        while(toRepopulate) {
+        if(toRepopulate) {
             if(board[3][8] != Tile.OUTSIDE_GAME_BOARD)
                 toRepopulate = (board[4][8] == Tile.EMPTY && board[3][7] == Tile.EMPTY) ||
                                (board[4][8] == Tile.OUTSIDE_GAME_BOARD && board[3][7] == Tile.EMPTY);
