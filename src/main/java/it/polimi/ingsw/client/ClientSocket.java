@@ -306,11 +306,11 @@ public class ClientSocket extends Client {
             headerCode = reply.getHeaderCode();
 
             // Check reply to either resend coordinates or continue with the move
-            if(headerCode == 200) {
+            if(headerCode == Message.Header.OK.getCode()) {
                 moveValidation = true;
-            } else if(headerCode == 421) {
+            } else if(headerCode == Message.Header.BAD_TILES.getCode()) {
                 view.okPrompt("The tiles you chose are not valid. Please retry.");
-            } else if(headerCode == 400) {
+            } else if(headerCode == Message.Header.GENERIC_ERROR.getCode()) {
                 view.okPrompt("A generic error occurred.");
             } else throw new UnknownError("An unknown error occurred.");
         }
@@ -342,11 +342,11 @@ public class ClientSocket extends Client {
             reply = getReply();
             headerCode = reply.getHeaderCode();
 
-            if(headerCode == 200) {
+            if(headerCode == Message.Header.OK.getCode()) {
                 columnValidation = true;
-            } else if(headerCode == 422) {
+            } else if(headerCode == Message.Header.BAD_COLUMN.getCode()) {
                 view.okPrompt("The column you chose is not valid. Please retry.");
-            } else if(headerCode == 400) {
+            } else if(headerCode == Message.Header.GENERIC_ERROR.getCode()) {
                 view.okPrompt("A generic error occurred.");
             } else throw new UnknownError("An unknown error occurred.");
         }
