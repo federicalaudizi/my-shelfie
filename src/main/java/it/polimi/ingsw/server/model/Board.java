@@ -356,8 +356,9 @@ public class Board {
      *         whole board
      */
     public JSONObject toJSON() {
-        JSONArray contents = new JSONArray(), row = new JSONArray();
+        JSONArray contents = new JSONArray();
         for(int i = 0; i < MAX_X; i++) {
+            JSONArray row = new JSONArray();
             for(int j = 0; j < MAX_Y; j++) {
                 // Add tile to row
                 row.put(board[i][j]);
@@ -365,7 +366,6 @@ public class Board {
             // Add row to board contents
             contents.put(row);
             // Clear row to restart the process
-            row.clear();
         }
         // Return correctly-formatted JSONObject
         return new JSONObject().put("board", contents);
