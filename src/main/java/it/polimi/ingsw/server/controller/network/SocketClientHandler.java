@@ -23,7 +23,6 @@ import static it.polimi.ingsw.server.controller.network.Message.Header.*;
  * After that, it will be at the disposal of the game controller, which will send the commands that the player has to execute.
  */
 public class SocketClientHandler extends ClientHandler{
-    //TODO: every time i wait for someone answer i should not kill everything
     private final Socket clientSocket;
     private PrintWriter dataOut;
     private BufferedReader dataIn;
@@ -75,6 +74,7 @@ public class SocketClientHandler extends ClientHandler{
      */
     @Override
     public void sendGameState(Game gameState) {
+        System.out.println(clientSocket.getInetAddress()+": Sending gamestate: "+gameState.toJson());
         dataOut.println(new Message(GAME_UPDATE, gameState.toJson()));
 
         try {
@@ -82,7 +82,8 @@ public class SocketClientHandler extends ClientHandler{
             // If the client does not acknowledge the message, send it again
             if(answer.getInt("header") != OK.getCode()) sendGameState(gameState);
         } catch (IOException e) {
-            sendGameState(gameState);
+            game.notifyDisconnection(thisPlayerId);
+            closeSocket();
         }
     }
 
@@ -109,7 +110,8 @@ public class SocketClientHandler extends ClientHandler{
             // If the client does not acknowledge the message, send it again
             if(answer.getInt("header") != OK.getCode()) sendGameState(board, player, pointDeckValues, lastTurnFlag);
         } catch (IOException e) {
-            sendGameState(board, player, pointDeckValues, lastTurnFlag);
+            game.notifyDisconnection(thisPlayerId);
+            closeSocket();
         }
     }
 
@@ -130,7 +132,7 @@ public class SocketClientHandler extends ClientHandler{
      * @author Federico
      */
     @Override
-    public Coordinate[] getTiles() {
+    public Coordinate[] getTiles() throws PlayerDisconnectedException {
         // Send the request
         dataOut.println(new Message(GET_TILES));
 
@@ -163,7 +165,10 @@ public class SocketClientHandler extends ClientHandler{
             }
         } catch (IOException e) {
             dataOut.println(new Message(GENERIC_ERROR));
-            return this.getTiles();
+            game.notifyDisconnection(thisPlayerId);
+            closeSocket();
+
+            throw new PlayerDisconnectedException();
         }
     }
 
@@ -184,7 +189,7 @@ public class SocketClientHandler extends ClientHandler{
      * @author Federico
      */
     @Override
-    public int getColumn() {
+    public int getColumn() throws PlayerDisconnectedException {
         // Send the request
         dataOut.println(new Message(GET_COLUMN));
 
@@ -206,7 +211,10 @@ public class SocketClientHandler extends ClientHandler{
             }
         } catch (IOException e) {
             dataOut.println(new Message(GENERIC_ERROR));
-            return this.getColumn();
+            game.notifyDisconnection(thisPlayerId);
+            closeSocket();
+
+            throw new PlayerDisconnectedException();
         }
     }
 
@@ -282,7 +290,7 @@ public class SocketClientHandler extends ClientHandler{
             response = new JSONObject();
             response.put("message", "IOException");
             dataOut.println(new Message(GENERIC_ERROR, response));
-            loginPhase();
+            closeSocket();
         } catch (PlayerIdTakenException e) {
             // The player already exists, send the error and restart the login phase
             response = new JSONObject();
@@ -362,7 +370,7 @@ public class SocketClientHandler extends ClientHandler{
             response.put("message", "IOException");
             System.out.println(clientSocket.getInetAddress()+": IOException");
             dataOut.println(new Message(GENERIC_ERROR, response));
-            joinGamePhase();
+            closeSocket();
         } catch (NonExsistentGameException e) {
             // An NonExistentGameException occurred, send the error and restart the login phase
             System.out.println(clientSocket.getInetAddress()+": Game does not exist");

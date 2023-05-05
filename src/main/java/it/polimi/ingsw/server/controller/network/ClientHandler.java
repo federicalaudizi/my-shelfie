@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.network;
 
+import it.polimi.ingsw.server.exceptions.PlayerDisconnectedException;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.*;
 
@@ -51,7 +52,7 @@ public abstract class ClientHandler implements Runnable{
      * @return an array of tiles
      * @author Federico
      */
-    public abstract Coordinate[] getTiles();
+    public abstract Coordinate[] getTiles() throws PlayerDisconnectedException;
 
     /**
      * This method signals the client that the selected tiles are not valid
@@ -66,7 +67,7 @@ public abstract class ClientHandler implements Runnable{
      * @return the column selected by the client
      * @author Federico
      */
-    public abstract int getColumn();
+    public abstract int getColumn() throws PlayerDisconnectedException;
 
     /**
      * This method signals the client that the selected column is not valid
