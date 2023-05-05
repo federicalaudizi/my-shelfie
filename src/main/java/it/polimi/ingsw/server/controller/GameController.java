@@ -108,61 +108,64 @@ public class GameController implements Runnable {
 
         // Sends the first game update to all the client handlers
         for (String currentPlayerId : players) {
+            System.out.println(gameId+": Sending game state to "+currentPlayerId);
             getClientHandler(currentPlayerId).sendGameState(game);
         }
-        System.out.println("Let's start playing!");
+
+        System.out.println(gameId+": Let's start playing!");
         //let's start playing
         playGame();
 
         gameOver();
     }
 
+
+    /**
+     * Helper method to play the game
+     *
+     * @author Sara, Federica
+     */
     private void playGame(){
         while (!isOver) {
-            Tile[] tiles;
             String currentPlayerId = players.get(game.getCurrentPlayerIndex());
-            //if the player is not connected and the number of connected players is greater than 0 then
-            // the turn passes automatically to the next player
-            if (connectedPlayers.get(currentPlayerId) == 0 && connectedPlayers.values().stream().filter(value -> value == 1).count() > 1) {
-                isOver = game.nextTurn();
-                //If there is only one player connected starts a timer.
-                //If no player has connected before this timer reaches zero, then the game automatically ends;
-                // otherwise, it continues as soon as a second player reconnects.
-            } else if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
-                try {
-                    // Wait for a player to re-connect, maximum 15 seconds
-                    Thread.sleep(15000);
-                    //if there is only one player connected he is the winner
-                    if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
-                        isOver = true;
-                    }
-                } catch (InterruptedException e) {
-                    // a player has just reconnected, if there are less than 2 players it waits other 15 seconds of other players to join
-                    if (connectedPlayers.values().stream().filter(value -> value == 1).count() == 1) {
-                        try {
-                            Thread.sleep(15000);
-                            if (connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1) {
-                                isOver = true;
-                            }
-                        } catch (InterruptedException ex) {
-                            tiles = getTiles(currentPlayerId);
-                            tilesInShelf(tiles, currentPlayerId);
-                            isOver = game.nextTurn();
-                        }
-                    } else {
-                        tiles = getTiles(currentPlayerId);
-                        tilesInShelf(tiles, currentPlayerId);
-                        isOver = game.nextTurn();
-                    }
+
+            if(connectedPlayers.values().stream().filter(value -> value == 1).count() > 1){
+                // Case when there are more than 1 player connected
+                if(connectedPlayers.get(currentPlayerId) == 1){
+                    // Case when the current player is connected
+                    playerMakeMove();
+                } else {
+                    // Skip turn
+                    isOver = game.nextTurn();
                 }
             } else {
-                tiles = getTiles(currentPlayerId);
-                tilesInShelf(tiles, currentPlayerId);
-                isOver = game.nextTurn();
+                // Case 1 or zero players connected, count timer
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    // Someone connected, continue
+                    continue;
+                }
+                if(connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1){
+                    // No one connected, game over
+                    isOver = true;
+                }
             }
-
-            ongoingGames.gameOver(gameId);
         }
+    }
+
+    /**
+     * Helper method used to make a player play
+     *
+     * @author Federico
+     */
+    private void playerMakeMove(){
+        try {
+            tilesInShelf(getTiles(players.get(game.getCurrentPlayerIndex())), players.get(game.getCurrentPlayerIndex()));
+        } catch (PlayerDisconnectedException e) {
+            // Skip player's turn
+        }
+        isOver = game.nextTurn();
     }
 
     /**
@@ -173,7 +176,7 @@ public class GameController implements Runnable {
      *
      * @return an array with the chosen tiles
      */
-    private Tile[] getTiles(String currentPlayerId) {
+    private Tile[] getTiles(String currentPlayerId) throws PlayerDisconnectedException {
         Coordinate[] coordinates = getClientHandler(currentPlayerId).getTiles();
         Tile[] tiles;
         try {
@@ -194,7 +197,7 @@ public class GameController implements Runnable {
      * @param  currentPlayerId is the player in turn
      *
      * */
-    private void tilesInShelf(Tile[] tiles, String currentPlayerId) {
+    private void tilesInShelf(Tile[] tiles, String currentPlayerId) throws PlayerDisconnectedException {
         int column;
         column = getClientHandler(currentPlayerId).getColumn();
 
