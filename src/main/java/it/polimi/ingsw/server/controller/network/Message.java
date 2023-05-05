@@ -108,6 +108,8 @@ public class Message {
         USERNAME_TAKEN(411),
         /** Sent by the server when the client sends an invalid game id */
         BAD_GAME_ID(412),
+        /** Sent when there are no available games */
+        NO_GAMES(413),
         /** Sent by the server when the client selects invalid tiles */
         BAD_TILES(421),
         /** Sent by the server when the client selects an invalid column on the shelf */
