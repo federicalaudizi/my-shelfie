@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.security.InvalidParameterException;
 
+//TODO: coordinates on picktile are, from toString point of view, inverted ex. (1,3) means first row from top, third column from left
+
 /**
  * This class creates, initializes and manages the game's board.
  *
@@ -223,19 +225,23 @@ public class Board {
 
         try {
             if(isPickable(coord1)) {
-                pickableTiles[0] = Tile.valueOf(board[coord1.getX()][coord1.getY()].getType());
+                pickableTiles[0] = board[coord1.getX()][coord1.getY()];
             } else throw new TileUnpickableException();
         } catch (NullPointerException e) {
             throw new NullPointerException("At least one coordinate must not be null.");
         }
 
-        if(coord2 != null && isPickable(coord2) && (coord1.getX() == coord2.getX() || coord1.getY() == coord2.getY())) {
-            pickableTiles[1] = Tile.valueOf(board[coord2.getX()][coord2.getY()].getType());
-        } else throw new TileUnpickableException();
+        if(coord2 != null) {
+            if (isPickable(coord2) && (coord1.getX() == coord2.getX() || coord1.getY() == coord2.getY())) {
+                pickableTiles[1] = board[coord2.getX()][coord2.getY()];
+            } else throw new TileUnpickableException();
+        }
 
-        if(coord3 != null && isPickable(coord3) && (coord1.getX() == coord3.getX() || coord1.getY() == coord3.getY())) {
-            pickableTiles[2] = Tile.valueOf(board[coord3.getX()][coord3.getY()].getType());
-        } else throw new TileUnpickableException();
+        if(coord3 != null) {
+            if (isPickable(coord3) && (coord1.getX() == coord3.getX() || coord1.getY() == coord3.getY())) {
+                pickableTiles[2] = board[coord3.getX()][coord3.getY()];
+            } else throw new TileUnpickableException();
+        }
 
         try {
             removeTile(coord1);

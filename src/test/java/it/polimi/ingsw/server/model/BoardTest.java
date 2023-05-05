@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
-import it.polimi.ingsw.server.model.Board;
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -52,6 +51,7 @@ public class BoardTest {
     @Test
     public void repopulateTest() {
         Board board = new Board();
+        System.out.println(board);
         String boardCheck = """
         x x x x x x x x x\s
         x x x e e x x x x\s
@@ -72,7 +72,20 @@ public class BoardTest {
 
     @Test
     public void pickTileTest() {
-        Board board = new Board(4);
-        assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 5), null, null));
+        Board board = new Board();
+        board.checkBoard();
+        System.out.println(board);
+        String oldBoard = board.toString();
+        //assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 5), null, null));
+
+        try {
+            board.pickTile(new Coordinate(1, 3), new Coordinate(1,4), null);
+        } catch (TileUnpickableException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(board);
+
+        assertNotEquals(oldBoard, board.toString());
     }
 }
