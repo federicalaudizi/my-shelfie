@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.controller.network.ClientHandler;
 import it.polimi.ingsw.server.controller.network.SocketClientHandler;
+import it.polimi.ingsw.server.exceptions.NonExsistentGameException;
+import it.polimi.ingsw.server.exceptions.PlayerIdTakenException;
 import it.polimi.ingsw.server.exceptions.ReachedMaxNumberOfPlayers;
 import junit.framework.TestCase;
 
@@ -84,6 +86,17 @@ public class GameControllerTest extends TestCase {
         assertEquals(p,gameController.getPlayerToClientHandlerMap());
     }
 
-    public void testTestRun() {
+    public void testTestRun() throws PlayerIdTakenException, ReachedMaxNumberOfPlayers, NonExsistentGameException {
+        GameSupervisor gameSupervisor = new GameSupervisor();
+        String gameId = gameSupervisor.newGame(2);
+
+        ClientHandler fakeClientHandler1 = new FakeClientHandler();
+        ClientHandler fakeClientHandler2 = new FakeClientHandler();
+
+        gameSupervisor.newUser("fede", fakeClientHandler1);
+        gameSupervisor.newUser("sassa", fakeClientHandler2);
+
+        GameController game = gameSupervisor.joinGame("fede", gameId);
+        GameController game2 = gameSupervisor.joinGame("sassa", gameId);
     }
 }
