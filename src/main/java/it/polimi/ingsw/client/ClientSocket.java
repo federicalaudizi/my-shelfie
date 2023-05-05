@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.server.controller.network.Message.Header.*;
+
 /**
  * The client used when communicating to the server via Socket
  * @author Mario Merlo
@@ -37,7 +39,7 @@ public class ClientSocket extends Client {
      * Starts the client by cycling through the game phases such as connection, login and move parsing
      * @author Mario Merlo
      */
-    void start() {
+    public void start() {
         boolean gameOver = false;
         try {
             // First step: connect to the game server
@@ -54,13 +56,13 @@ public class ClientSocket extends Client {
                 int headerCode = reply.getHeaderCode();
 
                 // Fourth step: when asked for a move, provide it
-                if(headerCode == 321)
+                if(headerCode == GET_TILES.getCode())
                     move();
                 // Fifth step: execute game over operations when Game Over is sent by the server
-                else if(headerCode == 121) {
+                else if(headerCode == GAME_OVER.getCode()) {
                     gameOver = true;
                     gameOver(reply);
-                } else if(headerCode == 122)
+                } else if(headerCode == GAME_UPDATE.getCode())
                     update(reply.getBody().getJSONObject(0));
             }
         } catch (IOException e) {
@@ -150,19 +152,19 @@ public class ClientSocket extends Client {
                     try {
                         JSONArray body = new JSONArray();
                         body.put(new JSONObject().put("username", this.getUsername()));
-                        Message loginMessage = new Message(Message.Header.LOGIN_REQUEST, body);
+                        Message loginMessage = new Message(LOGIN_REQUEST, body);
                         send(loginMessage);
 
                         line = bufferedReader.readLine();
                         reply = new Message(line);
                         int headerCode = reply.getHeaderCode();
 
-                        if(headerCode == 200) {
+                        if(headerCode == OK.getCode()) {
                             view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
                             loggedIn = true;
-                        } else if(headerCode == 411) {
+                        } else if(headerCode == USERNAME_TAKEN.getCode()) {
                             setUsername(view.confirmationPrompt("Username taken. Enter a new username: "));
-                        } else if(headerCode == 400) {
+                        } else if(headerCode == GENERIC_ERROR.getCode()) {
                             // A generic error occurred. The client throws an exception.
                             throw new RuntimeException("Unknown error");
                         }
@@ -200,15 +202,15 @@ public class ClientSocket extends Client {
                                 view.okPrompt("You entered an invalid number of players. Please retry.");
                             else playerNumberValid = true;
                         }
-                        Message newGameMessage = new Message(Message.Header.NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber));
+                        Message newGameMessage = new Message(NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber));
                         send(newGameMessage);
 
                         int headerCode = getReply().getHeaderCode();
 
-                        if (headerCode == 200) {
+                        if (headerCode == OK.getCode()) {
                             view.okPrompt("The game was correctly created.");
                             gameCreated = true;
-                        } else if (headerCode == 400) {
+                        } else if (headerCode == GENERIC_ERROR.getCode()) {
                             view.okPrompt("An error occurred. Please retry.");
                         } else throw new UnknownError("An unknown error occurred.");
                     }
@@ -217,7 +219,7 @@ public class ClientSocket extends Client {
                 case 2 -> {
                     boolean gameJoined = false, noGames = true;
                     while (!gameJoined || noGames) {
-                        send(new Message(Message.Header.JOIN_GAME_REQUEST));
+                        send(new Message(JOIN_GAME_REQUEST));
                         Message gameListMessage = getReply();
                         if (gameListMessage.getHeaderCode() == 211) {
                             JSONArray gameListJSON = gameListMessage.getBody().getJSONObject(0).getJSONArray("games");
@@ -226,16 +228,16 @@ public class ClientSocket extends Client {
                                 for (int i = 0; i < gameListJSON.length(); i++)
                                     gameList.add(gameListJSON.getString(i));
                                 String selectedGame = view.gameIdSelection(gameList);
-                                Message joinGameMessage = new Message(Message.Header.JOIN_GAME_RESPONSE, new JSONObject().put("gameId", selectedGame));
+                                Message joinGameMessage = new Message(JOIN_GAME_RESPONSE, new JSONObject().put("gameId", selectedGame));
                                 send(joinGameMessage);
                                 int gameJoinHeaderCode = getReply().getHeaderCode();
-                                if (gameJoinHeaderCode == 200) {
+                                if (gameJoinHeaderCode == OK.getCode()) {
                                     view.okPrompt("You correctly joined the game.");
                                     gameJoined = true;
                                     operationCompleted = true;
-                                } else if (gameJoinHeaderCode == 412) {
+                                } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
                                     view.okPrompt("This game does not exist on the server. Please retry.");
-                                } else if (gameJoinHeaderCode == 400) {
+                                } else if (gameJoinHeaderCode == GENERIC_ERROR.getCode()) {
                                     view.okPrompt("An error occurred. Please retry.");
                                 } else throw new UnknownError("An unknown error occurred.");
                             } else {

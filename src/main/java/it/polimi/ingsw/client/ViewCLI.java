@@ -19,7 +19,7 @@ public class ViewCLI extends View {
 
     @Override
     void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement) {
-
+        System.out.println("ViewCLI.update() was called!");
     }
 
     @Override
