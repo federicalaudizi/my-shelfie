@@ -86,7 +86,8 @@ public class GameSupervisor{
      * @return the list of the ids of the games that are currently running
      * @author Federico
      */
-    public ArrayList<String> getGameIds() {
+    public ArrayList<String> getGameIds() throws NoGamesException{
+        if(games.isEmpty()) throw new NoGamesException();
         return new ArrayList<>(games.keySet());
     }
 

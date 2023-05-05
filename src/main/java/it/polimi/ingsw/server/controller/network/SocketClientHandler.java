@@ -325,7 +325,7 @@ public class SocketClientHandler extends ClientHandler{
                 response = new JSONObject();
                 response.put("games", ongoingGames.getGameIds());
                 // Send the list of games
-                System.out.println(clientSocket.getInetAddress()+": Wants to join a game");
+                System.out.println(clientSocket.getInetAddress() + ": Wants to join a game");
                 dataOut.println(new Message(GAMES_ID_RESPONSE, response));
 
                 recievedMessage = new Message(dataIn.readLine());
@@ -372,6 +372,13 @@ public class SocketClientHandler extends ClientHandler{
             // An FullGameException occurred, send the error and restart the login phase
             System.out.println(clientSocket.getInetAddress()+": Game does not exist");
             dataOut.println(new Message(BAD_GAME_ID));
+            joinGamePhase();
+        } catch (NoGamesException e) {
+            // There are no games to join
+            response = new JSONObject();
+            response.put("message", "No games to join");
+            System.out.println(clientSocket.getInetAddress()+": No games to join");
+            dataOut.println(new Message(NO_GAMES, response));
             joinGamePhase();
         }
     }
