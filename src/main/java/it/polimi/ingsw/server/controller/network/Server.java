@@ -8,14 +8,4 @@ public abstract class Server implements Runnable{
     Server(GameSupervisor ongoingGames) {
         this.ongoingGames = ongoingGames;
     }
-
-    public static void main(String[] args) {
-        GameSupervisor games = new GameSupervisor();
-
-        Server socketServer = new SocketServer(5000, games);
-        //Server rmiServer = new RMIServer(games);
-
-        socketServer.run();
-        //rmiServer.run();
-    }
 }
