@@ -286,8 +286,7 @@ public class ClientSocket extends Client {
             try {
                 body = coordsToJson(coordinates);
             } catch (NullPointerException e) {
-                view.okPrompt("Something went wrong.");
-                e.printStackTrace();
+                view.okPrompt(e.getMessage());
             }
 
             // --- Server-side validation ---
