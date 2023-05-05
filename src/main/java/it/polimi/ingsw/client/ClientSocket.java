@@ -107,6 +107,7 @@ public class ClientSocket extends Client {
      * Checks whether the passed IP and port combo is valid
      * @param ip The string formatted as ip:port
      * @return true if the passed IP is valid, false otherwise
+     * @author Mario Merlo
      */
     private boolean validateIp(String ip) {
         // Split IP and Port
@@ -252,9 +253,10 @@ public class ClientSocket extends Client {
 
     /**
      * This method prompts the user to enter a move, validates it and sends it to the server.
-     * @throws NullPointerException
-     * @throws UnknownError
-     * @throws IOException
+     * @throws NullPointerException If the body of the messages is null before they are sent, this exception is thrown.
+     * @throws UnknownError If something unexpected is sent by the server as a response, this exception is thrown.
+     * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
+     * @author Mario Merlo
      */
     @Override
     void move() throws NullPointerException, UnknownError, IOException {
@@ -297,8 +299,10 @@ public class ClientSocket extends Client {
                 tileMessage = new Message(Message.Header.SEND_TILES, body);
             } else throw new NullPointerException("The message body was empty.");
 
+            // Send the requested information to the server
             send(tileMessage);
 
+            // Get the server's response and its header code
             reply = getReply();
             headerCode = reply.getHeaderCode();
 
@@ -350,6 +354,11 @@ public class ClientSocket extends Client {
         view.okPrompt("Your move was correctly sent to the server.");
     }
 
+    /**
+     * This method is used to reconnect to an ongoing game in case of an accidental client disconnection.
+     * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void reconnect() throws IOException {
         int attempts = 0;
@@ -404,6 +413,7 @@ public class ClientSocket extends Client {
      * by the server in order to validate them.
      * @param coords The ArrayList containing the coordinates chosen by the user.
      * @return The JSONObject containing a JSONArray with the aforementioned coordinates.
+     * @author Mario Merlo
      */
     private JSONObject coordsToJson(ArrayList<Coordinate> coords) throws NullPointerException {
         if(coords == null)
@@ -423,6 +433,7 @@ public class ClientSocket extends Client {
      * coordinates with all the matches it found.
      * @param input The input string gathered from the user.
      * @return An ArrayList of Coordinate objects that contain the coordinates gathered from the user.
+     * @author Mario Merlo
      */
     private ArrayList<Coordinate> parseMoveInput(String input) throws IllegalStateException {
         final Pattern coordinatePattern = Pattern.compile("(\\([0-9],\\s?[0-9]\\))+");
@@ -445,6 +456,12 @@ public class ClientSocket extends Client {
         return inputCoords;
     }
 
+    /**
+     * Reads the reply sent from the server and packages it as a Message.
+     * @return The reply sent from the server as a Message object.
+     * @throws NullPointerException If the reply is null, this exception is thrown.
+     * @author Mario Merlo
+     */
     @Override
     Message getReply() throws NullPointerException {
         Message reply = null;
@@ -461,6 +478,11 @@ public class ClientSocket extends Client {
         else throw new NullPointerException("Reply was empty.");
     }
 
+    /**
+     * Sends a message to the server by writing it on the socket's OutputStream.
+     * @param message The message to send to the server.
+     * @author Mario Merlo
+     */
     @Override
     public void send(Message message) {
         writer.print(message.toString() + "\n");
