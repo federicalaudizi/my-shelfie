@@ -48,4 +48,31 @@ public class BoardTest {
         JSONObject JSONBoard = board.toJSON();
         System.out.println(JSONBoard);
     }
+
+    @Test
+    public void repopulateTest() {
+        Board board = new Board();
+        String boardCheck = """
+        x x x x x x x x x\s
+        x x x e e x x x x\s
+        x x x e e e x x x\s
+        x x e e e e e e x\s
+        x e e e e e e e x\s
+        x e e e e g e x x\s
+        x x x e e e x x x\s
+        x x x x e e x x x\s
+        x x x x x x x x x\s
+        """;
+        assertEquals(board.toString(), boardCheck);
+
+        board.checkBoard();
+
+        System.out.println(board);
+    }
+
+    @Test
+    public void pickTileTest() {
+        Board board = new Board(4);
+        assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 5), null, null));
+    }
 }
