@@ -23,6 +23,7 @@ public class GameController implements Runnable {
     private final GameSupervisor ongoingGames;
     private final HashMap<String, ClientHandler> playerToClientHandlerMap;
     private final HashMap<String, Integer> connectedPlayers;
+    private int numberOfPlayers;
     private final ArrayList<String> players;
     private final String gameId;
     private boolean isOver;
@@ -38,14 +39,15 @@ public class GameController implements Runnable {
      *
      * */
     public GameController(int playerNumber, String gameId, GameSupervisor ongoingGames) {
-        playerToClientHandlerMap = new HashMap<>();
+        this.playerToClientHandlerMap = new HashMap<>();
         this.gameId = gameId;
-        game = new Game(playerNumber);
-        isOver = false;
-        players = new ArrayList<>();
-        connectedPlayers = new HashMap<>();
+        this.game = new Game(playerNumber);
+        this.isOver = false;
+        this.players = new ArrayList<>();
+        this.connectedPlayers = new HashMap<>();
         this.ongoingGames = ongoingGames;
         this.waitLock = new Object();
+        this.numberOfPlayers = 0;
     }
 
     /**
@@ -55,6 +57,7 @@ public class GameController implements Runnable {
      */
     public void notifyDisconnection(String playerId) {
         connectedPlayers.put(playerId, 0);
+        numberOfPlayers--;
     }
 
     /**
@@ -65,6 +68,7 @@ public class GameController implements Runnable {
     public void notifyConnection(String playerId) {
         connectedPlayers.put(playerId, 1);
         waitLock.notifyAll();
+        numberOfPlayers++;
     }
 
     /**
@@ -80,6 +84,7 @@ public class GameController implements Runnable {
             throw new ReachedMaxNumberOfPlayers();
         }
         connectedPlayers.put(playerId, 1);
+        numberOfPlayers++;
         playerToClientHandlerMap.put(playerId, handler);
         System.out.println(gameId+": "+playerId+" joined this game!");
 
@@ -107,7 +112,7 @@ public class GameController implements Runnable {
         // Sends the first game update to all the client handlers
         for (String currentPlayerId : players) {
             System.out.println(gameId+": Sending game state to "+currentPlayerId);
-            getClientHandler(currentPlayerId).sendGameState(game);
+            //getClientHandler(currentPlayerId).sendGameState(game);
         }
 
         System.out.println(gameId+": Let's start playing!");
@@ -126,12 +131,20 @@ public class GameController implements Runnable {
     private void playGame(){
         while (!isOver) {
             String currentPlayerId = players.get(game.getCurrentPlayerIndex());
+            System.out.println(gameId+": It's "+currentPlayerId+"'s turn!");
 
-            if(connectedPlayers.values().stream().filter(value -> value == 1).count() > 1){
+            if(numberOfPlayers > 1){
                 // Case when there are more than 1 player connected
                 if(connectedPlayers.get(currentPlayerId) == 1){
                     // Case when the current player is connected
-                    playerMakeMove();
+                    playerMakeMove(currentPlayerId);
+
+                    // Send game state to all players after the move
+                    for (String currentPlayer : players) {
+                        getClientHandler(currentPlayer).sendGameState(game.getBoard(), game.getCurrentPlayer(), game.getPointsValue(), game.isLastTurn());
+                    }
+
+                    isOver = game.nextTurn();
                 } else {
                     // Skip turn
                     isOver = game.nextTurn();
@@ -144,7 +157,7 @@ public class GameController implements Runnable {
                     // Someone connected, continue
                     continue;
                 }
-                if(connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1){
+                if(numberOfPlayers <= 1){
                     // No one connected, game over
                     isOver = true;
                 }
@@ -157,13 +170,14 @@ public class GameController implements Runnable {
      *
      * @author Federico
      */
-    private void playerMakeMove(){
+    private void playerMakeMove(String currentPlayerId){
+        //System.out.println(gameId+": It's "+players.get(game.getCurrentPlayerIndex())+"'s turn!");
         try {
-            tilesInShelf(getTiles(players.get(game.getCurrentPlayerIndex())), players.get(game.getCurrentPlayerIndex()));
+            tilesInShelf(getTiles(currentPlayerId), currentPlayerId);
         } catch (PlayerDisconnectedException e) {
             // Skip player's turn
         }
-        isOver = game.nextTurn();
+
     }
 
     /**
@@ -177,14 +191,19 @@ public class GameController implements Runnable {
     private Tile[] getTiles(String currentPlayerId) throws PlayerDisconnectedException {
         Coordinate[] coordinates = getClientHandler(currentPlayerId).getTiles();
         Tile[] tiles;
+
         try {
             tiles = game.chooseTiles(coordinates[0], coordinates[1], coordinates[2]);
-            getClientHandler(currentPlayerId).sendOk();
-        } catch (TileUnpickableException | NullPointerException e) {
+        } catch (TileUnpickableException e) {
             getClientHandler(currentPlayerId).badTile();
-            getTiles(currentPlayerId);
-            throw new RuntimeException(e);
+            return getTiles(currentPlayerId);
+        } catch (IllegalArgumentException e){
+            getClientHandler(currentPlayerId).badTile();
+            return getTiles(currentPlayerId);
         }
+
+        System.out.println(gameId+": "+currentPlayerId+" chose the tiles!");
+        getClientHandler(currentPlayerId).sendOk();
         return tiles;
     }
 
@@ -201,15 +220,10 @@ public class GameController implements Runnable {
 
         try {
             game.insertInShelf(column, tiles);
-            for (String currentPlayer : players) {
-                getClientHandler(currentPlayer).sendGameState(game.getBoard(), game.getCurrentPlayer(), game.getPointsValue(), game.isLastTurn());
-            }
             getClientHandler(currentPlayerId).sendOk();
-        } catch (fullColumnException e) {
+        } catch (fullColumnException | tooManyTilesException | notEnoughTilesException e) {
             getClientHandler(currentPlayerId).badColumn();
             tilesInShelf(tiles, currentPlayerId);
-            throw new RuntimeException(e);
-        } catch (tooManyTilesException | notEnoughTilesException ignored) {
         }
     }
 
@@ -229,9 +243,7 @@ public class GameController implements Runnable {
     private void waitAllPlayers(){
         synchronized (waitLock) {
             while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
-                synchronized (System.out) {
-                    System.out.println(gameId + ": Waiting for players to join, " + playerToClientHandlerMap.size() + " out of " + game.getNumberOfPlayers());
-                }
+                System.out.println(gameId + ": Waiting for players to join, " + playerToClientHandlerMap.size() + " out of " + game.getNumberOfPlayers());
 
                 try {
                     waitLock.wait();
