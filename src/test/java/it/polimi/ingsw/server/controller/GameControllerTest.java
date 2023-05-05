@@ -87,16 +87,23 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testTestRun() throws PlayerIdTakenException, ReachedMaxNumberOfPlayers, NonExsistentGameException {
-        GameSupervisor gameSupervisor = new GameSupervisor();
-        String gameId = gameSupervisor.newGame(2);
+        try {
+            GameSupervisor gameSupervisor = new GameSupervisor();
+            GameController gameController = new GameController(2, "ABCDEF", gameSupervisor);
+            Thread thread = new Thread(gameController);
+            thread.start();
 
-        ClientHandler fakeClientHandler1 = new FakeClientHandler();
-        ClientHandler fakeClientHandler2 = new FakeClientHandler();
+            ClientHandler clientHandler1 = new FakeClientHandler();
+            ClientHandler clientHandler2 = new FakeClientHandler();
 
-        gameSupervisor.newUser("fede", fakeClientHandler1);
-        gameSupervisor.newUser("sassa", fakeClientHandler2);
+            gameController.addPlayer("sassa", clientHandler1);
+            gameController.addPlayer("chiari", clientHandler2);
 
-        GameController game = gameSupervisor.joinGame("fede", gameId);
-        GameController game2 = gameSupervisor.joinGame("sassa", gameId);
+            thread.join();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            fail();
+        }
     }
 }

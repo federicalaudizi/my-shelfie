@@ -7,6 +7,8 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 
 import java.util.HashMap;
+import java.util.Random;
+
 /**
  * This class is a fake client handler used to test the game controller
  *
@@ -20,7 +22,6 @@ public class FakeClientHandler extends ClientHandler {
      */
     @Override
     public void run() {
-
     }
 
     /**
@@ -30,7 +31,7 @@ public class FakeClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-            System.out.println("gameState type 1");
+        System.out.println(gameState.toJson());
     }
 
     /**
@@ -43,7 +44,8 @@ public class FakeClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Board board, Player player, int[] pointDeckValues, boolean lastTurnFlag) {
-        System.out.println("game state type 2");
+        System.out.println(player.getUsername()+"'s turn:");
+        System.out.println(board);
     }
 
     /**
@@ -64,9 +66,10 @@ public class FakeClientHandler extends ClientHandler {
      */
     @Override
     public Coordinate[] getTiles() {
+        Random r = new Random();
         Coordinate[] chosenCoordinate = new Coordinate[3];
-        chosenCoordinate[0] = new Coordinate(1,3);
-        chosenCoordinate[1] = new Coordinate(1,4);
+        chosenCoordinate[0] = new Coordinate(r.nextInt(1,8), r.nextInt(1,8));
+        //chosenCoordinate[1] = new Coordinate(r.nextInt(8),r.nextInt(8));
         return chosenCoordinate;
     }
 
@@ -88,7 +91,8 @@ public class FakeClientHandler extends ClientHandler {
      */
     @Override
     public int getColumn() {
-        return 0;
+        Random r = new Random();
+        return r.nextInt(5);
     }
 
     /**
