@@ -44,6 +44,15 @@ public class Board {
         repopulate();
     }
 
+    Board(Board toCopy){
+        this.board = new Tile[MAX_X][MAX_Y];
+        for(int i=0; i<MAX_X; i++){
+            for(int j=0; j<MAX_Y; j++){
+                this.board[i][j] = toCopy.board[i][j];
+            }
+        }
+    }
+
     /**
      * Since the game board is tilted by 45°, this method initializes the tiles that are outside the playing
      * field. This method is only called once per game and assigns to a newly instantiated Board object the special
@@ -274,6 +283,7 @@ public class Board {
      * @author Mario Merlo
      */
     void checkBoard() {
+        //TODO: Check if this method works, seems to always repopulate the board
         boolean toRepopulate = true;
 
         // Inner board check: only the first 8 rows and columns are checked, to avoid breaking boundaries.
