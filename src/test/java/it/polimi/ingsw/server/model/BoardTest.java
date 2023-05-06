@@ -72,30 +72,34 @@ public class BoardTest {
 
     @Test
     public void pickTileTest() {
-        Board board = new Board();
-        board.checkBoard();
-        System.out.println(board);
+        Board board = new Board(2);
+        System.out.println("Initial state of board:\n" + board);
 
-        String oldBoard = board.toString();
+        String initialBoard = board.toString();
 
         // Testing for no tiles passed to pickTile
         assertThrows(NullPointerException.class, () -> board.pickTile(null, null, null));
 
         // Testing for tiles that cannot be picked
         assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 5), null, null));
-        assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(6, 6), new Coordinate(8, 8), null));
+        assertThrows(IllegalArgumentException.class, () -> board.pickTile(new Coordinate(6, 6), new Coordinate(8, 8), null));
         assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 2), new Coordinate(4, 3), new Coordinate(4, 4)));
 
         // Testing for tiles that can be picked
         try {
-            //board.pickTile(new Coordinate());
-            board.pickTile(new Coordinate(1, 3), new Coordinate(1,4), null);
+            board.pickTile(new Coordinate(4, 1), new Coordinate(5, 1), null);
+            System.out.println("First move:\n" + board);
+            board.pickTile(new Coordinate(3, 2), new Coordinate(4,2), new Coordinate(5, 2));
+            System.out.println("Second move:\n" + board);
+            board.pickTile(new Coordinate(1, 3), null, null);
+            System.out.println("Third move:\n" + board);
+            // TODO Add testing for limit cases
         } catch (TileUnpickableException e) {
             fail();
         }
 
-        System.out.println(board);
+        System.out.println("Final state of the board:\n" + board);
 
-        assertNotEquals(oldBoard, board.toString());
+        assertNotEquals(initialBoard, board.toString());
     }
 }
