@@ -54,7 +54,6 @@ public class Shelf {
     Shelf(JSONObject shelf){
         this.contents = new Tile[5][6];
 
-        //TODO: How to get the contents of the shelf from the JSONObject?
         JSONArray array = shelf.getJSONArray("contents");
 
         for (int i = 0; i < 5 ; i++) {

@@ -34,9 +34,16 @@ public class Player {
         this.endGameCard = false;
     }
 
+    /**
+     * Gets the username of the player
+     *
+     * @return the username
+     * @author Federica
+     */
     public String getUsername(){
         return username;
     }
+
     /**
      * Copy constructor of the class
      *
@@ -84,6 +91,12 @@ public class Player {
         return new Shelf(playerShelf);
     }
 
+    /**
+     * Calculates the amount of points that the player has gaind until that point
+     *
+     * @return the amount of points
+     * @author Federico
+     */
     int calculatePoints(){
         int points = 0;
 
@@ -208,7 +221,6 @@ public class Player {
             pointCardCondition = pointCards[i].equals(other.pointCards[i]);
         }
 
-        //TODO: this does not work
         boolean endGameCardCondition = endGameCard == other.endGameCard;
         boolean playerShelfCondition = playerShelf.equals(other.playerShelf);
         boolean objectiveCardCondition;
