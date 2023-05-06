@@ -31,5 +31,9 @@ import org.json.JSONObject;
     public boolean equals(PointCard other){
         return this.value == other.value;
     }
+
+    public String toString(){
+        return String.valueOf(value);
+    }
 }
 
