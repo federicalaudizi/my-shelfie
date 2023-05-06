@@ -42,7 +42,8 @@ public class Board {
         repopulate();
     }
 
-    Board(Board toCopy){
+    // TODO Implement Cloneable instead of copying the board manually
+    Board(Board toCopy) {
         this.board = new Tile[MAX_X][MAX_Y];
         for(int i=0; i<MAX_X; i++){
             for(int j=0; j<MAX_Y; j++){
