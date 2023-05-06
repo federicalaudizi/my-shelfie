@@ -20,7 +20,7 @@ public class Board {
     Board() {
         board = new Tile[MAX_X][MAX_Y];
         nonPlayableTileInit(2);
-        board[5][5] = Tile.CATS;
+        board[3][5] = Tile.CATS;
     }
 
     /**
