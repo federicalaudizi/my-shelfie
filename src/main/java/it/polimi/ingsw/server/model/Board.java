@@ -42,10 +42,14 @@ public class Board {
         repopulate();
     }
 
-    // TODO Implement Cloneable instead of copying the board manually
-    Board(Board toCopy) {
+    /**
+     * Initializes a new board from an already instantiated one.
+     * @param toCopy The board to copy from
+     */
+    private Board(Board toCopy) {
         this.board = new Tile[MAX_X][MAX_Y];
-        for(int i=0; i<MAX_X; i++){
+
+        for(int i = 0; i < MAX_X; i++){
             System.arraycopy(toCopy.board[i], 0, this.board[i], 0, MAX_Y);
         }
     }
@@ -374,5 +378,22 @@ public class Board {
         }
         // Return correctly-formatted JSONObject
         return new JSONObject().put("board", contents);
+    }
+
+    /**
+     * Returns a copy of the passed board
+     * @param toCopy The board to be copied
+     * @return A new board identical to the one passed as a parameter
+     */
+    Board copy(Board toCopy) {
+        return new Board(toCopy);
+    }
+
+    public int getMAX_X() {
+        return MAX_X;
+    }
+
+    public int getMAX_Y() {
+        return MAX_Y;
     }
 }

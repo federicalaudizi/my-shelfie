@@ -9,7 +9,7 @@ import java.util.LinkedList;
 public abstract class View {
     Client client;
 
-    abstract void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement);
+    abstract void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement, int playerNumber);
 
     abstract String confirmationPrompt(String message);
 
