@@ -178,14 +178,14 @@ public class Shelf {
 
                     //Explore upwards
                     if(curRow<4) {
-                        while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 5) {
+                        while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 4) {
                             count++;
                             curRow++;
                             exploredSlots[curColumn][curRow] = true;
 
                             //Explore to the right
                             if(curColumn < 3) {
-                                while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 3) {
+                                while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 2) {
                                     count++;
                                     curColumn++;
                                     exploredSlots[curColumn][curRow] = true;
@@ -199,14 +199,14 @@ public class Shelf {
 
                     //Explore to the right
                     if(curColumn < 3) {
-                        while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 3) {
+                        while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 2) {
                             count++;
                             curColumn++;
                             exploredSlots[curColumn][curRow] = true;
 
                             //Explore upwards
                             if (curRow < 4) {
-                                while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 5) {
+                                while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 4) {
                                     count++;
                                     curRow++;
                                     exploredSlots[curColumn][curRow] = true;
