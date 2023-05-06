@@ -342,16 +342,7 @@ public class Board {
 
         for(int i = 0; i < MAX_X; i++) {
             for(int j = 0; j < MAX_Y; j++) {
-                switch(board[i][j]) {
-                    case OUTSIDE_GAME_BOARD -> output.append("x ");
-                    case EMPTY -> output.append("e ");
-                    case CATS -> output.append("g ");
-                    case PLANTS -> output.append("m ");
-                    case FRAMES -> output.append("b ");
-                    case TROPHIES -> output.append("a ");
-                    case GAMES -> output.append("o ");
-                    case BOOKS -> output.append("y ");
-                }
+                output.append(board[i][j].getSymbol()).append(" ");
             }
             output.append("\n");
         }

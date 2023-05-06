@@ -11,17 +11,18 @@ package it.polimi.ingsw.server.model;
  * @author Mario Merlo
  */
 public enum Tile {
-    CATS("Cats", "Green"),
-    BOOKS("Books", "Beige"),
-    GAMES("Games", "Orange"),
-    FRAMES("Frames", "Blue"),
-    TROPHIES("Trophies", "Aqua"),
-    PLANTS("Plants", "Magenta"),
-    OUTSIDE_GAME_BOARD("Outside Game Board", "N/A"),
-    EMPTY("Empty", "N/A");
+    CATS("Cats", "Green", "g"),
+    BOOKS("Books", "Beige", "y"),
+    GAMES("Games", "Orange", "o"),
+    FRAMES("Frames", "Blue", "b"),
+    TROPHIES("Trophies", "Aqua", "a"),
+    PLANTS("Plants", "Magenta", "m"),
+    OUTSIDE_GAME_BOARD("Outside Game Board", "N/A", "x"),
+    EMPTY("Empty", "N/A", "e");
 
     private final String type;
     private final String colour;
+    private final String symbol;
 
     /**
      * Tile class constructor.
@@ -30,9 +31,10 @@ public enum Tile {
      *
      * @author Mario Merlo
      */
-    Tile(final String type, final String colour) {
+    Tile(final String type, final String colour, final String symbol){
         this.type = type;
         this.colour = colour;
+        this.symbol = symbol;
     }
 
     /**
@@ -41,6 +43,7 @@ public enum Tile {
     Tile(Tile other){
         this.type = other.type;
         this.colour = other.colour;
+        this.symbol = other.symbol;
     }
 
     /**
@@ -61,5 +64,14 @@ public enum Tile {
      */
     public String getColour() {
         return colour;
+    }
+
+    /**
+     * Returns the symbol of the Tile it is called upon.
+     *
+     * @return the symbol of the Tile.
+     * */
+    public String getSymbol() {
+        return symbol;
     }
 }

@@ -292,22 +292,7 @@ public class Shelf {
 
         for (int j = 5; j >= 0; j--) {
             for (int i = 0; i < 5; i++) {
-                if(contents[i][j] == Tile.EMPTY)
-                    result.append("e ");
-                else if(contents[i][j] == Tile.OUTSIDE_GAME_BOARD)
-                    result.append("x ");
-                else if(contents[i][j] == Tile.CATS)
-                    result.append("g ");
-                else if(contents[i][j] == Tile.FRAMES)
-                    result.append("b ");
-                else if(contents[i][j] == Tile.GAMES)
-                    result.append("y ");
-                else if(contents[i][j] == Tile.BOOKS)
-                    result.append("b ");
-                else if(contents[i][j] == Tile.PLANTS)
-                    result.append("m ");
-                else if(contents[i][j] == Tile.TROPHIES)
-                    result.append("a ");
+                result.append(contents[i][j].getSymbol()).append(" ");
             }
             result.append(" |\n");
         }
