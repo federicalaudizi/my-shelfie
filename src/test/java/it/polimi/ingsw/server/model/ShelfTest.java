@@ -36,7 +36,7 @@ public class ShelfTest extends TestCase {
     public void testContains() throws Exception {
         Shelf testingShelf = new Shelf();
         testingShelf.addTiles(0, new Tile[]{Tile.TROPHIES});
-        assertFalse(testingShelf.contains(Tile.TROPHIES));
+        assertFalse(testingShelf.contains(Tile.CATS));
         testingShelf.addTiles(0, new Tile[]{Tile.CATS});
         assertTrue(testingShelf.contains(Tile.CATS));
     }

@@ -27,28 +27,26 @@ public class PersonalObjectiveCard{
     /**
      * Constructor of the personal objective, creates the objective choosing a random pattern from the PersonalObjectivePattern enum that hasn't been used yet
      *
-     * @author Federico
+     * @author Federico, Sara
      *
      * @throws IllegalStateException when all personal objective cards have been handled, this exception should be impossible to reach
      *
      * @param game in which PersonalObjectiveCards are used
      */
-
-
-        PersonalObjectiveCard(Game game) throws IllegalStateException{
-            List<PersonalObjectivePattern> patterns = usedPattern.getOrDefault(game, new ArrayList<>());
-            if (patterns.size() == PersonalObjectivePattern.values().length) {
-                throw new IllegalStateException("All the personal objectives have been used for this game");
-            }
-            Random random = new Random();
-            PersonalObjectivePattern pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
-            while (patterns.contains(pattern)) {
-                pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
-            }
-            patterns.add(pattern);
-            usedPattern.put(game, patterns);
-            this.objective = pattern;
+    PersonalObjectiveCard(Game game) throws IllegalStateException{
+        List<PersonalObjectivePattern> patterns = usedPattern.getOrDefault(game, new ArrayList<>());
+        if (patterns.size() == PersonalObjectivePattern.values().length) {
+            throw new IllegalStateException("All the personal objectives have been used for this game");
         }
+        Random random = new Random();
+        PersonalObjectivePattern pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
+        while (patterns.contains(pattern)) {
+            pattern = PersonalObjectivePattern.values()[random.nextInt(PersonalObjectivePattern.values().length)];
+        }
+        patterns.add(pattern);
+        usedPattern.put(game, patterns);
+        this.objective = pattern;
+    }
 
 
     /**

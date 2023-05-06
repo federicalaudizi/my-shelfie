@@ -67,7 +67,9 @@ public class GameController implements Runnable {
      */
     public void notifyConnection(String playerId) {
         connectedPlayers.put(playerId, 1);
-        waitLock.notifyAll();
+        synchronized (waitLock){
+            waitLock.notifyAll();
+        }
         numberOfPlayers++;
     }
 
@@ -194,10 +196,7 @@ public class GameController implements Runnable {
 
         try {
             tiles = game.chooseTiles(coordinates[0], coordinates[1], coordinates[2]);
-        } catch (TileUnpickableException e) {
-            getClientHandler(currentPlayerId).badTile();
-            return getTiles(currentPlayerId);
-        } catch (IllegalArgumentException e){
+        } catch (TileUnpickableException | IllegalArgumentException e) {
             getClientHandler(currentPlayerId).badTile();
             return getTiles(currentPlayerId);
         }
