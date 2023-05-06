@@ -89,15 +89,19 @@ public class GameControllerTest extends TestCase {
     public void testTestRun() throws PlayerIdTakenException, ReachedMaxNumberOfPlayers, NonExsistentGameException {
         try {
             GameSupervisor gameSupervisor = new GameSupervisor();
-            GameController gameController = new GameController(2, "ABCDEF", gameSupervisor);
+            GameController gameController = new GameController(4, "ABCDEF", gameSupervisor);
             Thread thread = new Thread(gameController);
             thread.start();
 
             ClientHandler clientHandler1 = new FakeClientHandler();
             ClientHandler clientHandler2 = new FakeClientHandler();
+            ClientHandler clientHandler3 = new FakeClientHandler();
+            ClientHandler clientHandler4 = new FakeClientHandler();
 
             gameController.addPlayer("sassa", clientHandler1);
-            gameController.addPlayer("chiari", clientHandler2);
+            gameController.addPlayer("federica", clientHandler2);
+            gameController.addPlayer("federico", clientHandler3);
+            gameController.addPlayer("mario", clientHandler4);
 
             thread.join();
 

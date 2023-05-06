@@ -69,7 +69,7 @@ public class FakeClientHandler extends ClientHandler {
     public Coordinate[] getTiles() {
         Random r = new Random();
         Coordinate[] chosenCoordinate = new Coordinate[3];
-        chosenCoordinate[0] = new Coordinate(r.nextInt(1,8), r.nextInt(1,8));
+        chosenCoordinate[0] = new Coordinate(r.nextInt(0,9), r.nextInt(0,9));
         //chosenCoordinate[1] = new Coordinate(r.nextInt(8),r.nextInt(8));
         return chosenCoordinate;
     }
