@@ -169,43 +169,43 @@ public class Board {
      */
     private boolean isPickable(Coordinate coord) throws IllegalArgumentException {
         // Saving coordinate to make code more readable and avoid subsequent method calls.
-        int x = coord.getX();
-        int y = coord.getY();
+        int row = coord.getRow();
+        int column = coord.getColumn();
 
         // The check only makes sense when called upon a playable tile.
         // If this condition is not met, then the method throws an exception.
-        if(board[x][y] != Tile.EMPTY && board[x][y] != Tile.OUTSIDE_GAME_BOARD) {
+        if(board[row][column] != Tile.EMPTY && board[row][column] != Tile.OUTSIDE_GAME_BOARD) {
             // Checking for specific limit cases
-            if(x == 0) {
-                if(y == 3)
+            if(row == 0) {
+                if(column == 3)
                     return board[1][3] == Tile.EMPTY || board[0][4] == Tile.EMPTY || board[0][4] == Tile.OUTSIDE_GAME_BOARD;
-                if(y == 4)
+                if(column == 4)
                     return board[0][3] == Tile.EMPTY || board[1][4] == Tile.EMPTY;
-            } else if(x == 3) {
-                if(y == 8)
+            } else if(row == 3) {
+                if(column == 8)
                     return board[3][7] == Tile.EMPTY || board[4][8] == Tile.EMPTY || board[4][8] == Tile.OUTSIDE_GAME_BOARD;
-            } else if(x == 4) {
-                if(y == 0)
+            } else if(row == 4) {
+                if(column == 0)
                     return board[5][0] == Tile.EMPTY || board[4][1] == Tile.EMPTY;
-                if(y == 8)
+                if(column == 8)
                     return board[3][8] == Tile.EMPTY || board[4][7] == Tile.EMPTY;
-            } else if(x == 5) {
-                if(y == 0)
+            } else if(row == 5) {
+                if(column == 0)
                     return board[4][0] == Tile.EMPTY || board[4][0] == Tile.OUTSIDE_GAME_BOARD || board[5][1] == Tile.EMPTY;
-            } else if(x == 8) {
-                if(y == 4)
+            } else if(row == 8) {
+                if(column == 4)
                     return board[7][4] == Tile.EMPTY || board[8][5] == Tile.EMPTY;
-                if(y == 5)
+                if(column == 5)
                     return board[7][5] == Tile.EMPTY || board[8][4] == Tile.EMPTY || board[8][4] == Tile.OUTSIDE_GAME_BOARD;
             } else // Checking for the general case
-                return  board[x + 1][y] == Tile.EMPTY ||
-                        board[x - 1][y] == Tile.EMPTY ||
-                        board[x][y + 1] == Tile.EMPTY ||
-                        board[x][y - 1] == Tile.EMPTY ||
-                        board[x + 1][y] == Tile.OUTSIDE_GAME_BOARD ||
-                        board[x - 1][y] == Tile.OUTSIDE_GAME_BOARD ||
-                        board[x][y + 1] == Tile.OUTSIDE_GAME_BOARD ||
-                        board[x][y - 1] == Tile.OUTSIDE_GAME_BOARD;
+                return  board[row + 1][column] == Tile.EMPTY ||
+                        board[row - 1][column] == Tile.EMPTY ||
+                        board[row][column + 1] == Tile.EMPTY ||
+                        board[row][column - 1] == Tile.EMPTY ||
+                        board[row + 1][column] == Tile.OUTSIDE_GAME_BOARD ||
+                        board[row - 1][column] == Tile.OUTSIDE_GAME_BOARD ||
+                        board[row][column + 1] == Tile.OUTSIDE_GAME_BOARD ||
+                        board[row][column - 1] == Tile.OUTSIDE_GAME_BOARD;
         } else throw new IllegalArgumentException();
 
         // Default failure case
@@ -232,21 +232,21 @@ public class Board {
 
         try {
             if(isPickable(coord1)) {
-                pickableTiles[0] = board[coord1.getX()][coord1.getY()];
+                pickableTiles[0] = board[coord1.getRow()][coord1.getColumn()];
             } else throw new TileUnpickableException();
         } catch (NullPointerException e) {
             throw new NullPointerException("At least one coordinate must not be null.");
         }
 
         if(coord2 != null) {
-            if (isPickable(coord2) && (coord1.getX() == coord2.getX() || coord1.getY() == coord2.getY())) {
-                pickableTiles[1] = board[coord2.getX()][coord2.getY()];
+            if (isPickable(coord2) && (coord1.getRow() == coord2.getRow() || coord1.getColumn() == coord2.getColumn())) {
+                pickableTiles[1] = board[coord2.getRow()][coord2.getColumn()];
             } else throw new TileUnpickableException();
         }
 
         if(coord3 != null) {
-            if (isPickable(coord3) && (coord1.getX() == coord3.getX() || coord1.getY() == coord3.getY())) {
-                pickableTiles[2] = board[coord3.getX()][coord3.getY()];
+            if (isPickable(coord3) && (coord1.getRow() == coord3.getRow() || coord1.getColumn() == coord3.getColumn())) {
+                pickableTiles[2] = board[coord3.getRow()][coord3.getColumn()];
             } else throw new TileUnpickableException();
         }
 
@@ -269,8 +269,8 @@ public class Board {
      * @author Mario Merlo
      */
     private void removeTile(Coordinate coord) throws InvalidParameterException {
-        if(board[coord.getX()][coord.getY()] != Tile.OUTSIDE_GAME_BOARD)
-            board[coord.getX()][coord.getY()] = Tile.EMPTY;
+        if(board[coord.getRow()][coord.getColumn()] != Tile.OUTSIDE_GAME_BOARD)
+            board[coord.getRow()][coord.getColumn()] = Tile.EMPTY;
         else throw new InvalidParameterException();
     }
 

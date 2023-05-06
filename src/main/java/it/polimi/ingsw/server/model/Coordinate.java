@@ -1,24 +1,24 @@
 package it.polimi.ingsw.server.model;
 
 public class Coordinate {
-    private int x;
-    private int y;
+    private final int row;
+    private final int column;
 
-    public Coordinate (int x, int y){
-        this.x = x;
-        this.y = y;
+    public Coordinate (int row, int column){
+        this.row = row;
+        this.column = column;
     }
 
-    public int getX(){
-       return x;
+    public int getRow(){
+       return row;
     }
 
-    public int getY() {
-        return y;
+    public int getColumn() {
+        return column;
     }
 
     @Override
     public String toString() {
-        return "x: " + x + ", y: " + y;
+        return "row: " + row + ", column: " + column;
     }
 }

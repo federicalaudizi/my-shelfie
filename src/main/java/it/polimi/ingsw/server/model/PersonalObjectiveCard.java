@@ -281,7 +281,7 @@ public class PersonalObjectiveCard{
                 for(int i=0; i<5; i++){
                     Coordinate printingCoord  = null;
                     for(Coordinate checkingCoord : pattern.keySet()){
-                        if(checkingCoord.getX() == i && checkingCoord.getY() == j){
+                        if(checkingCoord.getRow() == i && checkingCoord.getColumn() == j){
                             printingCoord = checkingCoord;
                         }
                     }

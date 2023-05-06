@@ -88,7 +88,7 @@ public class Shelf {
      * @return the tile present at the specified coordinates
      */
     Tile getTile(Coordinate coordinate) {
-        return contents[coordinate.getX()][coordinate.getY()];
+        return contents[coordinate.getRow()][coordinate.getColumn()];
     }
 
     /**
