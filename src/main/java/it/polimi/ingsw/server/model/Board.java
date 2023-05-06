@@ -175,42 +175,41 @@ public class Board {
 
         // The check only makes sense when called upon a playable tile.
         // If this condition is not met, then the method throws an exception.
-        if(board[row][column] != Tile.EMPTY && board[row][column] != Tile.OUTSIDE_GAME_BOARD) {
+        if (board[row][column] != Tile.EMPTY && board[row][column] != Tile.OUTSIDE_GAME_BOARD) {
             // Checking for specific limit cases
-            if(row == 0) {
-                if(column == 3)
+            if (row == 0) {
+                if (column == 3)
                     return board[1][3] == Tile.EMPTY || board[0][4] == Tile.EMPTY || board[0][4] == Tile.OUTSIDE_GAME_BOARD;
-                if(column == 4)
+                if (column == 4)
                     return board[0][3] == Tile.EMPTY || board[1][4] == Tile.EMPTY;
-            } else if(row == 3) {
-                if(column == 8)
+            } else if (row == 3) {
+                if (column == 8)
                     return board[3][7] == Tile.EMPTY || board[4][8] == Tile.EMPTY || board[4][8] == Tile.OUTSIDE_GAME_BOARD;
-            } else if(row == 4) {
-                if(column == 0)
+            } else if (row == 4) {
+                if (column == 0)
                     return board[5][0] == Tile.EMPTY || board[4][1] == Tile.EMPTY;
-                if(column == 8)
+                if (column == 8)
                     return board[3][8] == Tile.EMPTY || board[4][7] == Tile.EMPTY;
-            } else if(row == 5) {
-                if(column == 0)
+            } else if (row == 5) {
+                if (column == 0)
                     return board[4][0] == Tile.EMPTY || board[4][0] == Tile.OUTSIDE_GAME_BOARD || board[5][1] == Tile.EMPTY;
-            } else if(row == 8) {
-                if(column == 4)
+            } else if (row == 8) {
+                if (column == 4)
                     return board[7][4] == Tile.EMPTY || board[8][5] == Tile.EMPTY;
-                if(column == 5)
+                if (column == 5)
                     return board[7][5] == Tile.EMPTY || board[8][4] == Tile.EMPTY || board[8][4] == Tile.OUTSIDE_GAME_BOARD;
-            } else // Checking for the general case
-                return  board[row + 1][column] == Tile.EMPTY ||
-                        board[row - 1][column] == Tile.EMPTY ||
-                        board[row][column + 1] == Tile.EMPTY ||
-                        board[row][column - 1] == Tile.EMPTY ||
-                        board[row + 1][column] == Tile.OUTSIDE_GAME_BOARD ||
-                        board[row - 1][column] == Tile.OUTSIDE_GAME_BOARD ||
-                        board[row][column + 1] == Tile.OUTSIDE_GAME_BOARD ||
-                        board[row][column - 1] == Tile.OUTSIDE_GAME_BOARD;
-        } else throw new IllegalArgumentException();
+            }
+        } else throw new IllegalArgumentException("Selected tile is empty or outside of the board.");
 
-        // Default failure case
-        return false;
+        // Default checking case
+        return board[row + 1][column] == Tile.EMPTY ||
+                board[row - 1][column] == Tile.EMPTY ||
+                board[row][column + 1] == Tile.EMPTY ||
+                board[row][column - 1] == Tile.EMPTY ||
+                board[row + 1][column] == Tile.OUTSIDE_GAME_BOARD ||
+                board[row - 1][column] == Tile.OUTSIDE_GAME_BOARD ||
+                board[row][column + 1] == Tile.OUTSIDE_GAME_BOARD ||
+                board[row][column - 1] == Tile.OUTSIDE_GAME_BOARD;
     }
 
     /**
