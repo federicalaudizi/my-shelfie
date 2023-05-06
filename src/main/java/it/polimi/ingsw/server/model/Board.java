@@ -378,4 +378,12 @@ public class Board {
         // Return correctly-formatted JSONObject
         return new JSONObject().put("board", contents);
     }
+
+    public int getMAX_X() {
+        return MAX_X;
+    }
+
+    public int getMAX_Y() {
+        return MAX_Y;
+    }
 }
