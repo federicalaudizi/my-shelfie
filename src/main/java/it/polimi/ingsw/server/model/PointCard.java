@@ -14,6 +14,13 @@ import org.json.JSONObject;
        this.value= value;
    }
 
+   /**
+    * Copy constructor
+    * */
+   PointCard(PointCard other){
+        this.value = other.value;
+   }
+
    PointCard(JSONObject pointCardJSON) {
        this.value = pointCardJSON.getInt("value");
    }
