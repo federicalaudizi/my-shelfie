@@ -8,6 +8,9 @@ public class Bag {
     private final ArrayList<Tile> tiles;
     private int remainingTiles;
 
+    /**
+     * Constructor for bag
+     * */
     public Bag() {
         remainingTiles = 132;
         tiles = new ArrayList<>(remainingTiles);
@@ -30,6 +33,15 @@ public class Bag {
         for (int i = 0; i < 22; i++) {
             tiles.add(Tile.TROPHIES);
         }
+    }
+
+    /**
+     * Copy constructor
+     * @param other
+     * */
+    public Bag(Bag other){
+        this.remainingTiles = other.remainingTiles;
+        this.tiles = new ArrayList<>(other.tiles);
     }
 
     Tile extract() {
