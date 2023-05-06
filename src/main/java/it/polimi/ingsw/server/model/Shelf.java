@@ -161,6 +161,7 @@ public class Shelf {
      * @return amount of points that the clusters are worth
      */
     int getTileClusterPoints(){
+        //TODO: its possible that this method has errors
         int points = 0;
         boolean[][] exploredSlots = new boolean[5][6];
 
@@ -172,35 +173,43 @@ public class Shelf {
                     int curRow = j;
 
                     //Explore upwards
-                    while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5){
-                        count++;
-                        curRow++;
-                        exploredSlots[curColumn][curRow] = true;
-
-                        //Explore to the right
-                        while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
+                    if(curRow<4) {
+                        while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 5) {
                             count++;
-                            curColumn++;
+                            curRow++;
                             exploredSlots[curColumn][curRow] = true;
+
+                            //Explore to the right
+                            if(curColumn < 3) {
+                                while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 3) {
+                                    count++;
+                                    curColumn++;
+                                    exploredSlots[curColumn][curRow] = true;
+                                }
+                            }
+                            curColumn = i;
                         }
-                        curColumn = i;
                     }
 
                     curRow = j;
 
                     //Explore to the right
-                    while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
-                        count++;
-                        curColumn++;
-                        exploredSlots[curColumn][curRow] = true;
-
-                        //Explore upwards
-                        while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5) {
+                    if(curColumn < 3) {
+                        while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 3) {
                             count++;
-                            curRow++;
+                            curColumn++;
                             exploredSlots[curColumn][curRow] = true;
+
+                            //Explore upwards
+                            if (curRow < 4) {
+                                while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 5) {
+                                    count++;
+                                    curRow++;
+                                    exploredSlots[curColumn][curRow] = true;
+                                }
+                            }
+                            curRow = j;
                         }
-                        curRow = j;
                     }
 
                     //Assign points
