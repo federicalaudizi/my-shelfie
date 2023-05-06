@@ -51,7 +51,9 @@ public class Game {
     /**
      * Copy constructor
      * */
-    public Game(Game other) {
+    public Game(Game other, CollectiveObjectiveCard collectiveObjectiveCard1, CollectiveObjectiveCard collectiveObjectiveCard2) {
+        this.collectiveObjectiveCard1 = collectiveObjectiveCard1;
+        this.collectiveObjectiveCard2 = collectiveObjectiveCard2;
         this.players = new ArrayList<>();
 
         for (Player player : other.players) {
@@ -59,8 +61,6 @@ public class Game {
         }
 
         this.board = new Board(other.board);
-        this.collectiveObjectiveCard1 = new CollectiveObjectiveCard(other.collectiveObjectiveCard1);
-        this.collectiveObjectiveCard2 = new CollectiveObjectiveCard(other.collectiveObjectiveCard2);
         this.pointCardDeck1 = new PointDeck(other.pointCardDeck1);
         this.pointCardDeck2 = new PointDeck(other.pointCardDeck2);
 
