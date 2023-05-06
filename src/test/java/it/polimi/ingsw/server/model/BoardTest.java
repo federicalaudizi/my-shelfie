@@ -75,13 +75,23 @@ public class BoardTest {
         Board board = new Board();
         board.checkBoard();
         System.out.println(board);
-        String oldBoard = board.toString();
-        //assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 5), null, null));
 
+        String oldBoard = board.toString();
+
+        // Testing for no tiles passed to pickTile
+        assertThrows(NullPointerException.class, () -> board.pickTile(null, null, null));
+
+        // Testing for tiles that cannot be picked
+        assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 5), null, null));
+        assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(6, 6), new Coordinate(8, 8), null));
+        assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 2), new Coordinate(4, 3), new Coordinate(4, 4)));
+
+        // Testing for tiles that can be picked
         try {
+            //board.pickTile(new Coordinate());
             board.pickTile(new Coordinate(1, 3), new Coordinate(1,4), null);
         } catch (TileUnpickableException e) {
-            throw new RuntimeException(e);
+            fail();
         }
 
         System.out.println(board);
