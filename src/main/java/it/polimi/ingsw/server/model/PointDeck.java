@@ -77,4 +77,17 @@ public class PointDeck {
         return json;
     }
 
+    public static PointDeck fromJson(JSONObject json, int numOfPlayers) {
+        PointDeck deck = new PointDeck(numOfPlayers);
+
+        JSONArray cardArray = json.getJSONArray("cards");
+        for (int i = 0; i < cardArray.length(); i++) {
+            JSONObject cardJson = cardArray.getJSONObject(i);
+            PointCard card = PointCard.fromJson(String.valueOf(cardJson));
+            deck.cards.push(card);
+        }
+
+        return deck;
+    }
+
 }
