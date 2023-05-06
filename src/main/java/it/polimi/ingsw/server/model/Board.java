@@ -46,7 +46,7 @@ public class Board {
      * Initializes a new board from an already instantiated one.
      * @param toCopy The board to copy from
      */
-    private Board(Board toCopy) {
+     Board(Board toCopy) {
         this.board = new Tile[MAX_X][MAX_Y];
 
         for(int i = 0; i < MAX_X; i++){
