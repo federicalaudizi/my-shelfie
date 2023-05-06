@@ -56,9 +56,9 @@ public class BoardTest {
         x x x x x x x x x\s
         x x x e e x x x x\s
         x x x e e e x x x\s
-        x x e e e e e e x\s
+        x x e e e g e e x\s
         x e e e e e e e x\s
-        x e e e e g e x x\s
+        x e e e e e e x x\s
         x x x e e e x x x\s
         x x x x e e x x x\s
         x x x x x x x x x\s

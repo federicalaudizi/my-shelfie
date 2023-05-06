@@ -341,22 +341,16 @@ public class Board {
 
         for(int i = 0; i < MAX_X; i++) {
             for(int j = 0; j < MAX_Y; j++) {
-                if(board[i][j] == Tile.EMPTY)
-                    output.append("e ");
-                if(board[i][j] == Tile.OUTSIDE_GAME_BOARD)
-                    output.append("x ");
-                if(board[i][j] == Tile.CATS)
-                    output.append("g ");
-                if(board[i][j] == Tile.FRAMES)
-                    output.append("b ");
-                if(board[i][j] == Tile.GAMES)
-                    output.append("y ");
-                if(board[i][j] == Tile.BOOKS)
-                    output.append("b ");
-                if(board[i][j] == Tile.PLANTS)
-                    output.append("m ");
-                if(board[i][j] == Tile.TROPHIES)
-                    output.append("a ");
+                switch(board[i][j]) {
+                    case OUTSIDE_GAME_BOARD -> output.append("x ");
+                    case EMPTY -> output.append("e ");
+                    case CATS -> output.append("g ");
+                    case PLANTS -> output.append("m ");
+                    case FRAMES -> output.append("b ");
+                    case TROPHIES -> output.append("a ");
+                    case GAMES -> output.append("o ");
+                    case BOOKS -> output.append("y ");
+                }
             }
             output.append("\n");
         }
