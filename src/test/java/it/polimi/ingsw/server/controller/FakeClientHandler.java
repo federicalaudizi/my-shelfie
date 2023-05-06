@@ -46,6 +46,7 @@ public class FakeClientHandler extends ClientHandler {
     public void sendGameState(Board board, Player player, int[] pointDeckValues, boolean lastTurnFlag) {
         System.out.println(player.getUsername()+"'s turn:");
         System.out.println(board);
+        System.out.println(player);
     }
 
     /**
@@ -92,7 +93,7 @@ public class FakeClientHandler extends ClientHandler {
     @Override
     public int getColumn() {
         Random r = new Random();
-        return r.nextInt(5);
+        return r.nextInt(0,5);
     }
 
     /**
@@ -114,5 +115,6 @@ public class FakeClientHandler extends ClientHandler {
     @Override
     public void gameOver(HashMap<String, Integer> leaderboard) {
         System.out.println("Game is over, here's the leaderboard:");
+        System.out.println(leaderboard);
     }
 }

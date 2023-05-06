@@ -1,11 +1,7 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.Coordinate;
-import it.polimi.ingsw.server.model.Shelf;
-import it.polimi.ingsw.server.model.Tile;
 import junit.framework.TestCase;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class ShelfTest extends TestCase {
 
@@ -40,7 +36,7 @@ public class ShelfTest extends TestCase {
     public void testContains() throws Exception {
         Shelf testingShelf = new Shelf();
         testingShelf.addTiles(0, new Tile[]{Tile.TROPHIES});
-        assertFalse(testingShelf.contains(Tile.CATS));
+        assertFalse(testingShelf.contains(Tile.TROPHIES));
         testingShelf.addTiles(0, new Tile[]{Tile.CATS});
         assertTrue(testingShelf.contains(Tile.CATS));
     }

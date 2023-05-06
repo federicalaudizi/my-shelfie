@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.exceptions.fullColumnException;
+import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
+import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 import org.junit.*;
 
 import java.util.Objects;
@@ -72,10 +75,12 @@ public class PlayerTest {
     }
 
     @Test
-    public void testTestToString() {
+    public void testTestToString() throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         player = new Player(playerObjectve);
         System.out.println(player);
-        Assert.assertTrue(true);
+        player.addPlayerTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        player.addPlayerTiles(2, new Tile[]{Tile.BOOKS, Tile.CATS, Tile.TROPHIES});
+        System.out.println(player);
     }
 
     @Test
