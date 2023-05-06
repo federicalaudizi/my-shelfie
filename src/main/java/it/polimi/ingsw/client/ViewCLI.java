@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.server.model.Tile;
 import org.json.JSONArray;
 
 import java.io.IOException;
@@ -72,14 +73,52 @@ public class ViewCLI extends View {
         this.client = client;
     }
 
-    private String composeView() {
-        // TODO Implement this method
-        return null;
+    private String composeView(HashMap<String, JSONArray> gameData, HashMap<String, JSONArray> playerData, LinkedList<String> playerOrder, int playerNumber) {
+        /*// Convert board to string
+        String board = jsonMatrixToString(gameData.get("board"));
+
+        // Convert shelves to strings
+        String[] shelves = new String[playerNumber];
+        for(int i = 0; i < playerNumber; i++)
+            shelves[i] = jsonMatrixToString(playerData.get(playerOrder.get(i)).getJSONArray(0));
+
+        // Get personal objective of the player associated to this client
+        String personalObjective = jsonMatrixToString(playerData.get(playerOrder.get(i)).getJSONArray(1));
+
+        // Get descriptions for the collective objectives in the game
+        String[] objectiveDescriptions = new String[2];
+        JSONArray objectives = gameData.get("objectives");
+        objectiveDescriptions[0] = ObjectiveDescription.init().get(objectives.get(0));
+        objectiveDescriptions[1] = ObjectiveDescription.init().get(objectives.get(1));
+
+        // Compose view with obtained strings
+        StringBuilder composedView = new StringBuilder();
+        composedView.append(usernamePadding("You")).append(" | ")
+                .append(usernamePadding("Board")).append(" | ");
+        if(playerNumber > 2)
+            composedView.append(usernamePadding(playerOrder.get(2))).append(" | ");
+
+        // Add vertical padding to board splits
+        String[] boardSplits = new String[15];
+        String[] boardSplits = board.split("\n");
+        boardSplits[9] = "-----------------";
+        for(int i = boardSplits.length; i < 15; i++)
+            boardSplits[i] = "                 ";
+
+        String[] shelfSplits;
+        for(int i = 0; i < playerNumber; i++) {
+            shelfSplits = shelves[i].split("\n");
+            int j = 0, k = 0;
+            while(j < shelfSplits.length) {
+                composedView.append(shelfSplits[j]).append("| ");
+                composedView.append(boardSplits[j]).append("| ")
+            }
+        }*/
     }
 
     @Override
-    void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement) {
-        System.out.println("ViewCLI.update() was called!");
+    void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement, int playerNumber) {
+
     }
 
     private String usernamePadding(String username) {
