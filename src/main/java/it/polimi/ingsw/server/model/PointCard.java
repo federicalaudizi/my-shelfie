@@ -35,6 +35,12 @@ import org.json.JSONObject;
         return obj;
     }
 
+    public static PointCard fromJson(String json){
+       JSONObject obj = new JSONObject();
+       int value = obj.getInt(json);
+       return new PointCard(value);
+    }
+
     public boolean equals(PointCard other){
         return this.value == other.value;
     }
