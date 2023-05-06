@@ -37,6 +37,19 @@ public class PointDeck {
     }
 
     /**
+     * copy constructor
+     * */
+    PointDeck(PointDeck other){
+        this.cards = new Stack<>();
+        Stack<PointCard> otherCards = new Stack<>();
+        otherCards.addAll(other.cards);
+
+        while (!otherCards.isEmpty()) {
+            this.cards.push(otherCards.pop());
+        }
+    }
+
+    /**
      * @return the card with maximum disposable points for that common objective card
      */
     PointCard takePoints() {
