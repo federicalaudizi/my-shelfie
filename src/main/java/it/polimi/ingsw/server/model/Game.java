@@ -49,6 +49,29 @@ public class Game {
     }
 
     /**
+     * Copy constructor
+     * */
+    public Game(Game other) {
+        this.players = new ArrayList<>();
+
+        for (Player player : other.players) {
+            this.players.add(new Player(player));
+        }
+
+        this.board = new Board(other.board);
+        this.collectiveObjectiveCard1 = new CollectiveObjectiveCard(other.collectiveObjectiveCard1);
+        this.collectiveObjectiveCard2 = new CollectiveObjectiveCard(other.collectiveObjectiveCard2);
+        this.pointCardDeck1 = new PointDeck(other.pointCardDeck1);
+        this.pointCardDeck2 = new PointDeck(other.pointCardDeck2);
+
+        this.lastTurn = other.lastTurn;
+        this.currentPlayerIndex = other.currentPlayerIndex;
+        this.lastPlayer = other.lastPlayer;
+        this.firstPlayerSeat = other.firstPlayerSeat;
+        this.isOver = other.isOver;
+    }
+
+    /**
      * This method chooses randomly the first player in the given range of players, sets the first and
      * the last player
      * @param numOfPlayers represents the number of Players
