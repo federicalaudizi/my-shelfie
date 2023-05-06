@@ -6,8 +6,6 @@ import org.json.JSONObject;
 
 import java.security.InvalidParameterException;
 
-//TODO: coordinates on picktile are, from toString point of view, inverted ex. (1,3) means first row from top, third column from left
-
 /**
  * This class creates, initializes and manages the game's board.
  *
