@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -54,11 +55,11 @@ public class Shelf {
         this.contents = new Tile[5][6];
 
         //TODO: How to get the contents of the shelf from the JSONObject?
-        JSONObject[][] array = (JSONObject[][]) shelf.get("contents");
+        JSONArray array = shelf.getJSONArray("contents");
 
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
-                contents[i][j] = Tile.valueOf(array[i][j].getString("color"));
+                contents[i][j] = Tile.valueOf(array.getJSONArray(i).getJSONObject(j).getString("value"));
             }
         }
     }
@@ -320,6 +321,7 @@ public class Shelf {
             for (int j = 0; j < contents[i].length; j++) {
                 jsonBuilder.append("{");
                 jsonBuilder.append("\"color\":\"").append(contents[i][j].getColour()).append("\",");
+                jsonBuilder.append("\"value\":\"").append(Tile.valueOf(contents[i][j].name())).append("\",");
                 jsonBuilder.append("}");
                 if (j < contents[i].length - 1) {
                     jsonBuilder.append(",");
