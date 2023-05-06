@@ -8,7 +8,7 @@ import org.json.JSONObject;
  * @author Sara Massarelli
  */
  public class PointCard {
-   private int value;
+   private final int value;
 
     PointCard(int value){
        this.value= value;
@@ -28,5 +28,8 @@ import org.json.JSONObject;
         return obj;
     }
 
+    public boolean equals(PointCard other){
+        return this.value == other.value;
+    }
 }
 

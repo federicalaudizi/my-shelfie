@@ -6,8 +6,6 @@ import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-
 /**
  * Class that represents the player
  *
@@ -31,12 +29,21 @@ public class Player {
         this.playerShelf = new Shelf();
         this.objectiveCard = new PersonalObjectiveCard(objectiveCard);
         this.pointCards = new PointCard[2];
+        pointCards[0] = new PointCard(0);
+        pointCards[1] = new PointCard(0);
         this.endGameCard = false;
     }
 
+    /**
+     * Gets the username of the player
+     *
+     * @return the username
+     * @author Federica
+     */
     public String getUsername(){
         return username;
     }
+
     /**
      * Copy constructor of the class
      *
@@ -84,6 +91,12 @@ public class Player {
         return new Shelf(playerShelf);
     }
 
+    /**
+     * Calculates the amount of points that the player has gaind until that point
+     *
+     * @return the amount of points
+     * @author Federico
+     */
     int calculatePoints(){
         int points = 0;
 
@@ -95,9 +108,7 @@ public class Player {
 
         //Adding points from the earned point cards
         for(PointCard card : pointCards){
-            if (card != null) {
-                points += card.getValue();
-            }
+            points += card.getValue();
         }
 
         //Adding points from the shelf clusters
@@ -115,11 +126,11 @@ public class Player {
      */
     @Deprecated
     void assignPointCard(PointCard givenCard){
-        if(pointCards[0] == null){
+        if(pointCards[0].getValue() == 0){
             pointCards[0] = givenCard;
             return;
         }
-        if(pointCards[1] == null){
+        if(pointCards[1].getValue() == 0){
             pointCards[1] = givenCard;
         }
     }
@@ -204,10 +215,21 @@ public class Player {
     public boolean equals(Player other) {
         if (this == other) return true;
         if (other == null) return false;
-        return endGameCard == other.endGameCard &&
-                playerShelf.equals(other.playerShelf) &&
-                objectiveCard.equals(other.objectiveCard) &&
-                Arrays.equals(pointCards, other.pointCards);
+        boolean pointCardCondition = true;
+
+        for(int i=0; i<pointCards.length; i++){
+            pointCardCondition = pointCards[i].equals(other.pointCards[i]);
+        }
+
+        boolean endGameCardCondition = endGameCard == other.endGameCard;
+        boolean playerShelfCondition = playerShelf.equals(other.playerShelf);
+        boolean objectiveCardCondition;
+        objectiveCardCondition = objectiveCard.equals(other.objectiveCard);
+
+        return endGameCardCondition &&
+                playerShelfCondition &&
+                objectiveCardCondition &&
+                pointCardCondition;
     }
 
     /**

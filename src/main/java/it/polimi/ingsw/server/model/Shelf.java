@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -53,12 +54,11 @@ public class Shelf {
     Shelf(JSONObject shelf){
         this.contents = new Tile[5][6];
 
-        //TODO: How to get the contents of the shelf from the JSONObject?
-        JSONObject[][] array = (JSONObject[][]) shelf.get("contents");
+        JSONArray array = shelf.getJSONArray("contents");
 
         for (int i = 0; i < 5 ; i++) {
             for (int j = 0; j < 6; j++) {
-                contents[i][j] = Tile.valueOf(array[i][j].getString("color"));
+                contents[i][j] = Tile.valueOf(array.getJSONArray(i).getJSONObject(j).getString("value"));
             }
         }
     }
@@ -161,6 +161,7 @@ public class Shelf {
      * @return amount of points that the clusters are worth
      */
     int getTileClusterPoints(){
+        //TODO: its possible that this method has errors
         int points = 0;
         boolean[][] exploredSlots = new boolean[5][6];
 
@@ -172,35 +173,43 @@ public class Shelf {
                     int curRow = j;
 
                     //Explore upwards
-                    while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5){
-                        count++;
-                        curRow++;
-                        exploredSlots[curColumn][curRow] = true;
-
-                        //Explore to the right
-                        while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
+                    if(curRow<4) {
+                        while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 5) {
                             count++;
-                            curColumn++;
+                            curRow++;
                             exploredSlots[curColumn][curRow] = true;
+
+                            //Explore to the right
+                            if(curColumn < 3) {
+                                while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 3) {
+                                    count++;
+                                    curColumn++;
+                                    exploredSlots[curColumn][curRow] = true;
+                                }
+                            }
+                            curColumn = i;
                         }
-                        curColumn = i;
                     }
 
                     curRow = j;
 
                     //Explore to the right
-                    while(contents[curColumn+1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn+1][curRow] && curColumn<3){
-                        count++;
-                        curColumn++;
-                        exploredSlots[curColumn][curRow] = true;
-
-                        //Explore upwards
-                        while(contents[curColumn][curRow+1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow+1] && curRow<5) {
+                    if(curColumn < 3) {
+                        while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 3) {
                             count++;
-                            curRow++;
+                            curColumn++;
                             exploredSlots[curColumn][curRow] = true;
+
+                            //Explore upwards
+                            if (curRow < 4) {
+                                while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 5) {
+                                    count++;
+                                    curRow++;
+                                    exploredSlots[curColumn][curRow] = true;
+                                }
+                            }
+                            curRow = j;
                         }
-                        curRow = j;
                     }
 
                     //Assign points
@@ -320,6 +329,7 @@ public class Shelf {
             for (int j = 0; j < contents[i].length; j++) {
                 jsonBuilder.append("{");
                 jsonBuilder.append("\"color\":\"").append(contents[i][j].getColour()).append("\",");
+                jsonBuilder.append("\"value\":\"").append(Tile.valueOf(contents[i][j].name())).append("\",");
                 jsonBuilder.append("}");
                 if (j < contents[i].length - 1) {
                     jsonBuilder.append(",");

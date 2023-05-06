@@ -151,6 +151,17 @@ public class PersonalObjectiveCard{
     }
 
     /**
+     * This method compares this to another
+     *
+     * @param other the object to compare to
+     * @return true if equals, false otherwise
+     * @author Federico
+     */
+    public boolean equals(PersonalObjectiveCard other){
+        return PersonalObjectivePattern.valueOf(objective.name()).equals(PersonalObjectivePattern.valueOf(other.objective.name()));
+    }
+
+    /**
      * Enumeration that contains the possible patterns of the personal objective, each pattern is represented by an HashMap
      *
      * @author Federico
