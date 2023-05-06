@@ -9,6 +9,11 @@ public class Coordinate {
         this.column = column;
     }
 
+    public Coordinate(Coordinate other){
+        this.row = other.row;
+        this.column = other.column;
+    }
+
     public int getRow(){
        return row;
     }
