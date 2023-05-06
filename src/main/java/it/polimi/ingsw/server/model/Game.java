@@ -237,7 +237,7 @@ public class Game {
      * @return the board of the game
      * */
     public Board getBoard(){
-        return new Board(board);
+        return board.copy(board);
     }
 
     /**
