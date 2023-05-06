@@ -199,7 +199,7 @@ public class Player {
                 "playerUsername={\n" + username +
                 "}, \nplayerShelf={\n" + playerShelf +
                 "},\nobjectiveCard={\n" + objectiveCard +
-                "},\npointCards={\n" + pointCards +
+                "},\npointCards={[" + pointCards[0] +", "+pointCards[1]+"]"+
                 "},\nendGameCard=" + endGameCard +
                 "\n}";
     }
