@@ -67,7 +67,7 @@ public class ViewCLI extends View {
             Objective II (&): £
             """;
     Scanner scanner = new Scanner(System.in);
-
+    private final int MAX_USERNAME_CHARS = 15;
     public ViewCLI(Client client) {
         this.client = client;
     }
@@ -80,6 +80,45 @@ public class ViewCLI extends View {
     @Override
     void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement) {
         System.out.println("ViewCLI.update() was called!");
+    }
+
+    private String usernamePadding(String username) {
+        if(username.length() < MAX_USERNAME_CHARS) {
+            StringBuilder usernamePadder = new StringBuilder(username);
+            while(usernamePadder.length() < MAX_USERNAME_CHARS)
+                usernamePadder.append(" ");
+            return usernamePadder.toString();
+        } else return username;
+    }
+
+    private String jsonMatrixToString(JSONArray matrix) {
+        StringBuilder board = new StringBuilder();
+
+        for(int i = 0; i < matrix.length(); i++) {
+            // Get every row of the board into a JSONArray
+            JSONArray row = new JSONArray();
+            row.put(matrix.get(i));
+
+            for(int j = 0; j < row.length(); j++) {
+                // Get every tile of that row
+                Tile currentTile = row.getEnum(Tile.class, j);
+                // Convert that tile to a character
+                switch(currentTile) {
+                    case OUTSIDE_GAME_BOARD -> board.append("x ");
+                    case EMPTY -> board.append("e ");
+                    case CATS -> board.append("g ");
+                    case PLANTS -> board.append("m ");
+                    case FRAMES -> board.append("b ");
+                    case TROPHIES -> board.append("a ");
+                    case GAMES -> board.append("o ");
+                    case BOOKS -> board.append("y ");
+                }
+            }
+            // Append a newline at the end of the row
+            board.append("\n");
+        }
+
+        return board.toString();
     }
 
     @Override
