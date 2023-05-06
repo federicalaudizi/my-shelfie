@@ -14,6 +14,7 @@ import java.util.LinkedList;
  */
 public abstract class Client {
     private String username;
+    private int playerNumber;
     final View view;
     private HashMap<String, JSONArray> gameData;
     private LinkedList<String> playerList;
@@ -55,7 +56,8 @@ public abstract class Client {
         try {
             // If it's the first game update, then gameData will contain the field "players"
             JSONArray players = gameData.getJSONArray("players"); // Username, shelf and objective of the players
-            for(int i = 0; i < players.length(); i++) {
+            playerNumber = players.length();
+            for(int i = 0; i < playerNumber; i++) {
                 // Get player data from the update message
                 JSONObject player = players.getJSONObject(i);
                 // Format player data to save it into the gameData HashMap
@@ -111,7 +113,7 @@ public abstract class Client {
         }
 
         // Send updates to view
-        view.update(this.gameData, playerList, lastTurn, achievedObjective);
+        view.update(this.gameData, playerList, lastTurn, achievedObjective, playerNumber);
     }
     abstract void reconnect() throws IOException;
     abstract Message getReply() throws NullPointerException;
