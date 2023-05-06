@@ -45,7 +45,8 @@ public class Board {
     // TODO Implement Cloneable instead of copying the board manually
     Board(Board toCopy) {
         this.board = new Tile[MAX_X][MAX_Y];
-        for(int i=0; i<MAX_X; i++){
+
+        for(int i = 0; i < MAX_X; i++){
             System.arraycopy(toCopy.board[i], 0, this.board[i], 0, MAX_Y);
         }
     }
