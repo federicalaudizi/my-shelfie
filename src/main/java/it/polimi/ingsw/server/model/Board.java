@@ -380,6 +380,15 @@ public class Board {
         return new JSONObject().put("board", contents);
     }
 
+    /**
+     * Returns a copy of the passed board
+     * @param toCopy The board to be copied
+     * @return A new board identical to the one passed as a parameter
+     */
+    Board copy(Board toCopy) {
+        return new Board(toCopy);
+    }
+
     public int getMAX_X() {
         return MAX_X;
     }
