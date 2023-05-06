@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model;
 
 import org.junit.*;
 
+import java.util.Objects;
+
 public class PlayerTest {
     Player player;
     PersonalObjectiveCard playerObjectve = new PersonalObjectiveCard(PersonalObjectiveCard.PersonalObjectivePattern.FIRST_PATTERN);
@@ -79,9 +81,22 @@ public class PlayerTest {
     @Test
     public void testToJson(){
         player = new Player(playerObjectve);
-        System.out.println(player.toJson());
 
         player.assignPointCard(new PointCard(4), 0);
+
+        Player player1 = new Player(player.toJson());
+
         System.out.println(player.toJson());
+        System.out.println(player1.toJson());
+
+        assert(Objects.equals(player1.toJson().toString(), player1.toJson().toString()));
+    }
+
+    @Test
+    public void  testEquals(){
+        player = new Player(playerObjectve);
+        Player player1 = new Player(player);
+
+        assert(player1.equals(player));
     }
 }

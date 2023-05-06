@@ -91,8 +91,8 @@ public class ShelfTest extends TestCase {
 
         System.out.println(testingShelf);
 
-        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         testingShelf.addTiles(0, new Tile[]{Tile.CATS});
+        testingShelf.addTiles(0, new Tile[]{Tile.PLANTS});
 
         System.out.println(testingShelf);
     }
