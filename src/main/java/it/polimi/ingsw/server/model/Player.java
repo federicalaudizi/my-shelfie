@@ -155,9 +155,9 @@ public class Player {
      * @return 0 if the player has no point cards, 1 if the player has a point card from the first deck, 2 if the player has a point card from the second deck, 3 if the player all point cards
      */
     int getPointCardStatus(){
-        if(pointCards[0] == null && pointCards[1] == null) return 0;
-        else if(pointCards[0] != null && pointCards[1] == null) return 1;
-        else if(pointCards[0] == null) return 2;
+        if(pointCards[0].getValue() == 0 && pointCards[1].getValue() == 0) return 0;
+        else if(pointCards[0].getValue() != 0 && pointCards[1].getValue() == 0) return 1;
+        else if(pointCards[0].getValue() == 0) return 2;
         else return 3;
     }
 
@@ -245,11 +245,7 @@ public class Player {
         jsonObject.put("objectiveCard", objectiveCard.toJson());
         JSONArray pointCardsJsonArray = new JSONArray();
         for (PointCard card : pointCards) {
-            if (card != null) {
-                pointCardsJsonArray.put(card.toJson());
-            } else {
-                pointCardsJsonArray.put(new PointCard(0).toJson());
-            }
+            pointCardsJsonArray.put(card.toJson());
         }
         jsonObject.put("pointCards", pointCardsJsonArray);
         jsonObject.put("endGameCard", endGameCard);
