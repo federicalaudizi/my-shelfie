@@ -105,17 +105,21 @@ public class Shelf {
      */
     void addTiles(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         boolean freeColumn = false;
+        int numberOfTiles = 0;
+
+        for(Tile t : tiles) if(t != null) numberOfTiles++;
+
         for(int i=0; i<5; i++){
-            if (availableSlots(i) >= tiles.length) {
+            if (availableSlots(i) >= numberOfTiles) {
                 freeColumn = true;
                 break;
             }
         }
-        if(tiles.length > 3 || !freeColumn) throw new tooManyTilesException();
-        if(tiles.length == 0) throw new notEnoughTilesException();
-        if(availableSlots(column) < tiles.length) throw new fullColumnException();
+        if(numberOfTiles > 3 || !freeColumn) throw new tooManyTilesException();
+        if(numberOfTiles == 0) throw new notEnoughTilesException();
+        if(availableSlots(column) < numberOfTiles) throw new fullColumnException();
 
-        for (Tile toAdd : tiles) insertTile(column, toAdd);
+        for (Tile toAdd : tiles) if(toAdd != null) insertTile(column, toAdd);
     }
 
     /**
@@ -290,19 +294,19 @@ public class Shelf {
             for (int i = 0; i < 5; i++) {
                 if(contents[i][j] == Tile.EMPTY)
                     result.append("e ");
-                if(contents[i][j] == Tile.OUTSIDE_GAME_BOARD)
+                else if(contents[i][j] == Tile.OUTSIDE_GAME_BOARD)
                     result.append("x ");
-                if(contents[i][j] == Tile.CATS)
+                else if(contents[i][j] == Tile.CATS)
                     result.append("g ");
-                if(contents[i][j] == Tile.FRAMES)
+                else if(contents[i][j] == Tile.FRAMES)
                     result.append("b ");
-                if(contents[i][j] == Tile.GAMES)
+                else if(contents[i][j] == Tile.GAMES)
                     result.append("y ");
-                if(contents[i][j] == Tile.BOOKS)
+                else if(contents[i][j] == Tile.BOOKS)
                     result.append("b ");
-                if(contents[i][j] == Tile.PLANTS)
+                else if(contents[i][j] == Tile.PLANTS)
                     result.append("m ");
-                if(contents[i][j] == Tile.TROPHIES)
+                else if(contents[i][j] == Tile.TROPHIES)
                     result.append("a ");
             }
             result.append(" |\n");
