@@ -146,7 +146,7 @@ public class ClientSocket extends Client {
                 throw new IllegalArgumentException("Malformed IP address segment");
             }
             // If the segment is not a valid number, return false
-            if(ipSegment <= 0 || ipSegment > 255)
+            if(ipSegment < 0 || ipSegment > 255)
                 return false;
         }
         // If none of the checks are triggered, the IP is valid
