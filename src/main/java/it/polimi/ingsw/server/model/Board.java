@@ -344,7 +344,6 @@ public class Board {
             for(int j = 0; j < MAX_Y; j++) {
                 output.append(board[i][j].getSymbol()).append(" ");
             }
-            output.append("\n");
         }
 
         return output.toString();
