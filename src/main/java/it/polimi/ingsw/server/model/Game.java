@@ -332,4 +332,13 @@ public class Game {
         return p.getPointCardStatus();
     }
 
+    /**
+     * Returns an array with the names of the objectives associated to the current game.
+     * @return A String array containing the names of the objective in order
+     * @author Mario Merlo
+     */
+    public String[] getObjectives() {
+        return new String[]{ collectiveObjectiveCard1.getClass().getSimpleName(), collectiveObjectiveCard2.getClass().getSimpleName() };
+    }
+
 }
