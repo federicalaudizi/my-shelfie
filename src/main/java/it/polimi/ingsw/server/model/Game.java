@@ -277,4 +277,16 @@ public class Game {
     public int getFirst(){
         return firstPlayerSeat;
     }
+
+    /**
+     * Getter for the players in game
+     *
+     * @return an array list of players in game
+     *
+     * */
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+
+
 }
