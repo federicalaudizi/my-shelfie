@@ -87,7 +87,7 @@ public class Player {
      *
      * @return copy of the player shelf
      */
-    Shelf getShelf(){
+    public Shelf getShelf(){
         return new Shelf(playerShelf);
     }
 
