@@ -301,7 +301,6 @@ public class PersonalObjectiveCard{
                         ret.append("e ");
                     }
                 }
-                ret.append("|\n");
             }
 
             return ret.toString();
