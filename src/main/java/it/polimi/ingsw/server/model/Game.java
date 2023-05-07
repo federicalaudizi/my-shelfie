@@ -288,5 +288,13 @@ public class Game {
         return players;
     }
 
+    /**
+     * @param p player of which I need to get the shelf
+     *
+     * @return the shelf of the player p*/
+    public Shelf getShelf(Player p){
+        return p.getShelf();
+    }
+
 
 }
