@@ -7,66 +7,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class ViewCLI extends View {
-    private final String twoPlayerView = """
-            You (?)         | Board             | Your objective:
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
-            --------------- | ^ ^ ^ ^ ^ ^ ^ ^ ^ | ---------------
-            ¥2       (?)    | ^ ^ ^ ^ ^ ^ ^ ^ ^ |
-            @ @ @ @ @       | ^ ^ ^ ^ ^ ^ ^ ^ ^ |
-            @ @ @ @ @       | ----------------- |
-            @ @ @ @ @       |                   |
-            @ @ @ @ @       |                   |
-            @ @ @ @ @       |                   |
-            @ @ @ @ @       |                   |
-            -----------------------------------------------------
-            Objective I (&1): £1
-            Objective II (&2): £2
-            """;
-    private final String threePlayerView = """
-            You (?)         | Board             | ¥3       (?)   
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
-            --------------- | ^ ^ ^ ^ ^ ^ ^ ^ ^ | ---------------
-            ¥2       (?)    | ^ ^ ^ ^ ^ ^ ^ ^ ^ | Your objective:
-            @ @ @ @ @       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
-            @ @ @ @ @       | ----------------- | $ $ $ $ $
-            @ @ @ @ @       |                   | $ $ $ $ $
-            @ @ @ @ @       |                   | $ $ $ $ $
-            @ @ @ @ @       |                   | $ $ $ $ $
-            @ @ @ @ @       |                   | $ $ $ $ $
-            -----------------------------------------------------
-            Objective I (&1): £1
-            Objective II (&2): £2
-            """;
-    private final String fourPlayerView = """
-            You (?)         | Board             | ¥3       (?)    | Your objective:
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
-            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
-            --------------- | ^ ^ ^ ^ ^ ^ ^ ^ ^ | --------------- | ---------------
-            ¥2       (?)    | ^ ^ ^ ^ ^ ^ ^ ^ ^ | ¥4       (?)    |
-            @ @ @ @ @       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | # # # # #       |
-            @ @ @ @ @       | ----------------- | # # # # #       |
-            @ @ @ @ @       |                   | # # # # #       |
-            @ @ @ @ @       |                   | # # # # #       |
-            @ @ @ @ @       |                   | # # # # #       |
-            @ @ @ @ @       |                   | # # # # #       |
-            -----------------------------------------------------------------------
-            Objective I (&): £
-            Objective II (&): £
-            """;
     Scanner scanner = new Scanner(System.in);
     private final int MAX_USERNAME_CHARS = 15;
     public ViewCLI(Client client) {
@@ -236,5 +176,116 @@ public class ViewCLI extends View {
                 System.out.println("                         | " + player.getKey() + " | " + player.getValue() + " |                         ");
             }
         }
+    }
+}
+
+enum ViewPrototypes {
+    TWO_PLAYERS(2, """
+            111111111111111 | Board             | Your objective:
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
+            --------------- | ^ ^ ^ ^ ^ ^ ^ ^ ^ | ---------------
+            222222222222222 | ^ ^ ^ ^ ^ ^ ^ ^ ^ |
+            @ @ @ @ @       | ^ ^ ^ ^ ^ ^ ^ ^ ^ |
+            @ @ @ @ @       | ----------------- |
+            @ @ @ @ @       |                   |
+            @ @ @ @ @       |                   |
+            @ @ @ @ @       |                   |
+            @ @ @ @ @       |                   |
+            -----------------------------------------------------
+            Objective I (&): £
+            Objective II (&): £
+            """),
+    THREE_PLAYERS(3, """
+            111111111111111 | Board             | 333333333333333
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %
+            --------------- | ^ ^ ^ ^ ^ ^ ^ ^ ^ | ---------------
+            222222222222222 | ^ ^ ^ ^ ^ ^ ^ ^ ^ | Your objective:
+            @ @ @ @ @       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | $ $ $ $ $
+            @ @ @ @ @       | ----------------- | $ $ $ $ $
+            @ @ @ @ @       |                   | $ $ $ $ $
+            @ @ @ @ @       |                   | $ $ $ $ $
+            @ @ @ @ @       |                   | $ $ $ $ $
+            @ @ @ @ @       |                   | $ $ $ $ $
+            -----------------------------------------------------
+            Objective I (&): £
+            Objective II (&): £
+            """),
+    FOUR_PLAYERS(4, """
+            111111111111111 | Board             | 333333333333333 | Your objective:
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
+            * * * * *       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | % % % % %       | $ $ $ $ $
+            --------------- | ^ ^ ^ ^ ^ ^ ^ ^ ^ | --------------- | ---------------
+            222222222222222 | ^ ^ ^ ^ ^ ^ ^ ^ ^ | 444444444444444 |
+            @ @ @ @ @       | ^ ^ ^ ^ ^ ^ ^ ^ ^ | # # # # #       |
+            @ @ @ @ @       | ----------------- | # # # # #       |
+            @ @ @ @ @       |                   | # # # # #       |
+            @ @ @ @ @       |                   | # # # # #       |
+            @ @ @ @ @       |                   | # # # # #       |
+            @ @ @ @ @       |                   | # # # # #       |
+            -----------------------------------------------------------------------
+            Objective I (&): £
+            Objective II (&): £
+            """);
+
+    final int playerNumber;
+    final String viewPrototype;
+
+    ViewPrototypes(int playerNumber, String viewPrototype) {
+        this.playerNumber = playerNumber;
+        this.viewPrototype = viewPrototype;
+    }
+
+    public static String getViewByPlayerNum(int playerNumber) {
+        for(ViewPrototypes viewPrototype : ViewPrototypes.values()) {
+            if(viewPrototype.playerNumber == playerNumber)
+                return viewPrototype.viewPrototype;
+        }
+        throw new IllegalArgumentException("No such game with " + playerNumber + " players.");
+    }
+}
+
+enum ObjectiveDescription {
+    PATTERNONE("Six groups each containing at least two tiles of the same type."),
+    PATTERNTWO("Four groups each containing al least 4 tiles of the same type."),
+    PATTERNTHREE("Four tiles of the same type in the four corners of the bookshelf."),
+    PATTERNFOUR("Two groups each containing 4 tiles of the same type in a 2x2 square."),
+    PATTERNFIVE("Three columns each formed by 6 tiles of maximum 3 different types."),
+    PATTERNSIX("Eight tiles of the same type."),
+    PATTERNSEVEN("Five tiles of the same type forming a diagonal."),
+    PATTERNEIGHT("Four lines each formed by 5 tiles of maximum three different types."),
+    PATTERNNINE("Two columns each formed by 6 different types of tiles."),
+    PATTERNTEN("Two lines each formed by 5 different types of tiles."),
+    PATTERNELEVEN("Five tiles of the same type forming an X."),
+    PATTERNTWELVE("Five columns of increasing or decreasing height.");
+
+    private final String description;
+    ObjectiveDescription(String description) {
+        this.description = description;
+    }
+
+    private String getDescription() {
+        return this.description;
+    }
+
+    public static String getDescriptionFromName(String name) {
+        for(ObjectiveDescription desc : ObjectiveDescription.values()) {
+            if(desc.name().equalsIgnoreCase(name))
+                return desc.getDescription();
+        }
+        throw new IllegalArgumentException("No such pattern name.");
     }
 }
