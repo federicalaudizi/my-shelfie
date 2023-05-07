@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import org.json.JSONArray;
+import it.polimi.ingsw.server.model.Game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.LinkedList;
 public abstract class View {
     Client client;
 
-    abstract void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement, int playerNumber);
+    abstract void update(Game game, LinkedList<String> playerOrder);
 
     abstract String confirmationPrompt(String message);
 
