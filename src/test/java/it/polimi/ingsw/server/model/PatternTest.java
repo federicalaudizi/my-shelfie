@@ -248,4 +248,11 @@ public class PatternTest {
         System.out.println(testingShelf);
         assertTrue(pattern.checkObjective(testingShelf));
     }
+
+    @Test
+    public void testGetRandomCard() {
+        CollectiveObjectiveCard card = CollectiveObjectiveCard.getRandomCard();
+        System.out.println("Random Card: " + card);
+    }
+
 }
