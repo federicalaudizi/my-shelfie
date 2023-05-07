@@ -529,6 +529,14 @@ public abstract class CollectiveObjectiveCard {
         return obj;
     }
 
+    /**
+     * Returns a pattern from a collectiveObjective
+     *
+     * @author Federica
+     * @return CollectiveObjectiveCard
+     * @param json
+     *
+     */
     public static CollectiveObjectiveCard fromJson(JSONObject json) {
         String type = json.getString("cardType");
         CollectiveObjectiveCard instance;
