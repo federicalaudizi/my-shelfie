@@ -371,12 +371,12 @@ public class Board {
     }
 
     public Board(JSONObject jsonObject){
-        this.board = new Tile[9][9];
+        this.board = new Tile[MAX_X][MAX_Y];
         JSONArray contents = jsonObject.getJSONArray("board");
         for(int i = 0; i < MAX_X; i++) {
             JSONArray row = contents.getJSONArray(i);
             for(int j = 0; j < MAX_Y; j++) {
-                this.board[i][j] = (Tile) row.get(j);
+                this.board[i][j] = Tile.valueOf(row.getString(j));
             }
         }
 

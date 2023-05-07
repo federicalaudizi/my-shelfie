@@ -256,6 +256,26 @@ public class Game {
         return json;
     }
 
+    public Game(JSONObject jsonObject){
+        JSONObject boardJson = jsonObject.getJSONObject("board");
+        this.board = new Board(boardJson);
+
+        this.players = new ArrayList<>();
+        JSONArray playersArray = jsonObject.getJSONArray("players");
+        for (int i = 0; i < playersArray.length(); i++) {
+            JSONObject playerJson = playersArray.getJSONObject(i);
+            Player player = new Player(playerJson);
+            this.players.add(player);
+        }
+
+        JSONArray decksArray = jsonObject.getJSONArray("pointDecks");
+        this.pointCardDeck1 = new PointDeck(decksArray.getInt(0));
+        this.pointCardDeck2= new PointDeck(decksArray.getInt(1));
+
+
+
+    }
+
     /**
      * @return the board of the game
      * */
