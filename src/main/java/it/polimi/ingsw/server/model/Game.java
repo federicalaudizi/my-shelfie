@@ -265,6 +265,9 @@ public class Game {
         JSONArrayDecks.put(pointCardDeck2.topValue());
         json.put("pointDecks", JSONArrayDecks);
 
+        //Inserting the "isOver" flag
+        json.put("isOver", isOver);
+
         return json;
     }
 
