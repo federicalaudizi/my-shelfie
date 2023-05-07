@@ -35,10 +35,9 @@ import org.json.JSONObject;
         return obj;
     }
 
-    public static PointCard fromJson(String json){
-       JSONObject obj = new JSONObject();
-       int value = obj.getInt(json);
-       return new PointCard(value);
+    public static PointCard fromJson(JSONObject jsonObject) {
+        int value = jsonObject.getInt("value");
+        return new PointCard(value);
     }
 
     public boolean equals(PointCard other){
