@@ -260,7 +260,7 @@ public class Game {
      * @return the board of the game
      * */
     public Board getBoard(){
-        return board.copy(board);
+        return board.copy();
     }
 
     /**
