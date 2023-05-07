@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * @author Federico
  */
-public class PersonalObjectiveCard{
+public class PersonalObjectiveCard {
     /**
      * Dictionary containing 6 elements, each element represent a tile type and is keyed by its coordinates on the shelf;
      */
@@ -22,18 +22,16 @@ public class PersonalObjectiveCard{
      * HashMap that contains already used patterns
      */
 
-    public static final HashMap<Game,List<PersonalObjectivePattern>>usedPattern = new HashMap<>();
+    public static final HashMap<Game, List<PersonalObjectivePattern>> usedPattern = new HashMap<>();
 
     /**
      * Constructor of the personal objective, creates the objective choosing a random pattern from the PersonalObjectivePattern enum that hasn't been used yet
      *
-     * @author Federico, Sara
-     *
-     * @throws IllegalStateException when all personal objective cards have been handled, this exception should be impossible to reach
-     *
      * @param game in which PersonalObjectiveCards are used
+     * @throws IllegalStateException when all personal objective cards have been handled, this exception should be impossible to reach
+     * @author Federico, Sara
      */
-    PersonalObjectiveCard(Game game) throws IllegalStateException{
+    PersonalObjectiveCard(Game game) throws IllegalStateException {
         List<PersonalObjectivePattern> patterns = usedPattern.getOrDefault(game, new ArrayList<>());
         if (patterns.size() == PersonalObjectivePattern.values().length) {
             throw new IllegalStateException("All the personal objectives have been used for this game");
@@ -53,10 +51,9 @@ public class PersonalObjectiveCard{
      * Constructor of the personal objective, creates the objective from a JSONObject
      *
      * @param object JSONObject that contains the personal objective
-     *
      * @author Federico
      */
-    PersonalObjectiveCard(JSONObject object){
+    PersonalObjectiveCard(JSONObject object) {
         int pattern = object.getInt("code");
         this.objective = PersonalObjectivePattern.values()[pattern - 1];
     }
@@ -66,7 +63,7 @@ public class PersonalObjectiveCard{
      *
      * @param toCopy PersonalObjective that has to be copied
      */
-    PersonalObjectiveCard(PersonalObjectiveCard toCopy){
+    PersonalObjectiveCard(PersonalObjectiveCard toCopy) {
         this.objective = toCopy.objective;
     }
 
@@ -74,51 +71,48 @@ public class PersonalObjectiveCard{
      * Constructor of the personal objective, creates the objective with a pattern passed as parameter, this constructor is deprecated because it is used only for testing purposes
      *
      * @param pattern Pattern that has to be used
-     *
      * @author Federic0
      */
     @Deprecated
-    PersonalObjectiveCard(PersonalObjectivePattern pattern){
+    PersonalObjectiveCard(PersonalObjectivePattern pattern) {
         this.objective = pattern;
     }
 
     /**
      * Method that checks how many points the player has earned with the personal objective
      *
-     * @author Federico
-     *
      * @param shelf The shelf that has to be checked
      * @return Returns how many points the player has earned with the personal objective
+     * @author Federico
      */
-    int checkObjective(Shelf shelf){
+    int checkObjective(Shelf shelf) {
         int correspondingTiles = 0;
 
-        for(Coordinate checkingCoord : objective.getPattern().keySet()){
-            if(shelf.getTile(checkingCoord) == objective.getPattern().get(checkingCoord)) correspondingTiles++;
+        for (Coordinate checkingCoord : objective.getPattern().keySet()) {
+            if (shelf.getTile(checkingCoord) == objective.getPattern().get(checkingCoord)) correspondingTiles++;
         }
 
-        if(correspondingTiles == 0) return 0;
-        else if(correspondingTiles == 1) return 1;
-        else if(correspondingTiles == 2) return 2;
-        else if(correspondingTiles == 3) return 4;
-        else if(correspondingTiles == 4) return 6;
-        else if(correspondingTiles == 5) return 9;
-        else if(correspondingTiles == 6) return 12;
+        if (correspondingTiles == 0) return 0;
+        else if (correspondingTiles == 1) return 1;
+        else if (correspondingTiles == 2) return 2;
+        else if (correspondingTiles == 3) return 4;
+        else if (correspondingTiles == 4) return 6;
+        else if (correspondingTiles == 5) return 9;
+        else if (correspondingTiles == 6) return 12;
         else throw new IllegalStateException("Something went wrong while checking the personal objective");
     }
 
     /**
      * Method that returns the pattern of the personal objective
      *
-     * @author Federico
-     *
      * @return Returns the pattern of the personal objective
+     * @author Federico
      */
-    PersonalObjectivePattern getPattern(){
+    PersonalObjectivePattern getPattern() {
         return objective;
     }
 
-    public String toString(){
+    public String toString() {
         return objective.toString();
     }
 
@@ -130,7 +124,7 @@ public class PersonalObjectiveCard{
      */
     public JSONObject toJson() {
         JSONObject me = new JSONObject();
-        switch (objective){
+        switch (objective) {
             case FIRST_PATTERN -> me.put("code", 1);
             case SECOND_PATTERN -> me.put("code", 2);
             case THIRD_PATTERN -> me.put("code", 3);
@@ -155,7 +149,7 @@ public class PersonalObjectiveCard{
      * @return true if equals, false otherwise
      * @author Federico
      */
-    public boolean equals(PersonalObjectiveCard other){
+    public boolean equals(PersonalObjectiveCard other) {
         return PersonalObjectivePattern.valueOf(objective.name()).equals(PersonalObjectivePattern.valueOf(other.objective.name()));
     }
 
@@ -164,7 +158,7 @@ public class PersonalObjectiveCard{
      *
      * @author Federico
      */
-    enum PersonalObjectivePattern{
+    enum PersonalObjectivePattern {
         FIRST_PATTERN(new HashMap<>() {{
             put(new Coordinate(2, 5), Tile.TROPHIES); //Cyan
             put(new Coordinate(4, 5), Tile.CATS); //Green
@@ -283,19 +277,19 @@ public class PersonalObjectiveCard{
             return pattern;
         }
 
-        public String toString(){
+        public String toString() {
             StringBuilder ret = new StringBuilder();
 
-            for(int j=5; j>=0; j--){
-                for(int i=0; i<5; i++){
-                    Coordinate printingCoord  = null;
-                    for(Coordinate checkingCoord : pattern.keySet()){
-                        if(checkingCoord.getRow() == i && checkingCoord.getColumn() == j){
+            for (int j = 5; j >= 0; j--) {
+                for (int i = 0; i < 5; i++) {
+                    Coordinate printingCoord = null;
+                    for (Coordinate checkingCoord : pattern.keySet()) {
+                        if (checkingCoord.getRow() == i && checkingCoord.getColumn() == j) {
                             printingCoord = checkingCoord;
                         }
                     }
 
-                    if(printingCoord != null){
+                    if (printingCoord != null) {
                         ret.append(pattern.get(printingCoord).getSymbol()).append(" ");
                     } else {
                         ret.append("e ");
@@ -305,8 +299,5 @@ public class PersonalObjectiveCard{
 
             return ret.toString();
         }
-    }
-    public static PersonalObjectiveCard fromJson(JSONObject json) {
-        return new PersonalObjectiveCard(json);
     }
 }
