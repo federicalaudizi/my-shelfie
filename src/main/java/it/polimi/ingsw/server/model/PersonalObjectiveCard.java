@@ -306,4 +306,7 @@ public class PersonalObjectiveCard{
             return ret.toString();
         }
     }
+    public static PersonalObjectiveCard fromJson(JSONObject json) {
+        return new PersonalObjectiveCard(json);
+    }
 }
