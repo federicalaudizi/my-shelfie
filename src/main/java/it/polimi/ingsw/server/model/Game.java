@@ -14,7 +14,7 @@ import java.util.*;
  * @author Sara Massarelli
  */
 public class Game {
-    public final ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private final Board board;
     private final CollectiveObjectiveCard collectiveObjectiveCard1;
     private final CollectiveObjectiveCard collectiveObjectiveCard2;
