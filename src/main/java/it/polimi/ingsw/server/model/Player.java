@@ -271,37 +271,6 @@ public class Player {
         return objectiveCard;
     }
 
-    /**
-     * Converts from JSONObject to player type
-     *
-     * @param jsonObject of a player
-     * @return a Player
-     * @author Federica
-     */
-    public static Player fromJson(JSONObject jsonObject) {
-        String username = jsonObject.optString("username");
-        Shelf playerShelf = Shelf.fromJson(jsonObject.getJSONObject("playerShelf"));
-        PersonalObjectiveCard objectiveCard = PersonalObjectiveCard.fromJson(jsonObject.getJSONObject("objectiveCard"));
-        JSONArray pointCardsJsonArray = jsonObject.getJSONArray("pointCards");
-        PointCard[] pointCards = new PointCard[2];
-        for (int i = 0; i < pointCardsJsonArray.length(); i++) {
-            JSONObject cardJson = pointCardsJsonArray.getJSONObject(i);
-            PointCard pointCard = PointCard.fromJson(cardJson);
-            pointCards[i] = pointCard;
-        }
-        boolean endGameCard = jsonObject.optBoolean("endGameCard");
-
-        Player player = new Player(objectiveCard);
-        player.setPlayerName(username);
-        player.setPlayerShelf(playerShelf);
-        for (int i = 0; i < 2; i++) {
-            player.assignPointCard(pointCards[i], i);
-        }
-        player.updateEndGameCard(endGameCard);
-
-        return player;
-    }
-
     private void updateEndGameCard(boolean endGameCard) {
         this.endGameCard =  endGameCard;
     }
