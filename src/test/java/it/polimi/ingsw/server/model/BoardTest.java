@@ -111,4 +111,12 @@ public class BoardTest {
 
 
     }
+
+    @Test
+    public void fromJsonTest(){
+        Board board = new Board(2);
+        JSONObject j = board.toJSON();
+        System.out.println(board.fromJson(j,2));
+        System.out.println(board.equals(board.fromJson(j,2)));
+    }
 }
