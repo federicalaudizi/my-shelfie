@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class ViewCLI extends View {
     Scanner scanner = new Scanner(System.in);
-    private final int MAX_USERNAME_CHARS = 15;
+
     public ViewCLI(Client client) {
         this.client = client;
     }
@@ -65,13 +65,26 @@ public class ViewCLI extends View {
         System.out.println(view);
     }
 
-    private String usernamePadding(String username) {
-        if(username.length() < MAX_USERNAME_CHARS) {
-            StringBuilder usernamePadder = new StringBuilder(username);
-            while(usernamePadder.length() < MAX_USERNAME_CHARS)
-                usernamePadder.append(" ");
-            return usernamePadder.toString();
-        } else return username;
+    private String usernameFormatter(String username, int completedObjectives) {
+        // Create StringBuilder starting from the passed username
+        StringBuilder formattedUsername = new StringBuilder(username);
+
+        // Append the completed objective badge
+        switch (completedObjectives) {
+            case 1 -> formattedUsername.append(" (I)");
+            case 2 -> formattedUsername.append(" (II)");
+            case 3 -> formattedUsername.append(" (I/II)");
+        }
+
+        // Pad to maintain correct formatting
+        final int MAX_USERNAME_CHARS = 15;
+        if(formattedUsername.length() < MAX_USERNAME_CHARS) {
+            while(formattedUsername.length() < MAX_USERNAME_CHARS)
+                formattedUsername.append(" ");
+        }
+
+        // Return formatted username
+        return formattedUsername.toString();
     }
 
     private String jsonMatrixToString(JSONArray matrix) {
