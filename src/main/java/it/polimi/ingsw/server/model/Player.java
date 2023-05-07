@@ -252,4 +252,15 @@ public class Player {
         return jsonObject;
     }
 
+    /**
+     * Getter for the Personal Objective Card
+     *
+     * @return  the personal objective card of the player
+     *
+     * @author Sara
+     * */
+    public PersonalObjectiveCard getObjective(){
+        return objectiveCard;
+    }
+
 }
