@@ -37,70 +37,70 @@ public class GameTest {
             Game g3 = new Game(3);
             Game g4 = new Game(4);
 
-            g2.players.get(0).setEndGameCard();
-            g2.players.get(0).assignPointCard(new PointCard(8), 0);
-            g2.players.get(0).assignPointCard(new PointCard(4), 1);
+            g2.getPlayers().get(0).setEndGameCard();
+            g2.getPlayers().get(0).assignPointCard(new PointCard(8), 0);
+            g2.getPlayers().get(0).assignPointCard(new PointCard(4), 1);
 
-            g2.players.get(1).assignPointCard(new PointCard(4), 0);
-            g2.players.get(1).assignPointCard(new PointCard(8), 1);
+            g2.getPlayers().get(1).assignPointCard(new PointCard(4), 0);
+            g2.getPlayers().get(1).assignPointCard(new PointCard(8), 1);
 
             HashMap<String, Integer> h = new HashMap<>();
-            h.put(g2.players.get(0).getUsername(), 13);
-            h.put(g2.players.get(1).getUsername(), 12);
+            h.put(g2.getPlayers().get(0).getUsername(), 13);
+            h.put(g2.getPlayers().get(1).getUsername(), 12);
 
             assertEquals(h,g2.getRankedPlayers());
 
-            g3.players.get(0).assignPointCard(new PointCard(4),0);
-            g3.players.get(0).setEndGameCard();
-            g3.players.get(0).assignPointCard(new PointCard(6),1);
-            g3.players.get(0).addPlayerTiles(0,new Tile[]{Tile.CATS,Tile.CATS,Tile.CATS}); //cluster 5 = 5 punti
-            g3.players.get(0).addPlayerTiles(0, new Tile[]{Tile.CATS,Tile.CATS});//tot 16
+            g3.getPlayers().get(0).assignPointCard(new PointCard(4),0);
+            g3.getPlayers().get(0).setEndGameCard();
+            g3.getPlayers().get(0).assignPointCard(new PointCard(6),1);
+            g3.getPlayers().get(0).addPlayerTiles(0,new Tile[]{Tile.CATS,Tile.CATS,Tile.CATS}); //cluster 5 = 5 punti
+            g3.getPlayers().get(0).addPlayerTiles(0, new Tile[]{Tile.CATS,Tile.CATS});//tot 16
 
-            g3.players.get(1).assignPointCard(new PointCard(8),0);
-            g3.players.get(1).assignPointCard(new PointCard(8),1);
-            g3.players.get(1).addPlayerTiles(1, new Tile[]{Tile.GAMES,Tile.GAMES});
-            g3.players.get(1).addPlayerTiles(2, new Tile[]{Tile.GAMES,Tile.GAMES});
-            g3.players.get(1).addPlayerTiles(3, new Tile[]{Tile.GAMES,Tile.GAMES}); //8punti--> tot 24
+            g3.getPlayers().get(1).assignPointCard(new PointCard(8),0);
+            g3.getPlayers().get(1).assignPointCard(new PointCard(8),1);
+            g3.getPlayers().get(1).addPlayerTiles(1, new Tile[]{Tile.GAMES,Tile.GAMES});
+            g3.getPlayers().get(1).addPlayerTiles(2, new Tile[]{Tile.GAMES,Tile.GAMES});
+            g3.getPlayers().get(1).addPlayerTiles(3, new Tile[]{Tile.GAMES,Tile.GAMES}); //8punti--> tot 24
 
-            g3.players.get(2).assignPointCard(new PointCard(6),0);
-            g3.players.get(2).assignPointCard(new PointCard(4),1);
-            g3.players.get(2).addPlayerTiles(2, new Tile[]{Tile.PLANTS,Tile.PLANTS});
-            g3.players.get(2).addPlayerTiles(1, new Tile[]{Tile.PLANTS});//2punti -->12pt
+            g3.getPlayers().get(2).assignPointCard(new PointCard(6),0);
+            g3.getPlayers().get(2).assignPointCard(new PointCard(4),1);
+            g3.getPlayers().get(2).addPlayerTiles(2, new Tile[]{Tile.PLANTS,Tile.PLANTS});
+            g3.getPlayers().get(2).addPlayerTiles(1, new Tile[]{Tile.PLANTS});//2punti -->12pt
 
         HashMap<String, Integer> h1 = new HashMap<>();
-        h1.put(g3.players.get(1).getUsername(), 24);
-        h1.put(g3.players.get(0).getUsername(), 16);
-        h1.put(g3.players.get(2).getUsername(),12);
+        h1.put(g3.getPlayers().get(1).getUsername(), 24);
+        h1.put(g3.getPlayers().get(0).getUsername(), 16);
+        h1.put(g3.getPlayers().get(2).getUsername(),12);
 
         assertEquals(h1,g3.getRankedPlayers());
 
-        g4.players.get(0).assignPointCard(new PointCard(4),0);
-        g4.players.get(0).setEndGameCard();
-        g4.players.get(0).assignPointCard(new PointCard(6),1);
-        g4.players.get(0).addPlayerTiles(0,new Tile[]{Tile.CATS,Tile.CATS,Tile.CATS}); //cluster 5 = 5 punti
-        g4.players.get(0).addPlayerTiles(0, new Tile[]{Tile.CATS,Tile.CATS});//tot 16
+        g4.getPlayers().get(0).assignPointCard(new PointCard(4),0);
+        g4.getPlayers().get(0).setEndGameCard();
+        g4.getPlayers().get(0).assignPointCard(new PointCard(6),1);
+        g4.getPlayers().get(0).addPlayerTiles(0,new Tile[]{Tile.CATS,Tile.CATS,Tile.CATS}); //cluster 5 = 5 punti
+        g4.getPlayers().get(0).addPlayerTiles(0, new Tile[]{Tile.CATS,Tile.CATS});//tot 16
 
-        g4.players.get(1).assignPointCard(new PointCard(8),0);
-        g4.players.get(1).assignPointCard(new PointCard(8),1);
-        g4.players.get(1).addPlayerTiles(1, new Tile[]{Tile.GAMES,Tile.GAMES});
-        g4.players.get(1).addPlayerTiles(2, new Tile[]{Tile.GAMES,Tile.GAMES});
-        g4.players.get(1).addPlayerTiles(3, new Tile[]{Tile.GAMES,Tile.GAMES}); //8punti--> tot 24
+        g4.getPlayers().get(1).assignPointCard(new PointCard(8),0);
+        g4.getPlayers().get(1).assignPointCard(new PointCard(8),1);
+        g4.getPlayers().get(1).addPlayerTiles(1, new Tile[]{Tile.GAMES,Tile.GAMES});
+        g4.getPlayers().get(1).addPlayerTiles(2, new Tile[]{Tile.GAMES,Tile.GAMES});
+        g4.getPlayers().get(1).addPlayerTiles(3, new Tile[]{Tile.GAMES,Tile.GAMES}); //8punti--> tot 24
 
-        g4.players.get(2).assignPointCard(new PointCard(6),0);
-        g4.players.get(2).assignPointCard(new PointCard(4),1);
-        g4.players.get(2).addPlayerTiles(2, new Tile[]{Tile.PLANTS,Tile.PLANTS});
-        g4.players.get(2).addPlayerTiles(1, new Tile[]{Tile.PLANTS});//2punti -->12pt
+        g4.getPlayers().get(2).assignPointCard(new PointCard(6),0);
+        g4.getPlayers().get(2).assignPointCard(new PointCard(4),1);
+        g4.getPlayers().get(2).addPlayerTiles(2, new Tile[]{Tile.PLANTS,Tile.PLANTS});
+        g4.getPlayers().get(2).addPlayerTiles(1, new Tile[]{Tile.PLANTS});//2punti -->12pt
 
-        g4.players.get(3).assignPointCard(new PointCard(2),0);
-        g4.players.get(3).addPlayerTiles(0, new Tile[]{Tile.FRAMES, Tile.FRAMES});
-        g4.players.get(3).addPlayerTiles(1, new Tile[]{Tile.FRAMES, Tile.FRAMES});
-        g4.players.get(3).addPlayerTiles(2, new Tile[]{Tile.FRAMES, Tile.FRAMES});//tot10
+        g4.getPlayers().get(3).assignPointCard(new PointCard(2),0);
+        g4.getPlayers().get(3).addPlayerTiles(0, new Tile[]{Tile.FRAMES, Tile.FRAMES});
+        g4.getPlayers().get(3).addPlayerTiles(1, new Tile[]{Tile.FRAMES, Tile.FRAMES});
+        g4.getPlayers().get(3).addPlayerTiles(2, new Tile[]{Tile.FRAMES, Tile.FRAMES});//tot10
 
         HashMap<String, Integer> h2 = new HashMap<>();
-        h2.put(g4.players.get(1).getUsername(), 24);
-        h2.put(g4.players.get(0).getUsername(), 16);
-        h2.put(g4.players.get(2).getUsername(),12);
-        h2.put(g4.players.get(3).getUsername(),10);
+        h2.put(g4.getPlayers().get(1).getUsername(), 24);
+        h2.put(g4.getPlayers().get(0).getUsername(), 16);
+        h2.put(g4.getPlayers().get(2).getUsername(),12);
+        h2.put(g4.getPlayers().get(3).getUsername(),10);
 
         assertEquals(h2,g4.getRankedPlayers());
     }
