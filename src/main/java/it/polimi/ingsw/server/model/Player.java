@@ -154,7 +154,7 @@ public class Player {
      *
      * @return 0 if the player has no point cards, 1 if the player has a point card from the first deck, 2 if the player has a point card from the second deck, 3 if the player all point cards
      */
-    int getPointCardStatus(){
+    public int getPointCardStatus(){
         if(pointCards[0].getValue() == 0 && pointCards[1].getValue() == 0) return 0;
         else if(pointCards[0].getValue() != 0 && pointCards[1].getValue() == 0) return 1;
         else if(pointCards[0].getValue() == 0) return 2;
