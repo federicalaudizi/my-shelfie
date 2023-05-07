@@ -400,4 +400,14 @@ public class Board {
     public int getMAX_Y() {
         return MAX_Y;
     }
+
+    public boolean equals(Board other){
+        for(int i = 0;i<MAX_X;i++){
+            for(int j =0;j<MAX_Y;j++){
+                if(this.board[i][j]!=other.board[i][j])
+                    return false;
+            }
+        }
+        return true;
+    }
 }
