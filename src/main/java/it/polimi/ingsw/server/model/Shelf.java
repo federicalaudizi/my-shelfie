@@ -51,7 +51,7 @@ public class Shelf {
      * @param shelf JSONObject containing the shelf
      * @author Federico
      */
-    Shelf(JSONObject shelf){
+    public Shelf (JSONObject shelf){
         this.contents = new Tile[5][6];
 
         JSONArray array = shelf.getJSONArray("contents");
