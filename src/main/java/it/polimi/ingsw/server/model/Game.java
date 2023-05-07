@@ -289,6 +289,21 @@ public class Game {
     }
 
     /**
+     * Returns the player whose username corresponds to the one passed to the method
+     * @param username The username of the player to return
+     * @return The specified player
+     * @throws IllegalArgumentException If there is no player with the passed username, this exception is thrown
+     * @author Mario Merlo
+     */
+    public Player getPlayerByUsername(String username) throws IllegalArgumentException {
+        for(Player player : players) {
+            if(player.getUsername().equals(username))
+                return player;
+        }
+        throw new IllegalArgumentException("No such player exists.");
+    }
+
+    /**
      * @param p player of which I need to get the shelf
      *
      * @return the shelf of the player p*/
