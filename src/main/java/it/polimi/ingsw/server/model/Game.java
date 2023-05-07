@@ -296,5 +296,16 @@ public class Game {
         return p.getShelf();
     }
 
+    /**
+     * Getter of the Personal objective card of Player p
+     *
+     * @param p is the Player of which I need to get the personal objective
+     *
+     * @return Personal Objective Card of player p
+     * */
+    public PersonalObjectiveCard getPersonalObjective(Player p){
+        return p.getObjective();
+    }
+
 
 }
