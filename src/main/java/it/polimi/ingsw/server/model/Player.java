@@ -6,13 +6,16 @@ import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class that represents the player
  *
  * @author Federico
  */
 public class Player {
-    private final Shelf playerShelf;
+    private Shelf playerShelf;
     private final PersonalObjectiveCard objectiveCard;
     private final PointCard[] pointCards;
     private boolean endGameCard;
@@ -193,6 +196,11 @@ public class Player {
         this.username = username;
     }
 
+    void setPlayerShelf(Shelf playerShelf){
+        this.playerShelf = playerShelf;
+    }
+
+
     @Override
     public String toString() {
         return "Player{\n" +
@@ -263,4 +271,38 @@ public class Player {
         return objectiveCard;
     }
 
+    /**
+     * Converts from JSONObject to player type
+     *
+     * @param jsonObject of a player
+     * @return a Player
+     * @author Federica
+     */
+    public static Player fromJson(JSONObject jsonObject) {
+        String username = jsonObject.optString("username");
+        Shelf playerShelf = Shelf.fromJson(jsonObject.getJSONObject("playerShelf"));
+        PersonalObjectiveCard objectiveCard = PersonalObjectiveCard.fromJson(jsonObject.getJSONObject("objectiveCard"));
+        JSONArray pointCardsJsonArray = jsonObject.getJSONArray("pointCards");
+        PointCard[] pointCards = new PointCard[2];
+        for (int i = 0; i < pointCardsJsonArray.length(); i++) {
+            JSONObject cardJson = pointCardsJsonArray.getJSONObject(i);
+            PointCard pointCard = PointCard.fromJson(cardJson);
+            pointCards[i] = pointCard;
+        }
+        boolean endGameCard = jsonObject.optBoolean("endGameCard");
+
+        Player player = new Player(objectiveCard);
+        player.setPlayerName(username);
+        player.setPlayerShelf(playerShelf);
+        for (int i = 0; i < 2; i++) {
+            player.assignPointCard(pointCards[i], i);
+        }
+        player.updateEndGameCard(endGameCard);
+
+        return player;
+    }
+
+    private void updateEndGameCard(boolean endGameCard) {
+        this.endGameCard =  endGameCard;
+    }
 }
