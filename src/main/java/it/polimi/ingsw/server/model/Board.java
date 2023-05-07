@@ -371,7 +371,7 @@ public class Board {
     }
 
     public Board(JSONObject jsonObject){
-        this.board = new Tile[9][9];
+        this.board = new Tile[MAX_X][MAX_Y];
         JSONArray contents = jsonObject.getJSONArray("board");
         for(int i = 0; i < MAX_X; i++) {
             JSONArray row = contents.getJSONArray(i);
