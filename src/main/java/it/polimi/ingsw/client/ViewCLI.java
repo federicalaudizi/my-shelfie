@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.model.Tile;
-import org.json.JSONArray;
+import it.polimi.ingsw.server.model.Game;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class ViewCLI extends View {
     private final String twoPlayerView = """
@@ -73,52 +73,56 @@ public class ViewCLI extends View {
         this.client = client;
     }
 
-    private String composeView(HashMap<String, JSONArray> gameData, HashMap<String, JSONArray> playerData, LinkedList<String> playerOrder, int playerNumber) {
-        /*// Convert board to string
-        String board = jsonMatrixToString(gameData.get("board"));
+    private void composeView(Game game, LinkedList<String> playerOrder) {
+        // Get correct view based on player number
+        String view = ViewPrototypes.getViewByPlayerNum(playerOrder.size());
 
-        // Convert shelves to strings
-        String[] shelves = new String[playerNumber];
-        for(int i = 0; i < playerNumber; i++)
-            shelves[i] = jsonMatrixToString(playerData.get(playerOrder.get(i)).getJSONArray(0));
+        // Get board, shelf and objective associated to the client's user and the second player's shelf
+        String board = game.getBoard().toString();
+        String userShelf = game.getPlayerByUsername(client.getUsername()).getShelf().toString();
+        String userObjective = game.getPlayerByUsername(client.getUsername()).getObjective().toString();
+        String playerTwoShelf = game.getPlayerByUsername(playerOrder.get(1)).getShelf().toString();
 
-        // Get personal objective of the player associated to this client
-        String personalObjective = jsonMatrixToString(playerData.get(playerOrder.get(i)).getJSONArray(1));
+        // Update board on view
+        // TODO Make boundaries dynamic
+        for (int i = 0; i < 81; i++)
+            view = Pattern.compile("\\^").matcher(view).replaceFirst(board.substring(i, i + 1));
 
-        // Get descriptions for the collective objectives in the game
-        String[] objectiveDescriptions = new String[2];
-        JSONArray objectives = gameData.get("objectives");
-        objectiveDescriptions[0] = ObjectiveDescription.init().get(objectives.get(0));
-        objectiveDescriptions[1] = ObjectiveDescription.init().get(objectives.get(1));
+        // Update shelves on board
+        for (int i = 0; i < 30; i++) {
+            // Print user shelf and objective
+            view = Pattern.compile("\\*").matcher(view).replaceFirst(userShelf.substring(i, i + 1));
+            view = Pattern.compile("\\$").matcher(view).replaceFirst(userObjective.substring(i, i + 1));
 
-        // Compose view with obtained strings
-        StringBuilder composedView = new StringBuilder();
-        composedView.append(usernamePadding("You")).append(" | ")
-                .append(usernamePadding("Board")).append(" | ");
-        if(playerNumber > 2)
-            composedView.append(usernamePadding(playerOrder.get(2))).append(" | ");
+            // Print player two's shelf
+            view = Pattern.compile("@").matcher(view).replaceFirst(playerTwoShelf.substring(i, i + 1));
+            if(playerOrder.size() >= 3) {
+                // If applicable, print player three's shelf
+                String playerThreeShelf = game.getPlayerByUsername(playerOrder.get(2)).getShelf().toString();
+                view = Pattern.compile("%").matcher(view).replaceFirst(playerThreeShelf.substring(i, i + 1));
 
-        // Add vertical padding to board splits
-        String[] boardSplits = new String[15];
-        String[] boardSplits = board.split("\n");
-        boardSplits[9] = "-----------------";
-        for(int i = boardSplits.length; i < 15; i++)
-            boardSplits[i] = "                 ";
-
-        String[] shelfSplits;
-        for(int i = 0; i < playerNumber; i++) {
-            shelfSplits = shelves[i].split("\n");
-            int j = 0, k = 0;
-            while(j < shelfSplits.length) {
-                composedView.append(shelfSplits[j]).append("| ");
-                composedView.append(boardSplits[j]).append("| ")
+                if(playerOrder.size() == 4) {
+                    // If applicable, print player four's shelf
+                    String playerFourShelf = game.getPlayerByUsername(playerOrder.get(3)).getShelf().toString();
+                    view = Pattern.compile("#").matcher(view).replaceFirst(playerFourShelf.substring(i, i + 1));
+                }
             }
-        }*/
-    }
+        }
 
-    @Override
-    void update(HashMap<String, JSONArray> gameData, LinkedList<String> playerOrder, boolean lastTurn, int achievement, int playerNumber) {
+        // Update usernames on board
+        for(int i = 0; i < playerOrder.size(); i++) {
+            String currentPlayer = playerOrder.get(i);
+            view = Pattern.compile(i + "{15}").matcher(view).replaceFirst(usernameFormatter(currentPlayer, game.getPlayerByUsername(currentPlayer).getPointCardStatus()));
+        }
 
+        // Substitute objective descriptions and remaining points
+        for(int i = 0; i < 2; i++) {
+            view = Pattern.compile("&").matcher(view).replaceFirst(String.valueOf(game.getPointsValue()[i]));
+            view = Pattern.compile("£").matcher(view).replaceFirst(ObjectiveDescription.getDescriptionFromName(game.getObjectives()[i]));
+        }
+
+        // Print composed view
+        System.out.println(view);
     }
 
     private String usernamePadding(String username) {
