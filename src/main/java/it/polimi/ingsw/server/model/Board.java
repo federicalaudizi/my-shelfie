@@ -370,17 +370,15 @@ public class Board {
         return new JSONObject().put("board", contents);
     }
 
-    public  Board fromJson(JSONObject jsonObject, int numOfPlayers){
-        Board board = new Board(numOfPlayers);
+    public Board(JSONObject jsonObject){
+        this.board = new Tile[9][9];
         JSONArray contents = jsonObject.getJSONArray("board");
         for(int i = 0; i < MAX_X; i++) {
             JSONArray row = contents.getJSONArray(i);
             for(int j = 0; j < MAX_Y; j++) {
-                board.board[i][j] = (Tile) row.get(j);
+                this.board[i][j] = (Tile) row.get(j);
             }
         }
-
-        return board;
 
     }
 
