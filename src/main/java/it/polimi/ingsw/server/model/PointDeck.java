@@ -83,7 +83,7 @@ public class PointDeck {
         JSONArray cardArray = json.getJSONArray("cards");
         for (int i = 0; i < cardArray.length(); i++) {
             JSONObject cardJson = cardArray.getJSONObject(i);
-            PointCard card = PointCard.fromJson(String.valueOf(cardJson));
+            PointCard card = PointCard.fromJson(cardJson);
             deck.cards.push(card);
         }
 
