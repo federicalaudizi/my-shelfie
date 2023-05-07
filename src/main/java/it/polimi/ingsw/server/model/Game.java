@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server.model;
+
 import it.polimi.ingsw.server.exceptions.TileUnpickableException;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
@@ -26,10 +27,10 @@ public class Game {
     private int firstPlayerSeat;
     private boolean isOver;
 
-    public Game(int numOfPlayers) throws IllegalArgumentException{
+    public Game(int numOfPlayers) throws IllegalArgumentException {
         this.players = new ArrayList<>();
 
-        for(int i=0; i<numOfPlayers; i++){
+        for (int i = 0; i < numOfPlayers; i++) {
             players.add(new Player(new PersonalObjectiveCard(this)));
         }
 
@@ -50,7 +51,7 @@ public class Game {
 
     /**
      * Copy constructor
-     * */
+     */
     public Game(Game other, CollectiveObjectiveCard collectiveObjectiveCard1, CollectiveObjectiveCard collectiveObjectiveCard2) {
         this.collectiveObjectiveCard1 = collectiveObjectiveCard1;
         this.collectiveObjectiveCard2 = collectiveObjectiveCard2;
@@ -74,38 +75,39 @@ public class Game {
     /**
      * This method chooses randomly the first player in the given range of players, sets the first and
      * the last player
+     *
      * @param numOfPlayers represents the number of Players
      */
-     private void chooseFirstPlayer(int numOfPlayers) {
+    private void chooseFirstPlayer(int numOfPlayers) {
         Random random = new Random();
         currentPlayerIndex = random.nextInt(numOfPlayers);
         firstPlayerSeat = currentPlayerIndex;
         lastPlayer = firstPlayerSeat - 1;
-        if(lastPlayer == -1){
-            lastPlayer=numOfPlayers-1;
+        if (lastPlayer == -1) {
+            lastPlayer = numOfPlayers - 1;
         }
     }
 
     /**
-     * sets the player's usernames */
-    public void setUsernames(ArrayList<String> usernames){
-         for(int i=0; i< players.size();i++){
+     * sets the player's usernames
+     */
+    public void setUsernames(ArrayList<String> usernames) {
+        for (int i = 0; i < players.size(); i++) {
             players.get(i).setPlayerName(usernames.get(i));
-         }
+        }
     }
 
 
     /**
      * This method manages the turn modifying the current player index.
-     * */
-    public boolean nextTurn(){
-        if(lastTurn && currentPlayerIndex!=lastPlayer){
-            currentPlayerIndex = ((currentPlayerIndex+1)% players.size());
+     */
+    public boolean nextTurn() {
+        if (lastTurn && currentPlayerIndex != lastPlayer) {
+            currentPlayerIndex = ((currentPlayerIndex + 1) % players.size());
         } else if (!lastTurn) {
-            currentPlayerIndex = ((currentPlayerIndex+1)% players.size());
-        }
-        else{
-            isOver= true;
+            currentPlayerIndex = ((currentPlayerIndex + 1) % players.size());
+        } else {
+            isOver = true;
         }
         return isOver;
     }
@@ -126,10 +128,10 @@ public class Game {
             if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
             }
-        }else if (status == 1) {
-                if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
-                    players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
-                }
+        } else if (status == 1) {
+            if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
+            }
         } else if (status == 2) {
             if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
@@ -142,12 +144,12 @@ public class Game {
      * This method checks if the board needs to be repopulated and removes the chosen tiles
      * from the board
      *
-     * @return an array with the chosen tiles
      * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
+     * @return an array with the chosen tiles
      */
-     public Tile[] chooseTiles(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
+    public Tile[] chooseTiles(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
         board.checkBoard();
-        return board.pickTile(c1,c2,c3);
+        return board.pickTile(c1, c2, c3);
     }
 
 
@@ -172,7 +174,8 @@ public class Game {
 
     /**
      * @return a HashMap with the player as key and the player's score
-     * as value, sorted in descending order based on the player's score.*/
+     * as value, sorted in descending order based on the player's score.
+     */
     public HashMap<String, Integer> getRankedPlayers() {
         HashMap<String, Integer> playerScoreMap = new HashMap<>();
         for (Player player : players) {
@@ -188,43 +191,52 @@ public class Game {
     }
 
 
-
-    /**@return  a copy of the current player*/
-    public Player getCurrentPlayer(){
-         return new Player(players.get(getCurrentPlayerIndex()));
+    /**
+     * @return a copy of the current player
+     */
+    public Player getCurrentPlayer() {
+        return new Player(players.get(getCurrentPlayerIndex()));
     }
 
-    /**@return the current player index*/
-    public int getCurrentPlayerIndex(){
-         return currentPlayerIndex;
+    /**
+     * @return the current player index
+     */
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
     }
 
-    /**@return the last player*/
-    public int getLastPlayer(){
-         return lastPlayer;
+    /**
+     * @return the last player
+     */
+    public int getLastPlayer() {
+        return lastPlayer;
     }
 
-    /**@return a copy of the first player*/
-    public Player getFirstPlayerSeat(){
+    /**
+     * @return a copy of the first player
+     */
+    public Player getFirstPlayerSeat() {
         return players.get(firstPlayerSeat);
     }
 
     /**
      * getter for the last Turn
-     * @return if the turn is the last one*/
-    public boolean isLastTurn(){
+     *
+     * @return if the turn is the last one
+     */
+    public boolean isLastTurn() {
         return lastTurn;
     }
 
     /**
-     * @return the number of players in the game*/
-    public int getNumberOfPlayers(){
+     * @return the number of players in the game
+     */
+    public int getNumberOfPlayers() {
         return players.size();
     }
 
     /**
      * @return game to json object
-     *
      * @author Federica, Federico
      */
     public JSONObject toJson() {
@@ -256,7 +268,7 @@ public class Game {
         return json;
     }
 
-    public Game(JSONObject jsonObject){
+    public Game(JSONObject jsonObject) {
         JSONObject boardJson = jsonObject.getJSONObject("board");
         this.board = new Board(boardJson);
 
@@ -270,31 +282,32 @@ public class Game {
 
         JSONArray decksArray = jsonObject.getJSONArray("pointDecks");
         this.pointCardDeck1 = new PointDeck(decksArray.getInt(0));
-        this.pointCardDeck2= new PointDeck(decksArray.getInt(1));
-
-
-
+        this.pointCardDeck2 = new PointDeck(decksArray.getInt(1));
+        JSONArray objectivesArray = jsonObject.getJSONArray("objectives");
+        JSONObject objectiveJson1 = objectivesArray.getJSONObject(0);
+        JSONObject objectiveJson2 = objectivesArray.getJSONObject(1);
+        this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectiveJson1);
+        this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectiveJson2);
     }
 
     /**
      * @return the board of the game
-     * */
-    public Board getBoard(){
+     */
+    public Board getBoard() {
         return board.copy();
     }
 
     /**
      * @return array with the maximum disposable points in the decks
-     * */
-    public int[] getPointsValue(){
+     */
+    public int[] getPointsValue() {
         return new int[]{pointCardDeck1.topValue(), pointCardDeck2.topValue()};
     }
 
     /**
      * @return the index of the first player
-     *
-     * */
-    public int getFirst(){
+     */
+    public int getFirst() {
         return firstPlayerSeat;
     }
 
@@ -302,22 +315,22 @@ public class Game {
      * Getter for the players in game
      *
      * @return an array list of players in game
-     *
-     * */
-    public ArrayList<Player> getPlayers(){
+     */
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
     /**
      * Returns the player whose username corresponds to the one passed to the method
+     *
      * @param username The username of the player to return
      * @return The specified player
      * @throws IllegalArgumentException If there is no player with the passed username, this exception is thrown
      * @author Mario Merlo
      */
     public Player getPlayerByUsername(String username) throws IllegalArgumentException {
-        for(Player player : players) {
-            if(player.getUsername().equals(username))
+        for (Player player : players) {
+            if (player.getUsername().equals(username))
                 return player;
         }
         throw new IllegalArgumentException("No such player exists.");
@@ -325,9 +338,9 @@ public class Game {
 
     /**
      * @param p player of which I need to get the shelf
-     *
-     * @return the shelf of the player p*/
-    public Shelf getShelf(Player p){
+     * @return the shelf of the player p
+     */
+    public Shelf getShelf(Player p) {
         return p.getShelf();
     }
 
@@ -335,10 +348,9 @@ public class Game {
      * Getter of the Personal objective card of Player p
      *
      * @param p is the Player of which I need to get the personal objective
-     *
      * @return Personal Objective Card of player p
-     * */
-    public PersonalObjectiveCard getPersonalObjective(Player p){
+     */
+    public PersonalObjectiveCard getPersonalObjective(Player p) {
         return p.getObjective();
     }
 
@@ -346,19 +358,21 @@ public class Game {
      * Returns the status of the Point cards owned by the player p
      *
      * @return 0 if no common objective has been reached, 1 if the player has a point card from the
-     *          first deck,2 if the player has a point card from the second deck, 3 if the player
-     *          all point cards */
-    public int CommonObjectiveWon(Player p){
+     * first deck,2 if the player has a point card from the second deck, 3 if the player
+     * all point cards
+     */
+    public int CommonObjectiveWon(Player p) {
         return p.getPointCardStatus();
     }
 
     /**
      * Returns an array with the names of the objectives associated to the current game.
+     *
      * @return A String array containing the names of the objective in order
      * @author Mario Merlo
      */
     public String[] getObjectives() {
-        return new String[]{ collectiveObjectiveCard1.getClass().getSimpleName(), collectiveObjectiveCard2.getClass().getSimpleName() };
+        return new String[]{collectiveObjectiveCard1.getClass().getSimpleName(), collectiveObjectiveCard2.getClass().getSimpleName()};
     }
 
 }
