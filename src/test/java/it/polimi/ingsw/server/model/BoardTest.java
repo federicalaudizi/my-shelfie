@@ -102,4 +102,13 @@ public class BoardTest {
 
         assertNotEquals(initialBoard, board.toString());
     }
+
+    @Test
+    public void toStringTest(){
+        Board board = new Board();
+
+        System.out.println(board);
+
+
+    }
 }
