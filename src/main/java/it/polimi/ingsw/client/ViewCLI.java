@@ -87,34 +87,11 @@ public class ViewCLI extends View {
         return formattedUsername.toString();
     }
 
-    private String jsonMatrixToString(JSONArray matrix) {
-        StringBuilder board = new StringBuilder();
-
-        for(int i = 0; i < matrix.length(); i++) {
-            // Get every row of the board into a JSONArray
-            JSONArray row = new JSONArray();
-            row.put(matrix.get(i));
-
-            for(int j = 0; j < row.length(); j++) {
-                // Get every tile of that row
-                Tile currentTile = row.getEnum(Tile.class, j);
-                // Convert that tile to a character
-                switch(currentTile) {
-                    case OUTSIDE_GAME_BOARD -> board.append("x ");
-                    case EMPTY -> board.append("e ");
-                    case CATS -> board.append("g ");
-                    case PLANTS -> board.append("m ");
-                    case FRAMES -> board.append("b ");
-                    case TROPHIES -> board.append("a ");
-                    case GAMES -> board.append("o ");
-                    case BOOKS -> board.append("y ");
-                }
-            }
-            // Append a newline at the end of the row
-            board.append("\n");
-        }
-
-        return board.toString();
+    @Override
+    void update(Game game, LinkedList<String> playerOrder) {
+        if(game.isLastTurn())
+            okPrompt("Warning: this is the last turn!");
+        composeView(game, playerOrder);
     }
 
     @Override
