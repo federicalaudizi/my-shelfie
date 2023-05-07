@@ -307,5 +307,14 @@ public class Game {
         return p.getObjective();
     }
 
+    /**
+     * Returns the status of the Point cards owned by the player p
+     *
+     * @return 0 if no common objective has been reached, 1 if the player has a point card from the
+     *          first deck,2 if the player has a point card from the second deck, 3 if the player
+     *          all point cards */
+    public int CommonObjectiveWon(Player p){
+        return p.getPointCardStatus();
+    }
 
 }
