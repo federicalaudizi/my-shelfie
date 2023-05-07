@@ -282,7 +282,7 @@ public class Shelf {
     /**
      * Method that generates a string that represents the shelf
      *
-     * @author Federico
+     * @author Federico,Sara
      *
      * @return the shelf formatted as a viewable string
      */
@@ -294,7 +294,6 @@ public class Shelf {
             for (int i = 0; i < 5; i++) {
                 result.append(contents[i][j].getSymbol()).append(" ");
             }
-            result.append(" |\n");
         }
 
         return result.toString();
