@@ -131,14 +131,8 @@ public class SocketClientHandler extends ClientHandler{
             Coordinate[] tiles = new Coordinate[args.length()];
 
             for(int i = 0; i < args.length(); i++){
-                //tiles[i] = new Coordinate(((JSONObject) args.get(i)).getInt("x"), ((JSONObject) args.get(i)).getInt("y"));
-
-                //TODO: Check if this is the correct way to do it
-                tiles[i] = (Coordinate) args.get(i);
+                tiles[i] = new Coordinate(args.getJSONObject(i));
             }
-
-            // Send the confirmation
-            send(new Message(OK));
 
             return tiles;
         } else {
