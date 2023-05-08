@@ -541,7 +541,8 @@ public abstract class CollectiveObjectiveCard {
      */
     public static CollectiveObjectiveCard fromJson(JSONObject json) {
         String type = json.getString("cardType");
-        CollectiveObjectiveCard instance = switch (type) {
+
+        return switch (type) {
             case "PatternOne" -> new PatternOne();
             case "PatternTwo" -> new PatternTwo();
             case "PatternThree" -> new PatternThree();
@@ -556,7 +557,5 @@ public abstract class CollectiveObjectiveCard {
             case "PatternTwelve" -> new PatternTwelve();
             default -> throw new IllegalArgumentException("Invalid card type: " + type);
         };
-
-        return instance;
     }
 }
