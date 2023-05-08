@@ -83,9 +83,14 @@ public class PointDeckTest {
 
         @Test
         public void JsonConstructorTest(){
-            PointDeck p = new PointDeck(2);
+            PointDeck p = new PointDeck(4);
             JSONObject j = p.toJson();
             PointDeck pp = new PointDeck(j);
+
+            System.out.println(p);
+            System.out.println(p.toJson());
+            System.out.println(pp);
+
 
             assertTrue(p.isEqualTo(pp));
         }

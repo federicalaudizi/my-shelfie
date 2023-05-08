@@ -52,11 +52,19 @@ public class PointCardTest {
         JSONObject j = p.toJson();
         PointCard pp = new PointCard(j);
 
+        System.out.println(p);
+        System.out.println(p.toJson());
+        System.out.println(pp);
+
         assertTrue(p.equals(pp));
 
         PointCard po = new PointCard(4);
         JSONObject jj = po.toJson();
         PointCard ppo = new PointCard(jj);
+
+        System.out.println(po);
+        System.out.println(po.toJson());
+        System.out.println(ppo);
 
         assertTrue(po.equals(ppo));
     }
