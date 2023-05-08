@@ -296,6 +296,8 @@ public class Game {
         JSONObject objectiveJSON2 = objectivesArray.getJSONObject(1);
         this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectiveJSON1);
         this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectiveJSON2);
+
+        this.isOver = jsonObject.getBoolean("isOver");
     }
 
     /**
