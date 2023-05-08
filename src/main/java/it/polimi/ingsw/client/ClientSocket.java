@@ -472,7 +472,7 @@ public class ClientSocket extends Client {
             throw new NullPointerException("Coordinate array was empty.");
         JSONArray JSONCoords = new JSONArray();
         for(Coordinate item : coords)
-            JSONCoords.put(item);
+            JSONCoords.put(item.toJSON());
 
         JSONObject tileBody = new JSONObject();
         tileBody.put("tiles", JSONCoords);
