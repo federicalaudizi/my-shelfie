@@ -267,7 +267,7 @@ public class Game {
         json.put("pointDecks", JSONArrayDecks);
 
         //Inserting the "isOver" flag
-        json.put("isOver", isOver);
+        json.put("lastTurn", lastTurn);
 
         return json;
     }
@@ -278,8 +278,7 @@ public class Game {
      * @param jsonObject is the json Object containing the game
      * */
     public Game(JSONObject jsonObject) {
-        JSONObject boardJson = jsonObject.getJSONObject("board");
-        this.board = new Board(boardJson);
+        this.board = new Board(jsonObject.getJSONObject("board"));
 
         this.players = new ArrayList<>();
         JSONArray playersArray = jsonObject.getJSONArray("players");
@@ -293,12 +292,11 @@ public class Game {
         this.pointCardDeck1 = new PointDeck(decksArray.getInt(0));
         this.pointCardDeck2 = new PointDeck(decksArray.getInt(1));
         JSONArray objectivesArray = jsonObject.getJSONArray("objectives");
-        JSONObject objectiveJSON1 = objectivesArray.getJSONObject(0);
-        JSONObject objectiveJSON2 = objectivesArray.getJSONObject(1);
-        this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectiveJSON1);
-        this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectiveJSON2);
+        this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(0));
+        this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(1));
 
-        this.isOver = jsonObject.getBoolean("isOver");
+        this.lastTurn = jsonObject.getBoolean("lastTurn");
+
     }
 
     /**
