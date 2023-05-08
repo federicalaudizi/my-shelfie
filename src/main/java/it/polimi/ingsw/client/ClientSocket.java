@@ -39,6 +39,7 @@ public class ClientSocket extends Client {
      * Starts the client by cycling through the game phases such as connection, login and move parsing
      * @author Mario Merlo
      */
+    @Override
     public void start() {
         boolean gameOver = false;
         try {
