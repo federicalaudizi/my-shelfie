@@ -73,6 +73,7 @@ public class GameController implements Runnable {
             waitLock.notifyAll();
         }
         numberOfPlayers++;
+        getClientHandler(playerId).sendGameState(game);
     }
 
     /**
