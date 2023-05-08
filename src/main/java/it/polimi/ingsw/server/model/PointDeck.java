@@ -91,18 +91,22 @@ public class PointDeck {
      * @return the value of the card on top of the deck
      */
     int topValue() {
-        if(!cards.empty()) return cards.peek().getValue();
+        if (!cards.empty()) return cards.peek().getValue();
         else return 0;
     }
 
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        JSONArray cardArray = new JSONArray();
+    public PointDeck(int numOfPlayers, int peek) {
+        cards = new Stack<>();
 
-        for (PointCard card : cards) {
-            JSONObject cardJson = card.toJson();
-            cardArray.put(cardJson);
-        }
+        if (numOfPlayers == 2) {
+            if (peek == 8) {
+                cards.push(new PointCard(4));
+                cards.push(new PointCard(8));
+                size = 2;
+            } else if (peek == 4) {
+                cards.push(new PointCard(4));
+                size = 1;
+            }
 
         json.put("cards", cardArray);
         return json;
