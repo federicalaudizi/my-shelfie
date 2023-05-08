@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+// TODO Implement "User has won objective" method
+
 public abstract class View {
     Client client;
 
