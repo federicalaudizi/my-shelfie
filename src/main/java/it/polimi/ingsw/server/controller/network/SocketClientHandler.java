@@ -92,6 +92,7 @@ public class SocketClientHandler extends ClientHandler{
     @Override
     public void sendGameState(Game gameState) {
         System.out.println(clientSocket.getInetAddress()+": I have to send the gamestate");
+
         // TODO: Asynchronous gamestate sending
         /*pendingGameState = gameState.toJson();
         pendingGameStateFlag = true;*/
@@ -166,8 +167,6 @@ public class SocketClientHandler extends ClientHandler{
         Message answer = receive();
 
         if(answer.getHeaderCode() == SEND_COLUMN.getCode()){
-            // Send the confirmation
-            send(new Message(OK));
 
             JSONArray args = answer.getBody();
             JSONObject column = (JSONObject) args.get(0);
@@ -344,6 +343,9 @@ public class SocketClientHandler extends ClientHandler{
 
     private void closeSocket(){
         System.out.println(clientSocket.getInetAddress()+": Closing.");
+
+        if(game != null) game.notifyDisconnection(thisPlayerId);
+
         try {
             clientSocket.close();
         } catch (IOException e) {
