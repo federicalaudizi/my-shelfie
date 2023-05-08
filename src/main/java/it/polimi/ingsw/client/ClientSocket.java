@@ -391,7 +391,7 @@ public class ClientSocket extends Client {
                 view.okPrompt("A generic error occurred.");
             } else throw new UnknownError("An unknown error occurred.");
         }
-        view.okPrompt("Your move was correctly sent to the server.");
+        view.prompt("Your move was correctly sent to the server.");
     }
 
     /**
@@ -525,6 +525,8 @@ public class ClientSocket extends Client {
             e.printStackTrace();
         }
         if(reply != null) {
+            // TODO Remove debug statement
+            view.prompt(reply.toString());
             return reply;
         } else throw new NullPointerException("Reply was empty.");
     }
@@ -542,12 +544,6 @@ public class ClientSocket extends Client {
 
     public static void main(String[] args) {
         ClientSocket client = new ClientSocket(true);
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
 
         try {
             client.start();
