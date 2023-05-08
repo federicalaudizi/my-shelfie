@@ -9,7 +9,7 @@ import java.net.Socket;
 /**
  * This class is the server of the socket connection
  */
-public class SocketServer extends Server{
+public class SocketServer extends Server {
     private final int port;
 
     public SocketServer(int port, GameSupervisor ongoingGames) {

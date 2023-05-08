@@ -47,7 +47,7 @@ public class SocketClientHandler extends ClientHandler{
 
     @Override
     public void run() {
-        try{
+        try {
             loginPhase();
         } catch (Exception e){
             System.out.println(clientSocket.getInetAddress()+": Login exception: "+e.getMessage());
