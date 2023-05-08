@@ -60,14 +60,17 @@ public class SocketClientHandler extends ClientHandler{
             throw new RuntimeException(e);
         }
 
-        // clientSocket heartbeat
+        // Run until game over or disconnection
         while (!gameOver && clientSocket.isConnected()) {
+
+            // Heartbeat
             if(!clientSocket.isConnected()){
                 game.notifyDisconnection(thisPlayerId);
                 System.out.println(clientSocket.getInetAddress()+": Disconnected!");
                 break;
             }
 
+            // Check if there is a pending gamestate to send
             if(pendingGameStateFlag){
                 send(new Message(GAME_UPDATE, pendingGameState));
                 pendingGameStateFlag = false;
