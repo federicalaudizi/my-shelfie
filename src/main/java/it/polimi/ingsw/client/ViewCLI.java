@@ -52,7 +52,7 @@ public class ViewCLI extends View {
         // Update usernames on board
         for(int i = 0; i < playerOrder.size(); i++) {
             String currentPlayer = playerOrder.get(i);
-            view = Pattern.compile(i + "{15}").matcher(view).replaceFirst(usernameFormatter(currentPlayer, game.getPlayerByUsername(currentPlayer).getPointCardStatus()));
+            view = Pattern.compile(i + 1 + "{15}").matcher(view).replaceFirst(usernameFormatter(currentPlayer, game.getPlayerByUsername(currentPlayer).getPointCardStatus()));
         }
 
         // Substitute objective descriptions and remaining points
