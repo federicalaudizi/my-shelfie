@@ -360,7 +360,7 @@ public class Board {
             JSONArray row = new JSONArray();
             for(int j = 0; j < MAX_Y; j++) {
                 // Add tile to row
-                row.put(board[i][j]);
+                row.put(board[i][j].toString());
             }
             // Add row to board contents
             contents.put(row);
