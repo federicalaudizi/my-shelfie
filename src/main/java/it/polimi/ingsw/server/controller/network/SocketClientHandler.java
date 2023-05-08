@@ -89,35 +89,6 @@ public class SocketClientHandler extends ClientHandler{
     }
 
     /**
-     * This method sends the updates of the gamestate to the client at the end of each player's turn
-     *
-     * @param board           the board of the game
-     * @param player          the player who just played
-     * @param pointDeckValues the values of the point decks
-     */
-    @Override
-    @Deprecated
-    public void sendGameState(Board board, Player player, int[] pointDeckValues, boolean lastTurnFlag){
-        JSONObject body = new JSONObject();
-        body.put("board", board.toJSON());
-        body.put("player", player.toJson());
-        body.put("pointDeckValues", new JSONArray(pointDeckValues));
-        body.put("lastTurn", true);
-
-        dataOut.println(new Message(GAME_UPDATE, body));
-
-        try {
-            JSONObject answer = new JSONObject(dataIn.readLine());
-
-            // If the client does not acknowledge the message, send it again
-            if(answer.getInt("header") != OK.getCode()) sendGameState(board, player, pointDeckValues, lastTurnFlag);
-        } catch (IOException e) {
-            game.notifyDisconnection(thisPlayerId);
-            closeSocket();
-        }
-    }
-
-    /**
      * This method signals the client that a response was accepted
      *
      * @author Federico
