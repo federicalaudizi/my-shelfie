@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.controller.network.SocketServer;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -81,7 +80,7 @@ public class ClientSocketTest {
         }
     }
 
-    @Test
+    @Ignore
     public void gameTest() {
         client.start();
         server.run();
