@@ -290,9 +290,9 @@ public class PersonalObjectiveCard {
                     }
 
                     if (printingCoord != null) {
-                        ret.append(pattern.get(printingCoord).getSymbol()).append(" ");
+                        ret.append(pattern.get(printingCoord).getSymbol());
                     } else {
-                        ret.append("e ");
+                        ret.append("e");
                     }
                 }
             }
