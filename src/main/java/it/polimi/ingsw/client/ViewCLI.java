@@ -109,7 +109,7 @@ public class ViewCLI extends View {
     @Override
     void okPrompt(String message) {
         System.out.println(message);
-        System.out.println("Press any key to continue");
+        System.out.println("Press enter to continue");
         scanner.nextLine();
     }
 
