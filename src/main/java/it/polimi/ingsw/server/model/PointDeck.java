@@ -105,14 +105,20 @@ public class PointDeck {
         return json;
     }
 
+    /**
+     * Json constructor
+     * @param json is the json object containing the Point Deck
+     * */
     public PointDeck (JSONObject json) {
 
         this.cards = new Stack<>();
+        this.size = 0;
         JSONArray cardArray = json.getJSONArray("cards");
         for (int i = 0; i < cardArray.length(); i++) {
             JSONObject cardJson = cardArray.getJSONObject(i);
             PointCard card = new PointCard(cardJson);
             cards.push(card);
+            this.size++;
         }
     }
 }
