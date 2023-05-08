@@ -3,8 +3,10 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static junit.framework.TestCase.*;
@@ -103,6 +105,23 @@ public class GameTest {
         h2.put(g4.getPlayers().get(3).getUsername(),10);
 
         assertEquals(h2,g4.getRankedPlayers());
+    }
+
+    @Test
+    public void toJSONTest() {
+        Game game = new Game(2);
+
+        ArrayList<String> usernames = new ArrayList<>();
+        usernames.add("Mario");
+        usernames.add("Federico");
+
+        game.setUsernames(usernames);
+
+        JSONObject gameJSON = game.toJson();
+
+        Game gameFromJSON = new Game(gameJSON);
+
+        System.out.println(gameJSON);
     }
 
 }
