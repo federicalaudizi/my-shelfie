@@ -23,7 +23,7 @@ public class ClientSocketTest {
         server = new SocketServer(5000, new GameSupervisor());
     }
 
-    @Ignore
+    @Test
     public void validateIpTest() {
         ClientSocket client = new ClientSocket(true);
         try {
