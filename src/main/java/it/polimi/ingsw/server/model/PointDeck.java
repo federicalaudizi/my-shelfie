@@ -54,6 +54,29 @@ public class PointDeck {
         }
     }
 
+    public boolean isEqualTo(PointDeck otherDeck) {
+       if(this.size != otherDeck.size){
+           return false;
+       }
+       else{
+           //creating temporary stacks
+           Stack<PointCard> ts = new Stack<>();
+           Stack<PointCard> tts = new Stack<>();
+
+           ts.addAll(this.cards);
+           tts.addAll(otherDeck.cards);
+
+           while(!tts.empty()){
+               PointCard p = tts.pop();
+               PointCard pp= ts.pop();
+
+               if(!p.equals(pp))
+                   return false;
+           }
+           return true;
+       }
+    }
+
     /**
      * @return the card with maximum disposable points for that common objective card
      */
