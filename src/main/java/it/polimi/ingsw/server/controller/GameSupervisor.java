@@ -48,6 +48,15 @@ public class GameSupervisor{
     }
 
     /**
+     * This method removes a player from the list of players that are logged in
+     *
+     * @param playerId the id of the player that is being removed
+     */
+    public synchronized void removeUser(String playerId){
+        if(!players.containsKey(playerId)) players.remove(playerId);
+    }
+
+    /**
      * This method creates a new game and adds it to the list of games, after its creation, joinGame should be called
      *
      * @param numberOfPlayers the number of players that will play the game
