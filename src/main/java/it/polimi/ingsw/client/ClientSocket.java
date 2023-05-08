@@ -511,6 +511,13 @@ public class ClientSocket extends Client {
 
     public static void main(String[] args) {
         ClientSocket client = new ClientSocket(true);
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         try {
             client.start();
         } catch (Exception e) {
