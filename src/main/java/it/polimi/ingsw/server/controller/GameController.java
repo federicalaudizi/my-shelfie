@@ -195,7 +195,11 @@ public class GameController implements Runnable {
         Tile[] tiles;
 
         try {
-            tiles = game.chooseTiles(coordinates[0], coordinates[1], coordinates[2]);
+            tiles = switch (coordinates.length) {
+                case 1 -> game.chooseTiles(coordinates[0], null, null);
+                case 2 -> game.chooseTiles(coordinates[0], coordinates[1], null);
+                default -> game.chooseTiles(coordinates[0], coordinates[1], coordinates[2]);
+            };
         } catch (TileUnpickableException | IllegalArgumentException e) {
             getClientHandler(currentPlayerId).badTile();
             return getTiles(currentPlayerId);
