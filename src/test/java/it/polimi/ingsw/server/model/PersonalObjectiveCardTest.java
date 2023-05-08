@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -57,5 +58,22 @@ public class PersonalObjectiveCardTest {
         }
 
         assertTrue("All tests passed", true);
+    }
+
+    @Test
+    public void toJsonTest(){
+        PersonalObjectiveCard personalObjectiveCard = new PersonalObjectiveCard(g);
+        System.out.println(personalObjectiveCard.toJson());
+    }
+
+    @Test
+    public void JsonConstructorTest(){
+        PersonalObjectiveCard personalObjectiveCard = new PersonalObjectiveCard(g);
+
+        JSONObject j = personalObjectiveCard.toJson();
+
+        PersonalObjectiveCard personalObjectiveCard1 = new PersonalObjectiveCard(j);
+
+        assertTrue(personalObjectiveCard.equals(personalObjectiveCard1));
     }
 }
