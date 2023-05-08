@@ -541,35 +541,22 @@ public abstract class CollectiveObjectiveCard {
      */
     public static CollectiveObjectiveCard fromJson(JSONObject json) {
         String type = json.getString("cardType");
-        CollectiveObjectiveCard instance;
+        CollectiveObjectiveCard instance = switch (type) {
+            case "PatternOne" -> new PatternOne();
+            case "PatternTwo" -> new PatternTwo();
+            case "PatternThree" -> new PatternThree();
+            case "PatternFour" -> new PatternFour();
+            case "PatternFive" -> new PatternFive();
+            case "PatternSix" -> new PatternSix();
+            case "PatternSeven" -> new PatternSeven();
+            case "PatternEight" -> new PatternEight();
+            case "PatternNine" -> new PatternNine();
+            case "PatternTen" -> new PatternTen();
+            case "PatternEleven" -> new PatternEleven();
+            case "PatternTwelve" -> new PatternTwelve();
+            default -> throw new IllegalArgumentException("Invalid card type: " + type);
+        };
 
-        if (type.equals("PatternOne")) {
-            instance = new PatternOne();
-        } else if (type.equals("PatternTwo")) {
-            instance = new PatternTwo();
-        } else if (type.equals("PatternThree")) {
-            instance = new PatternThree();
-        } else if (type.equals("PatternFour")) {
-            instance = new PatternFour();
-        } else if (type.equals("PatternFive")) {
-            instance = new PatternFive();
-        } else if (type.equals("PatternSix")) {
-            instance = new PatternSix();
-        } else if (type.equals("PatternSeven")) {
-            instance = new PatternSeven();
-        } else if (type.equals("PatternEight")) {
-            instance = new PatternEight();
-        } else if (type.equals("PatternNine")) {
-            instance = new PatternNine();
-        } else if (type.equals("PatternTen")) {
-            instance = new PatternTen();
-        } else if (type.equals("PatternEleven")) {
-            instance = new PatternEleven();
-        } else if (type.equals("PatternTwelve")) {
-            instance = new PatternTwelve();
-        } else {
-            throw new IllegalArgumentException("Invalid card type: " + type);
-        }
         return instance;
     }
 }
