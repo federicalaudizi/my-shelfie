@@ -380,7 +380,7 @@ public class Board {
         for(int i = 0; i < MAX_X; i++) {
             JSONArray row = contents.getJSONArray(i);
             for(int j = 0; j < MAX_Y; j++) {
-                this.board[i][j] = (Tile) row.get(j);
+                this.board[i][j] = Tile.valueOf(row.getString(j));
             }
         }
 
