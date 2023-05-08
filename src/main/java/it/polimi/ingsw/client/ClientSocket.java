@@ -391,7 +391,7 @@ public class ClientSocket extends Client {
                 view.okPrompt("A generic error occurred.");
             } else throw new UnknownError("An unknown error occurred.");
         }
-        view.okPrompt("Your move was correctly sent to the server.");
+        view.prompt("Your move was correctly sent to the server.");
     }
 
     /**
