@@ -244,7 +244,7 @@ public class ClientSocket extends Client {
                         int headerCode = getReply().getHeaderCode();
 
                         if (headerCode == OK.getCode()) {
-                            view.okPrompt("The game was correctly created.");
+                            view.prompt("The game was correctly created.");
                             gameCreated = true;
                         } else if (headerCode == GENERIC_ERROR.getCode()) {
                             view.okPrompt("An error occurred. Please retry.");
@@ -254,7 +254,7 @@ public class ClientSocket extends Client {
                 }
                 case 2 -> {
                     boolean gameJoined = false, noGames = true;
-                    while (!gameJoined || noGames) {
+                    while (!gameJoined && noGames) {
                         send(new Message(JOIN_GAME_REQUEST));
                         Message gameListMessage = getReply();
                         if (gameListMessage.getHeaderCode() == 211) {
@@ -268,7 +268,7 @@ public class ClientSocket extends Client {
                                 send(joinGameMessage);
                                 int gameJoinHeaderCode = getReply().getHeaderCode();
                                 if (gameJoinHeaderCode == OK.getCode()) {
-                                    view.okPrompt("You correctly joined the game.");
+                                    view.prompt("You correctly joined the game.");
                                     gameJoined = true;
                                     operationCompleted = true;
                                 } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
@@ -472,7 +472,7 @@ public class ClientSocket extends Client {
             throw new NullPointerException("Coordinate array was empty.");
         JSONArray JSONCoords = new JSONArray();
         for(Coordinate item : coords)
-            JSONCoords.put(item);
+            JSONCoords.put(item.toJSON());
 
         JSONObject tileBody = new JSONObject();
         tileBody.put("tiles", JSONCoords);
