@@ -289,8 +289,10 @@ public class Game {
         }
 
         JSONArray decksArray = jsonObject.getJSONArray("pointDecks");
-        this.pointCardDeck1 = new PointDeck(decksArray.getInt(0));
-        this.pointCardDeck2 = new PointDeck(decksArray.getInt(1));
+        this.pointCardDeck1 = new PointDeck(this.getNumberOfPlayers(), decksArray.getInt(0));
+        this.pointCardDeck2 = new PointDeck(this.getNumberOfPlayers(), decksArray.getInt(1));
+
+
         JSONArray objectivesArray = jsonObject.getJSONArray("objectives");
         this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(0));
         this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(1));
