@@ -56,6 +56,7 @@ public class GameController implements Runnable {
      * @param playerId of which ClientHandler needs to modify the status
      */
     public void notifyDisconnection(String playerId) {
+        System.out.println(gameId+": "+playerId+" disconnected from this game");
         connectedPlayers.put(playerId, 0);
         numberOfPlayers--;
     }
@@ -66,6 +67,7 @@ public class GameController implements Runnable {
      * @param playerId of which ClientHandler needs to modify the status
      */
     public void notifyConnection(String playerId) {
+        System.out.println(gameId+": "+playerId+" reconnected to this game");
         connectedPlayers.put(playerId, 1);
         synchronized (waitLock){
             waitLock.notifyAll();
@@ -201,6 +203,7 @@ public class GameController implements Runnable {
                 default -> game.chooseTiles(coordinates[0], coordinates[1], coordinates[2]);
             };
         } catch (TileUnpickableException | IllegalArgumentException e) {
+            System.out.println(gameId+": "+currentPlayerId+" chose the wrong tiles!");
             getClientHandler(currentPlayerId).badTile();
             return getTiles(currentPlayerId);
         }
