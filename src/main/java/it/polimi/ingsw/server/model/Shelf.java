@@ -292,7 +292,7 @@ public class Shelf {
 
         for (int j = 5; j >= 0; j--) {
             for (int i = 0; i < 5; i++) {
-                result.append(contents[i][j].getSymbol()).append(" ");
+                result.append(contents[i][j].getSymbol());
             }
         }
 
