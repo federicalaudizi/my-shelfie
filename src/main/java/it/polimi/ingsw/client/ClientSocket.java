@@ -411,7 +411,7 @@ public class ClientSocket extends Client {
 
             int replyHeaderCode = getReply().getHeaderCode();
             if(replyHeaderCode == 200) {
-                view.okPrompt("Successfully reconnected to server.");
+                view.prompt("Successfully reconnected to server.");
                 reconnected = true;
             } else if (replyHeaderCode == GENERIC_ERROR.getCode()) {
                 attempts++;
