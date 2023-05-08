@@ -64,6 +64,7 @@ public class ClientSocket extends Client {
                 else if(headerCode == GAME_OVER.getCode()) {
                     gameOver = true;
                     gameOver(reply);
+                    cleanUp();
                 } else if(headerCode == GAME_UPDATE.getCode())
                     update(reply.getBody().getJSONObject(0));
             }
@@ -71,8 +72,12 @@ public class ClientSocket extends Client {
             try {
                 reconnect();
             } catch (IOException ex) {
-                // TODO Close socket on exit
-                view.okPrompt("Unable to reconnect. Exiting.");
+                try {
+                    cleanUp();
+                } catch (IOException exc) {
+                    view.prompt("Something went wrong during the disconnection.");
+                }
+                view.prompt("Unable to reconnect. Exiting.");
                 throw new RuntimeException(ex);
             }
         }
