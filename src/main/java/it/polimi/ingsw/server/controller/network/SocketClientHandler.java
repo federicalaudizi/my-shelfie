@@ -199,11 +199,11 @@ public class SocketClientHandler extends ClientHandler{
         try {
             JSONObject answer = new JSONObject(dataIn.readLine());
 
-            if(answer.getString("header").equals(SEND_COLUMN.toString())){
+            if(answer.getInt("header") == SEND_COLUMN.getCode()){
                 // Send the confirmation
                 dataOut.println(new Message(OK));
 
-                JSONArray args = (JSONArray) answer.get("args");
+                JSONArray args = (JSONArray) answer.get("body");
                 JSONObject column = (JSONObject) args.get(0);
 
                 return column.getInt("column");
