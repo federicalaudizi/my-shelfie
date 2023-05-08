@@ -29,6 +29,11 @@ public class ViewGUI extends View {
     }
 
     @Override
+    void prompt(String message) {
+        // TODO Implement
+    }
+
+    @Override
     int choicePrompt(String message, String[] options) {
         // TODO Implement
         return 0;
