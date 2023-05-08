@@ -171,7 +171,7 @@ public class GameSupervisor{
      * @author Federico
      */
     private String randomString(){
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        String characters = "abcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder randomString = new StringBuilder();
         for (int i = 0; i < 5; i++) {
             int index = (int)(characters.length() * Math.random());
