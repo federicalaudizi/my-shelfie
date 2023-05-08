@@ -143,8 +143,8 @@ public class SocketClientHandler extends ClientHandler{
             JSONObject answer = new JSONObject(dataIn.readLine());
             System.out.println(clientSocket.getInetAddress()+": Received: "+answer);
 
-            if(answer.getString("header").equals(SEND_TILES.toString())){
-                JSONArray args = (JSONArray) answer.get("args");
+            if(answer.getInt("header") == SEND_TILES.getCode()){
+                JSONArray args = (JSONArray) answer.get("body");
 
                 //TODO: Check if this is the correct way to do it
 
