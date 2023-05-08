@@ -342,7 +342,7 @@ public class Board {
 
         for(int i = 0; i < MAX_X; i++) {
             for(int j = 0; j < MAX_Y; j++) {
-                output.append(board[i][j].getSymbol()).append(" ");
+                output.append(board[i][j].getSymbol());
             }
         }
 
