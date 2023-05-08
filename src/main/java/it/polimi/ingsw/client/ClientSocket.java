@@ -57,17 +57,14 @@ public class ClientSocket extends Client {
             // Second step: log into the server
             login();
 
-            // Third step: create new game or join a game
-            startGame();
-
             while(!gameOver) {
                 Message reply = getReply();
                 int headerCode = reply.getHeaderCode();
 
-                // Fourth step: when asked for a move, provide it
+                // Third step: when asked for a move, provide it
                 if(headerCode == GET_TILES.getCode())
                     move();
-                // Fifth step: execute game over operations when Game Over is sent by the server
+                // Fourth step: execute game over operations when Game Over is sent by the server
                 else if(headerCode == GAME_OVER.getCode()) {
                     gameOver = true;
                     gameOver(reply);
@@ -204,6 +201,8 @@ public class ClientSocket extends Client {
                             // A generic error occurred. The client throws an exception.
                             throw new RuntimeException("Unknown error");
                         }
+                        // Once the user logged in, start or join a new game
+                        startGame();
                     } catch (IOException e) {
                         throw new IOException(e.getMessage());
                     }
