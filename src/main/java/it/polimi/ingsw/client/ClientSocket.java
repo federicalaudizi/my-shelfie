@@ -244,7 +244,7 @@ public class ClientSocket extends Client {
                         int headerCode = getReply().getHeaderCode();
 
                         if (headerCode == OK.getCode()) {
-                            view.okPrompt("The game was correctly created.");
+                            view.prompt("The game was correctly created.");
                             gameCreated = true;
                         } else if (headerCode == GENERIC_ERROR.getCode()) {
                             view.okPrompt("An error occurred. Please retry.");
@@ -268,7 +268,7 @@ public class ClientSocket extends Client {
                                 send(joinGameMessage);
                                 int gameJoinHeaderCode = getReply().getHeaderCode();
                                 if (gameJoinHeaderCode == OK.getCode()) {
-                                    view.okPrompt("You correctly joined the game.");
+                                    view.prompt("You correctly joined the game.");
                                     gameJoined = true;
                                     operationCompleted = true;
                                 } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
