@@ -525,6 +525,8 @@ public class ClientSocket extends Client {
             e.printStackTrace();
         }
         if(reply != null) {
+            // TODO Remove debug statement
+            view.prompt(reply.toString());
             return reply;
         } else throw new NullPointerException("Reply was empty.");
     }
