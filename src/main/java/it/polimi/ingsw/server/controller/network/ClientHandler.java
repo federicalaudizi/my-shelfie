@@ -37,6 +37,7 @@ public abstract class ClientHandler implements Runnable{
      * @param pointDeckValues the values of the point decks
      * @param lastTurnFlag true if we are in the last turn, false otherwise
      */
+    @Deprecated
     public abstract void sendGameState(Board board, Player player, int[] pointDeckValues, boolean lastTurnFlag);
 
     /**
