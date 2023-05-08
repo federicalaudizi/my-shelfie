@@ -1,10 +1,11 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.PointCard;
-import it.polimi.ingsw.server.model.PointDeck;
+
+import org.json.JSONObject;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /** This test checks that the constructor creates the correct number of  Point cards based on the
  * number of players and that the method takePoints() returns the correct card and reduce the stack size.
@@ -66,6 +67,39 @@ public class PointDeckTest {
             PointCard card9 = deck3.takePoints();
             assertEquals(2, card9.getValue());
             assertEquals(0, deck3.cards.size());
+        }
+
+        @Test
+        public void toJsonTest(){
+            PointDeck p = new PointDeck(2);
+            System.out.println(p.toJson());
+
+            PointDeck pp = new PointDeck(3);
+            System.out.println(pp.toJson());
+
+            PointDeck ppp = new PointDeck(4);
+            System.out.println(ppp.toJson());
+        }
+
+        @Test
+        public void JsonConstructorTest(){
+            PointDeck p = new PointDeck(2);
+            JSONObject j = p.toJson();
+            PointDeck pp = new PointDeck(j);
+
+            assertTrue(p.isEqualTo(pp));
+        }
+
+        @Test
+        public void isEqualToTest(){
+            PointDeck p = new PointDeck(2);
+            PointDeck pp = new PointDeck(2);
+            assertTrue(p.isEqualTo(pp));
+
+            p.takePoints();
+            assertTrue(!p.isEqualTo(pp));
+            pp.takePoints();
+            assertTrue(p.isEqualTo(pp));
         }
     }
 
