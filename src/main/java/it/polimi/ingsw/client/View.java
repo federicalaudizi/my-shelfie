@@ -15,6 +15,8 @@ public abstract class View {
 
     abstract void okPrompt(String message);
 
+    abstract void prompt(String message);
+
     abstract int choicePrompt(String message, String[] options);
 
     abstract String gameIdSelection(ArrayList<String> gameIds);

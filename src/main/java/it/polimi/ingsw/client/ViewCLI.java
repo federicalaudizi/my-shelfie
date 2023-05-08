@@ -114,6 +114,11 @@ public class ViewCLI extends View {
     }
 
     @Override
+    void prompt(String message) {
+        System.out.println(message);
+    }
+
+    @Override
     int choicePrompt(String message, String[] options) {
         while(true) {
             System.out.println(message);
