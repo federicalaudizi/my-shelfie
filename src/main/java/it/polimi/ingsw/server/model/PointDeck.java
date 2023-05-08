@@ -120,4 +120,12 @@ public class PointDeck {
             this.size++;
         }
     }
+
+    public String toString(){
+        StringBuilder s = new StringBuilder("(");
+        for(PointCard c : cards){
+            s.append(c.toString()).append(",");
+        }
+        return s+")";
+    }
 }
