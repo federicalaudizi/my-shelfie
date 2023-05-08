@@ -6,9 +6,6 @@ import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Class that represents the player
  *
@@ -77,6 +74,7 @@ public class Player {
         this.playerShelf = new Shelf(playerJSON.getJSONObject("playerShelf"));
         this.objectiveCard = new PersonalObjectiveCard(playerJSON.getJSONObject("objectiveCard"));
         this.pointCards = new PointCard[2];
+        this.username = playerJSON.getString("username");
         for(int i = 0; i < 2; i++){
             this.pointCards[i] = new PointCard(playerJSON.getJSONArray("pointCards").getJSONObject(i));
         }
