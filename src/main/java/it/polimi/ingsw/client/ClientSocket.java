@@ -400,8 +400,7 @@ public class ClientSocket extends Client {
                 reconnected = true;
             } else if (replyHeaderCode == GENERIC_ERROR.getCode()) {
                 attempts++;
-                // TODO Change type of prompt: do not require any key to continue
-                System.out.println("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
+                view.prompt("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
                 switch(attempts) {
                     case 1 -> {
                         try {
