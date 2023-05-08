@@ -67,6 +67,9 @@ public abstract class Client {
 
         // Send updates to view
         view.update(game, playerOrder);
+
+        // Respond to update message
+        send(new Message(Message.Header.OK));
     }
     abstract void reconnect() throws IOException;
     abstract Message getReply() throws NullPointerException;
