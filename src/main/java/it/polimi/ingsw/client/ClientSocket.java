@@ -431,6 +431,16 @@ public class ClientSocket extends Client {
         }
     }
 
+    void cleanUp() throws IOException {
+        writer.close();
+        try {
+            bufferedReader.close();
+            socket.close();
+        } catch (IOException e) {
+            throw new IOException(e.getMessage());
+        }
+    }
+
     /**
      * This method transforms the coordinates gathered by the user into a JSON object that will then be parsed
      * by the server in order to validate them.
