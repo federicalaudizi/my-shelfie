@@ -544,12 +544,6 @@ public class ClientSocket extends Client {
         ClientSocket client = new ClientSocket(true);
 
         try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
             client.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
