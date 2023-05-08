@@ -7,25 +7,25 @@ import org.json.JSONObject;
  *
  * @author Sara Massarelli
  */
- public class PointCard {
-   private final int value;
+public class PointCard {
+    private final int value;
 
     PointCard(int value){
-       this.value= value;
-   }
+        this.value= value;
+    }
 
-   /**
-    * Copy constructor
-    * */
-   PointCard(PointCard other){
+    /**
+     * Copy constructor
+     * */
+    PointCard(PointCard other){
         this.value = other.value;
-   }
+    }
 
-   PointCard(JSONObject pointCardJSON) {
-       this.value = pointCardJSON.getInt("value");
-   }
+    PointCard(JSONObject pointCardJSON) {
+        this.value = pointCardJSON.getInt("value");
+    }
 
-     int getValue() {
+    int getValue() {
         return value;
     }
 
