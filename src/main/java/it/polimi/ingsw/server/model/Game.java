@@ -254,8 +254,8 @@ public class Game {
 
         //Inserting the objectives
         JSONArray JSONArrayObjectives = new JSONArray();
-        JSONArrayObjectives.put(collectiveObjectiveCard1.getClass().getSimpleName());
-        JSONArrayObjectives.put(collectiveObjectiveCard2.getClass().getSimpleName());
+        JSONArrayObjectives.put(collectiveObjectiveCard1.toJson());
+        JSONArrayObjectives.put(collectiveObjectiveCard2.toJson());
         json.put("objectives", JSONArrayObjectives);
 
 
@@ -292,10 +292,10 @@ public class Game {
         this.pointCardDeck1 = new PointDeck(decksArray.getInt(0));
         this.pointCardDeck2 = new PointDeck(decksArray.getInt(1));
         JSONArray objectivesArray = jsonObject.getJSONArray("objectives");
-        JSONObject objectiveJson1 = objectivesArray.getJSONObject(0);
-        JSONObject objectiveJson2 = objectivesArray.getJSONObject(1);
-        this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectiveJson1);
-        this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectiveJson2);
+        JSONObject objectiveJSON1 = objectivesArray.getJSONObject(0);
+        JSONObject objectiveJSON2 = objectivesArray.getJSONObject(1);
+        this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectiveJSON1);
+        this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectiveJSON2);
     }
 
     /**
