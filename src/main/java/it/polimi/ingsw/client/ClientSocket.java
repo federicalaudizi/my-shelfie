@@ -300,7 +300,7 @@ public class ClientSocket extends Client {
     void move() throws NullPointerException, UnknownError, IOException {
         boolean inputValidation, moveValidation = false, columnValidation = false;
         ArrayList<Coordinate> coordinates = null;
-        JSONObject body = null;
+        JSONArray body = null;
         Message reply;
         int headerCode;
 
@@ -467,17 +467,14 @@ public class ClientSocket extends Client {
      * @return The JSONObject containing a JSONArray with the aforementioned coordinates.
      * @author Mario Merlo
      */
-    private JSONObject coordsToJson(ArrayList<Coordinate> coords) throws NullPointerException {
+    private JSONArray coordsToJson(ArrayList<Coordinate> coords) throws NullPointerException {
         if(coords == null)
             throw new NullPointerException("Coordinate array was empty.");
         JSONArray JSONCoords = new JSONArray();
         for(Coordinate item : coords)
             JSONCoords.put(item.toJSON());
 
-        JSONObject tileBody = new JSONObject();
-        tileBody.put("tiles", JSONCoords);
-
-        return tileBody;
+        return JSONCoords;
     }
 
     /**
