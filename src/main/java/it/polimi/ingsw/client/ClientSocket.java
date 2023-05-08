@@ -398,7 +398,7 @@ public class ClientSocket extends Client {
             if(replyHeaderCode == 200) {
                 view.okPrompt("Successfully reconnected to server.");
                 reconnected = true;
-            } else if (replyHeaderCode == 400) {
+            } else if (replyHeaderCode == GENERIC_ERROR.getCode()) {
                 attempts++;
                 // TODO Change type of prompt: do not require any key to continue
                 System.out.println("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
