@@ -9,10 +9,24 @@ import java.util.regex.Pattern;
 public class ViewCLI extends View {
     Scanner scanner = new Scanner(System.in);
 
+    /**
+     * The constructor takes the passed client and associates it to the view
+     * @param client The client associated to the newly created view
+     * @author Mario Merlo
+     */
     public ViewCLI(Client client) {
         this.client = client;
     }
 
+    /**
+     * Constructs the CLI view starting from a Game object representing the ongoing game and a list of players that
+     * specifies the player order. The views are gathered by the ViewPrototypes enum and the placeholders are
+     * substituted with the player data.
+     * @param game The Game object defining the ongoing game
+     * @param playerOrder a LinkedList containing the player associated to the client in the first position and the
+     *                    other players in the other positions
+     * @author Mario Merlo
+     */
     private void composeView(Game game, LinkedList<String> playerOrder) {
         // Get correct view based on player number
         String view = ViewPrototypes.getViewByPlayerNum(playerOrder.size());
@@ -65,6 +79,15 @@ public class ViewCLI extends View {
         System.out.println(view);
     }
 
+    /**
+     * Formats the username to account for the correct amount of padding and adds the completed objective badges to
+     * the username of the player who reached them.
+     * @param username The username to be formatted
+     * @param completedObjectives An integer representing which objectives were reached: 1 for objective I, 2 for
+     *                            objective II and 3 for both
+     * @return The formatted username with a badge (where applicable)
+     * @author Mario Merlo
+     */
     private String usernameFormatter(String username, int completedObjectives) {
         // Create StringBuilder starting from the passed username
         StringBuilder formattedUsername = new StringBuilder(username);
@@ -87,6 +110,13 @@ public class ViewCLI extends View {
         return formattedUsername.toString();
     }
 
+    /**
+     * Triggers the last turn warning and calls compose view to print out the CLI view
+     * @param game The Game object defining the ongoing game
+     * @param playerOrder The list of players. The first spot of the list always contains the player associated to
+     *                    the current client.
+     * @author Mario Merlo
+     */
     @Override
     void update(Game game, LinkedList<String> playerOrder) {
         if(game.isLastTurn())
@@ -94,6 +124,12 @@ public class ViewCLI extends View {
         composeView(game, playerOrder);
     }
 
+    /**
+     * Shows a prompt that asks for input confirmation through a standard "y/n" prompt
+     * @param message The message to be printed on screen
+     * @return The user input once it has been confirmed
+     * @author Mario Merlo
+     */
     @Override
     String confirmationPrompt(String message) {
         while(true) {
@@ -106,6 +142,11 @@ public class ViewCLI extends View {
         }
     }
 
+    /**
+     * Shows a prompt that can be discarded by pressing enter.
+     * @param message The message to be printed on the screen
+     * @author Mario Merlo
+     */
     @Override
     void okPrompt(String message) {
         System.out.println(message);
@@ -113,11 +154,24 @@ public class ViewCLI extends View {
         scanner.nextLine();
     }
 
+    /**
+     * Shows a simple prompt. This is just a wrapper for System.out.println
+     * @param message The message to be printed on the screen
+     * @author Mario Merlo
+     */
     @Override
     void prompt(String message) {
         System.out.println(message);
     }
 
+    /**
+     * Shows an indexed list of choices. The user can select one of the options through its index and then confirm it
+     * through a standard "y/n" prompt.
+     * @param message The message to be printed on the screen
+     * @param options The options to be indexed and then shown to the user
+     * @return The index number chosen by the user
+     * @author Mario Merlo
+     */
     @Override
     int choicePrompt(String message, String[] options) {
         while(true) {
@@ -133,6 +187,13 @@ public class ViewCLI extends View {
         }
     }
 
+    /**
+     * Shows the currently ongoing games to the user and asks them to select one. The user's choice is then confirmed
+     * through a standard "y/n" prompt.
+     * @param gameIds An ArrayList containing the game IDs of the currently ongoing games.
+     * @return The game ID selected by the user
+     * @author Mario Merlo
+     */
     @Override
     String gameIdSelection(ArrayList<String> gameIds) {
         System.out.println("Select one of the following game IDs:");
@@ -153,6 +214,12 @@ public class ViewCLI extends View {
         }
     }
 
+    /**
+     * Shows the game over message and the game leaderboard, thus announcing the winner.
+     * @param leaderboard The leaderboard of the game
+     * @author Mario Merlo
+     */
+    // TODO Make this substitution-based like the game view
     @Override
     void gameOverScreen(HashMap<String, Integer> leaderboard) {
         try {
@@ -174,6 +241,12 @@ public class ViewCLI extends View {
     }
 }
 
+/**
+ * Contains the three possible CLI views that can be printed on screen, with the elements of the game substituted by
+ * placeholder characters. Once the game starts, the view selects the correct prototype based on the number of players
+ * and then substitutes the placeholder characters with the game data.
+ * @author Mario Merlo
+ */
 enum ViewPrototypes {
     TWO_PLAYERS(2, """
             111111111111111 | Board             | Your objective:
@@ -239,11 +312,23 @@ enum ViewPrototypes {
     final int playerNumber;
     final String viewPrototype;
 
+    /**
+     * The enum constructor
+     * @param playerNumber The number of players associated to the view prototype
+     * @param viewPrototype The view prototype itself
+     * @author Mario Merlo
+     */
     ViewPrototypes(int playerNumber, String viewPrototype) {
         this.playerNumber = playerNumber;
         this.viewPrototype = viewPrototype;
     }
 
+    /**
+     * This method returns the correct view prototype based on the number of players passed to it
+     * @param playerNumber The number of players in the ongoing game
+     * @return The view prototype associated to playerNumber
+     * @author Mario Merlo
+     */
     public static String getViewByPlayerNum(int playerNumber) {
         for(ViewPrototypes viewPrototype : ViewPrototypes.values()) {
             if(viewPrototype.playerNumber == playerNumber)
@@ -253,6 +338,12 @@ enum ViewPrototypes {
     }
 }
 
+/**
+ * Contains short descriptions that define collective objectives. Once the game starts, the view checks what objectives
+ * are currently reachable in the game and substitutes the placeholders on the view prototype with the correct
+ * short descriptions.
+ * @author Mario Merlo
+ */
 enum ObjectiveDescription {
     PATTERNONE("Six groups each containing at least two tiles of the same type."),
     PATTERNTWO("Four groups each containing al least 4 tiles of the same type."),
@@ -268,14 +359,32 @@ enum ObjectiveDescription {
     PATTERNTWELVE("Five columns of increasing or decreasing height.");
 
     private final String description;
+
+    /**
+     * The enum constructor
+     * @param description The description of a collective objective card
+     * @author Mario Merlo
+     */
     ObjectiveDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Returns the description of a collective objective card
+     * @return The description of the collective objective
+     * @author Mario Merlo
+     */
     private String getDescription() {
         return this.description;
     }
 
+    /**
+     * Compares the name of the objective passed as an argument to the name of the enum objects case insensitively and
+     * returns the description of the passed objective name, if found
+     * @param name The name of the objective to return the description of
+     * @return The description of the passed objective
+     * @author Mario Merlo
+     */
     public static String getDescriptionFromName(String name) {
         for(ObjectiveDescription desc : ObjectiveDescription.values()) {
             if(desc.name().equalsIgnoreCase(name))

@@ -34,6 +34,13 @@ public class ClientSocket extends Client {
     public ClientSocket(boolean cli) {
         super(cli);
     }
+
+    /**
+     * The class constructor calls the abstract parent class Client to build a new instance of the client
+     * @param cli Specifies whether the client should start in CLI-mode or GUI-mode
+     * @param username Specifies the username associated to this client
+     * @author Mario Merlo
+     */
     public ClientSocket(boolean cli, String username) { super(cli, username); }
 
     /**
@@ -119,6 +126,7 @@ public class ClientSocket extends Client {
     /**
      * Checks whether the passed IP and port combo is valid
      * @param ip The string formatted as ip:port
+     * @throws IllegalArgumentException If the IP string is malformed, this exception is thrown
      * @return true if the passed IP is valid, false otherwise
      * @author Mario Merlo
      */
@@ -436,6 +444,11 @@ public class ClientSocket extends Client {
         }
     }
 
+    /**
+     * Correctly closes the socket components and the socket itself once the client disconnects or the game ends
+     * @throws IOException If something goes wrong when closing the components or the socket, this exception is thrown
+     * @author Mario Merlo
+     */
     void cleanUp() throws IOException {
         writer.close();
         try {
@@ -450,6 +463,7 @@ public class ClientSocket extends Client {
      * This method transforms the coordinates gathered by the user into a JSON object that will then be parsed
      * by the server in order to validate them.
      * @param coords The ArrayList containing the coordinates chosen by the user.
+     * @throws NullPointerException If the ArrayList of coordinates passed is empty, this exception is thrown
      * @return The JSONObject containing a JSONArray with the aforementioned coordinates.
      * @author Mario Merlo
      */
@@ -470,6 +484,8 @@ public class ClientSocket extends Client {
      * This method parses the coordinate input from the user with a regex matching and returns an ArrayList of
      * coordinates with all the matches it found.
      * @param input The input string gathered from the user.
+     * @throws IllegalStateException If the input string is empty or contains more than three coordinates, this
+     *                               exception is thrown
      * @return An ArrayList of Coordinate objects that contain the coordinates gathered from the user.
      * @author Mario Merlo
      */

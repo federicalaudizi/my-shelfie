@@ -40,6 +40,12 @@ public abstract class Client {
     abstract void login() throws IOException;
     abstract void startGame() throws UnknownError, IOException;
     abstract void move() throws NullPointerException, UnknownError, IOException;
+
+    /**
+     * Triggers the game over screen on the view, passing the player leaderboard to it
+     * @param gameOverMessage The message containing the leaderboard
+     * @author Mario Merlo
+     */
     void gameOver(Message gameOverMessage) {
         JSONArray leaderboardJSON = gameOverMessage.getBody().getJSONObject(0).getJSONArray("leaderboard");
         HashMap<String, Integer> leaderboard = new HashMap<>();
@@ -50,6 +56,11 @@ public abstract class Client {
         view.gameOverScreen(leaderboard);
     }
 
+    /**
+     * Sends the game data to the view in order to update it
+     * @param gameData The JSONObject containing a representation of the Game object stored in the server
+     * @author Mario Merlo
+     */
     void update(JSONObject gameData) {
         // Create Game object from game update message
         Game game = new Game(gameData);
@@ -78,6 +89,7 @@ public abstract class Client {
     /**
      * Gets the player's username.
      * @return The player's username.
+     * @author Mario Merlo
      */
     String getUsername() {
         return username;
@@ -86,12 +98,19 @@ public abstract class Client {
     /**
      * Sets the player's username.
      * @param username The username chosen by the user.
+     * @author Mario Merlo
      */
     void setUsername(String username) {
         this.username = username;
     }
 
     // TODO This might change visibility later on
+
+    /**
+     * Returns the view associated to this client
+     * @return the view associated to this client
+     * @author Mario Merlo
+     */
     public View getView() {
         return view;
     }
