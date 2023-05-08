@@ -56,6 +56,9 @@ public class SocketClientHandler extends ClientHandler{
             loginPhase();
         } catch (Exception e){
             System.out.println(clientSocket.getInetAddress()+": Login exception: "+e.getMessage());
+
+            if(thisPlayerId != null) ongoingGames.removeUser(thisPlayerId);
+
             closeSocket();
             throw new RuntimeException(e);
         }
@@ -227,15 +230,16 @@ public class SocketClientHandler extends ClientHandler{
                 joinGamePhase();
 
             } else if(recievedMessage.getHeaderCode() == RECONNECT.getCode()){
+                // TODO: handle the case of a reconnecting player that did not join a game yet
                 // This is the case of a reconnecting player
                 JSONArray body = recievedMessage.getBody();
                 thisPlayerId = body.getJSONObject(0).getString("username");
 
                 game = ongoingGames.oldUser(thisPlayerId, this);
-                game.notifyConnection(thisPlayerId);
                 // Send the confirmation
                 System.out.println(clientSocket.getInetAddress()+": Successfully reconnected");
                 send(new Message(OK));
+                game.notifyConnection(thisPlayerId);
 
             } else {
                 // The response was not valid, ask again
