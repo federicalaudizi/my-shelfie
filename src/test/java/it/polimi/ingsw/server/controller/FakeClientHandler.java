@@ -1,10 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.controller.network.ClientHandler;
-import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Player;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -32,21 +30,6 @@ public class FakeClientHandler extends ClientHandler {
     @Override
     public void sendGameState(Game gameState) {
         System.out.println(gameState.toJson());
-    }
-
-    /**
-     * This method sends the updates of the gamestate to the client at the end of each player's turn
-     *
-     * @param board           the board of the game
-     * @param player          the player who just played
-     * @param pointDeckValues the values of the point decks
-     * @param lastTurnFlag    true if we are in the last turn, false otherwise
-     */
-    @Override
-    public void sendGameState(Board board, Player player, int[] pointDeckValues, boolean lastTurnFlag) {
-        System.out.println(player.getUsername()+"'s turn:");
-        System.out.println(board);
-        System.out.println(player);
     }
 
     /**
