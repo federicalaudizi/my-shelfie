@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -14,6 +15,7 @@ import java.util.Stack;
 
 public class PointDeck {
     Stack<PointCard> cards;
+    int size;
 
     PointDeck(int numOfPlayers) {
         cards = new Stack<>();
@@ -21,17 +23,20 @@ public class PointDeck {
         if (numOfPlayers == 2) {
             cards.push(new PointCard(4));
             cards.push(new PointCard(8));
+            size = 2;
 
         } else if (numOfPlayers == 3) {
             cards.push(new PointCard(4));
             cards.push(new PointCard(6));
             cards.push(new PointCard(8));
+            size = 3;
 
         } else if (numOfPlayers == 4) {
             cards.push(new PointCard(2));
             cards.push(new PointCard(4));
             cards.push(new PointCard(6));
             cards.push(new PointCard(8));
+            size = 4;
 
         }
     }
