@@ -3,9 +3,12 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import org.json.JSONObject;
 import org.junit.*;
 
 import java.util.Objects;
+
+import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
     Player player;
@@ -18,13 +21,13 @@ public class PlayerTest {
         player = new Player(playerObjectve);
         comparingShelf = new Shelf();
 
-        Assert.assertTrue(player.getShelf().isEmpty());
-        Assert.assertTrue(comparingShelf.equals(player.getShelf()));
+        assertTrue(player.getShelf().isEmpty());
+        assertTrue(comparingShelf.equals(player.getShelf()));
 
         player.addPlayerTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         comparingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         Assert.assertFalse(player.getShelf().isEmpty());
-        Assert.assertTrue(comparingShelf.equals(player.getShelf()));
+        assertTrue(comparingShelf.equals(player.getShelf()));
     }
 
     @Test
@@ -61,7 +64,7 @@ public class PlayerTest {
         player.addPlayerTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
         comparingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
 
-        Assert.assertTrue(comparingShelf.equals(player.getShelf()));
+        assertTrue(comparingShelf.equals(player.getShelf()));
     }
 
     @Test
@@ -103,5 +106,16 @@ public class PlayerTest {
         Player player1 = new Player(player);
 
         assert(player1.equals(player));
+    }
+
+    @Test
+    public void JsonConstructorTest(){
+        Player p = new Player(new PersonalObjectiveCard(g));
+
+        JSONObject j = p.toJson();
+
+        Player pp = new Player(j);
+
+        assertTrue(p.equals(pp));
     }
 }
