@@ -112,4 +112,21 @@ public class BoardTest {
 
     }
 
+    @Test
+    public void equalsTest(){
+        Board b = new Board();
+        Board b1 = new Board();
+
+        assertTrue(b.equals(b1));
+    }
+
+    @Test
+    public void JsonConstructorTest(){
+        Board board = new Board(2);
+        JSONObject JSONBoard = board.toJSON();
+
+        Board board1 = new Board(JSONBoard);
+        assertTrue(board.equals(board1));
+    }
+
 }
