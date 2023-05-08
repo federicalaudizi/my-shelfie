@@ -14,58 +14,58 @@ import static junit.framework.TestCase.*;
  * */
 public class GameTest {
 
-        @Test
-        public void testChooseFirstPlayer(){
-            Game g2 = new Game(2);
-            Game g3 = new Game(3);
-            Game g4 = new Game(4);
+    @Test
+    public void testChooseFirstPlayer(){
+        Game g2 = new Game(2);
+        Game g3 = new Game(3);
+        Game g4 = new Game(4);
 
-            //Verify that when the game start the current player and the first player are the same
-            assertEquals(g2.getFirst(), g2.getCurrentPlayerIndex());
-            assertEquals(g3.getFirst(), g3.getCurrentPlayerIndex());
-            assertEquals(g4.getFirst(), g4.getCurrentPlayerIndex());
+        //Verify that when the game start the current player and the first player are the same
+        assertEquals(g2.getFirst(), g2.getCurrentPlayerIndex());
+        assertEquals(g3.getFirst(), g3.getCurrentPlayerIndex());
+        assertEquals(g4.getFirst(), g4.getCurrentPlayerIndex());
 
-            //Checks if the range of the chosen player is correct
-            assertTrue(g2.getFirst()>=0 && g2.getFirst()<=1);
-            assertTrue(g3.getFirst()>=0 && g3.getFirst()<=2);
-            assertTrue(g4.getFirst()>=0 && g4.getFirst()<=3);
-        }
+        //Checks if the range of the chosen player is correct
+        assertTrue(g2.getFirst()>=0 && g2.getFirst()<=1);
+        assertTrue(g3.getFirst()>=0 && g3.getFirst()<=2);
+        assertTrue(g4.getFirst()>=0 && g4.getFirst()<=3);
+    }
 
     @Test
     public void getRankedPlayersTest() throws tooManyTilesException, notEnoughTilesException, fullColumnException {
-            Game g2 = new Game(2);
-            Game g3 = new Game(3);
-            Game g4 = new Game(4);
+        Game g2 = new Game(2);
+        Game g3 = new Game(3);
+        Game g4 = new Game(4);
 
-            g2.getPlayers().get(0).setEndGameCard();
-            g2.getPlayers().get(0).assignPointCard(new PointCard(8), 0);
-            g2.getPlayers().get(0).assignPointCard(new PointCard(4), 1);
+        g2.getPlayers().get(0).setEndGameCard();
+        g2.getPlayers().get(0).assignPointCard(new PointCard(8), 0);
+        g2.getPlayers().get(0).assignPointCard(new PointCard(4), 1);
 
-            g2.getPlayers().get(1).assignPointCard(new PointCard(4), 0);
-            g2.getPlayers().get(1).assignPointCard(new PointCard(8), 1);
+        g2.getPlayers().get(1).assignPointCard(new PointCard(4), 0);
+        g2.getPlayers().get(1).assignPointCard(new PointCard(8), 1);
 
-            HashMap<String, Integer> h = new HashMap<>();
-            h.put(g2.getPlayers().get(0).getUsername(), 13);
-            h.put(g2.getPlayers().get(1).getUsername(), 12);
+        HashMap<String, Integer> h = new HashMap<>();
+        h.put(g2.getPlayers().get(0).getUsername(), 13);
+        h.put(g2.getPlayers().get(1).getUsername(), 12);
 
-            assertEquals(h,g2.getRankedPlayers());
+        assertEquals(h,g2.getRankedPlayers());
 
-            g3.getPlayers().get(0).assignPointCard(new PointCard(4),0);
-            g3.getPlayers().get(0).setEndGameCard();
-            g3.getPlayers().get(0).assignPointCard(new PointCard(6),1);
-            g3.getPlayers().get(0).addPlayerTiles(0,new Tile[]{Tile.CATS,Tile.CATS,Tile.CATS}); //cluster 5 = 5 punti
-            g3.getPlayers().get(0).addPlayerTiles(0, new Tile[]{Tile.CATS,Tile.CATS});//tot 16
+        g3.getPlayers().get(0).assignPointCard(new PointCard(4),0);
+        g3.getPlayers().get(0).setEndGameCard();
+        g3.getPlayers().get(0).assignPointCard(new PointCard(6),1);
+        g3.getPlayers().get(0).addPlayerTiles(0,new Tile[]{Tile.CATS,Tile.CATS,Tile.CATS}); //cluster 5 = 5 punti
+        g3.getPlayers().get(0).addPlayerTiles(0, new Tile[]{Tile.CATS,Tile.CATS});//tot 16
 
-            g3.getPlayers().get(1).assignPointCard(new PointCard(8),0);
-            g3.getPlayers().get(1).assignPointCard(new PointCard(8),1);
-            g3.getPlayers().get(1).addPlayerTiles(1, new Tile[]{Tile.GAMES,Tile.GAMES});
-            g3.getPlayers().get(1).addPlayerTiles(2, new Tile[]{Tile.GAMES,Tile.GAMES});
-            g3.getPlayers().get(1).addPlayerTiles(3, new Tile[]{Tile.GAMES,Tile.GAMES}); //8punti--> tot 24
+        g3.getPlayers().get(1).assignPointCard(new PointCard(8),0);
+        g3.getPlayers().get(1).assignPointCard(new PointCard(8),1);
+        g3.getPlayers().get(1).addPlayerTiles(1, new Tile[]{Tile.GAMES,Tile.GAMES});
+        g3.getPlayers().get(1).addPlayerTiles(2, new Tile[]{Tile.GAMES,Tile.GAMES});
+        g3.getPlayers().get(1).addPlayerTiles(3, new Tile[]{Tile.GAMES,Tile.GAMES}); //8punti--> tot 24
 
-            g3.getPlayers().get(2).assignPointCard(new PointCard(6),0);
-            g3.getPlayers().get(2).assignPointCard(new PointCard(4),1);
-            g3.getPlayers().get(2).addPlayerTiles(2, new Tile[]{Tile.PLANTS,Tile.PLANTS});
-            g3.getPlayers().get(2).addPlayerTiles(1, new Tile[]{Tile.PLANTS});//2punti -->12pt
+        g3.getPlayers().get(2).assignPointCard(new PointCard(6),0);
+        g3.getPlayers().get(2).assignPointCard(new PointCard(4),1);
+        g3.getPlayers().get(2).addPlayerTiles(2, new Tile[]{Tile.PLANTS,Tile.PLANTS});
+        g3.getPlayers().get(2).addPlayerTiles(1, new Tile[]{Tile.PLANTS});//2punti -->12pt
 
         HashMap<String, Integer> h1 = new HashMap<>();
         h1.put(g3.getPlayers().get(1).getUsername(), 24);
