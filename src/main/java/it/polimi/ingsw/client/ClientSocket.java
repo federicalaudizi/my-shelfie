@@ -254,7 +254,7 @@ public class ClientSocket extends Client {
                 }
                 case 2 -> {
                     boolean gameJoined = false, noGames = true;
-                    while (!gameJoined || noGames) {
+                    while (!gameJoined && noGames) {
                         send(new Message(JOIN_GAME_REQUEST));
                         Message gameListMessage = getReply();
                         if (gameListMessage.getHeaderCode() == 211) {
