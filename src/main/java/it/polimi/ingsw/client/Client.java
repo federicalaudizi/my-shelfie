@@ -87,4 +87,9 @@ public abstract class Client {
     void setUsername(String username) {
         this.username = username;
     }
+
+    // TODO This might change visibility later on
+    public View getView() {
+        return view;
+    }
 }

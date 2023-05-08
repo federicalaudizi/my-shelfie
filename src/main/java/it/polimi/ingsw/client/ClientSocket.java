@@ -34,6 +34,7 @@ public class ClientSocket extends Client {
     public ClientSocket(boolean cli) {
         super(cli);
     }
+    public ClientSocket(boolean cli, String username) { super(cli, username); }
 
     /**
      * Starts the client by cycling through the game phases such as connection, login and move parsing
