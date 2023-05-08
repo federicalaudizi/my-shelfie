@@ -2,8 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -45,6 +43,7 @@ public class PointDeck {
      * copy constructor
      * */
     PointDeck(PointDeck other){
+        this.size = other.size;
         this.cards = new Stack<>();
         Stack<PointCard> otherCards = new Stack<>();
         otherCards.addAll(other.cards);
