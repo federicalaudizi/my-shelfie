@@ -345,7 +345,10 @@ public class ClientSocket extends Client {
 
             // Check reply to either resend coordinates or continue with the move
             if(headerCode == Message.Header.OK.getCode()) {
-                moveValidation = true;
+                reply = getReply();
+                headerCode = reply.getHeaderCode();
+                if(headerCode == GET_COLUMN.getCode())
+                    moveValidation = true;
             } else if(headerCode == Message.Header.BAD_TILES.getCode()) {
                 view.okPrompt("The tiles you chose are not valid. Please retry.");
             } else if(headerCode == Message.Header.GENERIC_ERROR.getCode()) {
