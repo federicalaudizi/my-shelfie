@@ -12,6 +12,8 @@ import java.util.*;
  * @author Federica
  */
 public abstract class CollectiveObjectiveCard {
+    //TODO: It seems like the same collective objectives are picked for the same game
+
     public abstract boolean checkObjective(Shelf shelf);
 
     public static CollectiveObjectiveCard getRandomCard() {

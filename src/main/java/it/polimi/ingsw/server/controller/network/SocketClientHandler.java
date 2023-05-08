@@ -30,11 +30,16 @@ public class SocketClientHandler extends ClientHandler{
     private GameController game;
     private String thisPlayerId;
 
+    private boolean pendingGameStateFlag;
+    private JSONObject pendingGameState;
+
     private boolean gameOver;
 
     public SocketClientHandler(Socket clientSocket, GameSupervisor ongoingGames) {
         this.clientSocket = clientSocket;
         this.ongoingGames = ongoingGames;
+        this.pendingGameStateFlag = false;
+        this.gameOver = false;
 
         try {
             // Get the input and output streams of the socket
@@ -62,6 +67,11 @@ public class SocketClientHandler extends ClientHandler{
                 System.out.println(clientSocket.getInetAddress()+": Disconnected!");
                 break;
             }
+
+            if(pendingGameStateFlag){
+                send(new Message(GAME_UPDATE, pendingGameState));
+                pendingGameStateFlag = false;
+            }
         }
 
         closeSocket();
@@ -74,45 +84,8 @@ public class SocketClientHandler extends ClientHandler{
      */
     @Override
     public void sendGameState(Game gameState) {
-        System.out.println(clientSocket.getInetAddress()+": Sending gamestate: "+gameState.toJson());
-        dataOut.println(new Message(GAME_UPDATE, gameState.toJson()));
-
-        try {
-            JSONObject answer = new JSONObject(dataIn.readLine());
-            // If the client does not acknowledge the message, send it again
-            if(answer.getInt("header") != OK.getCode()) sendGameState(gameState);
-        } catch (IOException e) {
-            game.notifyDisconnection(thisPlayerId);
-            closeSocket();
-        }
-    }
-
-    /**
-     * This method sends the updates of the gamestate to the client at the end of each player's turn
-     *
-     * @param board           the board of the game
-     * @param player          the player who just played
-     * @param pointDeckValues the values of the point decks
-     */
-    @Override
-    public void sendGameState(Board board, Player player, int[] pointDeckValues, boolean lastTurnFlag){
-        JSONObject body = new JSONObject();
-        body.put("board", board.toJSON());
-        body.put("player", player.toJson());
-        body.put("pointDeckValues", new JSONArray(pointDeckValues));
-        body.put("lastTurn", true);
-
-        dataOut.println(new Message(GAME_UPDATE, body));
-
-        try {
-            JSONObject answer = new JSONObject(dataIn.readLine());
-
-            // If the client does not acknowledge the message, send it again
-            if(answer.getInt("header") != OK.getCode()) sendGameState(board, player, pointDeckValues, lastTurnFlag);
-        } catch (IOException e) {
-            game.notifyDisconnection(thisPlayerId);
-            closeSocket();
-        }
+        pendingGameState = gameState.toJson();
+        pendingGameStateFlag = true;
     }
 
     /**
@@ -139,9 +112,10 @@ public class SocketClientHandler extends ClientHandler{
         // Wait for the response, if it is not valid, catch up by asking again
         try {
             JSONObject answer = new JSONObject(dataIn.readLine());
+            System.out.println(clientSocket.getInetAddress()+": Received: "+answer);
 
-            if(answer.getString("header").equals(SEND_TILES.toString())){
-                JSONArray args = (JSONArray) answer.get("args");
+            if(answer.getInt("header") == SEND_TILES.getCode()){
+                JSONArray args = (JSONArray) answer.get("body");
 
                 //TODO: Check if this is the correct way to do it
 
@@ -196,11 +170,11 @@ public class SocketClientHandler extends ClientHandler{
         try {
             JSONObject answer = new JSONObject(dataIn.readLine());
 
-            if(answer.getString("header").equals(SEND_COLUMN.toString())){
+            if(answer.getInt("header") == SEND_COLUMN.getCode()){
                 // Send the confirmation
                 dataOut.println(new Message(OK));
 
-                JSONArray args = (JSONArray) answer.get("args");
+                JSONArray args = (JSONArray) answer.get("body");
                 JSONObject column = (JSONObject) args.get(0);
 
                 return column.getInt("column");
@@ -398,5 +372,28 @@ public class SocketClientHandler extends ClientHandler{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Sends a message to the client for three times while waiting an ack, otherwise closes the socket
+     *
+     * @param message the message to send
+     */
+    private void send(Message message){
+        for(int i=0; i<3; i++) {
+            dataOut.println(message);
+
+            try {
+                JSONObject answer = new JSONObject(dataIn.readLine());
+                // If the client does not acknowledge the message, send it again
+                if(answer.getInt("header") == OK.getCode()) return;
+            } catch (IOException e) {
+                game.notifyDisconnection(thisPlayerId);
+                closeSocket();
+            }
+        }
+
+        game.notifyDisconnection(thisPlayerId);
+        closeSocket();
     }
 }

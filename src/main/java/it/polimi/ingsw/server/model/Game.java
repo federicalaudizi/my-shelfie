@@ -271,6 +271,11 @@ public class Game {
         return json;
     }
 
+
+    /**
+     * Json constructor for game
+     * @param jsonObject is the json Object containing the game
+     * */
     public Game(JSONObject jsonObject) {
         JSONObject boardJson = jsonObject.getJSONObject("board");
         this.board = new Board(boardJson);

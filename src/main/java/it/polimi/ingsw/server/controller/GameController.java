@@ -114,7 +114,7 @@ public class GameController implements Runnable {
         // Sends the first game update to all the client handlers
         for (String currentPlayerId : players) {
             System.out.println(gameId+": Sending game state to "+currentPlayerId);
-            //getClientHandler(currentPlayerId).sendGameState(game);
+            getClientHandler(currentPlayerId).sendGameState(game);
         }
 
         System.out.println(gameId+": Let's start playing!");
@@ -143,7 +143,7 @@ public class GameController implements Runnable {
 
                     // Send game state to all players after the move
                     for (String currentPlayer : players) {
-                        getClientHandler(currentPlayer).sendGameState(game.getBoard(), game.getCurrentPlayer(), game.getPointsValue(), game.isLastTurn());
+                        getClientHandler(currentPlayer).sendGameState(game);
                     }
 
                     isOver = game.nextTurn();
