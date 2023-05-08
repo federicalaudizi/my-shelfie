@@ -24,8 +24,8 @@ public class ViewCLI extends View {
         String playerTwoShelf = game.getPlayerByUsername(playerOrder.get(1)).getShelf().toString();
 
         // Update board on view
-        // TODO Make boundaries dynamic
-        for (int i = 0; i < 81; i++)
+        int boardSize = game.getBoard().getMAX_X() * game.getBoard().getMAX_Y();
+        for (int i = 0; i < boardSize; i++)
             view = Pattern.compile("\\^").matcher(view).replaceFirst(board.substring(i, i + 1));
 
         // Update shelves on board
