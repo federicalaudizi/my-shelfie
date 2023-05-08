@@ -42,7 +42,8 @@ public abstract class CollectiveObjectiveCard {
 
         Class<? extends CollectiveObjectiveCard> subclass = subclasses.get(index);
 
-        while (other.equals(subclass)) {
+
+        while (subclass.isInstance(other) && other.getClass() == subclass) {
             index = random.nextInt(subclasses.size());
             subclass = subclasses.get(index);
         }
