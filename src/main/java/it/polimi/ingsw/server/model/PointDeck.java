@@ -108,24 +108,40 @@ public class PointDeck {
                 size = 1;
             }
 
-        json.put("cards", cardArray);
-        return json;
-    }
-
-    /**
-     * Json constructor
-     * @param json is the json object containing the Point Deck
-     * */
-    public PointDeck (JSONObject json) {
-
-        this.cards = new Stack<>();
-        this.size = 0;
-        JSONArray cardArray = json.getJSONArray("cards");
-        for (int i = 0; i < cardArray.length(); i++) {
-            JSONObject cardJson = cardArray.getJSONObject(i);
-            PointCard card = new PointCard(cardJson);
-            cards.push(card);
-            this.size++;
+        } else if (numOfPlayers == 3) {
+            if (peek == 8) {
+                cards.push(new PointCard(4));
+                cards.push(new PointCard(6));
+                cards.push(new PointCard(8));
+                size = 3;
+            } else if (peek == 6) {
+                cards.push(new PointCard(4));
+                cards.push(new PointCard(6));
+                size = 2;
+            } else if (peek == 4) {
+                cards.push(new PointCard(4));
+                size = 1;
+            }
+        } else if (numOfPlayers == 4) {
+            if (peek == 8) {
+                cards.push(new PointCard(2));
+                cards.push(new PointCard(4));
+                cards.push(new PointCard(6));
+                cards.push(new PointCard(8));
+                size = 4;
+            } else if (peek == 6) {
+                cards.push(new PointCard(2));
+                cards.push(new PointCard(4));
+                cards.push(new PointCard(6));
+                size = 3;
+            } else if (peek == 4) {
+                cards.push(new PointCard(2));
+                cards.push(new PointCard(4));
+                size = 2;
+            } else {
+                cards.push(new PointCard(2));
+                size = 1;
+            }
         }
     }
 
