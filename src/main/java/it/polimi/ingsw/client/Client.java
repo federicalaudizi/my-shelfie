@@ -26,6 +26,15 @@ public abstract class Client {
             view = new ViewGUI(this);
     }
 
+    // TODO This is a test constructor and should be removed
+    public Client(boolean cli, String username) {
+        if(cli)
+            view = new ViewCLI(this);
+        else
+            view = new ViewGUI(this);
+        this.username = username;
+    }
+
     public abstract void start();
     abstract void connect() throws IOException;
     abstract void login() throws IOException;
