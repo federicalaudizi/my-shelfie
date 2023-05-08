@@ -370,13 +370,17 @@ public class Board {
         return new JSONObject().put("board", contents);
     }
 
+    /**
+     * Json constructor for Board
+     * @param jsonObject is the json Object containing the board
+     * */
     public Board(JSONObject jsonObject){
         this.board = new Tile[MAX_X][MAX_Y];
         JSONArray contents = jsonObject.getJSONArray("board");
         for(int i = 0; i < MAX_X; i++) {
             JSONArray row = contents.getJSONArray(i);
             for(int j = 0; j < MAX_Y; j++) {
-                this.board[i][j] = Tile.valueOf(row.getString(j));
+                this.board[i][j] = (Tile) row.get(j);
             }
         }
 
@@ -399,6 +403,13 @@ public class Board {
         return MAX_Y;
     }
 
+
+    /**
+     * Method that checks if two boards are equal
+     *
+     * @param other the board to compare to
+     * @return true if the boards are equals, false if not
+     * */
     public boolean equals(Board other){
         for(int i = 0;i<MAX_X;i++){
             for(int j =0;j<MAX_Y;j++){
