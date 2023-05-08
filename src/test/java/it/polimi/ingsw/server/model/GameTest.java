@@ -124,4 +124,20 @@ public class GameTest {
         System.out.println(gameJSON);
     }
 
+    @Test
+    public void JsonConstructor(){
+        Game g = new Game(2);
+        ArrayList<String> usernames = new ArrayList<>();
+        usernames.add("Mario");
+        usernames.add("Federico");
+
+        g.setUsernames(usernames);
+        JSONObject j = g.toJson();
+        Game gg = new Game(j);
+
+        System.out.println(j);
+        System.out.println(gg.toJson());
+        System.out.println(g.equals(gg));
+    }
+
 }
