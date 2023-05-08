@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.PointCard;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test for PointCard.
@@ -42,5 +44,20 @@ public class PointCardTest {
     public void testToJson() {
         PointCard card = new PointCard(8);
         System.out.println(card.toJson());
+    }
+
+    @Test
+    public void JsonConstructor(){
+        PointCard p = new PointCard(2);
+        JSONObject j = p.toJson();
+        PointCard pp = new PointCard(j);
+
+        assertTrue(p.equals(pp));
+
+        PointCard po = new PointCard(4);
+        JSONObject jj = po.toJson();
+        PointCard ppo = new PointCard(jj);
+
+        assertTrue(po.equals(ppo));
     }
 }
