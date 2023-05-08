@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.Stack;
 
 /**
@@ -39,10 +40,14 @@ public class PointDeck {
         }
     }
 
+    public int simplifiedPointDeck() {
+        return this.topValue();
+    }
+
     /**
      * copy constructor
-     * */
-    PointDeck(PointDeck other){
+     */
+    PointDeck(PointDeck other) {
         this.size = other.size;
         this.cards = new Stack<>();
         Stack<PointCard> otherCards = new Stack<>();
@@ -54,26 +59,25 @@ public class PointDeck {
     }
 
     public boolean isEqualTo(PointDeck otherDeck) {
-       if(this.size != otherDeck.size){
-           return false;
-       }
-       else{
-           //creating temporary stacks
-           Stack<PointCard> ts = new Stack<>();
-           Stack<PointCard> tts = new Stack<>();
+        if (this.size != otherDeck.size) {
+            return false;
+        } else {
+            //creating temporary stacks
+            Stack<PointCard> ts = new Stack<>();
+            Stack<PointCard> tts = new Stack<>();
 
-           ts.addAll(this.cards);
-           tts.addAll(otherDeck.cards);
+            ts.addAll(this.cards);
+            tts.addAll(otherDeck.cards);
 
-           while(!tts.empty()){
-               PointCard p = tts.pop();
-               PointCard pp= ts.pop();
+            while (!tts.empty()) {
+                PointCard p = tts.pop();
+                PointCard pp = ts.pop();
 
-               if(!p.equals(pp))
-                   return false;
-           }
-           return true;
-       }
+                if (!p.equals(pp))
+                    return false;
+            }
+            return true;
+        }
     }
 
     /**
@@ -121,11 +125,11 @@ public class PointDeck {
         }
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder s = new StringBuilder("(");
-        for(PointCard c : cards){
+        for (PointCard c : cards) {
             s.append(c.toString()).append(",");
         }
-        return s+")";
+        return s + ")";
     }
 }
