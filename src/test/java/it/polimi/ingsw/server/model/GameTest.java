@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.exceptions.TileUnpickableException;
 import it.polimi.ingsw.server.exceptions.fullColumnException;
 import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
 import it.polimi.ingsw.server.exceptions.tooManyTilesException;
@@ -140,4 +141,36 @@ public class GameTest {
         System.out.println(g.equals(gg));
     }
 
+    @Test
+    public void repopulate() throws TileUnpickableException {
+        Game game = new Game(2);
+
+        game.chooseTiles(new Coordinate(4, 1), new Coordinate(5, 1), null);
+        //System.out.println("First move:\n" + board);
+        game.chooseTiles(new Coordinate(3, 2), new Coordinate(4,2), new Coordinate(5, 2));
+        //System.out.println("Second move:\n" + board);
+        game.chooseTiles(new Coordinate(1, 3),new Coordinate(1,4), null);
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(2, 3),new Coordinate(2,4), new Coordinate(2,5));
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(3, 3),new Coordinate(3,4), new Coordinate(3,5));
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(3, 6),new Coordinate(3,7), null);
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(4, 3),new Coordinate(4,4), new Coordinate(4,5));
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(4, 6),new Coordinate(4,7), null);
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(5, 3),new Coordinate(5,4), new Coordinate(5,5));
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(5, 6),null, null);
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(6, 4),new Coordinate(6,5), null);
+        //System.out.println("Third move:\n" + board);
+        game.chooseTiles(new Coordinate(7, 4), null, null);
+        game.chooseTiles(new Coordinate(7, 5), null, null);
+        //System.out.println("qua:\n" + board);
+
+        //System.out.println("\n\n\n FINAL BOARD: \n" + board);
+    }
 }
