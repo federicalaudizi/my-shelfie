@@ -270,7 +270,7 @@ public class Board {
      * is thrown.
      * @author Mario Merlo
      */
-    private void removeTile(Coordinate coord) throws InvalidParameterException {
+    void removeTile(Coordinate coord) throws InvalidParameterException {
         if(board[coord.getRow()][coord.getColumn()] != Tile.OUTSIDE_GAME_BOARD)
             board[coord.getRow()][coord.getColumn()] = Tile.EMPTY;
         else throw new InvalidParameterException();
@@ -289,8 +289,7 @@ public class Board {
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j < 8; j++) {
                 if(board[i][j] != Tile.EMPTY && board[i][j] != Tile.OUTSIDE_GAME_BOARD)
-                    toRepopulate = (board[i + 1][j] == Tile.EMPTY && board[i][j + 1] == Tile.EMPTY) ||
-                                   (board[i + 1][j] == Tile.OUTSIDE_GAME_BOARD && board[i][j + 1] == Tile.OUTSIDE_GAME_BOARD);
+                    toRepopulate = ((board[i + 1][j] == Tile.EMPTY || board[i + 1][j] == Tile.OUTSIDE_GAME_BOARD) && (board[i][j + 1] == Tile.EMPTY) || board[i][j + 1] == Tile.OUTSIDE_GAME_BOARD);
                 if(!toRepopulate) break;
             }
         }
@@ -342,8 +341,9 @@ public class Board {
 
         for(int i = 0; i < MAX_X; i++) {
             for(int j = 0; j < MAX_Y; j++) {
-                output.append(board[i][j].getSymbol());
+                output.append(board[i][j].getSymbol()).append(" ");
             }
+            output.append("\n");
         }
 
         return output.toString();
