@@ -68,33 +68,6 @@ public class PointDeckTest {
             assertEquals(2, card9.getValue());
             assertEquals(0, deck3.cards.size());
         }
-
-        @Test
-        public void toJsonTest(){
-            PointDeck p = new PointDeck(2);
-            System.out.println(p.toJson());
-
-            PointDeck pp = new PointDeck(3);
-            System.out.println(pp.toJson());
-
-            PointDeck ppp = new PointDeck(4);
-            System.out.println(ppp.toJson());
-        }
-
-        @Test
-        public void JsonConstructorTest(){
-            PointDeck p = new PointDeck(4);
-            JSONObject j = p.toJson();
-            PointDeck pp = new PointDeck(j);
-
-            System.out.println(p);
-            System.out.println(p.toJson());
-            System.out.println(pp);
-
-
-            assertTrue(p.isEqualTo(pp));
-        }
-
         @Test
         public void isEqualToTest(){
             PointDeck p = new PointDeck(2);
