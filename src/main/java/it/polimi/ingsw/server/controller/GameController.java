@@ -116,10 +116,7 @@ public class GameController implements Runnable {
         game.setUsernames(players);
 
         // Sends the first game update to all the client handlers
-        for (String currentPlayerId : players) {
-            System.out.println(gameId+": Sending game state to "+currentPlayerId);
-            getClientHandler(currentPlayerId).sendGameState(game);
-        }
+        updateAllPlayers();
 
         System.out.println(gameId+": Let's start playing!");
         //let's start playing
@@ -145,16 +142,10 @@ public class GameController implements Runnable {
                     // Case when the current player is connected
                     playerMakeMove(currentPlayerId);
 
-                    // Send game state to all players after the move
-                    for (String currentPlayer : players) {
-                        getClientHandler(currentPlayer).sendGameState(game);
-                    }
-
-                    isOver = game.nextTurn();
-                } else {
-                    // Skip turn
-                    isOver = game.nextTurn();
                 }
+                isOver = game.nextTurn();
+
+                updateAllPlayers();
             } else {
                 // Case 1 or zero players connected, count timer
                 try {
@@ -167,6 +158,16 @@ public class GameController implements Runnable {
                     // No one connected, game over
                     isOver = true;
                 }
+            }
+        }
+    }
+
+    private void updateAllPlayers(){
+        // Send game state to all players after the move
+        for (String currentPlayer : players) {
+            if(connectedPlayers.get(currentPlayer) == 1) {
+                System.out.println(gameId + ": Sending game state to " + currentPlayer);
+                getClientHandler(currentPlayer).sendGameState(game);
             }
         }
     }

@@ -103,6 +103,7 @@ public class Game {
      * This method manages the turn modifying the current player index.
      */
     public boolean nextTurn() {
+        board.checkBoard();
         if (lastTurn && currentPlayerIndex != lastPlayer) {
             currentPlayerIndex = ((currentPlayerIndex + 1) % players.size());
         } else if (!lastTurn) {
@@ -149,7 +150,6 @@ public class Game {
      * @return an array with the chosen tiles
      */
     public Tile[] chooseTiles(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
-        board.checkBoard();
         return board.pickTile(c1, c2, c3);
     }
 
