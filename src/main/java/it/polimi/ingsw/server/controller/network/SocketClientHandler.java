@@ -65,6 +65,7 @@ public class SocketClientHandler extends ClientHandler{
 
         // Run until game over or disconnection
         while (!gameOver && clientSocket.isConnected()) {
+            //TODO: everything that is in here appears not to be running;
 
             // Heartbeat
             if(!clientSocket.isConnected()){
@@ -79,6 +80,11 @@ public class SocketClientHandler extends ClientHandler{
                 System.out.println(clientSocket.getInetAddress()+": Sending gamestate");
                 send(new Message(GAME_UPDATE, pendingGameState));
                 pendingGameStateFlag = false;
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {
             }
         }
 
@@ -129,8 +135,6 @@ public class SocketClientHandler extends ClientHandler{
 
         if(answer.getHeaderCode() == SEND_TILES.getCode()){
             JSONArray args = answer.getBody();
-
-            //TODO: Check if this is the correct way to do it
 
             Coordinate[] tiles = new Coordinate[args.length()];
 
@@ -376,6 +380,8 @@ public class SocketClientHandler extends ClientHandler{
                 return new Message(recievedMessage);
             }
         } catch (IOException e) {
+            System.out.println(clientSocket.getInetAddress()+": Disconnected!");
+            if(game != null) game.notifyDisconnection(thisPlayerId);
             throw new PlayerDisconnectedException();
         }
 
