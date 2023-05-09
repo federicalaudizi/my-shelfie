@@ -173,117 +173,99 @@ public class ClientSocket extends Client {
     @Override
     void login() throws IOException {
         setUsername(view.confirmationPrompt("Enter a username: "));
-        boolean loggedIn = false;
+        boolean loggedIn = false, operationCompleted = false, done = false;
         String line;
         Message reply;
-        String[] options = { "Create or join a new game", "Reconnect to an ongoing game" };
-
-        int choice = view.choicePrompt("What do you want to do?", options);
-        switch(choice) {
-            case 1 -> {
+        String[] options = { "Create a new game", "Join a new game", "Reconnect to an ongoing game" };
+        while(!done) {
+            int choice = view.choicePrompt("What do you want to do?", options);
+            if(choice <= 0 || choice > 3)
+                view.prompt("You entered an invalid option. Retry.");
+            else if(choice == 3) {
+                reconnect();
+                done = true;
+            } else {
                 while(!loggedIn) {
-                    try {
-                        JSONArray body = new JSONArray();
-                        body.put(new JSONObject().put("username", this.getUsername()));
-                        Message loginMessage = new Message(LOGIN_REQUEST, body);
-                        send(loginMessage);
+                    JSONArray body = new JSONArray();
+                    body.put(new JSONObject().put("username", this.getUsername()));
+                    Message loginMessage = new Message(LOGIN_REQUEST, body);
+                    send(loginMessage);
 
-                        line = bufferedReader.readLine();
-                        reply = new Message(line);
-                        int headerCode = reply.getHeaderCode();
+                    int headerCode = getReply().getHeaderCode();
 
-                        if(headerCode == OK.getCode()) {
-                            view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
-                            loggedIn = true;
-                        } else if(headerCode == USERNAME_TAKEN.getCode()) {
-                            setUsername(view.confirmationPrompt("Username taken. Enter a new username: "));
-                        } else if(headerCode == GENERIC_ERROR.getCode()) {
-                            // A generic error occurred. The client throws an exception.
-                            throw new RuntimeException("Unknown error");
-                        }
-                        // Once the user logged in, start or join a new game
-                        startGame();
-                    } catch (IOException e) {
-                        throw new IOException(e.getMessage());
+                    if (headerCode == OK.getCode()) {
+                        view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
+                        loggedIn = true;
+                    } else if (headerCode == USERNAME_TAKEN.getCode()) {
+                        setUsername(view.confirmationPrompt("Username taken. Enter a new username: "));
+                    } else if (headerCode == GENERIC_ERROR.getCode()) {
+                        // A generic error occurred. The client throws an exception.
+                        throw new RuntimeException("Unknown error");
                     }
-                }
-            }
-            case 2 -> reconnect();
-        }
-    }
+                    while(!operationCompleted) {
+                        switch (choice) {
+                            case 1 -> {
+                                boolean gameCreated = false;
+                                while (!gameCreated) {
+                                    boolean playerNumberValid = false;
+                                    int playerNumber = 0;
+                                    while (!playerNumberValid) {
+                                        playerNumber = Integer.parseInt(view.confirmationPrompt("Enter the number of players (between 2 and 4): "));
+                                        if (playerNumber < 2 || playerNumber > 4)
+                                            view.okPrompt("You entered an invalid number of players. Please retry.");
+                                        else playerNumberValid = true;
+                                    }
+                                    Message newGameMessage = new Message(NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber));
+                                    send(newGameMessage);
 
-    /**
-     * This method asks the user whether they want to create a new game or join an existing game and then proceeds to
-     * communicate the choice to the server.
-     * @throws UnknownError If an unknown response is sent by the server, this exception is thrown
-     * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
-     * @author Mario Merlo
-     */
-    @Override
-    void startGame() throws UnknownError, IOException {
-        String[] options = { "Create new game", "Join existing game" };
-        int choice = view.choicePrompt("What do you want to do?", options);
-        boolean operationCompleted = false;
-        while(!operationCompleted) {
-            switch (choice) {
-                case 1 -> {
-                    boolean gameCreated = false;
-                    while (!gameCreated) {
-                        boolean playerNumberValid = false;
-                        int playerNumber = 0;
-                        while (!playerNumberValid) {
-                            playerNumber = Integer.parseInt(view.confirmationPrompt("Enter the number of players (between 2 and 4): "));
-                            if (playerNumber < 2 || playerNumber > 4)
-                                view.okPrompt("You entered an invalid number of players. Please retry.");
-                            else playerNumberValid = true;
-                        }
-                        Message newGameMessage = new Message(NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber));
-                        send(newGameMessage);
+                                    headerCode = getReply().getHeaderCode();
 
-                        int headerCode = getReply().getHeaderCode();
-
-                        if (headerCode == OK.getCode()) {
-                            view.prompt("The game was correctly created.");
-                            gameCreated = true;
-                        } else if (headerCode == GENERIC_ERROR.getCode()) {
-                            view.okPrompt("An error occurred. Please retry.");
-                        } else throw new UnknownError("An unknown error occurred.");
-                    }
-                    operationCompleted = true;
-                }
-                case 2 -> {
-                    boolean gameJoined = false, noGames = true;
-                    while (!gameJoined && noGames) {
-                        send(new Message(JOIN_GAME_REQUEST));
-                        Message gameListMessage = getReply();
-                        if (gameListMessage.getHeaderCode() == 211) {
-                            JSONArray gameListJSON = gameListMessage.getBody().getJSONObject(0).getJSONArray("games");
-                            ArrayList<String> gameList = new ArrayList<>();
-                            if(gameListJSON.length() != 0) {
-                                for (int i = 0; i < gameListJSON.length(); i++)
-                                    gameList.add(gameListJSON.getString(i));
-                                String selectedGame = view.gameIdSelection(gameList);
-                                Message joinGameMessage = new Message(JOIN_GAME_RESPONSE, new JSONObject().put("gameId", selectedGame));
-                                send(joinGameMessage);
-                                int gameJoinHeaderCode = getReply().getHeaderCode();
-                                if (gameJoinHeaderCode == OK.getCode()) {
-                                    view.prompt("You correctly joined the game.");
-                                    gameJoined = true;
-                                    operationCompleted = true;
-                                } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
-                                    view.okPrompt("This game does not exist on the server. Please retry.");
-                                } else if (gameJoinHeaderCode == GENERIC_ERROR.getCode()) {
-                                    view.okPrompt("An error occurred. Please retry.");
-                                } else throw new UnknownError("An unknown error occurred.");
-                            } else {
-                                view.okPrompt("There are no ongoing games on this server. Creating a new game.");
-                                noGames = false;
-                                choice = 1;
+                                    if (headerCode == OK.getCode()) {
+                                        view.prompt("The game was correctly created.");
+                                        gameCreated = true;
+                                    } else if (headerCode == GENERIC_ERROR.getCode()) {
+                                        view.okPrompt("An error occurred. Please retry.");
+                                    } else throw new UnknownError("An unknown error occurred.");
+                                }
+                                operationCompleted = true;
                             }
+                            case 2 -> {
+                                boolean gameJoined = false, noGames = true;
+                                while (!gameJoined && noGames) {
+                                    send(new Message(JOIN_GAME_REQUEST));
+                                    Message gameListMessage = getReply();
+                                    if (gameListMessage.getHeaderCode() == 211) {
+                                        JSONArray gameListJSON = gameListMessage.getBody().getJSONObject(0).getJSONArray("games");
+                                        ArrayList<String> gameList = new ArrayList<>();
+                                        if(gameListJSON.length() != 0) {
+                                            for (int i = 0; i < gameListJSON.length(); i++)
+                                                gameList.add(gameListJSON.getString(i));
+                                            String selectedGame = view.gameIdSelection(gameList);
+                                            Message joinGameMessage = new Message(JOIN_GAME_RESPONSE, new JSONObject().put("gameId", selectedGame));
+                                            send(joinGameMessage);
+                                            int gameJoinHeaderCode = getReply().getHeaderCode();
+                                            if (gameJoinHeaderCode == OK.getCode()) {
+                                                view.prompt("You correctly joined the game.");
+                                                gameJoined = true;
+                                                operationCompleted = true;
+                                            } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
+                                                view.okPrompt("This game does not exist on the server. Please retry.");
+                                            } else if (gameJoinHeaderCode == GENERIC_ERROR.getCode()) {
+                                                view.okPrompt("An error occurred. Please retry.");
+                                            } else throw new UnknownError("An unknown error occurred.");
+                                        } else {
+                                            view.okPrompt("There are no ongoing games on this server. Creating a new game.");
+                                            noGames = false;
+                                            choice = 1;
+                                        }
+                                    }
+                                }
+                            }
+                            default -> view.okPrompt("You entered an invalid option. Please retry.");
                         }
                     }
+                    done = true;
                 }
-                default -> view.okPrompt("You entered an invalid option. Please retry.");
             }
         }
     }

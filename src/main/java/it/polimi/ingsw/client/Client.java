@@ -38,7 +38,6 @@ public abstract class Client {
     public abstract void start();
     abstract void connect() throws IOException;
     abstract void login() throws IOException;
-    abstract void startGame() throws UnknownError, IOException;
     abstract void move() throws NullPointerException, UnknownError, IOException;
 
     /**
