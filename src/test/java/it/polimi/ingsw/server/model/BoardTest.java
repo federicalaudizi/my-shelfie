@@ -121,7 +121,7 @@ public class BoardTest {
     }
 
     @Test
-    public void JsonConstructorTest(){
+    public void JsonConstructorTest() {
         Board board = new Board(2);
         JSONObject JSONBoard = board.toJSON();
 
