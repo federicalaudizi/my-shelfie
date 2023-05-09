@@ -89,6 +89,7 @@ public class PlayerTest {
     @Test
     public void testToJson(){
         player = new Player(playerObjectve);
+        player.setPlayerName("pippo");
 
         player.assignPointCard(new PointCard(4), 0);
 
@@ -111,6 +112,8 @@ public class PlayerTest {
     @Test
     public void JsonConstructorTest(){
         Player p = new Player(new PersonalObjectiveCard(g));
+
+        p.setPlayerName("pippo");
 
         JSONObject j = p.toJson();
 

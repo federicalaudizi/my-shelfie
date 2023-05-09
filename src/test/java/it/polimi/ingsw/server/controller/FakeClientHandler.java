@@ -29,7 +29,7 @@ public class FakeClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-        System.out.println(gameState.toJson());
+        System.out.println(gameState.getBoard().toString());
     }
 
     /**
