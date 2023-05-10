@@ -147,15 +147,18 @@ public class GameController implements Runnable {
 
                 updateAllPlayers();
             } else {
+                System.out.println(gameId+": Not enough players to continue, waiting for more players to connect");
                 // Case 1 or zero players connected, count timer
                 try {
                     Thread.sleep(60000);
                 } catch (InterruptedException e) {
                     // Someone connected, continue
+                    System.out.println(gameId+": Someone connected, continuing");
                     continue;
                 }
                 if(numberOfPlayers <= 1){
                     // No one connected, game over
+                    System.out.println(gameId+": No one connected, game over");
                     isOver = true;
                 }
             }
