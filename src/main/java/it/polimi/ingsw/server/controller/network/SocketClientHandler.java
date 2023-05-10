@@ -204,8 +204,17 @@ public class SocketClientHandler extends ClientHandler{
      */
     @Override
     public void gameOver(HashMap<String, Integer> leaderboard) {
-        //TODO: Write the gameOver method
-        // dataOut.println(new Message(GAME_OVER, leaderboard));
+        //TODO: Modify so that leaderboard is ordered
+        JSONArray leaderboardJson = new JSONArray();
+
+        for(String player : leaderboard.keySet()){
+            JSONObject playerScore = new JSONObject();
+            playerScore.put("username", player);
+            playerScore.put("points", leaderboard.get(player));
+            leaderboardJson.put(playerScore);
+        }
+
+        send(new Message(GAME_OVER, leaderboardJson));
         gameOver = true;
     }
 
