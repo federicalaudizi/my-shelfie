@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class GameSupervisor{
     private final HashMap<String, GameController> games; //Associates a game to its id
-    private final HashMap<String, ClientHandler> players; //Associates a player to his client handler
+    private final HashMap<String, ClientHandler> players; //Associates a player to his client handler, client handler is null if the player is not connected
     private final HashMap<String, String> playersGames; //Associates a player to the game he is playing
 
     public GameSupervisor(){
@@ -41,10 +41,10 @@ public class GameSupervisor{
      * @param handler  the client handler of the player
      * @author Federico
      */
-    public synchronized GameController oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
+    public synchronized void oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
         if(!players.containsKey(playerId)) throw new PlayerDoesNotExistsException();
         players.put(playerId, handler);
-        return games.get(playersGames.get(playerId));
+        notifyConnection(playerId);
     }
 
     /**
@@ -78,15 +78,36 @@ public class GameSupervisor{
      *
      * @param playerId the id of the player
      * @param gameId   the id of the game
-     * @return the game controller of the game
      * @author Federico
      */
-    public synchronized GameController joinGame(String playerId, String gameId) throws NonExsistentGameException, ReachedMaxNumberOfPlayers {
+    public synchronized void joinGame(String playerId, String gameId) throws NonExsistentGameException, ReachedMaxNumberOfPlayers {
         if(!games.containsKey(gameId)) throw new NonExsistentGameException();
         GameController game = games.get(gameId);
         game.addPlayer(playerId, players.get(playerId));
         playersGames.put(playerId, gameId);
-        return game;
+    }
+
+    /**
+     * This method registers that a player is actually connected to the server
+     *
+     * @param playerId the username of the connected player
+     * @author Federico
+     */
+    private synchronized void notifyConnection(String playerId){
+        GameController game = games.get(playersGames.get(playerId));
+        if(game != null) game.notifyDisconnection(playerId);
+    }
+
+    /**
+     * This method registers that a player is not connected to the server anymore
+     *
+     * @param playerId the username of the just disconnected player
+     * @author Federico
+     */
+    public synchronized void notifyDisconnection(String playerId){
+        players.put(playerId, null);
+        GameController game = games.get(playersGames.get(playerId));
+        if(game != null) game.notifyDisconnection(playerId);
     }
 
     /**

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.network;
 
-import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.*;
@@ -27,7 +26,6 @@ public class SocketClientHandler extends ClientHandler{
     private PrintWriter dataOut;
     private BufferedReader dataIn;
     private final GameSupervisor ongoingGames;
-    private GameController game;
     private String thisPlayerId;
 
     private boolean pendingGameStateFlag;
@@ -54,25 +52,37 @@ public class SocketClientHandler extends ClientHandler{
     public void run() {
         try {
             loginPhase();
-        } catch (Exception e){
-            System.out.println(clientSocket.getInetAddress()+": Login exception: "+e.getMessage());
-
+        } catch (PlayerDisconnectedException e) {
+            System.out.println(clientSocket.getInetAddress()+": Disconnected at during login phase");
+            // If the player logged and then
             if(thisPlayerId != null) ongoingGames.removeUser(thisPlayerId);
 
             closeSocket();
-            throw new RuntimeException(e);
+            return;
+        }
+
+        if(!ongoingGames.userIsInGame(thisPlayerId)) {
+            try {
+                joinGamePhase();
+            } catch (PlayerDisconnectedException e) {
+                if(ongoingGames.userIsInGame(thisPlayerId)) {
+                    System.out.println(clientSocket.getInetAddress()+": Disconnected at during join game phase, warning game");
+                    ongoingGames.notifyDisconnection(thisPlayerId);
+                }
+                else {
+                    System.out.println(clientSocket.getInetAddress()+": Disconnected at during join game phase, deleting user");
+                    ongoingGames.removeUser(thisPlayerId);
+                }
+                closeSocket();
+                return;
+            }
         }
 
         // Run until game over or disconnection
         while (!gameOver && clientSocket.isConnected()) {
-            //TODO: everything that is in here appears not to be running;
 
             // Heartbeat
-            if(!clientSocket.isConnected()){
-                game.notifyDisconnection(thisPlayerId);
-                System.out.println(clientSocket.getInetAddress()+": Disconnected!");
-                break;
-            }
+            // TODO: To implement an heartbeat, it must be done in the client too, the server needs to send pings and wait for answars, this means there must be a lock on the communication stream.
 
             // Check if there is a pending gamestate to send
             if(pendingGameStateFlag){
@@ -89,7 +99,6 @@ public class SocketClientHandler extends ClientHandler{
         }
 
         System.out.println(clientSocket.getInetAddress()+": Terminating thread");
-
         closeSocket();
     }
 
@@ -223,7 +232,7 @@ public class SocketClientHandler extends ClientHandler{
      *
      * @author Federico
      */
-    private void loginPhase() {
+    private void loginPhase() throws PlayerDisconnectedException {
         Message recievedMessage;
         JSONObject response;
         try {
@@ -240,19 +249,15 @@ public class SocketClientHandler extends ClientHandler{
                 // Send the confirmation
                 send(new Message(OK));
 
-                joinGamePhase();
-
             } else if(recievedMessage.getHeaderCode() == RECONNECT.getCode()){
-                // TODO: handle the case of a reconnecting player that did not join a game yet
                 // This is the case of a reconnecting player
                 JSONArray body = recievedMessage.getBody();
                 thisPlayerId = body.getJSONObject(0).getString("username");
 
-                game = ongoingGames.oldUser(thisPlayerId, this);
+                ongoingGames.oldUser(thisPlayerId, this);
                 // Send the confirmation
                 System.out.println(clientSocket.getInetAddress()+": Successfully reconnected");
                 send(new Message(OK));
-                game.notifyConnection(thisPlayerId);
 
             } else {
                 // The response was not valid, ask again
@@ -273,9 +278,6 @@ public class SocketClientHandler extends ClientHandler{
             response.put("message", "Player does not exist");
             send(new Message(GENERIC_ERROR, response));
             loginPhase();
-        } catch (PlayerDisconnectedException e) {
-            // TODO: handle disconnection at login phase
-            closeSocket();
         }
     }
 
@@ -284,7 +286,8 @@ public class SocketClientHandler extends ClientHandler{
      *
      * @author Federico
      */
-    private void joinGamePhase(){
+    private void joinGamePhase() throws PlayerDisconnectedException {
+        //TODO: Fix recursion
         Message recievedMessage;
         JSONObject response;
         try {
@@ -298,7 +301,7 @@ public class SocketClientHandler extends ClientHandler{
                 JSONArray body = recievedMessage.getBody();
                 int playerNumber = body.getJSONObject(0).getInt("playerNumber");
                 String newGameId = ongoingGames.newGame(playerNumber);
-                game = ongoingGames.joinGame(thisPlayerId, newGameId);
+                ongoingGames.joinGame(thisPlayerId, newGameId);
                 System.out.println(clientSocket.getInetAddress()+": Successfully created a new game");
                 send(new Message(OK));
             } else if(recievedMessage.getHeaderCode() == JOIN_GAME_REQUEST.getCode()){
@@ -316,7 +319,7 @@ public class SocketClientHandler extends ClientHandler{
 
                     JSONArray body = recievedMessage.getBody();
                     String gameId = body.getJSONObject(0).getString("gameId");
-                    game = ongoingGames.joinGame(thisPlayerId, gameId);
+                    ongoingGames.joinGame(thisPlayerId, gameId);
                     System.out.println(clientSocket.getInetAddress()+": Joined a game");
                     send(new Message(OK));
 
@@ -353,15 +356,13 @@ public class SocketClientHandler extends ClientHandler{
             System.out.println(clientSocket.getInetAddress()+": No games to join");
             send(new Message(NO_GAMES, response));
             joinGamePhase();
-        } catch (PlayerDisconnectedException e) {
-            closeSocket();
         }
     }
 
     private void closeSocket(){
         System.out.println(clientSocket.getInetAddress()+": Closing.");
 
-        if(game != null) game.notifyDisconnection(thisPlayerId);
+        ongoingGames.notifyDisconnection(thisPlayerId);
 
         try {
             clientSocket.close();
@@ -390,7 +391,7 @@ public class SocketClientHandler extends ClientHandler{
             }
         } catch (IOException e) {
             System.out.println(clientSocket.getInetAddress()+": Disconnected!");
-            if(game != null) game.notifyDisconnection(thisPlayerId);
+            closeSocket();
             throw new PlayerDisconnectedException();
         }
 

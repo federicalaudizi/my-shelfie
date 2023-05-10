@@ -23,7 +23,6 @@ public class GameController implements Runnable {
     private final GameSupervisor ongoingGames;
     private final HashMap<String, ClientHandler> playerToClientHandlerMap;
     private final HashMap<String, Integer> connectedPlayers;
-    private int numberOfPlayers;
     private final ArrayList<String> players;
     private final String gameId;
     private boolean isOver;
@@ -47,7 +46,6 @@ public class GameController implements Runnable {
         this.connectedPlayers = new HashMap<>();
         this.ongoingGames = ongoingGames;
         this.waitLock = new Object();
-        this.numberOfPlayers = 0;
     }
 
     /**
@@ -55,10 +53,9 @@ public class GameController implements Runnable {
      *
      * @param playerId of which ClientHandler needs to modify the status
      */
-    public void notifyDisconnection(String playerId) {
+    void notifyDisconnection(String playerId) {
         System.out.println(gameId+": "+playerId+" disconnected from this game");
         connectedPlayers.put(playerId, 0);
-        numberOfPlayers--;
     }
 
     /**
@@ -66,14 +63,13 @@ public class GameController implements Runnable {
      *
      * @param playerId of which ClientHandler needs to modify the status
      */
-    public void notifyConnection(String playerId) {
+    void notifyConnection(String playerId) {
         System.out.println(gameId+": "+playerId+" reconnected to this game");
         connectedPlayers.put(playerId, 1);
         playerToClientHandlerMap.put(playerId, ongoingGames.getClientHandlerById(playerId));
         synchronized (waitLock){
             waitLock.notifyAll();
         }
-        numberOfPlayers++;
         getClientHandler(playerId).sendGameState(game);
     }
 
@@ -90,7 +86,6 @@ public class GameController implements Runnable {
             throw new ReachedMaxNumberOfPlayers();
         }
         connectedPlayers.put(playerId, 1);
-        numberOfPlayers++;
         playerToClientHandlerMap.put(playerId, handler);
         System.out.println(gameId+": "+playerId+" joined this game!");
 
@@ -136,7 +131,7 @@ public class GameController implements Runnable {
             String currentPlayerId = players.get(game.getCurrentPlayerIndex());
             System.out.println(gameId+": It's "+currentPlayerId+"'s turn!");
 
-            if(numberOfPlayers > 1){
+            if(connectedPlayers.values().stream().filter(value -> value == 1).count() > 1){
                 // Case when there are more than 1 player connected
                 if(connectedPlayers.get(currentPlayerId) == 1){
                     // Case when the current player is connected
@@ -156,7 +151,7 @@ public class GameController implements Runnable {
                     System.out.println(gameId+": Someone connected, continuing");
                     continue;
                 }
-                if(numberOfPlayers <= 1){
+                if(connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1){
                     // No one connected, game over
                     System.out.println(gameId+": No one connected, game over");
                     isOver = true;
@@ -254,7 +249,7 @@ public class GameController implements Runnable {
      */
     private void waitAllPlayers(){
         synchronized (waitLock) {
-            while (playerToClientHandlerMap.size() < game.getNumberOfPlayers()) {
+            while (connectedPlayers.values().stream().filter(value -> value == 1).count() < game.getNumberOfPlayers()) {
                 System.out.println(gameId + ": Waiting for players to join, " + playerToClientHandlerMap.size() + " out of " + game.getNumberOfPlayers());
 
                 try {
