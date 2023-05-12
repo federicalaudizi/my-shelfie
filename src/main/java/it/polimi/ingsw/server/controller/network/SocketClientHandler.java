@@ -27,16 +27,13 @@ public class SocketClientHandler extends ClientHandler{
     private BufferedReader dataIn;
     private final GameSupervisor ongoingGames;
     private String thisPlayerId;
-
-    private boolean pendingGameStateFlag;
-    private JSONObject pendingGameState;
-
+    private boolean disconnectedPlayer;
     private boolean gameOver;
 
     public SocketClientHandler(Socket clientSocket, GameSupervisor ongoingGames) {
         this.clientSocket = clientSocket;
         this.ongoingGames = ongoingGames;
-        this.pendingGameStateFlag = false;
+        this.disconnectedPlayer = false;
         this.gameOver = false;
 
         try {
@@ -79,19 +76,7 @@ public class SocketClientHandler extends ClientHandler{
         }
 
         // Run until game over or disconnection
-        while (!gameOver && clientSocket.isConnected()) {
-
-            // Heartbeat
-            // TODO: To implement an heartbeat, it must be done in the client too, the server needs to send pings and wait for answars, this means there must be a lock on the communication stream.
-
-            // Check if there is a pending gamestate to send
-            if(pendingGameStateFlag){
-                // TODO: check why it never enters here
-                System.out.println(clientSocket.getInetAddress()+": Sending gamestate");
-                send(new Message(GAME_UPDATE, pendingGameState));
-                pendingGameStateFlag = false;
-            }
-
+        while (!gameOver && !disconnectedPlayer) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ignored) {
@@ -109,12 +94,6 @@ public class SocketClientHandler extends ClientHandler{
      */
     @Override
     public void sendGameState(Game gameState) {
-        System.out.println(clientSocket.getInetAddress()+": I have to send the gamestate");
-
-        // TODO: Asynchronous gamestate sending
-        /*pendingGameState = gameState.toJson();
-        pendingGameStateFlag = true;*/
-
         send(new Message(GAME_UPDATE, gameState.toJson()));
     }
 
@@ -384,12 +363,16 @@ public class SocketClientHandler extends ClientHandler{
     private Message receive() throws PlayerDisconnectedException{
         try {
             String recievedMessage = dataIn.readLine();
-            if(recievedMessage == null) throw new PlayerDisconnectedException();
+            if(recievedMessage == null) {
+                disconnectedPlayer = true;
+                throw new PlayerDisconnectedException();
+            }
             else {
                 System.out.println(clientSocket.getInetAddress()+": Recieved: "+recievedMessage);
                 return new Message(recievedMessage);
             }
         } catch (IOException e) {
+            disconnectedPlayer = true;
             throw new PlayerDisconnectedException();
         }
 
