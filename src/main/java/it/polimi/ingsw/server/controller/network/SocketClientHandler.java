@@ -390,8 +390,6 @@ public class SocketClientHandler extends ClientHandler{
                 return new Message(recievedMessage);
             }
         } catch (IOException e) {
-            System.out.println(clientSocket.getInetAddress()+": Disconnected!");
-            closeSocket();
             throw new PlayerDisconnectedException();
         }
 
