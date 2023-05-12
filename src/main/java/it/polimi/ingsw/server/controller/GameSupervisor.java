@@ -104,9 +104,8 @@ public class GameSupervisor{
      * @param playerId the username of the just disconnected player
      * @author Federico
      */
-    public synchronized void notifyDisconnection(String playerId){
-        players.put(playerId, null);
-        GameController game = games.get(playersGames.get(playerId));
+    public void notifyDisconnection(String playerId){
+        GameController game = games.get(playerId);
         if(game != null) game.notifyDisconnection(playerId);
     }
 
