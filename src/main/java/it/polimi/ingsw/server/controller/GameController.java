@@ -70,6 +70,8 @@ public class GameController implements Runnable {
         synchronized (waitLock){
             waitLock.notifyAll();
         }
+
+        Thread.currentThread().interrupt();
         getClientHandler(playerId).sendGameState(game);
     }
 
