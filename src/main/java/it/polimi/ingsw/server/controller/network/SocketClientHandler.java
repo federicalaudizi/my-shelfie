@@ -53,7 +53,7 @@ public class SocketClientHandler extends ClientHandler{
         try {
             loginPhase();
         } catch (PlayerDisconnectedException e) {
-            System.out.println(clientSocket.getInetAddress()+": Disconnected at during login phase");
+            System.out.println(clientSocket.getInetAddress()+": Disconnected at login phase");
             // If the player logged and then
             if(thisPlayerId != null) ongoingGames.removeUser(thisPlayerId);
 
@@ -66,11 +66,11 @@ public class SocketClientHandler extends ClientHandler{
                 joinGamePhase();
             } catch (PlayerDisconnectedException e) {
                 if(ongoingGames.userIsInGame(thisPlayerId)) {
-                    System.out.println(clientSocket.getInetAddress()+": Disconnected at during join game phase, warning game");
+                    System.out.println(clientSocket.getInetAddress()+": Disconnected at join game phase, warning game");
                     ongoingGames.notifyDisconnection(thisPlayerId);
                 }
                 else {
-                    System.out.println(clientSocket.getInetAddress()+": Disconnected at during join game phase, deleting user");
+                    System.out.println(clientSocket.getInetAddress()+": Disconnected at join game phase, deleting user");
                     ongoingGames.removeUser(thisPlayerId);
                 }
                 closeSocket();
