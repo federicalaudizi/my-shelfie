@@ -137,7 +137,12 @@ public class GameController implements Runnable {
                 // Case when there are more than 1 player connected
                 if(connectedPlayers.get(currentPlayerId) == 1){
                     // Case when the current player is connected
-                    playerMakeMove(currentPlayerId);
+                    try {
+                        playerMakeMove(currentPlayerId);
+                    } catch (PlayerDisconnectedException e) {
+                        // Player disconnected, game over
+                        notifyDisconnection(currentPlayerId);
+                    }
 
                 }
                 isOver = game.nextTurn();
@@ -153,6 +158,7 @@ public class GameController implements Runnable {
                     System.out.println(gameId+": Someone connected, continuing");
                     continue;
                 }
+
                 if(connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1){
                     // No one connected, game over
                     System.out.println(gameId+": No one connected, game over");
@@ -177,14 +183,8 @@ public class GameController implements Runnable {
      *
      * @author Federico
      */
-    private void playerMakeMove(String currentPlayerId){
-        //System.out.println(gameId+": It's "+players.get(game.getCurrentPlayerIndex())+"'s turn!");
-        try {
+    private void playerMakeMove(String currentPlayerId) throws PlayerDisconnectedException {
             tilesInShelf(getTiles(currentPlayerId), currentPlayerId);
-        } catch (PlayerDisconnectedException e) {
-            // Skip player's turn
-        }
-
     }
 
     /**
