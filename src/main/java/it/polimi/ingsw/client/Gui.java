@@ -2,11 +2,9 @@ package it.polimi.ingsw.client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
-import java.io.IOException;
+import javafx.stage.Stage;
 
 public class Gui extends Application {
 
