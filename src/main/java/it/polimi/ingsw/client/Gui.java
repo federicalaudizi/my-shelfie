@@ -17,7 +17,7 @@ public class Gui extends Application {
     public void start(Stage stage) throws Exception {
         Gui.stage = stage;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/java/it/polimi/ingsw/client/Welcome.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
