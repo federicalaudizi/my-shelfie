@@ -21,33 +21,19 @@ public class Gui extends Application {
     public void start(Stage stage) throws Exception {
         Gui.stage = stage;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
-        Parent root = loader.load();
+        // Load the FXML file with the FXMLLoader
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
+        Parent root = fxmlLoader.load();
 
+        // Retrieve the WelcomeController instance from the FXMLLoader
+        WelcomeController welcomeController = fxmlLoader.getController();
+
+        // Perform any necessary initialization or setup on the WelcomeController
+
+        // Construct the Scene using the loaded Parent and set it on the Stage
         Scene scene = new Scene(root);
-        stage.setTitle("MyShelfie");
         stage.setScene(scene);
-        stage.setResizable(false);
         stage.show();
-
-    }
-
-    @FXML
-    private void handleStartGameButtonClick() {
-        try {
-            // Load the second view FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Username.fxml"));
-            Parent secondViewParent =loader.load();
-            Scene secondViewScene = new Scene(secondViewParent);
-
-            // Get the Stage object from the current view
-            javafx.stage.Stage currentStage = (javafx.stage.Stage) mainPane.getScene().getWindow();
-
-            // Set the new scene on the stage
-            currentStage.setScene(secondViewScene);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     //Launches the GUI
