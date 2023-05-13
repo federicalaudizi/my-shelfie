@@ -19,7 +19,7 @@
       <Accordion layoutX="266.0" layoutY="133.0" />
       <ImageView fitHeight="406.0" fitWidth="607.0">
          <image>
-            <Image url="@../../../../../../../../../Downloads/Welcome.jpg" />
+            <Image url="GUI_resources/Welcome.jpeg" />
          </image>
       </ImageView>
       <ButtonBar layoutX="217.0" layoutY="269.0" prefHeight="34.0" prefWidth="174.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-width: 1px; -fx-border-color: #25171c; -fx-border-radius: 15px;">
