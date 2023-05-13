@@ -1,0 +1,34 @@
+package it.polimi.ingsw.client;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
+
+public class NicknameController {
+
+    @FXML
+    private TextField nicknameText;
+    @FXML
+    private Text errorNick;
+    @FXML
+    private Text waitingOther;
+
+
+    public NicknameController() {
+    }
+
+
+    @FXML
+    private void login(KeyEvent ke) {
+
+        if (ke.getCode().equals(KeyCode.ENTER)) {
+
+            String nickname = nicknameText.getCharacters().toString();
+
+            //salvare il nickname
+        }
+
+    }
+}
