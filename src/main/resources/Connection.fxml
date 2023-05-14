@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="406.0" fitWidth="607.0">
          <image>
-            <Image url="Username1.jpg" />
+            <Image url="@blurred_Welcome.jpg" />
          </image>
       </ImageView>
       <TextField fx:id="ipAddress" layoutX="177.0" layoutY="203.0" prefHeight="25.0" prefWidth="225.0" />

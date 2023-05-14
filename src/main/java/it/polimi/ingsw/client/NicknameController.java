@@ -12,6 +12,8 @@ import static it.polimi.ingsw.client.View.queue;
 public class NicknameController {
 
     @FXML
+    public Text genericError;
+    @FXML
     private TextField nicknameText;
     @FXML
     private Text errorNick;
@@ -34,18 +36,15 @@ public class NicknameController {
     public void displayErrorNick() {
         errorNick.setVisible(true);
     }
-
     public void removeErrorNickFromScreen() {
         errorNick.setVisible(false);
     }
-
     public void displayWaitingOther() {
         waitingOther.setVisible(true);
     }
-
     public void removeWaitingOtherFromScreen() {
         waitingOther.setVisible(false);
     }
-
-
+    public void displayGenericError(){genericError.setVisible(true);}
+    public void removeGenericError(){genericError.setVisible(false);}
 }
