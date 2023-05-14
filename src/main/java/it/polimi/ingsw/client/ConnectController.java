@@ -47,4 +47,7 @@ public class ConnectController {
         throw new RuntimeException(e);
     }
     }
+
+    //public void displayGenericError(){genericError.setVisible(true);}
+    //public void removeGenericError(){genericError.setVisible(false);}
 }
