@@ -86,7 +86,7 @@ public class ViewGUI extends View {
         return connectController.connect();
     }
 
-    public String getUsername(){
-        return null;
+    public String getUsername() throws InterruptedException {
+        return (String) queue.take();
     }
 }
