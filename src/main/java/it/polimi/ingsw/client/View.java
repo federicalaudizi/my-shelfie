@@ -15,19 +15,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.SynchronousQueue;
+
 
 // TODO Implement "User has won objective" method
 
 public abstract class View {
     Client client;
+
+    protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
 
     abstract void update(Game game, LinkedList<String> playerOrder);
 

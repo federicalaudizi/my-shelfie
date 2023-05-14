@@ -1,10 +1,13 @@
 package it.polimi.ingsw.client;
+import it.polimi.ingsw.client.Client;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+
+import static it.polimi.ingsw.client.View.queue;
 
 public class NicknameController {
 
@@ -20,11 +23,11 @@ public class NicknameController {
 
 
     @FXML
-    private void login(KeyEvent ke) {
+    private void login(KeyEvent ke) throws InterruptedException {
 
         if (ke.getCode().equals(KeyCode.ENTER)) {
             String nickname = nicknameText.getCharacters().toString();
-            //salvare il nickname
+            queue.put(nickname);
         }
 
     }
