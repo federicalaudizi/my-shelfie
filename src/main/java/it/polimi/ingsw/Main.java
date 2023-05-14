@@ -19,7 +19,7 @@ class Main {
     public static void main (String[] args) {
         System.out.println("Welcome to MyShelfie!!");
 
-        if (args[0].equals("client")){
+        if (args[0].equals("Client")){
             if(args[1].equals("Socket")){
                 if (args[2].equals("GUI")){
                     Client c = new ClientSocket(false);
