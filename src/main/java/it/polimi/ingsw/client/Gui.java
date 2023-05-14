@@ -25,6 +25,7 @@ public class Gui extends Application {
 
         // Construct the Scene using the loaded Parent and set it on the Stage
         Scene scene = new Scene(root);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
