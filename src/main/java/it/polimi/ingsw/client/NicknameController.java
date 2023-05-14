@@ -15,7 +15,6 @@ public class NicknameController {
     @FXML
     private Text waitingOther;
 
-
     public NicknameController() {
     }
 
@@ -24,11 +23,26 @@ public class NicknameController {
     private void login(KeyEvent ke) {
 
         if (ke.getCode().equals(KeyCode.ENTER)) {
-
             String nickname = nicknameText.getCharacters().toString();
-
             //salvare il nickname
         }
 
     }
+    public void displayErrorNick() {
+        errorNick.setVisible(true);
+    }
+
+    public void removeErrorNickFromScreen() {
+        errorNick.setVisible(false);
+    }
+
+    public void displayWaitingOther() {
+        waitingOther.setVisible(true);
+    }
+
+    public void removeWaitingOtherFromScreen() {
+        waitingOther.setVisible(false);
+    }
+
+
 }
