@@ -22,7 +22,7 @@ public class WelcomeController {
     private void handleStartGameButtonClick() {
         try {
             // Load the second view FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Username.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Connection.fxml"));
             Parent secondViewParent =loader.load();
             Scene secondViewScene = new Scene(secondViewParent);
 
