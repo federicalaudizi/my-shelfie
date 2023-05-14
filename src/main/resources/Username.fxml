@@ -15,9 +15,9 @@
             <Image url="@Username.png" />
          </image>
       </ImageView>
-      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="222.0" layoutY="282.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="41.0" prefWidth="193.0" promptText="type nick here">
+      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="252.0" layoutY="294.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="41.0" prefWidth="179.0" promptText="type nick here">
          <font>
-            <Font name="Negotiate Free" size="18.0" />
+            <Font name="System Font" size="18.0" />
          </font>
          <opaqueInsets>
             <Insets />
@@ -26,9 +26,19 @@
             <Insets bottom="5.0" />
          </padding>
       </TextField>
-      <Text fill="#b9a300" layoutX="239.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert Your Nickname:" textAlignment="CENTER">
+      <Text fill="#b9a300" layoutX="208.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert Your Nickname:" textAlignment="CENTER" underline="true">
          <font>
-            <Font name="Negotiate Free" size="20.0" />
+            <Font name="Zapfino" size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="errorNick" fill="RED" layoutX="212.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nickname not available" textAlignment="CENTER" visible="false" wrappingWidth="208.64202880859375">
+         <font>
+            <Font name="Negotiate Free" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="waitingOther" fill="#2a1b75" layoutX="192.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his nickname..." textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Negotiate Free" size="14.0" />
          </font>
       </Text>
    </children>
