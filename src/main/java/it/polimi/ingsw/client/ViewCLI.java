@@ -125,6 +125,48 @@ public class ViewCLI extends View {
         composeView(game, playerOrder);
     }
 
+    @Override
+    String getIp() {
+        return confirmationPrompt("Enter the server's IP (ip:port): ");
+    }
+
+    @Override
+    String getUsername() {
+        System.out.print("Enter a username: ");
+        return scanner.nextLine();
+    }
+
+    @Override
+    int getGameOptions() {
+        String[] options = { "Create a new game", "Join a new game", "Reconnect to an ongoing game" };
+        return choicePrompt("What do you want to do?", options);
+    }
+
+    @Override
+    int getPlayerNumber() {
+        return Integer.parseInt(confirmationPrompt("Enter the number of players (between 2 and 4): "));
+    }
+
+    @Override
+    String getTiles() {
+        return confirmationPrompt("Enter up to three coordinates.\nSyntax: (x, y)[, (x, y), (x, y)]\n Your choice: ");
+    }
+
+    @Override
+    int getColumn() {
+        return Integer.parseInt(confirmationPrompt("Enter the column you want to put the tiles in.\nPossible values: 0 to 4.\nYour choice: "));
+    }
+
+    @Override
+    void showAchievement() {
+        // TODO Implement
+    }
+
+    @Override
+    void showError(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
     /**
      * Shows a prompt that asks for input confirmation through a standard "y/n" prompt
      * @param message The message to be printed on screen
