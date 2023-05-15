@@ -192,7 +192,8 @@ public class ClientSocket extends Client {
                     int headerCode = getReply().getHeaderCode();
 
                     if (headerCode == OK.getCode()) {
-                        view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
+                        // TODO Remove debug statement
+                        System.err.println(this.getUsername() + " correctly logged in. Welcome.");
                         loggedIn = true;
                     } else if (headerCode == USERNAME_TAKEN.getCode()) {
                         view.showError("Username taken.");
@@ -220,7 +221,8 @@ public class ClientSocket extends Client {
                                     headerCode = getReply().getHeaderCode();
 
                                     if (headerCode == OK.getCode()) {
-                                        view.prompt("The game was correctly created.");
+                                        // TODO Remove debug statement
+                                        System.err.println("The game was correctly created.");
                                         gameCreated = true;
                                     } else if (headerCode == GENERIC_ERROR.getCode()) {
                                         view.showError("An error occurred. Please retry.");
@@ -244,7 +246,7 @@ public class ClientSocket extends Client {
                                             send(joinGameMessage);
                                             int gameJoinHeaderCode = getReply().getHeaderCode();
                                             if (gameJoinHeaderCode == OK.getCode()) {
-                                                view.prompt("You correctly joined the game.");
+                                                System.err.println("You correctly joined the game.");
                                                 gameJoined = true;
                                                 operationCompleted = true;
                                             } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
@@ -304,7 +306,8 @@ public class ClientSocket extends Client {
             try {
                 body = coordsToJson(coordinates);
             } catch (NullPointerException e) {
-                view.okPrompt(e.getMessage());
+                // TODO Remove debug statement
+                System.err.println(e.getMessage());
             }
 
             // --- Server-side validation ---
@@ -371,7 +374,7 @@ public class ClientSocket extends Client {
                 view.showError("A generic error occurred.");
             } else throw new UnknownError("An unknown error occurred.");
         }
-        view.prompt("Your move was correctly sent to the server.");
+        System.err.println("Your move was correctly sent to the server.");
     }
 
     /**
@@ -392,7 +395,7 @@ public class ClientSocket extends Client {
 
             int replyHeaderCode = getReply().getHeaderCode();
             if(replyHeaderCode == 200) {
-                view.prompt("Successfully reconnected to server.");
+                System.err.println("Successfully reconnected to server.");
                 reconnected = true;
             } else if (replyHeaderCode == GENERIC_ERROR.getCode()) {
                 attempts++;
@@ -506,7 +509,7 @@ public class ClientSocket extends Client {
         }
         if(reply != null) {
             // TODO Remove debug statement
-            view.prompt(reply.toString());
+            System.err.println(reply);
             return reply;
         } else throw new NullPointerException("Reply was empty.");
     }
