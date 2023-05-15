@@ -172,8 +172,7 @@ public class ViewCLI extends View {
      * @return The user input once it has been confirmed
      * @author Mario Merlo
      */
-    @Override
-    String confirmationPrompt(String message) {
+    private String confirmationPrompt(String message) {
         while(true) {
             System.out.print(message);
             String input = scanner.nextLine();
@@ -189,8 +188,7 @@ public class ViewCLI extends View {
      * @param message The message to be printed on the screen
      * @author Mario Merlo
      */
-    @Override
-    void okPrompt(String message) {
+    private void okPrompt(String message) {
         System.out.println(message);
         System.out.println("Press enter to continue");
         scanner.nextLine();
@@ -214,8 +212,7 @@ public class ViewCLI extends View {
      * @return The index number chosen by the user
      * @author Mario Merlo
      */
-    @Override
-    int choicePrompt(String message, String[] options) {
+    private int choicePrompt(String message, String[] options) {
         while(true) {
             System.out.println(message);
             for(int i = 0; i < options.length; i++)
