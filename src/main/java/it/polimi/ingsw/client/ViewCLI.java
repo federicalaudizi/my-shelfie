@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.server.model.Game;
 import org.json.JSONArray;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
