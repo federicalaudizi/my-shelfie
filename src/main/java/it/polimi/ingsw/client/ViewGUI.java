@@ -1,16 +1,13 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Game;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
-
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
 
 
