@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.model.Game;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class ViewGUI extends View {
     }
 
     @Override
-    void gameOverScreen(HashMap<String, Integer> leaderboard) {
+    void gameOverScreen(JSONArray leaderboard) {
         // TODO Implement
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.model.Game;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,5 +24,5 @@ public abstract class View {
 
     abstract String gameIdSelection(ArrayList<String> gameIds);
 
-    abstract void gameOverScreen(HashMap<String, Integer> leaderboard);
+    abstract void gameOverScreen(JSONArray leaderboard);
 }

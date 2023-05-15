@@ -174,9 +174,8 @@ public class ClientSocket extends Client {
     void login() throws IOException {
         setUsername(view.confirmationPrompt("Enter a username: "));
         boolean loggedIn = false, operationCompleted = false, done = false;
-        String line;
-        Message reply;
         String[] options = { "Create a new game", "Join a new game", "Reconnect to an ongoing game" };
+
         while(!done) {
             int choice = view.choicePrompt("What do you want to do?", options);
             if(choice <= 0 || choice > 3)

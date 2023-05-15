@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.model.Game;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.*;
@@ -221,23 +222,8 @@ public class ViewCLI extends View {
      */
     // TODO Make this substitution-based like the game view
     @Override
-    void gameOverScreen(HashMap<String, Integer> leaderboard) {
-        try {
-            Runtime.getRuntime().exec(new String[] { "clear" });
-        } catch (IOException e) {
-            System.out.println("Unable to clear screen. Printing below game view.");
-        } finally {
-            Map.Entry<String, Integer> entry = leaderboard.entrySet().iterator().next();
-            String winner = entry.getKey();
-            if(winner.equals(client.getUsername()))
-                System.out.println("                                YOU WON!                                ");
-            else
-                System.out.println("                             " + winner + " WON!                             ");
-            System.out.println("                         | " + winner + " | " + entry.getValue() + " |                         ");
-            for(Map.Entry<String, Integer> player : leaderboard.entrySet()) {
-                System.out.println("                         | " + player.getKey() + " | " + player.getValue() + " |                         ");
-            }
-        }
+    void gameOverScreen(JSONArray leaderboard) {
+
     }
 }
 
