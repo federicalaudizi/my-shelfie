@@ -195,16 +195,6 @@ public class ViewCLI extends View {
     }
 
     /**
-     * Shows a simple prompt. This is just a wrapper for System.out.println
-     * @param message The message to be printed on the screen
-     * @author Mario Merlo
-     */
-    @Override
-    void prompt(String message) {
-        System.out.println(message);
-    }
-
-    /**
      * Shows an indexed list of choices. The user can select one of the options through its index and then confirm it
      * through a standard "y/n" prompt.
      * @param message The message to be printed on the screen
