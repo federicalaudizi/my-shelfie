@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.NicknameController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.NicknameController">
    <children>
       <Text fx:id="errorNick" fill="RED" layoutX="212.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nickname not available" textAlignment="CENTER" visible="false" wrappingWidth="208.64202880859375">
          <font>

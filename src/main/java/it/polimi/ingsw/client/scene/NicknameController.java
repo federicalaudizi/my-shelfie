@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.scene;
 import it.polimi.ingsw.client.Client;
 
 import javafx.fxml.FXML;
@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
-import static it.polimi.ingsw.client.View.queue;
+//import static it.polimi.ingsw.client.View.queue;
 
 public class NicknameController {
 
@@ -29,7 +29,6 @@ public class NicknameController {
 
         if (ke.getCode().equals(KeyCode.ENTER)) {
             String nickname = nicknameText.getCharacters().toString();
-            queue.put(nickname);
         }
 
     }

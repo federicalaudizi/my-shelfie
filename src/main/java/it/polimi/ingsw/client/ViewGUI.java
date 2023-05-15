@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.scene.NicknameController;
+import it.polimi.ingsw.client.scene.WelcomeController;
 import it.polimi.ingsw.server.model.Game;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,32 +16,23 @@ import java.util.LinkedList;
 public class ViewGUI extends View {
     Client client;
     private NicknameController nicknameController;
-    private ConnectController connectController;
     private WelcomeController welcomeController;
+    protected static Parent welcomeRoot;
     protected static Parent connectRoot;
     protected static Parent nicknameRoot;
 
     public ViewGUI(Client client) {
-        this.client = client;
-        createControllers();
-    }
-
-    private void createControllers() {
-        FXMLLoader connectLoader = new FXMLLoader(getClass().getResource("Connect.fxml"));
-        FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("Username.fxml"));
+        FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
 
         try {
-            connectRoot = connectLoader.load();
-            nicknameRoot = nicknameLoader.load();
-
-        } catch (IOException e) {
+            welcomeRoot = welcomeLoader.load();
+        }catch (IOException e){
             e.printStackTrace();
         }
-
-        connectController = connectLoader.getController();
-        nicknameController = nicknameLoader.getController();
-
+        this.welcomeController = welcomeLoader.getController();
+        this.client = client;
     }
+
 
 
 
@@ -50,7 +43,7 @@ public class ViewGUI extends View {
 
     @Override
     String getIp() {
-        return null;
+        return welcomeController.connect();
     }
 
     @Override

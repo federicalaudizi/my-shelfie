@@ -7,7 +7,6 @@ import org.json.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -20,15 +19,17 @@ public abstract class Client {
     final View view;
 
     public Client(boolean cli) {
-        if(cli)
+        if (cli)
             view = new ViewCLI(this);
-        else
+        else {
+            new Thread(Gui::main).start();
             view = new ViewGUI(this);
+        }
     }
 
     // TODO This is a test constructor and should be removed
     public Client(boolean cli, String username) {
-        if(cli)
+        if (cli)
             view = new ViewCLI(this);
         else
             view = new ViewGUI(this);
@@ -36,13 +37,17 @@ public abstract class Client {
     }
 
     public abstract void start();
+
     abstract void connect() throws IOException;
+
     abstract void login() throws IOException;
+
     abstract void move() throws NullPointerException, UnknownError, IOException;
 
     /**
      * Triggers the game over screen on the view, passing the player leaderboard to it
-     * @param gameOverMessage The message containing the leaderboard
+     *
+     * @param leaderboard The message containing the leaderboard
      * @author Mario Merlo
      */
     void gameOver(JSONArray leaderboard) {
@@ -51,6 +56,7 @@ public abstract class Client {
 
     /**
      * Sends the game data to the view in order to update it
+     *
      * @param gameData The JSONObject containing a representation of the Game object stored in the server
      * @author Mario Merlo
      */
@@ -62,11 +68,11 @@ public abstract class Client {
         LinkedList<String> playerOrder = new LinkedList<>();
         ArrayList<Player> players = game.getPlayers();
 
-        for(Player player : players)
+        for (Player player : players)
             playerOrder.add(player.getUsername());
 
         // Move the player associated to this client to the top of the list
-        if(playerOrder.remove(username))
+        if (playerOrder.remove(username))
             playerOrder.addFirst(username);
 
         // Send updates to view
@@ -76,12 +82,16 @@ public abstract class Client {
         // Respond to update message
         // send(new Message(Message.Header.OK));
     }
+
     abstract void reconnect() throws IOException;
+
     abstract Message getReply() throws NullPointerException;
+
     abstract void send(Message message);
 
     /**
      * Gets the player's username.
+     *
      * @return The player's username.
      * @author Mario Merlo
      */
@@ -91,6 +101,7 @@ public abstract class Client {
 
     /**
      * Sets the player's username.
+     *
      * @param username The username chosen by the user.
      * @author Mario Merlo
      */
@@ -102,6 +113,7 @@ public abstract class Client {
 
     /**
      * Returns the view associated to this client
+     *
      * @return the view associated to this client
      * @author Mario Merlo
      */
