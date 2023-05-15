@@ -54,22 +54,6 @@ public class ViewGUI extends View {
     }
 
     @Override
-    void okPrompt(String message) {
-        // TODO Implement
-    }
-
-    @Override
-    void prompt(String message) {
-        // TODO Implement
-    }
-
-    @Override
-    int choicePrompt(String message, String[] options) {
-        // TODO Implement
-        return 0;
-    }
-
-    @Override
     String gameIdSelection(ArrayList<String> gameIds) {
         // TODO Implement
         return null;
