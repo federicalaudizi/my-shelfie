@@ -333,6 +333,7 @@ public class ClientSocket extends Client {
                 view.okPrompt("The tiles you chose are not valid. Please retry.");
             } else if(headerCode == Message.Header.GENERIC_ERROR.getCode()) {
                 view.okPrompt("A generic error occurred.");
+                // TODO: there is a bug, if i chose the wrong tile, it makes me choose again, but then it crashes
             } else throw new UnknownError("An unknown error occurred.");
         }
 

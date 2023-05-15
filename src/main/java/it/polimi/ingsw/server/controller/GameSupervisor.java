@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.controller.network.ClientHandler;
 import it.polimi.ingsw.server.exceptions.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class manages the creation of games and the association of players to games.
@@ -13,14 +13,14 @@ import java.util.HashMap;
  * @author Federico
  */
 public class GameSupervisor{
-    private final HashMap<String, GameController> games; //Associates a game to its id
-    private final HashMap<String, ClientHandler> players; //Associates a player to his client handler
-    private final HashMap<String, String> playersGames; //Associates a player to the game he is playing
+    private final ConcurrentHashMap<String, GameController> games; //Associates a game to its id
+    private final ConcurrentHashMap<String, ClientHandler> players; //Associates a player to his client handler, client handler is null if the player is not connected
+    private final ConcurrentHashMap<String, String> playersGames; //Associates a player to the game he is playing
 
     public GameSupervisor(){
-        games = new HashMap<>();
-        players = new HashMap<>();
-        playersGames = new HashMap<>();
+        games = new ConcurrentHashMap<>();
+        players = new ConcurrentHashMap<>();
+        playersGames = new ConcurrentHashMap<>();
     }
 
     /**
@@ -29,7 +29,7 @@ public class GameSupervisor{
      * @param handler the client handler of the player
      * @author Federico
      */
-    public synchronized void newUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
+    public void newUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
         if(players.containsKey(playerId)) throw new PlayerIdTakenException();
         players.put(playerId, handler);
     }
@@ -41,10 +41,10 @@ public class GameSupervisor{
      * @param handler  the client handler of the player
      * @author Federico
      */
-    public synchronized GameController oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
+    public void oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
         if(!players.containsKey(playerId)) throw new PlayerDoesNotExistsException();
         players.put(playerId, handler);
-        return games.get(playersGames.get(playerId));
+        notifyConnection(playerId);
     }
 
     /**
@@ -52,8 +52,8 @@ public class GameSupervisor{
      *
      * @param playerId the id of the player that is being removed
      */
-    public synchronized void removeUser(String playerId){
-        if(!players.containsKey(playerId)) players.remove(playerId);
+    public void removeUser(String playerId){
+        players.remove(playerId);
     }
 
     /**
@@ -63,7 +63,7 @@ public class GameSupervisor{
      * @return the id of the game
      * @author Federico
      */
-    public synchronized String newGame(int numberOfPlayers) {
+    public String newGame(int numberOfPlayers) {
         String newGameId = randomString();
         GameController game = new GameController(numberOfPlayers, newGameId, this);
         games.put(newGameId, game);
@@ -78,15 +78,35 @@ public class GameSupervisor{
      *
      * @param playerId the id of the player
      * @param gameId   the id of the game
-     * @return the game controller of the game
      * @author Federico
      */
-    public synchronized GameController joinGame(String playerId, String gameId) throws NonExsistentGameException, ReachedMaxNumberOfPlayers {
+    public void joinGame(String playerId, String gameId) throws NonExsistentGameException, ReachedMaxNumberOfPlayers {
         if(!games.containsKey(gameId)) throw new NonExsistentGameException();
         GameController game = games.get(gameId);
         game.addPlayer(playerId, players.get(playerId));
         playersGames.put(playerId, gameId);
-        return game;
+    }
+
+    /**
+     * This method registers that a player is actually connected to the server
+     *
+     * @param playerId the username of the connected player
+     * @author Federico
+     */
+    private void notifyConnection(String playerId){
+        GameController game = games.get(playersGames.get(playerId));
+        if(game != null) game.notifyConnection(playerId);
+    }
+
+    /**
+     * This method registers that a player is not connected to the server anymore
+     *
+     * @param playerId the username of the just disconnected player
+     * @author Federico
+     */
+    public void notifyDisconnection(String playerId){
+        GameController game = games.get(playerId);
+        if(game != null) game.notifyDisconnection(playerId);
     }
 
     /**

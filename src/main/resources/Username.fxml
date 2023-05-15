@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.NicknameController">
+   <children>
+      <Text fx:id="errorNick" fill="RED" layoutX="212.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nickname not available" textAlignment="CENTER" visible="false" wrappingWidth="208.64202880859375">
+         <font>
+            <Font name="Negotiate Free" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="waitingOther" fill="#2a1b75" layoutX="192.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his nickname..." textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Negotiate Free" size="14.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="408.0" fitWidth="600.0" layoutY="-6.0">
+         <image>
+            <Image url="@blurred_Welcome.jpg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="211.0" layoutY="181.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="41.0" prefWidth="179.0" promptText="type nick here">
+         <font>
+            <Font name="System Font" size="18.0" />
+         </font>
+         
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="5.0" />
+         </padding>
+      </TextField>
+      <Text fx:id="genericError" fill="RED" layoutX="223.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="An unknown error occured" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Negotiate Free" size="14.0" />
+         </font>
+      </Text>
+      <Text fill="#2f2f2f" layoutX="216.0" layoutY="175.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Insert your nickname:">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
