@@ -17,13 +17,14 @@ public abstract class View {
 
     abstract void update(Game game, LinkedList<String> playerOrder);
 
-    abstract String confirmationPrompt(String message);
-
-    abstract void okPrompt(String message);
-
-    abstract void prompt(String message);
-
-    abstract int choicePrompt(String message, String[] options);
+    abstract String getIp();
+    abstract String getUsername();
+    abstract int getGameOptions();
+    abstract int getPlayerNumber();
+    abstract String getTiles();
+    abstract int getColumn();
+    abstract void showAchievement();
+    abstract void showError(String errorMessage);
 
     abstract String gameIdSelection(ArrayList<String> gameIds);
 
