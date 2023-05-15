@@ -45,13 +45,7 @@ public abstract class Client {
      * @param gameOverMessage The message containing the leaderboard
      * @author Mario Merlo
      */
-    void gameOver(Message gameOverMessage) {
-        JSONArray leaderboardJSON = gameOverMessage.getBody().getJSONObject(0).getJSONArray("leaderboard");
-        HashMap<String, Integer> leaderboard = new HashMap<>();
-        for(int i = 0; i < leaderboardJSON.length(); i++) {
-            JSONObject player = leaderboardJSON.getJSONObject(i);
-            leaderboard.put(player.getString("playerId"), Integer.parseInt(player.getString("points")));
-        }
+    void gameOver(JSONArray leaderboard) {
         view.gameOverScreen(leaderboard);
     }
 

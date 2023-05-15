@@ -67,7 +67,7 @@ public class ClientSocket extends Client {
                 // Fourth step: execute game over operations when Game Over is sent by the server
                 else if(headerCode == GAME_OVER.getCode()) {
                     gameOver = true;
-                    gameOver(reply);
+                    gameOver(reply.getBody());
                     cleanUp();
                 } else if(headerCode == GAME_UPDATE.getCode())
                     update(reply.getBody().getJSONObject(0));
