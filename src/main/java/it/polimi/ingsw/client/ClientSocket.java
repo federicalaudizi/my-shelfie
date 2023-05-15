@@ -79,9 +79,9 @@ public class ClientSocket extends Client {
                 try {
                     cleanUp();
                 } catch (IOException exc) {
-                    view.prompt("Something went wrong during the disconnection.");
+                    view.showError("Something went wrong during the disconnection.");
                 }
-                view.prompt("Unable to reconnect. Exiting.");
+                view.showError("Unable to reconnect. Exiting.");
                 throw new RuntimeException(ex);
             }
         }
@@ -98,11 +98,11 @@ public class ClientSocket extends Client {
         boolean isValid = false;
         String ip = null;
         while(!isValid) {
-            ip = view.confirmationPrompt("Enter the server's IP (syntax: ip:port): ");
+            ip = view.getIp();
             try {
                 isValid = validateIp(ip);
             } catch (IllegalArgumentException e) {
-                view.okPrompt("You entered a malformed IP:port combo. Retry.");
+                view.showError("You entered a malformed IP:port combo. Retry.");
             }
         }
         String[] hostInfo = ip.split(":");
@@ -112,10 +112,10 @@ public class ClientSocket extends Client {
             InputStreamReader reader = new InputStreamReader(socket.getInputStream());
             bufferedReader = new BufferedReader(reader);
         } catch (UnknownHostException e) {
-            view.okPrompt("The host does not exist. Retry.");
+            view.showError("The host does not exist. Retry.");
             throw new UnknownHostException(e.getMessage());
         } catch (IOException e) {
-            view.okPrompt("Something went wrong.");
+            view.showError("Something went wrong.");
             throw new IOException(e.getMessage());
         }
     }
@@ -172,14 +172,13 @@ public class ClientSocket extends Client {
      */
     @Override
     void login() throws IOException {
-        setUsername(view.confirmationPrompt("Enter a username: "));
+        setUsername(view.getUsername());
         boolean loggedIn = false, operationCompleted = false, done = false;
-        String[] options = { "Create a new game", "Join a new game", "Reconnect to an ongoing game" };
 
         while(!done) {
-            int choice = view.choicePrompt("What do you want to do?", options);
+            int choice = view.getGameOptions();
             if(choice <= 0 || choice > 3)
-                view.prompt("You entered an invalid option. Retry.");
+                view.showError("You entered an invalid option. Retry.");
             else if(choice == 3) {
                 reconnect();
                 done = true;
@@ -196,7 +195,8 @@ public class ClientSocket extends Client {
                         view.okPrompt(this.getUsername() + " correctly logged in. Welcome.");
                         loggedIn = true;
                     } else if (headerCode == USERNAME_TAKEN.getCode()) {
-                        setUsername(view.confirmationPrompt("Username taken. Enter a new username: "));
+                        view.showError("Username taken.");
+                        setUsername(view.getUsername());
                     } else if (headerCode == GENERIC_ERROR.getCode()) {
                         // A generic error occurred. The client throws an exception.
                         throw new RuntimeException("Unknown error");
@@ -209,9 +209,9 @@ public class ClientSocket extends Client {
                                     boolean playerNumberValid = false;
                                     int playerNumber = 0;
                                     while (!playerNumberValid) {
-                                        playerNumber = Integer.parseInt(view.confirmationPrompt("Enter the number of players (between 2 and 4): "));
+                                        playerNumber = view.getPlayerNumber();
                                         if (playerNumber < 2 || playerNumber > 4)
-                                            view.okPrompt("You entered an invalid number of players. Please retry.");
+                                            view.showError("You entered an invalid number of players. Please retry.");
                                         else playerNumberValid = true;
                                     }
                                     Message newGameMessage = new Message(NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber));
@@ -223,7 +223,7 @@ public class ClientSocket extends Client {
                                         view.prompt("The game was correctly created.");
                                         gameCreated = true;
                                     } else if (headerCode == GENERIC_ERROR.getCode()) {
-                                        view.okPrompt("An error occurred. Please retry.");
+                                        view.showError("An error occurred. Please retry.");
                                     } else throw new UnknownError("An unknown error occurred.");
                                 }
                                 operationCompleted = true;
@@ -248,19 +248,19 @@ public class ClientSocket extends Client {
                                                 gameJoined = true;
                                                 operationCompleted = true;
                                             } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
-                                                view.okPrompt("This game does not exist on the server. Please retry.");
+                                                view.showError("This game does not exist on the server. Please retry.");
                                             } else if (gameJoinHeaderCode == GENERIC_ERROR.getCode()) {
-                                                view.okPrompt("An error occurred. Please retry.");
+                                                view.showError("An error occurred. Please retry.");
                                             } else throw new UnknownError("An unknown error occurred.");
                                         } else {
-                                            view.okPrompt("There are no ongoing games on this server. Creating a new game.");
+                                            view.showError("There are no ongoing games on this server. Creating a new game.");
                                             noGames = false;
                                             choice = 1;
                                         }
                                     }
                                 }
                             }
-                            default -> view.okPrompt("You entered an invalid option. Please retry.");
+                            default -> view.showError("You entered an invalid option. Please retry.");
                         }
                     }
                     done = true;
@@ -293,12 +293,12 @@ public class ClientSocket extends Client {
             inputValidation = false;
 
             while(!inputValidation) {
-                String input = view.confirmationPrompt("Enter up to three coordinates.\nSyntax: (x, y)[, (x, y), (x, y)]\n Your choice: ");
+                String input = view.getTiles();
                 try {
                     coordinates = parseMoveInput(input);
                     inputValidation = true;
                 } catch (IllegalStateException e) {
-                    view.okPrompt("You entered an invalid number of coordinates. Retry.");
+                    view.showError("You entered an invalid number of coordinates. Retry.");
                 }
             }
             try {
@@ -330,9 +330,9 @@ public class ClientSocket extends Client {
                 if(headerCode == GET_COLUMN.getCode())
                     moveValidation = true;
             } else if(headerCode == Message.Header.BAD_TILES.getCode()) {
-                view.okPrompt("The tiles you chose are not valid. Please retry.");
+                view.showError("The tiles you chose are not valid. Please retry.");
             } else if(headerCode == Message.Header.GENERIC_ERROR.getCode()) {
-                view.okPrompt("A generic error occurred.");
+                view.showError("A generic error occurred.");
                 // TODO: there is a bug, if i chose the wrong tile, it makes me choose again, but then it crashes
             } else throw new UnknownError("An unknown error occurred.");
         }
@@ -345,13 +345,12 @@ public class ClientSocket extends Client {
             Message columnMessage;
 
             while(!inputValidation) {
-                String input = view.confirmationPrompt("Enter the column you want to put the tiles in.\nPossible values: 1 to 5 (including 1 and 5).\nYour choice: ");
-                column = Integer.parseInt(input);
+                column = view.getColumn();
                 if(column >= 0 && column <= 4) {
                     inputValidation = true;
                     columnBody = new JSONObject().put("column", column);
                 } else {
-                    view.okPrompt("The column you input is invalid. Retry.");
+                    view.showError("The column you input is invalid. Retry.");
                 }
             }
 
@@ -367,9 +366,9 @@ public class ClientSocket extends Client {
             if(headerCode == Message.Header.OK.getCode()) {
                 columnValidation = true;
             } else if(headerCode == Message.Header.BAD_COLUMN.getCode()) {
-                view.okPrompt("The column you chose is not valid. Please retry.");
+                view.showError("The column you chose is not valid. Please retry.");
             } else if(headerCode == Message.Header.GENERIC_ERROR.getCode()) {
-                view.okPrompt("A generic error occurred.");
+                view.showError("A generic error occurred.");
             } else throw new UnknownError("An unknown error occurred.");
         }
         view.prompt("Your move was correctly sent to the server.");
@@ -397,7 +396,7 @@ public class ClientSocket extends Client {
                 reconnected = true;
             } else if (replyHeaderCode == GENERIC_ERROR.getCode()) {
                 attempts++;
-                view.prompt("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
+                view.showError("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
                 switch(attempts) {
                     case 1 -> {
                         try {
