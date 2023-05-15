@@ -49,7 +49,7 @@ public class ViewGUI extends View {
     }
 
     @Override
-    String confirmationPrompt(String message) {
+    String getIp() {
         return null;
     }
 
@@ -80,11 +80,42 @@ public class ViewGUI extends View {
         // TODO Implement
     }
 
-    public String getServerIp(){
-        return connectController.connect();
+    @Override
+    public String getUsername() {
+        try {
+            return (String) queue.take();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public String getUsername() throws InterruptedException {
-        return (String) queue.take();
+    @Override
+    int getGameOptions() {
+        return 0;
+    }
+
+    @Override
+    int getPlayerNumber() {
+        return 0;
+    }
+
+    @Override
+    String getTiles() {
+        return null;
+    }
+
+    @Override
+    int getColumn() {
+        return 0;
+    }
+
+    @Override
+    void showAchievement() {
+
+    }
+
+    @Override
+    void showError(String errorMessage) {
+
     }
 }
