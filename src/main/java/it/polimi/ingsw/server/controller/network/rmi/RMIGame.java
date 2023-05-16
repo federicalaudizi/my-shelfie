@@ -37,13 +37,14 @@ public class RMIGame implements RMIGameInterface{
     }
 
     /**
-     * @param username
-     * @param columnMessage
-     * @return
-     * @throws RemoteException
+     * @param username username of the client
+     * @param columnMessage Message containing the column
+     * @return Message containing answer
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public Message submitColumn(String username, Message columnMessage) throws RemoteException {
-        return null;
+        RMIClientHandler clientHandler = (RMIClientHandler) ongoingGames.getClientHandlerById(username);
+        return clientHandler.submitColumn();
     }
 }
