@@ -19,7 +19,7 @@ public class RMIServer extends Server {
         try {
 
             RMILogin login = new RMILogin(ongoingGames);
-            RMIGame game = new RMIGame();
+            RMIGame game = new RMIGame(ongoingGames);
 
             RMILoginInterface loginSkeleton = (RMILoginInterface) UnicastRemoteObject.exportObject(login, 0);
             RMIGameInterface gameSkeleton = (RMIGameInterface) UnicastRemoteObject.exportObject(game, 0);
