@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.server.controller.network.Server;
-import it.polimi.ingsw.server.controller.network.SocketServer;
+import it.polimi.ingsw.server.controller.network.socket.SocketServer;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

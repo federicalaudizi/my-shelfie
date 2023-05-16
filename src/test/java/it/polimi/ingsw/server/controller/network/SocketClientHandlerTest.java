@@ -1,17 +1,14 @@
 package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.server.controller.GameSupervisor;
+import it.polimi.ingsw.server.controller.network.socket.SocketClientHandler;
 import junit.framework.TestCase;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
 public class SocketClientHandlerTest extends TestCase {
     private ServerSocket serverSocket;

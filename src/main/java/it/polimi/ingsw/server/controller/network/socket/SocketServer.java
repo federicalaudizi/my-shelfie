@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server.controller.network;
+package it.polimi.ingsw.server.controller.network.socket;
 
 import it.polimi.ingsw.server.controller.GameSupervisor;
+import it.polimi.ingsw.server.controller.network.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

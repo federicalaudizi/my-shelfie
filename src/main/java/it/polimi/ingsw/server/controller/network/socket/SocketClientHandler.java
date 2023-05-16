@@ -1,6 +1,8 @@
-package it.polimi.ingsw.server.controller.network;
+package it.polimi.ingsw.server.controller.network.socket;
 
 import it.polimi.ingsw.server.controller.GameSupervisor;
+import it.polimi.ingsw.server.controller.network.ClientHandler;
+import it.polimi.ingsw.server.controller.network.Message;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.*;
 import org.json.JSONArray;
@@ -21,7 +23,7 @@ import static it.polimi.ingsw.server.controller.network.Message.Header.*;
  * The logic behind it is that it first handshakes with the client, handles its login, then deals with the player the creation or joining of a game.
  * After that, it will be at the disposal of the game controller, which will send the commands that the player has to execute.
  */
-public class SocketClientHandler extends ClientHandler{
+public class SocketClientHandler extends ClientHandler {
     private final Socket clientSocket;
     private PrintWriter dataOut;
     private BufferedReader dataIn;

@@ -4,9 +4,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.Server;
-import it.polimi.ingsw.server.controller.network.SocketServer;
-
-import java.util.Objects;
+import it.polimi.ingsw.server.controller.network.socket.SocketServer;
 
 class Main {
     /**

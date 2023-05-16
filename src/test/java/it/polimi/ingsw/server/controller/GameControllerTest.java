@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.controller.network.ClientHandler;
-import it.polimi.ingsw.server.controller.network.SocketClientHandler;
+import it.polimi.ingsw.server.controller.network.socket.SocketClientHandler;
 import it.polimi.ingsw.server.exceptions.NonExsistentGameException;
 import it.polimi.ingsw.server.exceptions.PlayerIdTakenException;
 import it.polimi.ingsw.server.exceptions.ReachedMaxNumberOfPlayers;
