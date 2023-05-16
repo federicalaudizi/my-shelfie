@@ -39,7 +39,7 @@ public abstract class Client {
         this.username = username;
     }
 
-    public abstract void start();
+    public abstract void start() throws Exception;
 
     abstract void connect() throws IOException;
 
