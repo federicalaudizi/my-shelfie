@@ -20,7 +20,6 @@ public class Gui extends Application {
         // Load the FXML file with the FXMLLoader
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
         Parent root = fxmlLoader.load();
-
         // Construct the Scene using the loaded Parent and set it on the Stage
         Scene scene = new Scene(root);
         stage.setResizable(false);
