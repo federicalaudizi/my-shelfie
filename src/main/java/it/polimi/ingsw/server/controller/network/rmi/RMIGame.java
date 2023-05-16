@@ -25,14 +25,15 @@ public class RMIGame implements RMIGameInterface{
     }
 
     /**
-     * @param username
-     * @param tileMessage
-     * @return
-     * @throws RemoteException
+     * @param username username of the client
+     * @param tileMessage Message containing the tile
+     * @return Message containing answer
+     * @throws RemoteException if the reference could not be accessed
      */
     @Override
     public Message submitTiles(String username, Message tileMessage) throws RemoteException {
-        return null;
+        RMIClientHandler clientHandler = (RMIClientHandler) ongoingGames.getClientHandlerById(username);
+        return clientHandler.submitTiles();
     }
 
     /**
