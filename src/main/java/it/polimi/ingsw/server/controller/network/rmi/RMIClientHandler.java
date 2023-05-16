@@ -26,6 +26,14 @@ public class RMIClientHandler extends ClientHandler {
     private boolean pingFlag;
     private Message pingMessage;
 
+    private final Object moveLock;
+    private boolean moveFlag;
+    private Message moveMessage;
+
+    private final Object responseLock;
+    private boolean responseFlag;
+    private Message responseMessage;
+
     RMIClientHandler(String username, GameSupervisor ongoingGames) {
         this.ongoingGames = ongoingGames;
         this.thisPlayerId = username;
@@ -35,6 +43,11 @@ public class RMIClientHandler extends ClientHandler {
         this.gameOver = false;
 
         this.pingFlag = false;
+
+        this.moveLock = new Object();
+        this.moveFlag = false;
+        this.responseLock = new Object();
+        this.responseFlag = false;
     }
 
     /**
@@ -85,7 +98,11 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendOk() {
-
+        synchronized (responseLock) {
+            responseFlag = true;
+            responseMessage = new Message(OK);
+            responseLock.notifyAll();
+        }
     }
 
     /**
@@ -95,8 +112,36 @@ public class RMIClientHandler extends ClientHandler {
      * @author Federico
      */
     @Override
-    public Coordinate[] getTiles() {
-        return new Coordinate[0];
+    public Coordinate[] getTiles() throws PlayerDisconnectedException {
+        if(!isAlive) throw new PlayerDisconnectedException();
+        synchronized (pingLock) {
+            pingFlag = true;
+            pingMessage = new Message(GET_TILES);
+        }
+
+        synchronized (moveLock) {
+            while (!moveFlag) {
+                try {
+                    moveLock.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        // GameController now knows that the player has selected the tiles
+        moveFlag = false;
+
+        // TODO: extract this logic in a method in the superclass
+        JSONArray args = moveMessage.getBody();
+
+        Coordinate[] tiles = new Coordinate[args.length()];
+
+        for(int i = 0; i < args.length(); i++){
+            tiles[i] = new Coordinate(args.getJSONObject(i));
+        }
+
+        return tiles;
     }
 
     /**
@@ -106,7 +151,11 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void badTile() {
-
+        synchronized (responseLock) {
+            responseFlag = true;
+            responseMessage = new Message(BAD_TILES, new JSONObject().put("message", "The selected tiles are not valid"));
+            responseLock.notifyAll();
+        }
     }
 
     /**
@@ -168,5 +217,29 @@ public class RMIClientHandler extends ClientHandler {
                 return pingMessage;
             }
         }
+    }
+
+    // This is crazy, but it's the only way I can think of to make the client wait for the response
+    Message submitTiles(Message tiles){
+        // Notifying the gameController that the tiles arrived
+        synchronized (moveLock) {
+            moveFlag = true;
+            moveMessage = tiles;
+            moveLock.notifyAll();
+        }
+
+        while(!responseFlag){
+            try {
+                synchronized (responseLock) {
+                    responseLock.wait();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        responseFlag = false;
+
+        return responseMessage;
     }
 }
