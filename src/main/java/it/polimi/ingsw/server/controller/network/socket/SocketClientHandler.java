@@ -166,7 +166,7 @@ public class SocketClientHandler extends ClientHandler {
         if(answer.getHeaderCode() == SEND_COLUMN.getCode()){
 
             JSONArray args = answer.getBody();
-            JSONObject column = (JSONObject) args.get(0);
+            JSONObject column = args.getJSONObject(0);
 
             return column.getInt("column");
         } else {
