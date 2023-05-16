@@ -2,16 +2,39 @@ package it.polimi.ingsw.server.controller.network.rmi;
 
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.ClientHandler;
+import it.polimi.ingsw.server.controller.network.Message;
+import it.polimi.ingsw.server.exceptions.PlayerDisconnectedException;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static it.polimi.ingsw.server.controller.network.Message.Header.*;
+
 public class RMIClientHandler extends ClientHandler {
     private final GameSupervisor ongoingGames;
+    private final String thisPlayerId;
 
-    RMIClientHandler(GameSupervisor ongoingGames) {
+    private final Object heartbeatLock;
+    private boolean isAlive;
+
+    private boolean gameOver;
+
+    private final Object pingLock;
+    private boolean pingFlag;
+    private Message pingMessage;
+
+    RMIClientHandler(String username, GameSupervisor ongoingGames) {
         this.ongoingGames = ongoingGames;
+        this.thisPlayerId = username;
+        this.pingLock = new Object();
+        this.heartbeatLock = new Object();
+        this.isAlive = true;
+        this.gameOver = false;
+
+        this.pingFlag = false;
     }
 
     /**
