@@ -61,7 +61,23 @@ public class ClientRMI extends Client {
 
     @Override
     void connect() throws RemoteException {
+        Registry registry = LocateRegistry.getRegistry();
 
+        try {
+            loginInterface = (RMILoginInterface) registry.lookup("RMILoginInterface");
+        } catch (NotBoundException e) {
+            // TODO Remove debug statement
+            System.err.println("Login RMI registry not bound.");
+            throw new RuntimeException(e.getMessage());
+        }
+
+        try {
+            gameInterface = (RMIGameInterface) registry.lookup("RMIGameInterface");
+        } catch (NotBoundException e) {
+            // TODO Remove debug statement
+            System.err.println("Game RMI registry not bound.");
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
