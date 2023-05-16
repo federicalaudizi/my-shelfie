@@ -380,54 +380,6 @@ public class ClientSocket extends Client {
     }
 
     /**
-     * This method transforms the coordinates gathered by the user into a JSON object that will then be parsed
-     * by the server in order to validate them.
-     * @param coords The ArrayList containing the coordinates chosen by the user.
-     * @throws NullPointerException If the ArrayList of coordinates passed is empty, this exception is thrown
-     * @return The JSONObject containing a JSONArray with the aforementioned coordinates.
-     * @author Mario Merlo
-     */
-    private JSONArray coordsToJson(ArrayList<Coordinate> coords) throws NullPointerException {
-        if(coords == null)
-            throw new NullPointerException("Coordinate array was empty.");
-        JSONArray JSONCoords = new JSONArray();
-        for(Coordinate item : coords)
-            JSONCoords.put(item.toJSON());
-
-        return JSONCoords;
-    }
-
-    /**
-     * This method parses the coordinate input from the user with a regex matching and returns an ArrayList of
-     * coordinates with all the matches it found.
-     * @param input The input string gathered from the user.
-     * @throws IllegalStateException If the input string is empty or contains more than three coordinates, this
-     *                               exception is thrown
-     * @return An ArrayList of Coordinate objects that contain the coordinates gathered from the user.
-     * @author Mario Merlo
-     */
-    private ArrayList<Coordinate> parseMoveInput(String input) throws IllegalStateException {
-        final Pattern coordinatePattern = Pattern.compile("(\\([0-9],\\s?[0-9]\\))+");
-        final Matcher coordinateMatcher = coordinatePattern.matcher(input);
-        ArrayList<Coordinate> inputCoords = new ArrayList<>();
-
-        while(coordinateMatcher.find()) {
-            String matchingSubstring = coordinateMatcher.group();
-            matchingSubstring = matchingSubstring.substring(1, matchingSubstring.length() - 1);
-            matchingSubstring = matchingSubstring.replaceAll("\\s*", "");
-            String[] coordinates = matchingSubstring.split(",");
-            int x = Integer.parseInt(coordinates[0]);
-            int y = Integer.parseInt(coordinates[1]);
-            inputCoords.add(new Coordinate(x, y));
-        }
-
-        if(inputCoords.size() == 0 || inputCoords.size() > 3)
-            throw new IllegalStateException("Wrong number of coordinates input.");
-
-        return inputCoords;
-    }
-
-    /**
      * Reads the reply sent from the server and packages it as a Message.
      * @return The reply sent from the server as a Message object.
      * @throws NullPointerException If the reply is null, this exception is thrown.
