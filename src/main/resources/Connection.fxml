@@ -7,27 +7,22 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-
 <?import javafx.scene.text.Text?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.WelcomeController">
-   <children>
-      <ImageView fitHeight="406.0" fitWidth="607.0">
-         <image>
-            <Image url="@blurred_Welcome.jpg" />
-         </image>
-      </ImageView>
-      <TextField fx:id="ipAddress" layoutX="177.0" layoutY="203.0" prefHeight="25.0" prefWidth="225.0" />
-      <Label layoutX="178.0" layoutY="173.0" text="Enter the server's IP (syntax: ip:port):">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Button fx:id="ok" layoutX="273.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleMouseClick" text="OK" />
-      <Text fx:id="genericError" fill="RED" layoutX="223.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="An unknown error occured" textAlignment="CENTER" visible="false">
-         <font>
-            <Font name="Negotiate Free" size="14.0" />
-         </font>
-      </Text>
-   </children>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.ConnectionController">
+   <ImageView fitHeight="406.0" fitWidth="607.0">
+      <Image url="@blurred_Welcome.jpg" />
+   </ImageView>
+   <TextField fx:id="ipAddress" layoutX="177.0" layoutY="203.0" prefHeight="25.0" prefWidth="225.0" />
+   <Label layoutX="178.0" layoutY="173.0" text="Enter the server's IP (syntax: ip:port):">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Button fx:id="ok" layoutX="273.0" layoutY="253.0" mnemonicParsing="false" onAction="#connect" onMouseClicked="#connect"  text="OK" />
+   <Text fx:id="genericError" fill="RED" layoutX="223.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="An unknown error occured" textAlignment="CENTER" visible="false">
+      <font>
+         <Font name="Negotiate Free" size="14.0" />
+      </font>
+   </Text>
 </AnchorPane>

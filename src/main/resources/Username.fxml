@@ -25,7 +25,7 @@
             <Image url="@blurred_Welcome.jpg" />
          </image>
       </ImageView>
-      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="211.0" layoutY="181.0" minWidth="9.0" onKeyPressed="#login" pickOnBounds="false" prefHeight="41.0" prefWidth="179.0" promptText="type nick here">
+      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="211.0" layoutY="181.0" minWidth="9.0"  pickOnBounds="false" prefHeight="41.0" prefWidth="179.0" promptText="type nick here">
          <font>
             <Font name="System Font" size="18.0" />
          </font>

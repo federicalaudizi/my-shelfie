@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.scene.ConnectionController;
 import it.polimi.ingsw.client.scene.NicknameController;
 import it.polimi.ingsw.client.scene.WelcomeController;
 import it.polimi.ingsw.server.model.Game;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.json.JSONArray;
@@ -10,30 +12,30 @@ import org.json.JSONArray;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
+import java.util.concurrent.CompletableFuture;
 
 
 public class ViewGUI extends View {
     Client client;
     private NicknameController nicknameController;
-    private WelcomeController welcomeController;
+    private final WelcomeController welcomeController;
+    private final ConnectionController controller;
     protected static Parent welcomeRoot;
-    protected static Parent connectRoot;
+    protected  Parent connectRoot;
     protected static Parent nicknameRoot;
 
     public ViewGUI(Client client) {
         FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
+        controller = new ConnectionController();
 
         try {
             welcomeRoot = welcomeLoader.load();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         this.welcomeController = welcomeLoader.getController();
         this.client = client;
     }
-
-
 
 
     @Override
@@ -43,7 +45,17 @@ public class ViewGUI extends View {
 
     @Override
     String getIp() {
-        return welcomeController.connect();
+        //To handle the result of the asynchronous operation
+
+        CompletableFuture<String> future = new CompletableFuture<>();
+        controller.connect();
+
+        Platform.runLater(() -> future.complete(controller.getIp()));
+        try {
+            return future.get();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -59,10 +71,13 @@ public class ViewGUI extends View {
 
     @Override
     public String getUsername() {
+        CompletableFuture<String> future = new CompletableFuture<>();
+
+        Platform.runLater(() -> future.complete(nicknameController.getNickname()));
         try {
-            return (String) queue.take();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            return future.get();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 
