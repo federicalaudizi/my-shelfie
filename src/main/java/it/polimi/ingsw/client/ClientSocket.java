@@ -327,7 +327,7 @@ public class ClientSocket extends Client {
             send(reconnectionMessage);
 
             int replyHeaderCode = getReply().getHeaderCode();
-            if(replyHeaderCode == 200) {
+            if(replyHeaderCode == OK.getCode()) {
                 System.err.println("Successfully reconnected to server.");
                 reconnected = true;
             } else if (replyHeaderCode == GENERIC_ERROR.getCode()) {
