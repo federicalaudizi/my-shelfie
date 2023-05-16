@@ -61,7 +61,9 @@ public class ClientSocket extends Client {
 
                 // Third step: when asked for a move, provide it
                 if(headerCode == GET_TILES.getCode())
-                    move();
+                    getTiles();
+                if(headerCode == GET_COLUMN.getCode())
+                    getColumn();
                 // Fourth step: execute game over operations when Game Over is sent by the server
                 else if(headerCode == GAME_OVER.getCode()) {
                     gameOver = true;
