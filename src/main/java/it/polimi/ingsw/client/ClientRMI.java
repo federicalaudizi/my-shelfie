@@ -1,14 +1,27 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.controller.network.Message;
+import it.polimi.ingsw.server.controller.network.rmi.RMIGameInterface;
+import it.polimi.ingsw.server.controller.network.rmi.RMILoginInterface;
+import it.polimi.ingsw.server.model.Coordinate;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.ArrayList;
+
+import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
 /**
  * @author Mario Merlo
  */
 public class ClientRMI extends Client {
+    private RMILoginInterface loginInterface;
+    private RMIGameInterface gameInterface;
+
     public ClientRMI(boolean cli) {
         super(cli);
     }
