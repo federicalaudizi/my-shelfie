@@ -30,6 +30,7 @@ public class RMILogin implements RMILoginInterface{
         RMIClientHandler thisUser = new RMIClientHandler(ongoingGames);
         try {
             ongoingGames.newUser(username, thisUser);
+            new Thread(thisUser).start();
             return new Message(OK);
         } catch (PlayerIdTakenException e) {
             return new Message(USERNAME_TAKEN, new JSONObject().put("message", "Username is already taken"));
@@ -49,6 +50,7 @@ public class RMILogin implements RMILoginInterface{
         RMIClientHandler thisUser = new RMIClientHandler(ongoingGames);
         try {
             ongoingGames.oldUser(username, thisUser);
+            new Thread(thisUser).start();
             return new Message(OK);
         } catch (PlayerDoesNotExistsException e) {
             return new Message(GENERIC_ERROR, new JSONObject().put("message", "Player does not exists"));
