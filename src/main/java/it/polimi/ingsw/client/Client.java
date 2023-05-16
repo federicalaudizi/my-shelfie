@@ -90,9 +90,47 @@ public abstract class Client {
         // send(new Message(Message.Header.OK));
     }
 
-    abstract void reconnect() throws IOException;
-
-    abstract Message getReply() throws NullPointerException;
+    /**
+     * Checks whether the passed IP and port combo is valid
+     * @param ip The string formatted as ip:port
+     * @throws IllegalArgumentException If the IP string is malformed, this exception is thrown
+     * @return true if the passed IP is valid, false otherwise
+     * @author Mario Merlo
+     */
+    boolean validateIp(String ip) throws IllegalArgumentException {
+        // Split IP and Port
+        String[] portSplit = ip.split(":");
+        // Check for malformed IP string
+        if(portSplit.length != 2) throw new IllegalArgumentException("Malformed IP string");
+        // Convert port String to int to perform the comparison
+        int port;
+        try {
+            port = Integer.parseInt(portSplit[1]);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Malformed IP port");
+        }
+        // If the port is not a valid number, return false
+        if(port <= 0 || port > 65535)
+            return false;
+        // Split IP into the four integers that compose it
+        String[] ipSplit = portSplit[0].split("\\.");
+        // Check for malformed IP address
+        if(ipSplit.length != 4) throw new IllegalArgumentException("Malformed IP address");
+        for(String item : ipSplit) {
+            // Convert IP Segment to integer for the comparison
+            int ipSegment;
+            try {
+                ipSegment = Integer.parseInt(item);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Malformed IP address segment");
+            }
+            // If the segment is not a valid number, return false
+            if(ipSegment < 0 || ipSegment > 255)
+                return false;
+        }
+        // If none of the checks are triggered, the IP is valid
+        return true;
+    }
 
     abstract void send(Message message);
 
