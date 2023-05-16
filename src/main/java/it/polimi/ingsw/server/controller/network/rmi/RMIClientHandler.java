@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.network.rmi;
 
+import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.ClientHandler;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
@@ -7,6 +8,12 @@ import it.polimi.ingsw.server.model.Game;
 import java.util.HashMap;
 
 public class RMIClientHandler extends ClientHandler {
+    private final GameSupervisor ongoingGames;
+
+    RMIClientHandler(GameSupervisor ongoingGames) {
+        this.ongoingGames = ongoingGames;
+    }
+
     /**
      * This method starts the thread and executes all the logic of the client handler
      *
