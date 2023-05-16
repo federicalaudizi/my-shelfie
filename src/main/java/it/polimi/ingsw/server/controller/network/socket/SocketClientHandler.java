@@ -250,7 +250,7 @@ public class SocketClientHandler extends ClientHandler {
         } catch (PlayerIdTakenException e) {
             // The player already exists, send the error and restart the login phase
             response = new JSONObject();
-            response.put("message", "Player already exists");
+            response.put("message", "Username is already taken");
             send(new Message(USERNAME_TAKEN, response));
             loginPhase();
         } catch (PlayerDoesNotExistsException e) {
@@ -323,12 +323,12 @@ public class SocketClientHandler extends ClientHandler {
         } catch (NonExsistentGameException e) {
             // An NonExistentGameException occurred, send the error and restart the login phase
             System.out.println(clientSocket.getInetAddress()+": Game does not exist");
-            send(new Message(BAD_GAME_ID));
+            send(new Message(BAD_GAME_ID, new JSONObject().put("message", "Game does not exists")));
             joinGamePhase();
         } catch (ReachedMaxNumberOfPlayers e) {
             // An FullGameException occurred, send the error and restart the login phase
-            System.out.println(clientSocket.getInetAddress()+": Game does not exist");
-            send(new Message(BAD_GAME_ID));
+            System.out.println(clientSocket.getInetAddress()+": Game is full");
+            send(new Message(BAD_GAME_ID, new JSONObject().put("message", "Game is full")));
             joinGamePhase();
         } catch (NoGamesException e) {
             // There are no games to join
