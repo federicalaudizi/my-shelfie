@@ -78,7 +78,7 @@ public class Message {
         /** Sent by the server when the player requested to join a game, the argument should be a list of active games */
         GAMES_ID_RESPONSE(211),
         /** Sent by the client when he wants to join an existing game, the argument should be the game id */
-        JOIN_GAME_RESPONSE(211),
+        JOIN_GAME_RESPONSE(212),
 
         /** Sent by the client when he has to select the tiles, the arguments should be the tiles in order of selections */
         SEND_TILES(221),
