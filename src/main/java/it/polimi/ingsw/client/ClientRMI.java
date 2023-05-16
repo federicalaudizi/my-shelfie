@@ -262,8 +262,24 @@ public class ClientRMI extends Client {
         return false;
     }
 
-    @Override
-    void send(Message message) {
+    private void setServerUsername() throws RemoteException {
+        setUsername(view.getUsername());
+        boolean loggedIn = false;
 
+        while(!loggedIn) {
+            Message reply = loginInterface.login(getUsername());
+            int headerCode = reply.getHeaderCode();
+
+            if(headerCode == OK.getCode()) {
+                // TODO Remove debug statement
+                System.err.println("Correctly logged in as " + getUsername());
+                loggedIn = true;
+            } else if(headerCode == USERNAME_TAKEN.getCode()) {
+                view.showError(reply.getBody().getJSONObject(0).getString("message"));
+                setUsername(view.getUsername());
+            } else if(headerCode == GENERIC_ERROR.getCode()) {
+                view.showError(reply.getBody().getJSONObject(0).getString("message"));
+            } else throw new UnknownError("An unknown error occurred.");
+        }
     }
 }
