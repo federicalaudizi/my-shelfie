@@ -315,7 +315,8 @@ public class ClientSocket extends Client {
      * @author Mario Merlo
      */
     @Override
-    void reconnect() throws IOException {
+    boolean reconnect() throws IOException {
+        // TODO Change this according to the new signature
         int attempts = 0;
         boolean reconnected = false;
         while(!reconnected && attempts < 3) {
