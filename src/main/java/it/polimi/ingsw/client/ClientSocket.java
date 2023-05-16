@@ -226,23 +226,15 @@ public class ClientSocket extends Client {
         }
     }
 
-    /**
-     * This method prompts the user to enter a move, validates it and sends it to the server.
-     * @throws NullPointerException If the body of the messages is null before they are sent, this exception is thrown.
-     * @throws UnknownError If something unexpected is sent by the server as a response, this exception is thrown.
-     * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
-     * @author Mario Merlo
-     */
     @Override
-    void move() throws NullPointerException, UnknownError, IOException {
-        boolean inputValidation, moveValidation = false, columnValidation = false;
+    void getTiles() throws IOException {
+        boolean tileValidation = false, inputValidation;
         ArrayList<Coordinate> coordinates = null;
         JSONArray body = null;
         Message reply;
         int headerCode;
 
-        // Phase 1: ask for tiles to pick
-        while(!moveValidation) {
+        while(!tileValidation) {
             // --- Client-side validation ---
             // This loop does not break until the input from the user is validated by the client.
             // The validation checks whether the user input the correct number of coordinates -- between 1 and 3.
@@ -269,31 +261,18 @@ public class ClientSocket extends Client {
             // The client packages the tiles selected by the user and then sends them to the server in order to be
             // validated according to the game's rules. This while loop does not break until the server has validated
             // the player's move.
-            Message tileMessage;
-            if(body != null) {
-                tileMessage = new Message(Message.Header.SEND_TILES, body);
-            } else throw new NullPointerException("The message body was empty.");
-
-            // Send the requested information to the server
-            send(tileMessage);
-
-            // Get the server's response and its header code
+            send(new Message(SEND_TILES, body));
             reply = getReply();
             headerCode = reply.getHeaderCode();
 
             // Check reply to either resend coordinates or continue with the move
-            if(headerCode == Message.Header.OK.getCode()) {
-                reply = getReply();
-                headerCode = reply.getHeaderCode();
-                if(headerCode == GET_COLUMN.getCode())
-                    moveValidation = true;
-            } else if(headerCode == Message.Header.BAD_TILES.getCode()) {
+            if(headerCode == OK.getCode()) {
+                tileValidation = true;
+            } else if(headerCode == BAD_TILES.getCode() || headerCode == GENERIC_ERROR.getCode()) {
                 view.showError("The tiles you chose are not valid. Please retry.");
-            } else if(headerCode == Message.Header.GENERIC_ERROR.getCode()) {
-                view.showError("A generic error occurred.");
-                // TODO: there is a bug, if i chose the wrong tile, it makes me choose again, but then it crashes
             } else throw new UnknownError("An unknown error occurred.");
         }
+    }
 
         // Phase 2: ask for column to put tiles in
         while(!columnValidation) {
