@@ -27,7 +27,7 @@ public class RMILogin implements RMILoginInterface{
      */
     @Override
     public Message login(String username) throws RemoteException {
-        RMIClientHandler thisUser = new RMIClientHandler(ongoingGames);
+        RMIClientHandler thisUser = new RMIClientHandler(username, ongoingGames);
         try {
             ongoingGames.newUser(username, thisUser);
             new Thread(thisUser).start();
@@ -47,7 +47,7 @@ public class RMILogin implements RMILoginInterface{
      */
     @Override
     public Message reconnect(String username) throws RemoteException {
-        RMIClientHandler thisUser = new RMIClientHandler(ongoingGames);
+        RMIClientHandler thisUser = new RMIClientHandler(username, ongoingGames);
         try {
             ongoingGames.oldUser(username, thisUser);
             new Thread(thisUser).start();
