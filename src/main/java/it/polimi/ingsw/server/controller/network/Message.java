@@ -114,7 +114,10 @@ public class Message {
         BAD_TILES(421),
         /** Sent by the server when the client selects an invalid column on the shelf */
         BAD_COLUMN(422),
-        ;
+        /** Sent by the server when a player tries to reconnect to a game but that game is over. */
+        GAME_UNAVAILABLE(423),
+        /** Sent by the server when a user tries to reconnect but had never logged in before */
+        PLAYER_NOT_FOUND(424);
 
         private final int code;
 
