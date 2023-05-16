@@ -22,35 +22,57 @@ public class ConnectionController {
     @FXML
     public Text genericError;
     @FXML
-    TextField ipAddress;
+    private TextField ipAddress;
     @FXML
-    Button ok;
-
-    public void connect() {
-        ok.addEventHandler(MouseEvent.MOUSE_PRESSED, this::handleMouseClickForIp);
-    }
+    private Button ok;
 
     /*
      * if(startGame) ==> changes scene asking nickname
      * */
-    @FXML
-    public void handleMouseClickForIp(Event e) {
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/Nickname.fxml"));
-        Parent secondViewParent=null;
-        try {
-            secondViewParent = loader.load();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        Scene secondViewScene = new Scene(secondViewParent);
-        Stage currentStage = (javafx.stage.Stage) ok.getScene().getWindow();
-        currentStage.setScene(secondViewScene);
-        ip= ipAddress.getText();
+
+    public String handleMouseClickForIp() {
+        ok.setOnAction(event -> {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Username.fxml"));
+            Parent thirdViewParent;
+            try {
+                thirdViewParent = loader.load();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            Scene thirdViewScene = new Scene(thirdViewParent);
+            Stage currentStage = (javafx.stage.Stage) ok.getScene().getWindow();
+            currentStage.setScene(thirdViewScene);
+            System.out.println(ipAddress.getText());
+        });
+        return ipAddress.getText();
     }
 
-     public String getIp(){
-        return ip;
-    }
+
+
+    /*@FXML
+    public String handleMouseClickForIp() {
+        EventHandler<MouseEvent> eventHandler = new EventHandler<>() {
+            @Override
+            public void handle(MouseEvent e) {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Username.fxml"));
+                Parent thirdViewParent;
+                try {
+                    thirdViewParent = loader.load();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                Scene thirdViewScene = new Scene(thirdViewParent);
+                Stage currentStage = (javafx.stage.Stage) ok.getScene().getWindow();
+                currentStage.setScene(thirdViewScene);
+            }
+        };
+
+        ok.addEventHandler(MouseEvent.MOUSE_PRESSED, eventHandler);
+        System.out.println(ipAddress.getText());
+        return ipAddress.getText();
+    }**/
 }
+

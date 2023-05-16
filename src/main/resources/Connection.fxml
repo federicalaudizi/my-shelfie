@@ -19,7 +19,7 @@
          <Font size="14.0" />
       </font>
    </Label>
-   <Button fx:id="ok" layoutX="273.0" layoutY="253.0" mnemonicParsing="false" onAction="#connect" onMouseClicked="#connect"  text="OK" />
+   <Button fx:id="ok" layoutX="273.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleMouseClickForIp"  text="OK" />
    <Text fx:id="genericError" fill="RED" layoutX="223.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="An unknown error occured" textAlignment="CENTER" visible="false">
       <font>
          <Font name="Negotiate Free" size="14.0" />

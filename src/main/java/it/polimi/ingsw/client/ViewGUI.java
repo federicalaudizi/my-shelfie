@@ -48,9 +48,9 @@ public class ViewGUI extends View {
         //To handle the result of the asynchronous operation
 
         CompletableFuture<String> future = new CompletableFuture<>();
-        controller.connect();
+        controller.handleMouseClickForIp();
 
-        Platform.runLater(() -> future.complete(controller.getIp()));
+        Platform.runLater(() -> future.complete(controller.handleMouseClickForIp()));
         try {
             return future.get();
         } catch (Exception ex) {

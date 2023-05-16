@@ -36,7 +36,7 @@ public class WelcomeController {
     private void handleStartGameButtonClick() {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Connection.fxml"));
-        Parent secondViewParent = null;
+        Parent secondViewParent;
         try {
             secondViewParent = loader.load();
         } catch (IOException ex) {
