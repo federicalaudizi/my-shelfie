@@ -25,7 +25,7 @@
             <Image url="@blurred_Welcome.jpg" />
          </image>
       </ImageView>
-      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="211.0" layoutY="181.0" minWidth="9.0"  pickOnBounds="false" prefHeight="41.0" prefWidth="179.0" promptText="type nick here">
+      <TextField fx:id="nicknameText" alignment="CENTER" layoutX="211.0" layoutY="181.0" minWidth="9.0" pickOnBounds="false" prefHeight="35.0" prefWidth="179.0" promptText="type nick here">
          <font>
             <Font name="System Font" size="18.0" />
          </font>
@@ -42,9 +42,9 @@
             <Font name="Negotiate Free" size="14.0" />
          </font>
       </Text>
-      <Text fill="#2f2f2f" layoutX="216.0" layoutY="175.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Insert your nickname:">
+      <Text fill="#2f2f2f" layoutX="234.0" layoutY="178.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Insert your nickname:" wrappingWidth="132.69921875">
          <font>
-            <Font size="19.0" />
+            <Font size="14.0" />
          </font>
       </Text>
    </children>
