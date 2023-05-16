@@ -329,7 +329,7 @@ public class ClientSocket extends Client {
             int replyHeaderCode = getReply().getHeaderCode();
             if(replyHeaderCode == OK.getCode()) {
                 System.err.println("Successfully reconnected to server.");
-                reconnected = true;
+                return true;
             } else if (replyHeaderCode == GENERIC_ERROR.getCode()) {
                 attempts++;
                 view.showError("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
@@ -361,6 +361,7 @@ public class ClientSocket extends Client {
         if(!reconnected) {
             throw new IOException("Unable to reconnect.");
         }
+        return false;
     }
 
     /**
