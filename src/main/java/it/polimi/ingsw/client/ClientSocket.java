@@ -385,7 +385,6 @@ public class ClientSocket extends Client {
      * @throws NullPointerException If the reply is null, this exception is thrown.
      * @author Mario Merlo
      */
-    @Override
     Message getReply() throws NullPointerException {
         Message reply = null;
         try {
@@ -405,8 +404,7 @@ public class ClientSocket extends Client {
      * @param message The message to send to the server.
      * @author Mario Merlo
      */
-    @Override
-    public void send(Message message) {
+    void send(Message message) {
         writer.print(message.toString() + "\n");
         writer.flush();
     }
