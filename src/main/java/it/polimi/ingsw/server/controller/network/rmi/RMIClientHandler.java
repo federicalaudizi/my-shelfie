@@ -156,4 +156,17 @@ public class RMIClientHandler extends ClientHandler {
 
         gameOver = true;
     }
+
+    Message ping(){
+        synchronized (heartbeatLock) {
+            isAlive = true;
+        }
+        synchronized (pingLock) {
+            if(!pingFlag) return new Message(PING);
+            else {
+                pingFlag = false;
+                return pingMessage;
+            }
+        }
+    }
 }
