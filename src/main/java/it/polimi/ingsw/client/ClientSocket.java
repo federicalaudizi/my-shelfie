@@ -274,41 +274,39 @@ public class ClientSocket extends Client {
         }
     }
 
-        // Phase 2: ask for column to put tiles in
+    @Override
+    void getColumn() throws IOException {
+        boolean columnValidation = false, inputValidation;
+        int column, headerCode;
+        JSONObject body = null;
+        Message reply;
+
         while(!columnValidation) {
             inputValidation = false;
-            int column;
-            JSONObject columnBody = null;
-            Message columnMessage;
 
             while(!inputValidation) {
                 column = view.getColumn();
                 if(column >= 0 && column <= 4) {
                     inputValidation = true;
-                    columnBody = new JSONObject().put("column", column);
+                    body = new JSONObject().put("column", column);
                 } else {
                     view.showError("The column you input is invalid. Retry.");
                 }
             }
 
-            if(columnBody != null) {
-                columnMessage = new Message(Message.Header.SEND_COLUMN, columnBody);
+            if(body != null) {
+                send(new Message(SEND_COLUMN, body));
             } else throw new NullPointerException("Column message body was empty.");
-
-            send(columnMessage);
 
             reply = getReply();
             headerCode = reply.getHeaderCode();
 
-            if(headerCode == Message.Header.OK.getCode()) {
+            if(headerCode == OK.getCode()) {
                 columnValidation = true;
-            } else if(headerCode == Message.Header.BAD_COLUMN.getCode()) {
-                view.showError("The column you chose is not valid. Please retry.");
-            } else if(headerCode == Message.Header.GENERIC_ERROR.getCode()) {
-                view.showError("A generic error occurred.");
+            } else if(headerCode == BAD_COLUMN.getCode() || headerCode == GENERIC_ERROR.getCode()) {
+                view.showError(reply.getBody().getJSONObject(0).getString("message"));
             } else throw new UnknownError("An unknown error occurred.");
         }
-        System.err.println("Your move was correctly sent to the server.");
     }
 
     /**
