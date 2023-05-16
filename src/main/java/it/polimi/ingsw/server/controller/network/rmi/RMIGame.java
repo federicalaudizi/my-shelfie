@@ -13,14 +13,15 @@ public class RMIGame implements RMIGameInterface{
     }
 
     /**
-     * @param username
-     * @return
-     * @throws RemoteException
+     * @param username username of the client
+     * @return Message containing answer
+     * @throws RemoteException if the reference could not be accessed
+     * @author Federico
      */
     @Override
     public Message ping(String username) throws RemoteException {
         RMIClientHandler clientHandler = (RMIClientHandler) ongoingGames.getClientHandlerById(username);
-        return null;
+        return clientHandler.ping();
     }
 
     /**
