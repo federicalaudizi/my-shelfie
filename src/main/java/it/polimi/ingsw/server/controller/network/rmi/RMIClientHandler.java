@@ -44,7 +44,25 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void run() {
+        boolean temp;
+        // Heartbeat
+        synchronized (heartbeatLock) {
+            temp = isAlive;
+        }
+        while(temp && !gameOver){
+            isAlive = false;
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
+        if(!isAlive) {
+            ongoingGames.notifyDisconnection(thisPlayerId);
+        }
+
+        // TODO: Gameover
     }
 
     /**
