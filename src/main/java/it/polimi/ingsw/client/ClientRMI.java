@@ -27,8 +27,36 @@ public class ClientRMI extends Client {
     }
 
     @Override
-    public void start() {
+    public void start() throws RemoteException {
+        connect();
 
+        login();
+
+        boolean gameOver = false;
+        Message reply;
+        int headerCode;
+
+        while(!gameOver) {
+            reply = gameInterface.ping(getUsername());
+            headerCode = reply.getHeaderCode();
+
+            if(headerCode == GET_TILES.getCode())
+                getTiles();
+            else if(headerCode == GET_COLUMN.getCode())
+                getColumn();
+            else if(headerCode == GAME_UPDATE.getCode())
+                update(reply.getBody().getJSONObject(0));
+            else if(headerCode == GAME_OVER.getCode()) {
+                gameOver = true;
+                gameOver(reply.getBody());
+            } else if(headerCode == PING.getCode()) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     @Override
