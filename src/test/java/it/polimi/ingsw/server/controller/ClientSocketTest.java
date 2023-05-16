@@ -79,10 +79,4 @@ public class ClientSocketTest {
             fail();
         }
     }
-
-    @Ignore
-    public void gameTest() {
-        client.start();
-        server.run();
-    }
 }
