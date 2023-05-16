@@ -1,13 +1,16 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.controller.network.Message;
+import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class handles the interactions between the user and the server.
