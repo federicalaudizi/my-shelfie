@@ -72,7 +72,10 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-
+        synchronized (pingLock) {
+            pingFlag = true;
+            pingMessage = new Message(GAME_UPDATE, gameState.toJson());
+        }
     }
 
     /**
