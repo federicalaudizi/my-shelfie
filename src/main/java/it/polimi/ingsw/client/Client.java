@@ -49,6 +49,8 @@ public abstract class Client {
 
     abstract void getColumn() throws Exception;
 
+    abstract boolean reconnect() throws Exception;
+
     /**
      * Triggers the game over screen on the view, passing the player leaderboard to it
      *
