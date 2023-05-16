@@ -33,7 +33,7 @@ public class RMIGame implements RMIGameInterface{
     @Override
     public Message submitTiles(String username, Message tileMessage) throws RemoteException {
         RMIClientHandler clientHandler = (RMIClientHandler) ongoingGames.getClientHandlerById(username);
-        return clientHandler.submitTiles();
+        return clientHandler.submitTiles(tileMessage);
     }
 
     /**
@@ -45,6 +45,6 @@ public class RMIGame implements RMIGameInterface{
     @Override
     public Message submitColumn(String username, Message columnMessage) throws RemoteException {
         RMIClientHandler clientHandler = (RMIClientHandler) ongoingGames.getClientHandlerById(username);
-        return clientHandler.submitColumn();
+        return clientHandler.submitColumn(columnMessage);
     }
 }
