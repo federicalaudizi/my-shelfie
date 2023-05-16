@@ -63,8 +63,8 @@ public class Message {
      * @author Federico
      */
     public enum Header {
-        /** Welcome Command code */
-        WELCOME(101),
+        /** Ping message */
+        PING(101),
 
         /** Sent by the server when the game ends, the argument should be the leaderboard */
         GAME_OVER(121),
