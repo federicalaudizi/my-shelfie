@@ -45,7 +45,9 @@ public abstract class Client {
 
     abstract void login() throws IOException;
 
-    abstract void move() throws NullPointerException, UnknownError, IOException;
+    abstract void getTiles() throws Exception;
+
+    abstract void getColumn() throws Exception;
 
     /**
      * Triggers the game over screen on the view, passing the player leaderboard to it
