@@ -26,9 +26,13 @@ public class RMIClientHandler extends ClientHandler {
     private boolean pingFlag;
     private Message pingMessage;
 
-    private final Object moveLock;
-    private boolean moveFlag;
-    private Message moveMessage;
+    private final Object tilesLock;
+    private boolean tilesFlag;
+    private Message tilesMessage;
+
+    private final Object columnLock;
+    private boolean columnFlag;
+    private Message columnMessage;
 
     private final Object responseLock;
     private boolean responseFlag;
@@ -44,10 +48,12 @@ public class RMIClientHandler extends ClientHandler {
 
         this.pingFlag = false;
 
-        this.moveLock = new Object();
-        this.moveFlag = false;
+        this.tilesLock = new Object();
+        this.tilesFlag = false;
         this.responseLock = new Object();
         this.responseFlag = false;
+        this.columnLock = new Object();
+        this.columnFlag = false;
     }
 
     /**
@@ -119,10 +125,10 @@ public class RMIClientHandler extends ClientHandler {
             pingMessage = new Message(GET_TILES);
         }
 
-        synchronized (moveLock) {
-            while (!moveFlag) {
+        synchronized (tilesLock) {
+            while (!tilesFlag) {
                 try {
-                    moveLock.wait();
+                    tilesLock.wait();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -130,10 +136,10 @@ public class RMIClientHandler extends ClientHandler {
         }
 
         // GameController now knows that the player has selected the tiles
-        moveFlag = false;
+        tilesFlag = false;
 
         // TODO: extract this logic in a method in the superclass
-        JSONArray args = moveMessage.getBody();
+        JSONArray args = tilesMessage.getBody();
 
         Coordinate[] tiles = new Coordinate[args.length()];
 
@@ -165,8 +171,26 @@ public class RMIClientHandler extends ClientHandler {
      * @author Federico
      */
     @Override
-    public int getColumn() {
-        return 0;
+    public int getColumn() throws PlayerDisconnectedException {
+        if(!isAlive) throw new PlayerDisconnectedException();
+        synchronized (pingLock) {
+            pingFlag = true;
+            pingMessage = new Message(GET_COLUMN);
+        }
+
+        synchronized (columnLock) {
+            while (!columnFlag) {
+                try {
+                    columnLock.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        // GameController now knows that the player has selected the tiles
+        columnFlag = false;
+        return columnMessage.getBody().getJSONObject(0).getInt("column");
     }
 
     /**
@@ -176,7 +200,11 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void badColumn() {
-
+        synchronized (responseLock) {
+            responseFlag = true;
+            responseMessage = new Message(BAD_COLUMN, new JSONObject().put("message", "The selected column is not valid"));
+            responseLock.notifyAll();
+        }
     }
 
     /**
@@ -222,10 +250,33 @@ public class RMIClientHandler extends ClientHandler {
     // This is crazy, but it's the only way I can think of to make the client wait for the response
     Message submitTiles(Message tiles){
         // Notifying the gameController that the tiles arrived
-        synchronized (moveLock) {
-            moveFlag = true;
-            moveMessage = tiles;
-            moveLock.notifyAll();
+        synchronized (tilesLock) {
+            tilesFlag = true;
+            tilesMessage = tiles;
+            tilesLock.notifyAll();
+        }
+
+        while(!responseFlag){
+            try {
+                synchronized (responseLock) {
+                    responseLock.wait();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        responseFlag = false;
+
+        return responseMessage;
+    }
+
+    Message submitColumn(Message column){
+        // Notifying the gameController that the column arrived
+        synchronized (columnLock) {
+            columnFlag = true;
+            columnMessage = column;
+            columnLock.notifyAll();
         }
 
         while(!responseFlag){
