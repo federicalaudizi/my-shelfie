@@ -72,6 +72,9 @@ public class RMIClientHandler extends ClientHandler {
             isAlive = false;
             try {
                 Thread.sleep(3000);
+                synchronized (heartbeatLock) {
+                    temp = isAlive;
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
