@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.client.scene.GameOptionsController">
+   <ImageView fitHeight="408.0" fitWidth="600.0">
+      <Image url="@blurred_Welcome.jpg"/>
+   </ImageView>
+   <Label layoutX="207.0" layoutY="171.0" prefHeight="17.0" prefWidth="185.0" text="What do you want to do?">
+      <font>
+         <Font name="System Bold Italic" size="14.0"/>
+      </font>
+   </Label>
+   <ChoiceBox fx:id="choiceSelector" layoutX="214.0" layoutY="204.0" prefWidth="150.0">
+      <String fx:value="Create a new game"/>
+      <String fx:value="Join a new game"/>
+      <String fx:value="Reconnect to an ongoing game"/>
+   </ChoiceBox>
+</AnchorPane>
