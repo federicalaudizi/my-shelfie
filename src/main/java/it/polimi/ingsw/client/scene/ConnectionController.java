@@ -30,7 +30,7 @@ public class ConnectionController {
     @FXML
     public void handleMouseClickForIp() {
         String IPAddress = ipAddress.getCharacters().toString();
-        next();
+        //next();
         try {
             //give ip address to manager thread
             ViewGUI.queue.put(IPAddress);
@@ -51,6 +51,10 @@ public class ConnectionController {
         Scene thirdViewScene = new Scene(thirdViewParent);
         Stage currentStage = (Stage) ok.getScene().getWindow();
         currentStage.setScene(thirdViewScene);
+    }
+
+    public void displayError(){
+        genericError.setVisible(true);
     }
 
 }
