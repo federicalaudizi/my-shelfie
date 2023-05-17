@@ -120,18 +120,21 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public Coordinate[] getTiles() throws PlayerDisconnectedException {
         if(!isAlive) throw new PlayerDisconnectedException();
+
+        // Sending the tiles request
         synchronized (pingLock) {
             pingFlag = true;
             pingMessage = new Message(GET_TILES);
         }
 
         synchronized (tilesLock) {
-            while (!tilesFlag) {
-                try {
-                    tilesLock.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            try {
+                // Wait for 10 seconds the answer
+                tilesLock.wait(10000);
+                // If the answer is not received, the player disconnected
+                if(!tilesFlag) throw new PlayerDisconnectedException();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 
@@ -169,18 +172,20 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public int getColumn() throws PlayerDisconnectedException {
         if(!isAlive) throw new PlayerDisconnectedException();
+        // Sending the column request
         synchronized (pingLock) {
             pingFlag = true;
             pingMessage = new Message(GET_COLUMN);
         }
 
         synchronized (columnLock) {
-            while (!columnFlag) {
-                try {
-                    columnLock.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            try {
+                // Wait for 10 seconds the answer
+                columnLock.wait(10000);
+                // If the answer is not received, the player disconnected
+                if(!columnFlag) throw new PlayerDisconnectedException();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 
