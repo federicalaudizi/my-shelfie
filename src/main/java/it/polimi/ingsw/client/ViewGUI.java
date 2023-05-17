@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.scene.ConnectionController;
+import it.polimi.ingsw.client.scene.GameOptionsController;
 import it.polimi.ingsw.client.scene.NicknameController;
 import it.polimi.ingsw.client.scene.WelcomeController;
 import it.polimi.ingsw.server.model.Game;
@@ -21,7 +22,9 @@ public class ViewGUI extends View {
     private final NicknameController nicknameController;
     private final WelcomeController welcomeController;
     private final ConnectionController connectionController;
-    protected static Parent welcomeRoot;
+    private final GameOptionsController gameOptionsController;
+    public static Parent welcomeRoot;
+    public static Parent gameOptionsRoot;
     public static Parent connectRoot;
     public static Parent nicknameRoot;
 
@@ -35,12 +38,14 @@ public class ViewGUI extends View {
             welcomeRoot = welcomeLoader.load();
             connectRoot = connectLoader.load();
             nicknameRoot= nicknameLoader.load();
+            gameOptionsRoot = gameOptionsLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
         this.welcomeController = welcomeLoader.getController();
         this.connectionController = connectLoader.getController();
         this.nicknameController = nicknameLoader.getController();
+        this.gameOptionsController = gameOptionsLoader.getController();
         this.client = client;
     }
 
