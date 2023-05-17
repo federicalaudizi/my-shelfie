@@ -212,6 +212,7 @@ public class SocketClientHandler extends ClientHandler {
                 thisPlayerId = body.getJSONObject(0).getString("username");
 
                 ongoingGames.newUser(thisPlayerId, this);
+                System.out.println(thisPlayerId+": Successfully logged in");
 
                 // Send the confirmation
                 send(new Message(OK));
