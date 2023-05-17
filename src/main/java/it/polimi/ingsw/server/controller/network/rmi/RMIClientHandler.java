@@ -186,7 +186,12 @@ public class RMIClientHandler extends ClientHandler {
 
         // GameController now knows that the player has selected the tiles
         columnFlag = false;
-        return columnMessage.getBody().getJSONObject(0).getInt("column");
+        try {
+            return extractColumn(columnMessage);
+        } catch (WrongHeaderException ignored) {
+            // TODO: This exception should never be thrown
+            return 0;
+        }
     }
 
     /**

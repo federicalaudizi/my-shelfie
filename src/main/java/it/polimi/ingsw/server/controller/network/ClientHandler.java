@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.exceptions.PlayerDisconnectedException;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.*;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -90,6 +91,18 @@ public abstract class ClientHandler implements Runnable{
             return tiles;
         } else {
             // The response was not valid, ask again
+            throw new WrongHeaderException();
+        }
+    }
+
+    protected int extractColumn(Message columnMessage) throws WrongHeaderException{
+        if(columnMessage.getHeaderCode() == SEND_COLUMN.getCode()){
+
+            JSONArray args = columnMessage.getBody();
+            JSONObject column = args.getJSONObject(0);
+
+            return column.getInt("column");
+        } else {
             throw new WrongHeaderException();
         }
     }

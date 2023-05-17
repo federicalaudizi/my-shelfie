@@ -154,14 +154,9 @@ public class SocketClientHandler extends ClientHandler {
 
         Message answer = receive();
 
-        if(answer.getHeaderCode() == SEND_COLUMN.getCode()){
-
-            JSONArray args = answer.getBody();
-            JSONObject column = args.getJSONObject(0);
-
-            return column.getInt("column");
-        } else {
-            // The response was not valid, ask again
+        try {
+            return extractColumn(answer);
+        } catch (WrongHeaderException e) {
             send(new Message(GENERIC_ERROR));
             return this.getColumn();
         }
