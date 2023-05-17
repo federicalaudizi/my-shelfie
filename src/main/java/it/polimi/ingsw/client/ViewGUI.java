@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.Game;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import org.json.JSONArray;
 
 import java.io.IOException;
@@ -17,23 +18,29 @@ import java.util.concurrent.CompletableFuture;
 
 public class ViewGUI extends View {
     Client client;
-    private NicknameController nicknameController;
+    private final NicknameController nicknameController;
     private final WelcomeController welcomeController;
-    private final ConnectionController controller;
+    private final ConnectionController connectionController;
     protected static Parent welcomeRoot;
-    protected  Parent connectRoot;
-    protected static Parent nicknameRoot;
+    public static Parent connectRoot;
+    public static Parent nicknameRoot;
 
     public ViewGUI(Client client) {
         FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
-        controller = new ConnectionController();
+        FXMLLoader connectLoader = new FXMLLoader(getClass().getResource("/Connection.fxml"));
+        FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/Username.fxml"));
+
 
         try {
             welcomeRoot = welcomeLoader.load();
+            connectRoot = connectLoader.load();
+            nicknameRoot= nicknameLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
         this.welcomeController = welcomeLoader.getController();
+        this.connectionController = connectLoader.getController();
+        this.nicknameController = nicknameLoader.getController();
         this.client = client;
     }
 
@@ -45,17 +52,14 @@ public class ViewGUI extends View {
 
     @Override
     String getIp() {
-        //To handle the result of the asynchronous operation
-
-        CompletableFuture<String> future = new CompletableFuture<>();
-        controller.handleMouseClickForIp();
-
-        Platform.runLater(() -> future.complete(controller.handleMouseClickForIp()));
+        String IP = null;
         try {
-            return future.get();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            IP = (String) queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
+        return IP;
     }
 
     @Override
