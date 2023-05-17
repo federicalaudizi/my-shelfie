@@ -78,7 +78,7 @@ public abstract class ClientHandler implements Runnable{
      */
     public abstract void gameOver(HashMap<String, Integer> leaderboard);
 
-    protected Coordinate[] extractTiles(Message tilesMessage) throws WrongHeaderException{
+    protected Coordinate[] parseTiles(Message tilesMessage) throws WrongHeaderException{
         if(tilesMessage.getHeaderCode() == SEND_TILES.getCode()){
             JSONArray args = tilesMessage.getBody();
 
@@ -95,7 +95,7 @@ public abstract class ClientHandler implements Runnable{
         }
     }
 
-    protected int extractColumn(Message columnMessage) throws WrongHeaderException{
+    protected int parseColumn(Message columnMessage) throws WrongHeaderException{
         if(columnMessage.getHeaderCode() == SEND_COLUMN.getCode()){
 
             JSONArray args = columnMessage.getBody();

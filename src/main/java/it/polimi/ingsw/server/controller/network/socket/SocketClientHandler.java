@@ -124,7 +124,7 @@ public class SocketClientHandler extends ClientHandler {
         Message answer = receive();
 
         try {
-            return extractTiles(answer);
+            return parseTiles(answer);
         } catch (ClientHandler.WrongHeaderException e) {
             send(new Message(GENERIC_ERROR));
             return this.getTiles();
@@ -155,7 +155,7 @@ public class SocketClientHandler extends ClientHandler {
         Message answer = receive();
 
         try {
-            return extractColumn(answer);
+            return parseColumn(answer);
         } catch (WrongHeaderException e) {
             send(new Message(GENERIC_ERROR));
             return this.getColumn();

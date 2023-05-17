@@ -132,7 +132,7 @@ public class RMIClientHandler extends ClientHandler {
         tilesFlag = false;
 
         try {
-            return extractTiles(tilesMessage);
+            return parseTiles(tilesMessage);
         } catch (ClientHandler.WrongHeaderException ignored) {
             // TODO: This exception should never be thrown
             throw new PlayerDisconnectedException();
@@ -175,7 +175,7 @@ public class RMIClientHandler extends ClientHandler {
         // GameController now knows that the player has selected the tiles
         columnFlag = false;
         try {
-            return extractColumn(columnMessage);
+            return parseColumn(columnMessage);
         } catch (WrongHeaderException ignored) {
             // TODO: This exception should never be thrown
             return 0;
