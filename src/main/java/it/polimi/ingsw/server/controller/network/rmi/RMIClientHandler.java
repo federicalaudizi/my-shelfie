@@ -91,10 +91,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-        synchronized (pingLock) {
-            pingFlag = true;
-            pingMessage = new Message(GAME_UPDATE, gameState.toJson());
-        }
+        sendPing(new Message(GAME_UPDATE, gameState.toJson()));
     }
 
     /**
@@ -104,11 +101,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendOk() {
-        synchronized (responseLock) {
-            responseFlag = true;
-            responseMessage = new Message(OK);
-            responseLock.notifyAll();
-        }
+        sendResponse(new Message(OK));
     }
 
     /**
@@ -122,10 +115,7 @@ public class RMIClientHandler extends ClientHandler {
         if(!isAlive) throw new PlayerDisconnectedException();
 
         // Sending the tiles request
-        synchronized (pingLock) {
-            pingFlag = true;
-            pingMessage = new Message(GET_TILES);
-        }
+        sendPing(new Message(GET_TILES));
 
         synchronized (tilesLock) {
             try {
@@ -156,11 +146,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void badTile() {
-        synchronized (responseLock) {
-            responseFlag = true;
-            responseMessage = new Message(BAD_TILES, new JSONObject().put("message", "The selected tiles are not valid"));
-            responseLock.notifyAll();
-        }
+        sendResponse(new Message(BAD_TILES, new JSONObject().put("message", "The selected tiles are not valid")));
     }
 
     /**
@@ -173,10 +159,7 @@ public class RMIClientHandler extends ClientHandler {
     public int getColumn() throws PlayerDisconnectedException {
         if(!isAlive) throw new PlayerDisconnectedException();
         // Sending the column request
-        synchronized (pingLock) {
-            pingFlag = true;
-            pingMessage = new Message(GET_COLUMN);
-        }
+        sendPing(new Message(GET_COLUMN));
 
         synchronized (columnLock) {
             try {
@@ -206,11 +189,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void badColumn() {
-        synchronized (responseLock) {
-            responseFlag = true;
-            responseMessage = new Message(BAD_COLUMN, new JSONObject().put("message", "The selected column is not valid"));
-            responseLock.notifyAll();
-        }
+        sendResponse(new Message(BAD_COLUMN, new JSONObject().put("message", "The selected column is not valid")));
     }
 
     /**
@@ -231,13 +210,24 @@ public class RMIClientHandler extends ClientHandler {
             leaderboardJson.put(playerScore);
         }
 
-        synchronized (pingLock) {
-            pingFlag = true;
-
-            pingMessage = new Message(GAME_OVER, leaderboardJson);
-        }
+        sendPing(new Message(GAME_OVER, leaderboardJson));
 
         gameOver = true;
+    }
+
+    private void sendPing(Message message){
+        synchronized (pingLock) {
+            pingFlag = true;
+            pingMessage = message;
+        }
+    }
+
+    private void sendResponse(Message message){
+        synchronized (responseLock) {
+            responseFlag = true;
+            responseMessage = message;
+            responseLock.notifyAll();
+        }
     }
 
     Message ping(){
