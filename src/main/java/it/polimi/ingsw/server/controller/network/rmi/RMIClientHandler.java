@@ -84,7 +84,7 @@ public class RMIClientHandler extends ClientHandler {
             ongoingGames.notifyDisconnection(thisPlayerId);
         }
 
-        // TODO: Gameover
+        // TODO: Game over
     }
 
     /**
@@ -220,6 +220,7 @@ public class RMIClientHandler extends ClientHandler {
 
     private void sendPing(Message message){
         synchronized (pingLock) {
+            System.out.println(thisPlayerId + ": sending ping "+message.toString());
             pingFlag = true;
             pingMessage = message;
         }
@@ -227,6 +228,7 @@ public class RMIClientHandler extends ClientHandler {
 
     private void sendResponse(Message message){
         synchronized (responseLock) {
+            System.out.println(thisPlayerId + ": sending response "+message.toString());
             responseFlag = true;
             responseMessage = message;
             responseLock.notifyAll();
@@ -234,6 +236,7 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     Message ping(){
+        System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
             isAlive = true;
         }
@@ -248,6 +251,7 @@ public class RMIClientHandler extends ClientHandler {
 
     // This is crazy, but it's the only way I can think of to make the client wait for the response
     Message submitTiles(Message tiles){
+        System.out.println(thisPlayerId + ": posted tiles message");
         // Notifying the gameController that the tiles arrived
         synchronized (tilesLock) {
             tilesFlag = true;
@@ -266,12 +270,13 @@ public class RMIClientHandler extends ClientHandler {
         }
 
         responseFlag = false;
-
+        System.out.println(thisPlayerId + ": retrieved tiles message");
         return responseMessage;
     }
 
     Message submitColumn(Message column){
         // Notifying the gameController that the column arrived
+        System.out.println(thisPlayerId + ": posted column message");
         synchronized (columnLock) {
             columnFlag = true;
             columnMessage = column;
@@ -289,7 +294,7 @@ public class RMIClientHandler extends ClientHandler {
         }
 
         responseFlag = false;
-
+        System.out.println(thisPlayerId + ": retrieved column message");
         return responseMessage;
     }
 }
