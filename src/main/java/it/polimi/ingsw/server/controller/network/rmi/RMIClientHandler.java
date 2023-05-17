@@ -138,16 +138,12 @@ public class RMIClientHandler extends ClientHandler {
         // GameController now knows that the player has selected the tiles
         tilesFlag = false;
 
-        // TODO: extract this logic in a method in the superclass
-        JSONArray args = tilesMessage.getBody();
-
-        Coordinate[] tiles = new Coordinate[args.length()];
-
-        for(int i = 0; i < args.length(); i++){
-            tiles[i] = new Coordinate(args.getJSONObject(i));
+        try {
+            return extractTiles(tilesMessage);
+        } catch (ClientHandler.WrongHeaderException ignored) {
+            // TODO: This exception should never be thrown
+            throw new PlayerDisconnectedException();
         }
-
-        return tiles;
     }
 
     /**

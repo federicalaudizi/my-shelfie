@@ -123,18 +123,9 @@ public class SocketClientHandler extends ClientHandler {
         // Wait for the response, if it is not valid, catch up by asking again
         Message answer = receive();
 
-        if(answer.getHeaderCode() == SEND_TILES.getCode()){
-            JSONArray args = answer.getBody();
-
-            Coordinate[] tiles = new Coordinate[args.length()];
-
-            for(int i = 0; i < args.length(); i++){
-                tiles[i] = new Coordinate(args.getJSONObject(i));
-            }
-
-            return tiles;
-        } else {
-            // The response was not valid, ask again
+        try {
+            return extractTiles(answer);
+        } catch (ClientHandler.WrongHeaderException e) {
             send(new Message(GENERIC_ERROR));
             return this.getTiles();
         }
