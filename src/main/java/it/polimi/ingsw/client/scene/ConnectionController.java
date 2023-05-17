@@ -19,6 +19,8 @@ public class ConnectionController {
     @FXML
     public Text genericError;
     @FXML
+    public Text wrongIp;
+    @FXML
     private TextField ipAddress;
     @FXML
     private Button ok;
