@@ -22,7 +22,7 @@ public class RMILogin implements RMILoginInterface{
      *
      * @param username the username of the player
      * @return a message with an error or confirmation, confirmation consist in OK, errors can be USERNAME_TAKEN or GENERIC_ERROR
-     * @throws RemoteException
+     * @throws RemoteException if the connection is lost
      * @author Federico
      */
     @Override
@@ -30,6 +30,7 @@ public class RMILogin implements RMILoginInterface{
         RMIClientHandler thisUser = new RMIClientHandler(username, ongoingGames);
         try {
             ongoingGames.newUser(username, thisUser);
+            System.out.println(username + ": Successfully logged in");
             new Thread(thisUser).start();
             return new Message(OK);
         } catch (PlayerIdTakenException e) {
@@ -42,7 +43,7 @@ public class RMILogin implements RMILoginInterface{
      *
      * @param username the username of the player
      * @return a message with an error or confirmation, confirmation consist in OK, error could be GENERIC_ERROR
-     * @throws RemoteException
+     * @throws RemoteException if the connection is lost
      * @author Federico
      */
     @Override
@@ -50,6 +51,7 @@ public class RMILogin implements RMILoginInterface{
         RMIClientHandler thisUser = new RMIClientHandler(username, ongoingGames);
         try {
             ongoingGames.oldUser(username, thisUser);
+            System.out.println(username + ": Successfully reconnected");
             new Thread(thisUser).start();
             return new Message(OK);
         } catch (PlayerDoesNotExistsException e) {
@@ -63,7 +65,7 @@ public class RMILogin implements RMILoginInterface{
      * @param me              the username of the player
      * @param numberOfPlayers the number of players
      * @return a message with an error or confirmation, confirmation consist in OK, error can be GENERIC_ERROR
-     * @throws RemoteException
+     * @throws RemoteException if the connection is lost
      * @author Federico
      */
     @Override
@@ -71,6 +73,7 @@ public class RMILogin implements RMILoginInterface{
         String gameId = ongoingGames.newGame(numberOfPlayers);
         try {
             ongoingGames.joinGame(me, gameId);
+            System.out.println(me + ": Successfully created a new game");
             return new Message(OK);
         } catch (NonExsistentGameException | ReachedMaxNumberOfPlayers ignored) {
             return new Message(GENERIC_ERROR, new JSONObject().put("message", "An error occurred while creating the game"));
@@ -82,11 +85,12 @@ public class RMILogin implements RMILoginInterface{
      *
      * @param me the username of the player
      * @return a message with the list of all games
-     * @throws RemoteException
+     * @throws RemoteException if the connection is lost
      * @author Federico
      */
     @Override
     public Message getGameList(String me) throws RemoteException {
+        System.out.println(me + ": Wants to join a game");
         JSONObject response = new JSONObject();
         try {
             response.put("games", ongoingGames.getGameIds());
@@ -103,12 +107,13 @@ public class RMILogin implements RMILoginInterface{
      * @param me     the username of the player
      * @param gameID the id of the game
      * @return a message with an error or confirmation, confirmation consist in OK, error can be GENERIC_ERROR or BAD_GAME_ID
-     * @throws RemoteException
+     * @throws RemoteException if the connection is lost
      */
     @Override
     public Message joinGame(String me, String gameID) throws RemoteException {
         try {
             ongoingGames.joinGame(me, gameID);
+            System.out.println(me + ": Joined a game");
         } catch (NonExsistentGameException e) {
             return new Message(BAD_GAME_ID, new JSONObject().put("message", "Game does not exists"));
         } catch (ReachedMaxNumberOfPlayers e) {
