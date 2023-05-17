@@ -95,7 +95,13 @@ public class ViewGUI extends View {
 
     @Override
     int getGameOptions() {
-        return 0;
+        int choice = 0;
+        try{
+            choice = (int) queue.take();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return choice;
     }
 
     @Override
