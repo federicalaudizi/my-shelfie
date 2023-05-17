@@ -21,6 +21,7 @@ public class Gui extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
         Parent root = fxmlLoader.load();
         // Construct the Scene using the loaded Parent and set it on the Stage
+
         Scene scene = new Scene(root);
         stage.setResizable(false);
         stage.setScene(scene);
@@ -30,5 +31,9 @@ public class Gui extends Application {
     //Launches the GUI
     public static void main() {
         launch();
+    }
+
+    public static Stage getStage(){
+        return stage;
     }
 }
