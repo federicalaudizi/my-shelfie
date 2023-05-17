@@ -231,7 +231,7 @@ public class GameController implements Runnable {
         try {
             objectiveWon = game.insertInShelf(column, tiles);
             if(objectiveWon != 0){
-                //sends the player who has won the objective and which objective it is
+                // TODO: what should this do when an objective is won?
             }
             getClientHandler(currentPlayerId).sendOk();
         } catch (fullColumnException | tooManyTilesException | notEnoughTilesException e) {

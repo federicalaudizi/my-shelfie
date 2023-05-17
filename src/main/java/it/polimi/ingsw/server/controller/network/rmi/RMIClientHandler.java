@@ -72,6 +72,9 @@ public class RMIClientHandler extends ClientHandler {
             isAlive = false;
             try {
                 Thread.sleep(3000);
+                synchronized (heartbeatLock) {
+                    temp = isAlive;
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -81,7 +84,7 @@ public class RMIClientHandler extends ClientHandler {
             ongoingGames.notifyDisconnection(thisPlayerId);
         }
 
-        // TODO: Gameover
+        // TODO: Game over
     }
 
     /**
@@ -91,10 +94,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-        synchronized (pingLock) {
-            pingFlag = true;
-            pingMessage = new Message(GAME_UPDATE, gameState.toJson());
-        }
+        sendPing(new Message(GAME_UPDATE, gameState.toJson()));
     }
 
     /**
@@ -104,11 +104,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendOk() {
-        synchronized (responseLock) {
-            responseFlag = true;
-            responseMessage = new Message(OK);
-            responseLock.notifyAll();
-        }
+        sendResponse(new Message(OK));
     }
 
     /**
@@ -120,34 +116,30 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public Coordinate[] getTiles() throws PlayerDisconnectedException {
         if(!isAlive) throw new PlayerDisconnectedException();
-        synchronized (pingLock) {
-            pingFlag = true;
-            pingMessage = new Message(GET_TILES);
-        }
+
+        // Sending the tiles request
+        sendPing(new Message(GET_TILES));
 
         synchronized (tilesLock) {
-            while (!tilesFlag) {
-                try {
-                    tilesLock.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            try {
+                // Wait for 10 seconds the answer
+                tilesLock.wait(10000);
+                // If the answer is not received, the player disconnected
+                if(!tilesFlag) throw new PlayerDisconnectedException();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 
         // GameController now knows that the player has selected the tiles
         tilesFlag = false;
 
-        // TODO: extract this logic in a method in the superclass
-        JSONArray args = tilesMessage.getBody();
-
-        Coordinate[] tiles = new Coordinate[args.length()];
-
-        for(int i = 0; i < args.length(); i++){
-            tiles[i] = new Coordinate(args.getJSONObject(i));
+        try {
+            return parseTiles(tilesMessage);
+        } catch (ClientHandler.WrongHeaderException ignored) {
+            // TODO: This exception should never be thrown
+            throw new PlayerDisconnectedException();
         }
-
-        return tiles;
     }
 
     /**
@@ -157,11 +149,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void badTile() {
-        synchronized (responseLock) {
-            responseFlag = true;
-            responseMessage = new Message(BAD_TILES, new JSONObject().put("message", "The selected tiles are not valid"));
-            responseLock.notifyAll();
-        }
+        sendResponse(new Message(BAD_TILES, new JSONObject().put("message", "The selected tiles are not valid")));
     }
 
     /**
@@ -173,24 +161,28 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public int getColumn() throws PlayerDisconnectedException {
         if(!isAlive) throw new PlayerDisconnectedException();
-        synchronized (pingLock) {
-            pingFlag = true;
-            pingMessage = new Message(GET_COLUMN);
-        }
+        // Sending the column request
+        sendPing(new Message(GET_COLUMN));
 
         synchronized (columnLock) {
-            while (!columnFlag) {
-                try {
-                    columnLock.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+            try {
+                // Wait for 10 seconds the answer
+                columnLock.wait(10000);
+                // If the answer is not received, the player disconnected
+                if(!columnFlag) throw new PlayerDisconnectedException();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
 
         // GameController now knows that the player has selected the tiles
         columnFlag = false;
-        return columnMessage.getBody().getJSONObject(0).getInt("column");
+        try {
+            return parseColumn(columnMessage);
+        } catch (WrongHeaderException ignored) {
+            // TODO: This exception should never be thrown
+            return 0;
+        }
     }
 
     /**
@@ -200,11 +192,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void badColumn() {
-        synchronized (responseLock) {
-            responseFlag = true;
-            responseMessage = new Message(BAD_COLUMN, new JSONObject().put("message", "The selected column is not valid"));
-            responseLock.notifyAll();
-        }
+        sendResponse(new Message(BAD_COLUMN, new JSONObject().put("message", "The selected column is not valid")));
     }
 
     /**
@@ -225,16 +213,30 @@ public class RMIClientHandler extends ClientHandler {
             leaderboardJson.put(playerScore);
         }
 
-        synchronized (pingLock) {
-            pingFlag = true;
-
-            pingMessage = new Message(GAME_OVER, leaderboardJson);
-        }
+        sendPing(new Message(GAME_OVER, leaderboardJson));
 
         gameOver = true;
     }
 
+    private void sendPing(Message message){
+        synchronized (pingLock) {
+            System.out.println(thisPlayerId + ": sending ping "+message.toString());
+            pingFlag = true;
+            pingMessage = message;
+        }
+    }
+
+    private void sendResponse(Message message){
+        synchronized (responseLock) {
+            System.out.println(thisPlayerId + ": sending response "+message.toString());
+            responseFlag = true;
+            responseMessage = message;
+            responseLock.notifyAll();
+        }
+    }
+
     Message ping(){
+        System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
             isAlive = true;
         }
@@ -249,6 +251,7 @@ public class RMIClientHandler extends ClientHandler {
 
     // This is crazy, but it's the only way I can think of to make the client wait for the response
     Message submitTiles(Message tiles){
+        System.out.println(thisPlayerId + ": posted tiles message");
         // Notifying the gameController that the tiles arrived
         synchronized (tilesLock) {
             tilesFlag = true;
@@ -267,12 +270,13 @@ public class RMIClientHandler extends ClientHandler {
         }
 
         responseFlag = false;
-
+        System.out.println(thisPlayerId + ": retrieved tiles message");
         return responseMessage;
     }
 
     Message submitColumn(Message column){
         // Notifying the gameController that the column arrived
+        System.out.println(thisPlayerId + ": posted column message");
         synchronized (columnLock) {
             columnFlag = true;
             columnMessage = column;
@@ -290,7 +294,7 @@ public class RMIClientHandler extends ClientHandler {
         }
 
         responseFlag = false;
-
+        System.out.println(thisPlayerId + ": retrieved column message");
         return responseMessage;
     }
 }

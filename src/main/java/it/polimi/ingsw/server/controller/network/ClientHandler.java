@@ -3,8 +3,12 @@ package it.polimi.ingsw.server.controller.network;
 import it.polimi.ingsw.server.exceptions.PlayerDisconnectedException;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
 /**
  * This class handles the exchange of messages with the client and runs as a thread.
@@ -73,4 +77,36 @@ public abstract class ClientHandler implements Runnable{
      * @author Federico
      */
     public abstract void gameOver(HashMap<String, Integer> leaderboard);
+
+    protected Coordinate[] parseTiles(Message tilesMessage) throws WrongHeaderException{
+        if(tilesMessage.getHeaderCode() == SEND_TILES.getCode()){
+            JSONArray args = tilesMessage.getBody();
+
+            Coordinate[] tiles = new Coordinate[args.length()];
+
+            for(int i = 0; i < args.length(); i++){
+                tiles[i] = new Coordinate(args.getJSONObject(i));
+            }
+
+            return tiles;
+        } else {
+            // The response was not valid, ask again
+            throw new WrongHeaderException();
+        }
+    }
+
+    protected int parseColumn(Message columnMessage) throws WrongHeaderException{
+        if(columnMessage.getHeaderCode() == SEND_COLUMN.getCode()){
+
+            JSONArray args = columnMessage.getBody();
+            JSONObject column = args.getJSONObject(0);
+
+            return column.getInt("column");
+        } else {
+            throw new WrongHeaderException();
+        }
+    }
+
+    protected static class WrongHeaderException extends Exception {
+    }
 }
