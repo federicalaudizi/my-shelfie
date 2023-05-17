@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.scene.ConnectionController;
-import it.polimi.ingsw.client.scene.GameOptionsController;
-import it.polimi.ingsw.client.scene.NicknameController;
-import it.polimi.ingsw.client.scene.WelcomeController;
+import it.polimi.ingsw.client.scene.*;
 import it.polimi.ingsw.server.model.Game;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +11,6 @@ import org.json.JSONArray;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.CompletableFuture;
 
 
 public class ViewGUI extends View {
@@ -23,16 +19,19 @@ public class ViewGUI extends View {
     private final WelcomeController welcomeController;
     private final ConnectionController connectionController;
     private final GameOptionsController gameOptionsController;
+    private final NumberOfPlayersController numberOfPlayersController;
     public static Parent welcomeRoot;
     public static Parent gameOptionsRoot;
     public static Parent connectRoot;
     public static Parent nicknameRoot;
+    public static Parent numberOfPlayersRoot;
 
     public ViewGUI(Client client) {
         FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
         FXMLLoader connectLoader = new FXMLLoader(getClass().getResource("/Connection.fxml"));
         FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/Username.fxml"));
         FXMLLoader gameOptionsLoader = new FXMLLoader(getClass().getResource("/GameOptions.fxml"));
+        FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/NumberOfPlayers.fxml"));
 
 
         try {
@@ -40,6 +39,7 @@ public class ViewGUI extends View {
             connectRoot = connectLoader.load();
             nicknameRoot= nicknameLoader.load();
             gameOptionsRoot = gameOptionsLoader.load();
+            numberOfPlayersRoot = numberOfPlayersLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,6 +47,7 @@ public class ViewGUI extends View {
         this.connectionController = connectLoader.getController();
         this.nicknameController = nicknameLoader.getController();
         this.gameOptionsController = gameOptionsLoader.getController();
+        this.numberOfPlayersController = numberOfPlayersLoader.getController();
         this.client = client;
     }
 
@@ -83,9 +84,7 @@ public class ViewGUI extends View {
     public String getUsername() {
         String username = null;
         try {
-
             username = (String) queue.take();
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -95,18 +94,31 @@ public class ViewGUI extends View {
 
     @Override
     int getGameOptions() {
-        int choice = 0;
+        int choice;
         try{
             choice = (int) queue.take();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        }
+        if (choice == 1){
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
+        } else if (choice == 2) {
+            //TODO cosa succede quando scegli "Join game"
+        }else{
+            //Todo cosa succede quando "connect to an ongoing game"
         }
         return choice;
     }
 
     @Override
     int getPlayerNumber() {
-        return 0;
+        int numOfPlayers;
+        try {
+            numOfPlayers = (int) queue.take();
+        }catch (InterruptedException e){
+            throw new RuntimeException();
+        }
+        return numOfPlayers;
     }
 
     @Override
