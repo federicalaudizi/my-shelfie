@@ -32,6 +32,7 @@ public class ViewGUI extends View {
         FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
         FXMLLoader connectLoader = new FXMLLoader(getClass().getResource("/Connection.fxml"));
         FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/Username.fxml"));
+        FXMLLoader gameOptionsLoader = new FXMLLoader(getClass().getResource("/GameOptions.fxml"));
 
 
         try {
@@ -80,14 +81,16 @@ public class ViewGUI extends View {
 
     @Override
     public String getUsername() {
-        CompletableFuture<String> future = new CompletableFuture<>();
-
-        Platform.runLater(() -> future.complete(nicknameController.getNickname()));
+        String username = null;
         try {
-            return future.get();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+
+            username = (String) queue.take();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameOptionsRoot)));
+        return username;
     }
 
     @Override
