@@ -13,7 +13,7 @@ import java.util.concurrent.SynchronousQueue;
 public abstract class View {
     Client client;
 
-    protected static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
+    public static final SynchronousQueue<Object> queue = new SynchronousQueue<>();
 
     abstract void update(Game game, LinkedList<String> playerOrder);
 
