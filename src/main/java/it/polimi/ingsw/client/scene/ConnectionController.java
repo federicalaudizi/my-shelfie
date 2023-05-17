@@ -1,19 +1,18 @@
 package it.polimi.ingsw.client.scene;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
+import it.polimi.ingsw.client.ViewGUI;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import javafx.scene.control.Button;
+
 
 public class ConnectionController {
 
@@ -28,7 +27,20 @@ public class ConnectionController {
     /*
      * if(startGame) ==> changes scene asking nickname
      * */
-    public String handleMouseClickForIp() {
+    @FXML
+    public void handleMouseClickForIp() {
+        String IPAddress = ipAddress.getCharacters().toString();
+        next();
+        try {
+            //give ip address to manager thread
+            ViewGUI.queue.put(IPAddress);
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void next(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Username.fxml"));
         Parent thirdViewParent;
         try {
@@ -37,10 +49,9 @@ public class ConnectionController {
             throw new RuntimeException(ex);
         }
         Scene thirdViewScene = new Scene(thirdViewParent);
-        Stage currentStage = (javafx.stage.Stage) ok.getScene().getWindow();
+        Stage currentStage = (Stage) ok.getScene().getWindow();
         currentStage.setScene(thirdViewScene);
-
-        return ipAddress.getText();
     }
+
 }
 
