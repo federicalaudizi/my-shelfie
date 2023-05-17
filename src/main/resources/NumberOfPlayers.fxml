@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.client.scene.NumberOfPlayersController"
+            prefHeight="400.0" prefWidth="600.0">
+    <ImageView fitHeight="408.0" fitWidth="600.0">
+        <Image url="@blurred_Welcome.jpg" />
+    </ImageView>
+    <Label layoutX="214.0" layoutY="186.0" prefHeight="18.0" prefWidth="150.0" text="Enter the number of players:">
+        <font>
+            <Font name="System Bold Italic" size="14.0" />
+        </font>
+    </Label>
+    <ChoiceBox fx:id="choiceSelector" layoutX="214.0" layoutY="204.0" prefWidth="150.0" onAction="#chooseOption">
+        <String fx:value="2" />
+        <String fx:value="3" />
+        <String fx:value="4" />
+    </ChoiceBox>
+    <Button fx:id="button" alignment="CENTER" layoutX="252.0" layoutY="235.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="74.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-color: #25171c; -fx-border-width: 1px; -fx-border-radius: 15px;" text="Next → " visible="false"/>
+
+</AnchorPane>
