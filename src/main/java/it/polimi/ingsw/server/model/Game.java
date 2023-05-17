@@ -119,26 +119,30 @@ public class Game {
      * Checks if the player in turn has achieved common goals and, if so, assigns them the score
      * taking the upper card in the deck.
      */
-    private void checkGoals() {
+    private int checkGoals() {
         int status = players.get(currentPlayerIndex).getPointCardStatus();
 
         if (status == 0) {
             if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
-                return;
+                return 1;
             }
             if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
+                return 2;
             }
         } else if (status == 1) {
             if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
+                return 2;
             }
         } else if (status == 2) {
             if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
+                return 1;
             }
         }
+        return 0;
     }
 
 
@@ -164,13 +168,13 @@ public class Game {
      * @param column of the shelf where to place the tiles
      * @param tiles  to place in the shelf
      */
-    public void insertInShelf(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+    public int insertInShelf(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         players.get(currentPlayerIndex).addPlayerTiles(column, tiles);
         if (players.get(currentPlayerIndex).getShelf().isFull()) {
             lastTurn = true;
             players.get(currentPlayerIndex).setEndGameCard();
         }
-        checkGoals();
+        return checkGoals();
     }
 
     /**
