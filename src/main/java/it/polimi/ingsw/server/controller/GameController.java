@@ -225,10 +225,14 @@ public class GameController implements Runnable {
      * */
     private void tilesInShelf(Tile[] tiles, String currentPlayerId) throws PlayerDisconnectedException {
         int column;
+        int objectiveWon;
         column = getClientHandler(currentPlayerId).getColumn();
 
         try {
-            game.insertInShelf(column, tiles);
+            objectiveWon = game.insertInShelf(column, tiles);
+            if(objectiveWon != 0){
+                //sends the player who has won the objective and which objective it is
+            }
             getClientHandler(currentPlayerId).sendOk();
         } catch (fullColumnException | tooManyTilesException | notEnoughTilesException e) {
             getClientHandler(currentPlayerId).badColumn();
