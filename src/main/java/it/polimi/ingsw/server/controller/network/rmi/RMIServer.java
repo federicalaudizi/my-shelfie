@@ -9,8 +9,12 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIServer extends Server {
 
-    RMIServer(GameSupervisor ongoingGames) {
-        super(ongoingGames);
+    public RMIServer(GameSupervisor ongoingGames) {
+        super(1099, ongoingGames);
+    }
+
+    public RMIServer(int port, GameSupervisor ongoingGames) {
+        super(port, ongoingGames);
     }
 
     // Starts the RMI server
@@ -24,7 +28,7 @@ public class RMIServer extends Server {
             RMILoginInterface loginSkeleton = (RMILoginInterface) UnicastRemoteObject.exportObject(login, 0);
             RMIGameInterface gameSkeleton = (RMIGameInterface) UnicastRemoteObject.exportObject(game, 0);
 
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.createRegistry(port);
 
             registry.bind("RMILoginInterface", loginSkeleton);
             registry.bind("RMIGameInterface", gameSkeleton);
