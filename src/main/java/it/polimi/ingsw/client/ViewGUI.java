@@ -65,7 +65,6 @@ public class ViewGUI extends View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
         return IP;
     }
 
@@ -82,36 +81,31 @@ public class ViewGUI extends View {
 
     @Override
     public String getUsername() {
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
         String username = null;
         try {
             username = (String) queue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameOptionsRoot)));
         return username;
     }
 
     @Override
     int getGameOptions() {
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameOptionsRoot)));
         int choice;
         try{
             choice = (int) queue.take();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if (choice == 1){
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
-        } else if (choice == 2) {
-            //TODO cosa succede quando scegli "Join game"
-        }else{
-            //Todo cosa succede quando "connect to an ongoing game"
-        }
         return choice;
     }
 
     @Override
     int getPlayerNumber() {
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
         int numOfPlayers;
         try {
             numOfPlayers = (int) queue.take();
