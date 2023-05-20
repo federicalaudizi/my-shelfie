@@ -9,10 +9,21 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIServer extends Server {
 
+    /**
+     * Creates a new instance of the server on the default port
+     * @param ongoingGames the GameSupervisor instance
+     * @author Federico
+     */
     public RMIServer(GameSupervisor ongoingGames) {
         super(1099, ongoingGames);
     }
 
+    /**
+     * Creates a new instance of the server on the specified port
+     * @param port the port on which the server will be listening
+     * @param ongoingGames the GameSupervisor instance
+     * @author Federico
+     */
     public RMIServer(int port, GameSupervisor ongoingGames) {
         super(port, ongoingGames);
     }
