@@ -1,9 +1,10 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientRMI;
 import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.server.controller.GameSupervisor;
-import it.polimi.ingsw.server.controller.network.Server;
+import it.polimi.ingsw.server.controller.network.rmi.RMIServer;
 import it.polimi.ingsw.server.controller.network.socket.SocketServer;
 
 class Main {
@@ -14,20 +15,41 @@ class Main {
      * 3) If server port number
      */
 
-    public static void main (String[] args) {
+    public static void main (String[] args) throws Exception {
         System.out.println("Welcome to MyShelfie!!");
 
-        if (args[0].equals("Client")){
-            if(args[1].equals("Socket")){
-                if (args[2].equals("GUI")){
-                    Client c = new ClientSocket(false);
-                }else if (args[2].equals("TUI")){
-                    Client c = new ClientSocket(true);
+        if (args[0].equals("client")){
+            Client c;
+            if(args[1].equals("socket")){
+                if (args[2].equals("gui")){
+                    c = new ClientSocket(false);
+                }else if (args[2].equals("tui")){
+                    c = new ClientSocket(true);
+                }else {
+                    System.out.println("invalid option -- " + args[2] + "\n" + "To be provided: 'gui' or 'tui'");
+                    return;
                 }
+            } else if (args[1].equals("rmi")){
+                if (args[2].equals("gui")){
+                    c = new ClientRMI(false);
+                }else if (args[2].equals("tui")){
+                    c = new ClientRMI(true);
+                } else {
+                    System.out.println("invalid option -- " + args[2] + "\n" + "To be provided: 'gui' or 'tui'");
+                    return;
+                }
+            } else {
+                System.out.println("invalid option -- " + args[1] + "\n" + "To be provided: 'socket' or 'rmi'");
+                return;
             }
+            c.start();
         } else if (args[0].equals("server")){
             GameSupervisor gameSupervisor = new GameSupervisor();
-            Server s = new SocketServer(Integer.parseInt(args[1]), gameSupervisor);
+            if(args[1].equals("socket")){
+                new Thread(new SocketServer(5000, gameSupervisor)).start();
+            } else if (args[1].equals("rmi")){
+                new Thread(new RMIServer(1099, gameSupervisor)).start();
+            }
         }else {
             System.out.println("invalid option -- " + args[0] + "\n" + "To be provided: 'client' or 'server'");
         }
