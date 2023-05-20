@@ -20,9 +20,9 @@
         </font>
     </Label>
     <ChoiceBox fx:id="choiceSelector" layoutX="214.0" layoutY="204.0" prefWidth="150.0" onAction="#chooseOption">
-        <String fx:value="2" />
-        <String fx:value="3" />
-        <String fx:value="4" />
+        <Integer fx:value="2" />
+        <Integer fx:value="3" />
+        <Integer fx:value="4" />
     </ChoiceBox>
     <Button fx:id="button" alignment="CENTER" layoutX="252.0" layoutY="235.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="74.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-color: #25171c; -fx-border-width: 1px; -fx-border-radius: 15px;" text="Next → " visible="false"/>
 
