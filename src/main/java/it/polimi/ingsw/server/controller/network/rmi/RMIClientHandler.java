@@ -69,10 +69,10 @@ public class RMIClientHandler extends ClientHandler {
             temp = isAlive;
         }
         while(temp && !gameOver){
-            isAlive = false;
             try {
-                Thread.sleep(3000);
                 synchronized (heartbeatLock) {
+                    isAlive = false;
+                    heartbeatLock.wait(10000);
                     temp = isAlive;
                 }
             } catch (InterruptedException e) {
@@ -239,6 +239,7 @@ public class RMIClientHandler extends ClientHandler {
         System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
             isAlive = true;
+            heartbeatLock.notifyAll();
         }
         synchronized (pingLock) {
             if(!pingFlag) return new Message(PING);
