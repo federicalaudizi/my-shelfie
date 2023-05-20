@@ -80,7 +80,9 @@ public class SocketClientHandler extends ClientHandler {
         // Run until game over or disconnection
         while (!gameOver && !disconnectedPlayer) {
             try {
-                Thread.sleep(1000);
+                synchronized (clientSocket) {
+                    clientSocket.wait();
+                }
             } catch (InterruptedException ignored) {
             }
         }
@@ -192,6 +194,9 @@ public class SocketClientHandler extends ClientHandler {
 
         send(new Message(GAME_OVER, leaderboardJson));
         gameOver = true;
+        synchronized (clientSocket) {
+            clientSocket.notifyAll();
+        }
     }
 
     /**
@@ -354,6 +359,9 @@ public class SocketClientHandler extends ClientHandler {
             String recievedMessage = dataIn.readLine();
             if(recievedMessage == null) {
                 disconnectedPlayer = true;
+                synchronized (clientSocket) {
+                    clientSocket.notifyAll();
+                }
                 throw new PlayerDisconnectedException();
             }
             else {
@@ -362,6 +370,9 @@ public class SocketClientHandler extends ClientHandler {
             }
         } catch (IOException e) {
             disconnectedPlayer = true;
+            synchronized (clientSocket) {
+                clientSocket.notifyAll();
+            }
             throw new PlayerDisconnectedException();
         }
 
