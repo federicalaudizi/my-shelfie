@@ -20,11 +20,13 @@ public class ViewGUI extends View {
     private final ConnectionController connectionController;
     private final GameOptionsController gameOptionsController;
     private final NumberOfPlayersController numberOfPlayersController;
+    private final BoardController boardController;
     public static Parent welcomeRoot;
     public static Parent gameOptionsRoot;
     public static Parent connectRoot;
     public static Parent nicknameRoot;
     public static Parent numberOfPlayersRoot;
+    public static Parent boardRoot;
 
     public ViewGUI(Client client) {
         FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
@@ -32,7 +34,7 @@ public class ViewGUI extends View {
         FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/Username.fxml"));
         FXMLLoader gameOptionsLoader = new FXMLLoader(getClass().getResource("/GameOptions.fxml"));
         FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/NumberOfPlayers.fxml"));
-
+        FXMLLoader boardLoader = new FXMLLoader(getClass().getResource("/Board.fxml"));
 
         try {
             welcomeRoot = welcomeLoader.load();
@@ -40,6 +42,7 @@ public class ViewGUI extends View {
             nicknameRoot= nicknameLoader.load();
             gameOptionsRoot = gameOptionsLoader.load();
             numberOfPlayersRoot = numberOfPlayersLoader.load();
+            boardRoot = boardLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,6 +51,7 @@ public class ViewGUI extends View {
         this.nicknameController = nicknameLoader.getController();
         this.gameOptionsController = gameOptionsLoader.getController();
         this.numberOfPlayersController = numberOfPlayersLoader.getController();
+        this.boardController = boardLoader.getController();
         this.client = client;
     }
 
