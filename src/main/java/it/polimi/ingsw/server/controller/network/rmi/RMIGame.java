@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.controller.network.Message;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class is the implementation of the RMIGameInterface, each method is called by the remote RMI client and then the call is redirected to the correct RMIClientHandler
+ */
 public class RMIGame implements RMIGameInterface{
     GameSupervisor ongoingGames;
 
