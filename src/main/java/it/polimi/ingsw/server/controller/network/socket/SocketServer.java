@@ -11,11 +11,24 @@ import java.net.Socket;
  * This class is the server of the socket connection
  */
 public class SocketServer extends Server {
-    private final int port;
 
+    /**
+     * Creates a new instance of the server on the default 5000 port
+     * @param ongoingGames the GameSupervisor instance
+     * @author Federico
+     */
+    public SocketServer(GameSupervisor ongoingGames) {
+        super(5000, ongoingGames);
+    }
+
+    /**
+     * Creates a new instance of the server on the specified port
+     * @param port the port on which the server will be listening
+     * @param ongoingGames the GameSupervisor instance
+     * @author Federico
+     */
     public SocketServer(int port, GameSupervisor ongoingGames) {
-        super(ongoingGames);
-        this.port = port;
+        super(port, ongoingGames);
     }
 
     @Override
