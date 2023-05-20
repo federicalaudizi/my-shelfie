@@ -14,7 +14,7 @@ public class JoinController {
     @FXML
     public static ListView<String> listView;
 
-    public static void initialize(ArrayList<String> gameIds) {
+    public static void addGameIds(ArrayList<String> gameIds) {
         // Sample data
         listView.getItems().addAll(gameIds);
     }
