@@ -44,7 +44,7 @@ public class RMIServer extends Server {
             registry.bind("RMILoginInterface", loginSkeleton);
             registry.bind("RMIGameInterface", gameSkeleton);
 
-            System.out.println("Server ready.");
+            System.out.println("RMI server started on port " + port);
         } catch (Exception e) {
             System.err.println("Server exception: " + e);
             e.printStackTrace();

@@ -35,7 +35,7 @@ public class SocketServer extends Server {
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Server started: "+ serverSocket.getInetAddress() +":"+ port);
+            System.out.println("Socket server started: "+ serverSocket.getInetAddress() +":"+ port);
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
