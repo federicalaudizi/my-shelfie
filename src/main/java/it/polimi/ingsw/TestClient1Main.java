@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.ClientSocket;
 
 public class TestClient1Main {
     public static void main(String[] args) {
-        ClientSocket client = new ClientSocket(true);
+        ClientSocket client = new ClientSocket(false);
 
         try {
             client.start();

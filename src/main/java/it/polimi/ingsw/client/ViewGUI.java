@@ -15,12 +15,14 @@ import java.util.LinkedList;
 
 public class ViewGUI extends View {
     Client client;
+    private final JoinController joinController;
     private final NicknameController nicknameController;
     private final WelcomeController welcomeController;
     private final ConnectionController connectionController;
     private final GameOptionsController gameOptionsController;
     private final NumberOfPlayersController numberOfPlayersController;
     public static Parent welcomeRoot;
+    public static Parent joinRoot;
     public static Parent gameOptionsRoot;
     public static Parent connectRoot;
     public static Parent nicknameRoot;
@@ -32,6 +34,7 @@ public class ViewGUI extends View {
         FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/Username.fxml"));
         FXMLLoader gameOptionsLoader = new FXMLLoader(getClass().getResource("/GameOptions.fxml"));
         FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/NumberOfPlayers.fxml"));
+        FXMLLoader joinLoader = new FXMLLoader(getClass().getResource("/JoinGame.fxml"));
 
 
         try {
@@ -40,6 +43,7 @@ public class ViewGUI extends View {
             nicknameRoot= nicknameLoader.load();
             gameOptionsRoot = gameOptionsLoader.load();
             numberOfPlayersRoot = numberOfPlayersLoader.load();
+            joinRoot = joinLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,6 +52,7 @@ public class ViewGUI extends View {
         this.nicknameController = nicknameLoader.getController();
         this.gameOptionsController = gameOptionsLoader.getController();
         this.numberOfPlayersController = numberOfPlayersLoader.getController();
+        this.joinController = joinLoader.getController();
         this.client = client;
     }
 
@@ -70,8 +75,15 @@ public class ViewGUI extends View {
 
     @Override
     String gameIdSelection(ArrayList<String> gameIds) {
-        // TODO Implement
-        return null;
+        String selectedGame = null;
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(joinRoot)));
+        JoinController.initialize(gameIds);
+        try {
+            selectedGame = (String) queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return selectedGame;
     }
 
     @Override

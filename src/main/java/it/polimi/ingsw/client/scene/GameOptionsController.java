@@ -28,7 +28,7 @@ public class GameOptionsController {
                         ex.printStackTrace();
                     }
                 }
-                case "Join a new game" -> {
+                case "Join an existing game" -> {
                     try {
                         //give nick to manager thread
                         ViewGUI.queue.put(2);

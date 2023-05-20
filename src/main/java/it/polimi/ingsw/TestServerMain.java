@@ -8,7 +8,7 @@ public class TestServerMain {
     public static void main(String[] args) {
         GameSupervisor games = new GameSupervisor();
 
-        Server socketServer = new SocketServer(5000, games);
+        Server socketServer = new SocketServer(8000, games);
 
         socketServer.run();
     }
