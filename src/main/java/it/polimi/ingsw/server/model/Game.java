@@ -205,14 +205,6 @@ public class Game {
         return sortedPlayerScoreMap;
     }
 
-
-    /**
-     * @return a copy of the current player
-     */
-    public Player getCurrentPlayer() {
-        return new Player(players.get(getCurrentPlayerIndex()));
-    }
-
     /**
      * @return the current player index
      */
@@ -220,19 +212,7 @@ public class Game {
         return currentPlayerIndex;
     }
 
-    /**
-     * @return the last player
-     */
-    public int getLastPlayer() {
-        return lastPlayer;
-    }
 
-    /**
-     * @return a copy of the first player
-     */
-    public Player getFirstPlayerSeat() {
-        return players.get(firstPlayerSeat);
-    }
 
     /**
      * getter for the last Turn
@@ -361,34 +341,6 @@ public class Game {
         throw new IllegalArgumentException("No such player exists.");
     }
 
-    /**
-     * @param p player of which I need to get the shelf
-     * @return the shelf of the player p
-     */
-    public Shelf getShelf(Player p) {
-        return p.getShelf();
-    }
-
-    /**
-     * Getter of the Personal objective card of Player p
-     *
-     * @param p is the Player of which I need to get the personal objective
-     * @return Personal Objective Card of player p
-     */
-    public PersonalObjectiveCard getPersonalObjective(Player p) {
-        return p.getObjective();
-    }
-
-    /**
-     * Returns the status of the Point cards owned by the player p
-     *
-     * @return 0 if no common objective has been reached, 1 if the player has a point card from the
-     * first deck,2 if the player has a point card from the second deck, 3 if the player
-     * all point cards
-     */
-    public int CommonObjectiveWon(Player p) {
-        return p.getPointCardStatus();
-    }
 
     /**
      * Returns an array with the names of the objectives associated to the current game.
@@ -400,4 +352,7 @@ public class Game {
         return new String[]{collectiveObjectiveCard1.getClass().getSimpleName(), collectiveObjectiveCard2.getClass().getSimpleName()};
     }
 
+    public Player getCurrentPlayer() {
+        return new Player(players.get(getCurrentPlayerIndex()));
+    }
 }
