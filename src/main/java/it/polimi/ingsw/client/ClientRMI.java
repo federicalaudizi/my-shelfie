@@ -159,36 +159,7 @@ public class ClientRMI extends Client {
 
     @Override
     void getColumn() throws RemoteException {
-        boolean columnValidation = false, inputValidation;
-        int column, headerCode;
-        JSONObject body = null;
-        Message reply;
-
-        while(!columnValidation) {
-            inputValidation = false;
-
-            while(!inputValidation) {
-                column = view.getColumn();
-                if(column >= 0 && column <= 4) {
-                    inputValidation = true;
-                    body = new JSONObject().put("column", column);
-                } else {
-                    view.showError("The column you input is invalid. Retry.");
-                }
-            }
-
-            if(body != null) {
-                reply = gameInterface.submitColumn(getUsername(), new Message(SEND_COLUMN, body));
-            } else throw new NullPointerException("Column message body was empty.");
-
-            headerCode = reply.getHeaderCode();
-
-            if(headerCode == OK.getCode()) {
-                columnValidation = true;
-            } else if(headerCode == BAD_COLUMN.getCode() || headerCode == BAD_HEADER.getCode()) {
-                view.showError(reply.getBody().getJSONObject(0).getString("message"));
-            } else throw new UnknownError("An unknown error occurred.");
-        }
+        showError(gameInterface.submitColumn(getUsername(), columnValidation()));
     }
 
     @Override
