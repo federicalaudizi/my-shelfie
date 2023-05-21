@@ -84,61 +84,59 @@ public class ClientRMI extends Client {
 
     @Override
     void login() throws RemoteException, UnknownError {
-        int choice = view.getGameOptions();
         Message reply;
         int headerCode;
-        boolean operationCompleted = false;
+        boolean operationCompleted = false, loggedIn = false;
+
         while(!operationCompleted) {
+            // Choose whether to create a game, join a game or reconnect to one
+            int choice = getGameChoice();
+
+            // Set the server username when logging in normally
+            if(choice <= 2 && !loggedIn) {
+                setServerUsername();
+                loggedIn = true;
+            }
+
             switch(choice) {
                 case 1 -> {
-                    // Create new game option
-                    boolean gameCreated = false;
-                    while(!gameCreated) {
-                        setServerUsername();
-                        reply = loginInterface.createGame(getUsername(), view.getPlayerNumber());
-                        headerCode = reply.getHeaderCode();
-                        if(headerCode == OK.getCode()) {
-                            // TODO Remove debug statement
-                            System.err.println("Correctly created game.");
-                            gameCreated = true;
-                            operationCompleted = true;
-                        } else if(headerCode == BAD_HEADER.getCode()) {
-                            view.showError(reply.getBody().getJSONObject(0).getString("message"));
-                        } else throw new UnknownError("An unknown error occurred.");
+                    // Set the player number and validate it
+                    boolean validPlayerNumber = false;
+                    int playerNumber = 0;
+                    while(!validPlayerNumber) {
+                        playerNumber = view.getPlayerNumber();
+                        validPlayerNumber = checkPlayerNumber(playerNumber);
                     }
+
+                    reply = loginInterface.createGame(getUsername(), playerNumber);
+                    headerCode = reply.getHeaderCode();
+                    if(headerCode == OK.getCode()) {
+                        // TODO Remove debug statement
+                        System.err.println("Correctly created game.");
+                        operationCompleted = true;
+                    } else showError(reply);
                 }
                 case 2 -> {
                     // Join a new game option
-                    boolean gameJoined = false, noGames = false;
-                    while(!gameJoined && !noGames) {
-                        setServerUsername();
-                        reply = loginInterface.getGameList(getUsername());
-                        headerCode = reply.getHeaderCode();
-                        if (headerCode == GAME_LIST_RESPONSE.getCode()) {
-                            // Get game ID list from reply
-                            JSONArray gameListJSON = reply.getBody().getJSONObject(0).getJSONArray("games");
-                            ArrayList<String> gameList = new ArrayList<>();
-                            if (gameListJSON.length() != 0) {
-                                for (int i = 0; i < gameListJSON.length(); i++)
-                                    gameList.add(gameListJSON.getString(i));
-                                // Show ID list to the player
-                                reply = loginInterface.joinGame(getUsername(), view.gameIdSelection(gameList));
-                                headerCode = reply.getHeaderCode();
+                    reply = loginInterface.getGameList(getUsername());
+                    headerCode = reply.getHeaderCode();
 
-                                if(headerCode == OK.getCode()) {
-                                    // TODO Remove debug statement
-                                    System.err.println("You correctly joined the game.");
-                                    gameJoined = true;
-                                    operationCompleted = true;
-                                } else if (headerCode == BAD_GAME_ID.getCode() || headerCode == BAD_HEADER.getCode()) {
-                                    view.showError(reply.getBody().getJSONObject(0).getString("message"));
-                                }  else throw new UnknownError("An unknown error occurred.");
-                            } else {
-                                view.showError("There are no ongoing games on this server. Creating a new game.");
-                                noGames = true;
-                                choice = 1;
-                            }
-                        }
+                    if(headerCode == GAME_LIST_RESPONSE.getCode()) {
+                        // Get game ID list from reply
+                        JSONArray gameListJSON = reply.getBody().getJSONObject(0).getJSONArray("games");
+                        ArrayList<String> gameList = new ArrayList<>();
+                        for (int i = 0; i < gameListJSON.length(); i++)
+                            gameList.add(gameListJSON.getString(i));
+
+                        // Choose and send the game ID to the server
+                        reply = loginInterface.joinGame(getUsername(), view.gameIdSelection(gameList));
+                        headerCode = reply.getHeaderCode();
+
+                        if(headerCode == OK.getCode()) {
+                            // TODO Remove debug statement
+                            System.err.println("You correctly joined the game.");
+                            operationCompleted = true;
+                        } else showError(reply);
                     }
                 }
                 case 3 -> {
