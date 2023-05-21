@@ -170,10 +170,13 @@ public class GameController implements Runnable {
 
     private void updateAllPlayers(){
         // Send game state to all players after the move
-        for (String currentPlayer : players) {
-            if(connectedPlayers.get(currentPlayer) == 1) {
-                System.out.println(gameId + ": Sending game state to " + currentPlayer);
-                getClientHandler(currentPlayer).sendGameState(game);
+        for (String player : players) {
+            if(connectedPlayers.get(player) == 1) {
+                System.out.println(gameId + ": Sending game state to " + player);
+                // Sending the game state with the information about the current player if he won a collective objective
+                if(game.checkGoals() != 0) getClientHandler(player).sendGameState(game, game.getCurrentPlayer().getUsername(), game.checkGoals());
+                // Sending only the game state
+                else getClientHandler(player).sendGameState(game);
             }
         }
     }
@@ -225,14 +228,10 @@ public class GameController implements Runnable {
      * */
     private void tilesInShelf(Tile[] tiles, String currentPlayerId) throws PlayerDisconnectedException {
         int column;
-        int objectiveWon;
         column = getClientHandler(currentPlayerId).getColumn();
 
         try {
-            objectiveWon = game.insertInShelf(column, tiles);
-            if(objectiveWon != 0){
-                // TODO: what should this do when an objective is won?
-            }
+            game.insertInShelf(column, tiles);
             getClientHandler(currentPlayerId).sendOk();
         } catch (fullColumnException | tooManyTilesException | notEnoughTilesException e) {
             getClientHandler(currentPlayerId).badColumn();
