@@ -130,6 +130,26 @@ public abstract class ClientHandler implements Runnable{
         }
     }
 
+    /**
+     * Helper method to parse the leaderboard from a message
+     *
+     * @param leaderboard the hashmap containing the leaderboard
+     * @return a JSON array containing the leaderboard
+     */
+    protected JSONArray parseLeaderboard(HashMap<String, Integer> leaderboard){
+        // TODO: Leaderboard has to be sent ordered
+        JSONArray leaderboardJson = new JSONArray();
+
+        for(String player : leaderboard.keySet()){
+            JSONObject playerScore = new JSONObject();
+            playerScore.put("username", player);
+            playerScore.put("points", leaderboard.get(player));
+            leaderboardJson.put(playerScore);
+        }
+
+        return leaderboardJson;
+    }
+
     protected static class WrongHeaderException extends Exception {
     }
 }
