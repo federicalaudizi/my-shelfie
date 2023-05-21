@@ -206,57 +206,28 @@ public class ClientSocket extends Client {
 
     /**
      * This method is used to reconnect to an ongoing game in case of an accidental client disconnection.
-     * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
      * @author Mario Merlo
      */
     @Override
-    boolean reconnect() throws IOException {
-        // TODO Change this according to the new signature
-        int attempts = 0;
-        boolean reconnected = false;
-        while(!reconnected && attempts < 3) {
-            if(!socket.isConnected())
-                connect();
+    boolean reconnect() {
+        setUsername(view.getUsername());
 
-            Message reconnectionMessage = new Message(Message.Header.RECONNECT, new JSONObject().put("username", getUsername()));
-            send(reconnectionMessage);
+        Message reconnectionMessage = new Message(RECONNECT, new JSONObject().put("username", getUsername()));
+        Message reply;
+        int headerCode;
 
-            int replyHeaderCode = getReply().getHeaderCode();
-            if(replyHeaderCode == OK.getCode()) {
-                System.err.println("Successfully reconnected to server.");
-                return true;
-            } else if (replyHeaderCode == BAD_HEADER.getCode()) {
-                attempts++;
-                view.showError("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
-                switch(attempts) {
-                    case 1 -> {
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    case 2 -> {
-                        try {
-                            Thread.sleep(10000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    case 3 -> {
-                        try {
-                            Thread.sleep(30000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
+        send(reconnectionMessage);
+        reply = getReply();
+        headerCode = reply.getHeaderCode();
+
+        if(headerCode == OK.getCode()) {
+            // TODO Remove debug statement
+            System.err.println("Correctly reconnected to game.");
+            return true;
+        } else {
+            showError(reply);
+            return false;
         }
-        if(!reconnected) {
-            throw new IOException("Unable to reconnect.");
-        }
-        return false;
     }
 
     /**

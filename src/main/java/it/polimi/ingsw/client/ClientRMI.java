@@ -164,31 +164,19 @@ public class ClientRMI extends Client {
 
     @Override
     boolean reconnect() throws RemoteException {
-        int attempts = 0;
         setUsername(view.getUsername());
 
-        while(attempts < 3) {
-            Message reply = loginInterface.reconnect(getUsername());
-            int headerCode = reply.getHeaderCode();
+        Message reply = loginInterface.reconnect(getUsername());
+        int headerCode = reply.getHeaderCode();
 
-            if(headerCode == OK.getCode()) {
-                // TODO Remove debug statement
-                System.err.println("Correctly reconnected to game.");
-                return true;
-            } else if(headerCode == GAME_UNAVAILABLE.getCode() || headerCode == PLAYER_NOT_FOUND.getCode()) {
-                view.showError(reply.getBody().getJSONObject(0).getString("message"));
-                return false;
-            } else if(headerCode == BAD_HEADER.getCode()) {
-                attempts++;
-                view.showError(reply.getBody().getJSONObject(0).getString("message"));
-                try {
-                    Thread.sleep(attempts * 5000L);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            } else throw new UnknownError("An unknown error occurred.");
+        if(headerCode == OK.getCode()) {
+            // TODO Remove debug statement
+            System.err.println("Correctly reconnected to game.");
+            return true;
+        } else {
+            showError(reply);
+            return false;
         }
-        return false;
     }
 
     private void setServerUsername() throws RemoteException {
