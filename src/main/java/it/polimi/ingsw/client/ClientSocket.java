@@ -46,42 +46,36 @@ public class ClientSocket extends Client {
      */
     @Override
     public void start() {
-        boolean gameOver = false;
-        try {
-            // First step: connect to the game server
-            connect();
-
-            // Second step: log into the server
-            login();
-
-            while(!gameOver) {
-                Message reply = getReply();
-                int headerCode = reply.getHeaderCode();
-
-                // Third step: when asked for a move, provide it
-                if(headerCode == GET_TILES.getCode())
-                    getTiles();
-                if(headerCode == GET_COLUMN.getCode())
-                    getColumn();
-                // Fourth step: execute game over operations when Game Over is sent by the server
-                else if(headerCode == GAME_OVER.getCode()) {
-                    gameOver = true;
-                    gameOver(reply.getBody());
-                    cleanUp();
-                } else if(headerCode == GAME_UPDATE.getCode())
-                    update(reply.getBody());
-            }
-        } catch (IOException e) {
+        boolean exit = false;
+        while(!exit) {
+            boolean gameOver = false;
             try {
-                reconnect();
-            } catch (IOException ex) {
-                try {
-                    cleanUp();
-                } catch (IOException exc) {
-                    view.showError("Something went wrong during the disconnection.");
+                // First step: connect to the game server
+                connect();
+
+                // Second step: log into the server
+                login();
+
+                while(!gameOver) {
+                    Message reply = getReply();
+                    int headerCode = reply.getHeaderCode();
+
+                    // Third step: when asked for a move, provide it
+                    if(headerCode == GET_TILES.getCode())
+                        getTiles();
+                    if(headerCode == GET_COLUMN.getCode())
+                        getColumn();
+                    // Fourth step: execute game over operations when Game Over is sent by the server
+                    else if(headerCode == GAME_OVER.getCode()) {
+                        gameOver = true;
+                        gameOver(reply.getBody());
+                        cleanUp();
+                        exit = view.continueScreen();
+                    } else if(headerCode == GAME_UPDATE.getCode())
+                        update(reply.getBody());
                 }
-                view.showError("Unable to reconnect. Exiting.");
-                throw new RuntimeException(ex);
+            } catch (IOException e) {
+                view.showError("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.");
             }
         }
     }
