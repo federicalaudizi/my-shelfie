@@ -1,20 +1,20 @@
 package it.polimi.ingsw.client.scene;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
-import it.polimi.ingsw.client.ViewGUI;
 
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class JoinController {
+public class JoinController implements Initializable {
 
     @FXML
-    public static ListView<String> listView;
+    public ListView<String> listView;
 
-    public static void addGameIds(ArrayList<String> gameIds) {
+    public void addGameIds(ArrayList<String> gameIds) {
         // Sample data
         listView.getItems().addAll(gameIds);
     }
@@ -23,5 +23,15 @@ public class JoinController {
     public void handleItemClick() {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
         System.out.println("Selected item: " + selectedItem);
+    }
+
+    /**
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleItemClick());
+
     }
 }
