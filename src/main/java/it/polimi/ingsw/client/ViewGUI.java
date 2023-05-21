@@ -77,7 +77,7 @@ public class ViewGUI extends View {
     String gameIdSelection(ArrayList<String> gameIds) {
         String selectedGame = null;
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(joinRoot)));
-        JoinController.addGameIds(gameIds);
+        joinController.addGameIds(gameIds);
         try {
             selectedGame = (String) queue.take();
         } catch (InterruptedException e) {
