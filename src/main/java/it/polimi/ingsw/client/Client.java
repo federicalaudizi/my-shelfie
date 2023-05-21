@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.server.controller.network.Message.Header.*;
+
 /**
  * This class handles the interactions between the user and the server.
  *
