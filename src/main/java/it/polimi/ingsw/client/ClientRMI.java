@@ -179,7 +179,8 @@ public class ClientRMI extends Client {
         }
     }
 
-    private void setServerUsername() throws RemoteException {
+    @Override
+    void setServerUsername() throws RemoteException {
         setUsername(view.getUsername());
         boolean loggedIn = false;
 
