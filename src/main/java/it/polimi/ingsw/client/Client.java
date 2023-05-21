@@ -242,6 +242,32 @@ public abstract class Client {
             view.showError(reply.getBody().getJSONObject(0).getString("message"));
     }
 
+    boolean checkUsernameValidity(Message message) {
+        if(message.getHeaderCode() == OK.getCode())
+            return true;
+        showError(message);
+        setUsername(view.getUsername());
+        return false;
+    }
+
+    boolean checkPlayerNumber(int playerNumber) {
+        return playerNumber >= 2 && playerNumber <= 4;
+    }
+
+    int getGameChoice() {
+        int choice = 0;
+        boolean validGameOption = false;
+
+        while(!validGameOption) {
+            choice = view.getGameOptions();
+            if(choice >= 1 && choice <= 3)
+                validGameOption = true;
+            else view.showError("You entered an invalid choice. Retry.");
+        }
+
+        return choice;
+    }
+
     /**
      * Gets the player's username.
      *
