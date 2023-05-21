@@ -118,6 +118,8 @@ public class Game {
     /**
      * Checks if the player in turn has achieved common goals and, if so, assigns them the score
      * taking the upper card in the deck.
+     *
+     * @return 0 if the player has not achieved any goal, 1 if the player has achieved the first goal, 2 if the player has achieved the second goal, 3 if the player has achieved both goals
      */
     private int checkGoals() {
         int status = players.get(currentPlayerIndex).getPointCardStatus();
@@ -176,6 +178,7 @@ public class Game {
      *
      * @param column of the shelf where to place the tiles
      * @param tiles  to place in the shelf
+     * @return 0 if the player has not achieved any goal, 1 if the player has achieved the first goal, 2 if the player has achieved the second goal, 3 if the player has achieved both goals
      */
     public int insertInShelf(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
         players.get(currentPlayerIndex).addPlayerTiles(column, tiles);
