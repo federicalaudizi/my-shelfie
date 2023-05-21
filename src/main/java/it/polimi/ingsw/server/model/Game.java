@@ -121,7 +121,7 @@ public class Game {
      *
      * @return 0 if the player has not achieved any goal, 1 if the player has achieved the first goal, 2 if the player has achieved the second goal, 3 if the player has achieved both goals
      */
-    private int checkGoals() {
+    public int checkGoals() {
         int status = players.get(currentPlayerIndex).getPointCardStatus();
         int returnStatus = 0;
 
