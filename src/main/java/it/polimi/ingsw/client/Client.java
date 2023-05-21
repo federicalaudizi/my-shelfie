@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.server.controller.network.Message;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
@@ -183,6 +184,58 @@ public abstract class Client {
         if(inputCoords.size() == 0 || inputCoords.size() > 3)
             throw new IllegalStateException("Wrong number of coordinates input.");
         return inputCoords;
+    }
+
+    Message tileValidation() {
+        boolean inputValidation = false;
+        ArrayList<Coordinate> coordinates = null;
+        JSONArray body = null;
+
+        // --- Client-side validation ---
+        // This loop does not break until the input from the user is validated by the client.
+        // The validation checks whether the user input the correct number of coordinates -- between 1 and 3.
+        // The user is also prompted to confirm his own input with the confirmationPrompt method of ViewCLI.
+        while(!inputValidation) {
+            String input = view.getTiles();
+            try {
+                coordinates = parseMoveInput(input);
+                inputValidation = true;
+            } catch (IllegalStateException e) {
+                view.showError("You entered an invalid number of coordinates. Retry.");
+            }
+        }
+
+        try {
+            body = coordsToJson(coordinates);
+        } catch (NullPointerException e) {
+            // TODO Remove debug statement
+            System.err.println(e.getMessage());
+        }
+
+        return new Message(Message.Header.SEND_TILES, body);
+    }
+
+    Message columnValidation() {
+        boolean inputValidation = false;
+        int column;
+        JSONObject body = null;
+
+        while(!inputValidation) {
+            column = view.getColumn();
+            if(column >= 0 && column <= 4) {
+                inputValidation = true;
+                body = new JSONObject().put("column", column);
+            } else {
+                view.showError("The column you input is invalid. Retry.");
+            }
+        }
+
+        return new Message(Message.Header.SEND_COLUMN, body);
+    }
+
+    void showError(Message reply) {
+        if(reply.getHeaderCode() / 100 == 4)
+            view.showError(reply.getBody().getJSONObject(0).getString("message"));
     }
 
     /**
