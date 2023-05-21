@@ -63,7 +63,8 @@ public class ViewGUI extends View {
 
     @Override
     void update(Game game, LinkedList<String> playerOrder) {
-
+        if(game.isLastTurn()){}
+        Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameRoot)));
     }
 
     @Override
