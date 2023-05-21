@@ -154,49 +154,7 @@ public class ClientRMI extends Client {
 
     @Override
     void getTiles() throws RemoteException {
-        boolean tileValidation = false, inputValidation;
-        ArrayList<Coordinate> coordinates = null;
-        JSONArray body = null;
-        Message reply;
-        int headerCode;
-
-        while(!tileValidation) {
-            // --- Client-side validation ---
-            // This loop does not break until the input from the user is validated by the client.
-            // The validation checks whether the user input the correct number of coordinates -- between 1 and 3.
-            // The user is also prompted to confirm his own input with the confirmationPrompt method of ViewCLI.
-            inputValidation = false;
-
-            while(!inputValidation) {
-                String input = view.getTiles();
-                try {
-                    coordinates = parseMoveInput(input);
-                    inputValidation = true;
-                } catch (IllegalStateException e) {
-                    view.showError("You entered an invalid number of coordinates. Retry.");
-                }
-            }
-            try {
-                body = coordsToJson(coordinates);
-            } catch (NullPointerException e) {
-                // TODO Remove debug statement
-                System.err.println(e.getMessage());
-            }
-
-            // --- Server-side validation ---
-            // The client packages the tiles selected by the user and then sends them to the server in order to be
-            // validated according to the game's rules. This while loop does not break until the server has validated
-            // the player's move.
-            reply = gameInterface.submitTiles(getUsername(), new Message(SEND_TILES, body));
-            headerCode = reply.getHeaderCode();
-
-            // Check reply to either resend coordinates or continue with the move
-            if(headerCode == OK.getCode()) {
-                tileValidation = true;
-            } else if(headerCode == BAD_TILES.getCode() || headerCode == BAD_HEADER.getCode()) {
-                view.showError("The tiles you chose are not valid. Please retry.");
-            } else throw new UnknownError("An unknown error occurred.");
-        }
+        showError(gameInterface.submitTiles(getUsername(), tileValidation()));
     }
 
     @Override
