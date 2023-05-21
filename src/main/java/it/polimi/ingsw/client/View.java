@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.SynchronousQueue;
 
-
-// TODO Implement "User has won objective" method
-
 public abstract class View {
     Client client;
 
