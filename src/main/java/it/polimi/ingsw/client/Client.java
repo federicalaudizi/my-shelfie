@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -67,9 +68,9 @@ public abstract class Client {
      * @param gameData The JSONObject containing a representation of the Game object stored in the server
      * @author Mario Merlo
      */
-    void update(JSONObject gameData) {
+    void update(JSONArray gameData) {
         // Create Game object from game update message
-        Game game = new Game(gameData);
+        Game game = new Game(gameData.getJSONObject(0));
 
         // Create player order list
         LinkedList<String> playerOrder = new LinkedList<>();
@@ -81,6 +82,14 @@ public abstract class Client {
         // Move the player associated to this client to the top of the list
         if (playerOrder.remove(username))
             playerOrder.addFirst(username);
+
+        // Check for won objective JSONObject
+        try {
+            JSONObject objectiveStatus = gameData.getJSONObject(1);
+            view.showAchievement(objectiveStatus.getString("username"), objectiveStatus.getInt("objective"));
+        } catch (JSONException e) {
+            // No objectives were won, so there is nothing else to do
+        }
 
         // Send updates to view
         view.update(game, playerOrder);
