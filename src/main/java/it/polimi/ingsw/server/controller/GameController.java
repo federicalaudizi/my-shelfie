@@ -28,7 +28,6 @@ public class GameController implements Runnable {
     private boolean isOver;
     private final Object waitLock;
 
-
     /**
      * Constructor for the game controller
      *
@@ -121,7 +120,6 @@ public class GameController implements Runnable {
 
         gameOver();
     }
-
 
     /**
      * Helper method to play the game
