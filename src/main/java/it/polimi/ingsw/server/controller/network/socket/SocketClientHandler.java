@@ -99,6 +99,7 @@ public class SocketClientHandler extends ClientHandler {
     @Override
     public void sendGameState(Game gameState) {
         send(new Message(GAME_UPDATE, gameState.toJson()));
+        // TODO: Wait for ok?
     }
 
     /**
@@ -117,6 +118,7 @@ public class SocketClientHandler extends ClientHandler {
         body.put(gameState.toJson());
         body.put(objectiveWinner);
         send(new Message(GAME_UPDATE, body));
+        // TODO: Wait for ok?
     }
 
     /**
