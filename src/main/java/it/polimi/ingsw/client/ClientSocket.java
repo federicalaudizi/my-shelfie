@@ -272,37 +272,34 @@ public class ClientSocket extends Client {
 
     @Override
     void getColumn() throws IOException {
-        boolean columnValidation = false, inputValidation;
+        boolean inputValidation = false;
         int column, headerCode;
         JSONObject body = null;
         Message reply;
 
-        while(!columnValidation) {
-            inputValidation = false;
-
-            while(!inputValidation) {
-                column = view.getColumn();
-                if(column >= 0 && column <= 4) {
-                    inputValidation = true;
-                    body = new JSONObject().put("column", column);
-                } else {
-                    view.showError("The column you input is invalid. Retry.");
-                }
+        while(!inputValidation) {
+            column = view.getColumn();
+            if(column >= 0 && column <= 4) {
+                inputValidation = true;
+                body = new JSONObject().put("column", column);
+            } else {
+                view.showError("The column you input is invalid. Retry.");
             }
-
-            if(body != null) {
-                send(new Message(SEND_COLUMN, body));
-            } else throw new NullPointerException("Column message body was empty.");
-
-            reply = getReply();
-            headerCode = reply.getHeaderCode();
-
-            if(headerCode == OK.getCode()) {
-                columnValidation = true;
-            } else if(headerCode == BAD_COLUMN.getCode() || headerCode == GENERIC_ERROR.getCode()) {
-                view.showError(reply.getBody().getJSONObject(0).getString("message"));
-            } else throw new UnknownError("An unknown error occurred.");
         }
+
+        if(body != null) {
+            send(new Message(SEND_COLUMN, body));
+        } else throw new NullPointerException("Column message body was empty.");
+
+        reply = getReply();
+        headerCode = reply.getHeaderCode();
+
+        if(headerCode == OK.getCode()) {
+            // TODO Remove debug statement
+            System.err.println("Column correctly sent to the server.");
+        } else if(headerCode == BAD_COLUMN.getCode() || headerCode == GENERIC_ERROR.getCode()) {
+            view.showError(reply.getBody().getJSONObject(0).getString("message"));
+        } else throw new UnknownError("An unknown error occurred.");
     }
 
     /**
