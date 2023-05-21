@@ -33,6 +33,18 @@ public class FakeClientHandler extends ClientHandler {
     }
 
     /**
+     * This method sends the first gamestate to the client
+     *
+     * @param gameState       the gamestate to send to the client
+     * @param player          the player that completed the objective
+     * @param gainedObjective 1 if the player gained the first objective, 2 if the player gained the second objective, 3 if the player gained both objectives
+     */
+    @Override
+    public void sendGameState(Game gameState, String player, int gainedObjective) {
+
+    }
+
+    /**
      * This method signals the client that a response was accepted
      *
      * @author Sara
