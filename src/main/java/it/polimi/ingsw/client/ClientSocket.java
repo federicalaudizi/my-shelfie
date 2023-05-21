@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.controller.network.Message;
-import it.polimi.ingsw.server.model.Coordinate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
