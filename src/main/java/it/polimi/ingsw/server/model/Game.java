@@ -121,28 +121,37 @@ public class Game {
      */
     private int checkGoals() {
         int status = players.get(currentPlayerIndex).getPointCardStatus();
+        int returnStatus = 0;
 
         if (status == 0) {
+            // Player has no point cards
             if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                // Player has achieved the first collective objective
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
-                return 1;
+                returnStatus += 1;
             }
             if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                // Player has achieved the second collective objective
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
-                return 2;
+                returnStatus += 2;
             }
         } else if (status == 1) {
+            // Player has a point card from the first deck
             if (collectiveObjectiveCard2.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                // Player has achieved the second collective objective
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck2.takePoints(), 1);
-                return 2;
+                returnStatus += 2;
             }
         } else if (status == 2) {
+            // Player has a point card from the second deck
             if (collectiveObjectiveCard1.checkObjective(players.get(currentPlayerIndex).getShelf())) {
+                // Player has achieved the first collective objective
                 players.get(currentPlayerIndex).assignPointCard(pointCardDeck1.takePoints(), 0);
-                return 1;
+                returnStatus += 1;
             }
         }
-        return 0;
+
+        return returnStatus;
     }
 
 
