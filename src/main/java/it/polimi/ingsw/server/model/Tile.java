@@ -74,4 +74,22 @@ public enum Tile {
     public String getSymbol() {
         return symbol;
     }
+
+    public String getPath() {
+        String path = null;
+        if(this.type.equals("Cats")){
+            path = "Gatti1.1.png";
+        } else if (this.type.equals("Games")) {
+            path = "Giochi1.1.png";
+        }else if (this.type.equals("Books")) {
+            path = "Libri1.1.png";
+        }else if (this.type.equals("Frames")) {
+            path = "Cornici1.1.png";
+        }else if (this.type.equals("Trophies")) {
+            path = "Trofei1.1.png";
+        }else if (this.type.equals("Plants")) {
+            path = "Piante1.1.png";
+        }
+        return path;
+    }
 }

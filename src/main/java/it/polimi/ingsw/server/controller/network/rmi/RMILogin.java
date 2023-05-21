@@ -55,7 +55,7 @@ public class RMILogin implements RMILoginInterface{
             new Thread(thisUser).start();
             return new Message(OK);
         } catch (PlayerDoesNotExistsException e) {
-            return new Message(GENERIC_ERROR, new JSONObject().put("message", "Player does not exists"));
+            return new Message(BAD_HEADER, new JSONObject().put("message", "Player does not exists"));
         }
     }
 
@@ -76,7 +76,7 @@ public class RMILogin implements RMILoginInterface{
             System.out.println(me + ": Successfully created a new game");
             return new Message(OK);
         } catch (NonExsistentGameException | ReachedMaxNumberOfPlayers ignored) {
-            return new Message(GENERIC_ERROR, new JSONObject().put("message", "An error occurred while creating the game"));
+            return new Message(BAD_HEADER, new JSONObject().put("message", "An error occurred while creating the game"));
         }
     }
 
@@ -98,7 +98,7 @@ public class RMILogin implements RMILoginInterface{
             return new Message(NO_GAMES, new JSONObject().put("message", "No games to join"));
         }
 
-        return new Message(GAMES_ID_RESPONSE, response);
+        return new Message(GAME_LIST_RESPONSE, response);
     }
 
     /**

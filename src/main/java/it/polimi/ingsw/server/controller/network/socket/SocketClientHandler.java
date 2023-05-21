@@ -99,6 +99,7 @@ public class SocketClientHandler extends ClientHandler {
     @Override
     public void sendGameState(Game gameState) {
         send(new Message(GAME_UPDATE, gameState.toJson()));
+        // TODO: Wait for ok?
     }
 
     /**
@@ -117,6 +118,7 @@ public class SocketClientHandler extends ClientHandler {
         body.put(gameState.toJson());
         body.put(objectiveWinner);
         send(new Message(GAME_UPDATE, body));
+        // TODO: Wait for ok?
     }
 
     /**
@@ -146,7 +148,7 @@ public class SocketClientHandler extends ClientHandler {
         try {
             return parseTiles(answer);
         } catch (ClientHandler.WrongHeaderException e) {
-            send(new Message(GENERIC_ERROR));
+            send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
             return this.getTiles();
         }
     }
@@ -158,7 +160,7 @@ public class SocketClientHandler extends ClientHandler {
      */
     @Override
     public void badTile() {
-        send(new Message(BAD_TILES));
+        send(new Message(BAD_TILES, new JSONObject().put("message", "The tiles you chose are not valid")));
     }
 
     /**
@@ -177,7 +179,7 @@ public class SocketClientHandler extends ClientHandler {
         try {
             return parseColumn(answer);
         } catch (WrongHeaderException e) {
-            send(new Message(GENERIC_ERROR));
+            send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
             return this.getColumn();
         }
     }
@@ -189,7 +191,7 @@ public class SocketClientHandler extends ClientHandler {
      */
     @Override
     public void badColumn() {
-        send(new Message(BAD_COLUMN));
+        send(new Message(BAD_COLUMN, new JSONObject().put("message", "The column you chose is not valid")));
     }
 
     /**
@@ -200,17 +202,8 @@ public class SocketClientHandler extends ClientHandler {
      */
     @Override
     public void gameOver(HashMap<String, Integer> leaderboard) {
-        //TODO: Modify so that leaderboard is ordered
-        JSONArray leaderboardJson = new JSONArray();
-
-        for(String player : leaderboard.keySet()){
-            JSONObject playerScore = new JSONObject();
-            playerScore.put("username", player);
-            playerScore.put("points", leaderboard.get(player));
-            leaderboardJson.put(playerScore);
-        }
-
-        send(new Message(GAME_OVER, leaderboardJson));
+        send(new Message(GAME_OVER, parseLeaderboard(leaderboard)));
+        // TODO: Wait for ok?
         gameOver = true;
         synchronized (clientSocket) {
             clientSocket.notifyAll();
@@ -252,9 +245,7 @@ public class SocketClientHandler extends ClientHandler {
 
             } else {
                 // The response was not valid, ask again
-                response = new JSONObject();
-                response.put("message", "Wrong request received");
-                send(new Message(GENERIC_ERROR, response));
+                send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
                 loginPhase();
             }
         } catch (PlayerIdTakenException e) {
@@ -267,7 +258,7 @@ public class SocketClientHandler extends ClientHandler {
             // The player does not exist, send the error and restart the login phase
             response = new JSONObject();
             response.put("message", "Player does not exist");
-            send(new Message(GENERIC_ERROR, response));
+            send(new Message(PLAYER_NOT_FOUND, response));
             loginPhase();
         }
     }
@@ -291,8 +282,10 @@ public class SocketClientHandler extends ClientHandler {
                 // This is the case of a new game
                 JSONArray body = recievedMessage.getBody();
                 int playerNumber = body.getJSONObject(0).getInt("playerNumber");
+
                 String newGameId = ongoingGames.newGame(playerNumber);
                 ongoingGames.joinGame(thisPlayerId, newGameId);
+
                 System.out.println(thisPlayerId+": Successfully created a new game");
                 send(new Message(OK));
             } else if(recievedMessage.getHeaderCode() == JOIN_GAME_REQUEST.getCode()){
@@ -301,7 +294,7 @@ public class SocketClientHandler extends ClientHandler {
                 response.put("games", ongoingGames.getGameIds());
                 // Send the list of games
                 System.out.println(thisPlayerId + ": Wants to join a game");
-                send(new Message(GAMES_ID_RESPONSE, response));
+                send(new Message(GAME_LIST_RESPONSE, response));
 
                 recievedMessage = receive();
 
@@ -316,18 +309,14 @@ public class SocketClientHandler extends ClientHandler {
 
                 } else {
                     // The response was not valid, ask again
-                    response = new JSONObject();
-                    response.put("message", "Wrong request received");
                     System.out.println(thisPlayerId+": Wrong request received");
-                    send(new Message(GENERIC_ERROR, response));
+                    send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
                     joinGamePhase();
                 }
             } else {
                 // The response was not valid, ask again
-                response = new JSONObject();
-                response.put("message", "Wrong request received");
                 System.out.println(thisPlayerId+": Wrong request received");
-                send(new Message(GENERIC_ERROR, response));
+                send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
                 joinGamePhase();
             }
         } catch (NonExsistentGameException e) {

@@ -87,6 +87,13 @@ public abstract class ClientHandler implements Runnable{
      */
     public abstract void gameOver(HashMap<String, Integer> leaderboard);
 
+    /**
+     * Helper method to parse the tiles from a message
+     *
+     * @param tilesMessage the message containing the tiles
+     * @return an array of coordinates
+     * @throws WrongHeaderException if the message is not valid
+     */
     protected Coordinate[] parseTiles(Message tilesMessage) throws WrongHeaderException{
         if(tilesMessage.getHeaderCode() == SEND_TILES.getCode()){
             JSONArray args = tilesMessage.getBody();
@@ -104,6 +111,13 @@ public abstract class ClientHandler implements Runnable{
         }
     }
 
+    /**
+     * Helper method to parse the column from a message
+     *
+     * @param columnMessage the message containing the column
+     * @return the column
+     * @throws WrongHeaderException if the message is not valid
+     */
     protected int parseColumn(Message columnMessage) throws WrongHeaderException{
         if(columnMessage.getHeaderCode() == SEND_COLUMN.getCode()){
 
@@ -114,6 +128,26 @@ public abstract class ClientHandler implements Runnable{
         } else {
             throw new WrongHeaderException();
         }
+    }
+
+    /**
+     * Helper method to parse the leaderboard from a message
+     *
+     * @param leaderboard the hashmap containing the leaderboard
+     * @return a JSON array containing the leaderboard
+     */
+    protected JSONArray parseLeaderboard(HashMap<String, Integer> leaderboard){
+        // TODO: Leaderboard has to be sent ordered
+        JSONArray leaderboardJson = new JSONArray();
+
+        for(String player : leaderboard.keySet()){
+            JSONObject playerScore = new JSONObject();
+            playerScore.put("username", player);
+            playerScore.put("points", leaderboard.get(player));
+            leaderboardJson.put(playerScore);
+        }
+
+        return leaderboardJson;
     }
 
     protected static class WrongHeaderException extends Exception {

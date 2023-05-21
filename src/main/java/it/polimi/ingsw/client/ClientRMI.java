@@ -100,7 +100,7 @@ public class ClientRMI extends Client {
                             System.err.println("Correctly created game.");
                             gameCreated = true;
                             operationCompleted = true;
-                        } else if(headerCode == GENERIC_ERROR.getCode()) {
+                        } else if(headerCode == BAD_HEADER.getCode()) {
                             view.showError(reply.getBody().getJSONObject(0).getString("message"));
                         } else throw new UnknownError("An unknown error occurred.");
                     }
@@ -112,7 +112,7 @@ public class ClientRMI extends Client {
                         setServerUsername();
                         reply = loginInterface.getGameList(getUsername());
                         headerCode = reply.getHeaderCode();
-                        if (headerCode == GAMES_ID_RESPONSE.getCode()) {
+                        if (headerCode == GAME_LIST_RESPONSE.getCode()) {
                             // Get game ID list from reply
                             JSONArray gameListJSON = reply.getBody().getJSONObject(0).getJSONArray("games");
                             ArrayList<String> gameList = new ArrayList<>();
@@ -128,7 +128,7 @@ public class ClientRMI extends Client {
                                     System.err.println("You correctly joined the game.");
                                     gameJoined = true;
                                     operationCompleted = true;
-                                } else if (headerCode == BAD_GAME_ID.getCode() || headerCode == GENERIC_ERROR.getCode()) {
+                                } else if (headerCode == BAD_GAME_ID.getCode() || headerCode == BAD_HEADER.getCode()) {
                                     view.showError(reply.getBody().getJSONObject(0).getString("message"));
                                 }  else throw new UnknownError("An unknown error occurred.");
                             } else {
@@ -193,7 +193,7 @@ public class ClientRMI extends Client {
             // Check reply to either resend coordinates or continue with the move
             if(headerCode == OK.getCode()) {
                 tileValidation = true;
-            } else if(headerCode == BAD_TILES.getCode() || headerCode == GENERIC_ERROR.getCode()) {
+            } else if(headerCode == BAD_TILES.getCode() || headerCode == BAD_HEADER.getCode()) {
                 view.showError("The tiles you chose are not valid. Please retry.");
             } else throw new UnknownError("An unknown error occurred.");
         }
@@ -227,7 +227,7 @@ public class ClientRMI extends Client {
 
             if(headerCode == OK.getCode()) {
                 columnValidation = true;
-            } else if(headerCode == BAD_COLUMN.getCode() || headerCode == GENERIC_ERROR.getCode()) {
+            } else if(headerCode == BAD_COLUMN.getCode() || headerCode == BAD_HEADER.getCode()) {
                 view.showError(reply.getBody().getJSONObject(0).getString("message"));
             } else throw new UnknownError("An unknown error occurred.");
         }
@@ -249,7 +249,7 @@ public class ClientRMI extends Client {
             } else if(headerCode == GAME_UNAVAILABLE.getCode() || headerCode == PLAYER_NOT_FOUND.getCode()) {
                 view.showError(reply.getBody().getJSONObject(0).getString("message"));
                 return false;
-            } else if(headerCode == GENERIC_ERROR.getCode()) {
+            } else if(headerCode == BAD_HEADER.getCode()) {
                 attempts++;
                 view.showError(reply.getBody().getJSONObject(0).getString("message"));
                 try {
@@ -277,7 +277,7 @@ public class ClientRMI extends Client {
             } else if(headerCode == USERNAME_TAKEN.getCode()) {
                 view.showError(reply.getBody().getJSONObject(0).getString("message"));
                 setUsername(view.getUsername());
-            } else if(headerCode == GENERIC_ERROR.getCode()) {
+            } else if(headerCode == BAD_HEADER.getCode()) {
                 view.showError(reply.getBody().getJSONObject(0).getString("message"));
             } else throw new UnknownError("An unknown error occurred.");
         }

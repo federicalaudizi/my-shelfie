@@ -75,7 +75,7 @@ public class Message {
         OK(200),
 
         /** Sent by the server when the player requested to join a game, the argument should be a list of active games */
-        GAMES_ID_RESPONSE(211),
+        GAME_LIST_RESPONSE(211),
         /** Sent by the client when he wants to join an existing game, the argument should be the game id */
         JOIN_GAME_RESPONSE(212),
 
@@ -101,7 +101,7 @@ public class Message {
 
 
         /** Sent by the server when the client sends an invalid command */
-        GENERIC_ERROR(400),
+        BAD_HEADER(400),
 
         /** Sent by the server to the client if the chosen username already exists */
         USERNAME_TAKEN(411),
