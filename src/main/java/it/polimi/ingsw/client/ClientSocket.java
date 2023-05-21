@@ -190,7 +190,7 @@ public class ClientSocket extends Client {
                                 while (!gameJoined && noGames) {
                                     send(new Message(JOIN_GAME_REQUEST));
                                     Message gameListMessage = getReply();
-                                    if (gameListMessage.getHeaderCode() == 211) {
+                                    if (gameListMessage.getHeaderCode() == GAMES_ID_RESPONSE.getCode()) {
                                         JSONArray gameListJSON = gameListMessage.getBody().getJSONObject(0).getJSONArray("games");
                                         ArrayList<String> gameList = new ArrayList<>();
                                         if(gameListJSON.length() != 0) {
