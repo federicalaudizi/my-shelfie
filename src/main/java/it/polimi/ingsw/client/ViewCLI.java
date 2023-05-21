@@ -157,13 +157,13 @@ public class ViewCLI extends View {
     }
 
     @Override
-    void showAchievement(String user, int objectiveNumber) {
+    void showAchievement(String username, int objectiveNumber) {
         StringBuilder achievementMessage = new StringBuilder();
 
-        if(user.equals(client.getUsername()))
+        if(username.equals(client.getUsername()))
             achievementMessage.append(client.getUsername());
         else
-            achievementMessage.append(user);
+            achievementMessage.append(username);
 
         achievementMessage.append(" has won");
 

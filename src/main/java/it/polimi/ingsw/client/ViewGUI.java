@@ -138,7 +138,7 @@ public class ViewGUI extends View {
     }
 
     @Override
-    void showAchievement(String user, int objectiveNumber) {
+    void showAchievement(String username, int objectiveNumber) {
 
     }
 
