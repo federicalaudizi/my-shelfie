@@ -148,7 +148,7 @@ public class SocketClientHandler extends ClientHandler {
         try {
             return parseTiles(answer);
         } catch (ClientHandler.WrongHeaderException e) {
-            send(new Message(BAD_HEADER));
+            send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
             return this.getTiles();
         }
     }
@@ -160,7 +160,7 @@ public class SocketClientHandler extends ClientHandler {
      */
     @Override
     public void badTile() {
-        send(new Message(BAD_TILES));
+        send(new Message(BAD_TILES, new JSONObject().put("message", "The tiles you chose are not valid")));
     }
 
     /**
@@ -179,7 +179,7 @@ public class SocketClientHandler extends ClientHandler {
         try {
             return parseColumn(answer);
         } catch (WrongHeaderException e) {
-            send(new Message(BAD_HEADER));
+            send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
             return this.getColumn();
         }
     }
@@ -191,7 +191,7 @@ public class SocketClientHandler extends ClientHandler {
      */
     @Override
     public void badColumn() {
-        send(new Message(BAD_COLUMN));
+        send(new Message(BAD_COLUMN, new JSONObject().put("message", "The column you chose is not valid")));
     }
 
     /**
@@ -244,9 +244,7 @@ public class SocketClientHandler extends ClientHandler {
 
             } else {
                 // The response was not valid, ask again
-                response = new JSONObject();
-                response.put("message", "Wrong request received");
-                send(new Message(BAD_HEADER, response));
+                send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
                 loginPhase();
             }
         } catch (PlayerIdTakenException e) {
@@ -310,18 +308,14 @@ public class SocketClientHandler extends ClientHandler {
 
                 } else {
                     // The response was not valid, ask again
-                    response = new JSONObject();
-                    response.put("message", "Wrong request received");
                     System.out.println(thisPlayerId+": Wrong request received");
-                    send(new Message(BAD_HEADER, response));
+                    send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
                     joinGamePhase();
                 }
             } else {
                 // The response was not valid, ask again
-                response = new JSONObject();
-                response.put("message", "Wrong request received");
                 System.out.println(thisPlayerId+": Wrong request received");
-                send(new Message(BAD_HEADER, response));
+                send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
                 joinGamePhase();
             }
         } catch (NonExsistentGameException e) {
