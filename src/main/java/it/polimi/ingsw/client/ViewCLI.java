@@ -157,8 +157,23 @@ public class ViewCLI extends View {
     }
 
     @Override
-    void showAchievement() {
-        // TODO Implement
+    void showAchievement(String user, int objectiveNumber) {
+        StringBuilder achievementMessage = new StringBuilder();
+
+        if(user.equals(client.getUsername()))
+            achievementMessage.append(client.getUsername());
+        else
+            achievementMessage.append(user);
+
+        achievementMessage.append(" has won");
+
+        switch(objectiveNumber) {
+            case 1 -> achievementMessage.append(" objective I!");
+            case 2 -> achievementMessage.append(" objective II!");
+            case 3 -> achievementMessage.append(" both objectives!");
+        }
+
+        System.out.println(achievementMessage);
     }
 
     @Override

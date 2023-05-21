@@ -20,7 +20,7 @@ public abstract class View {
     abstract int getPlayerNumber();
     abstract String getTiles();
     abstract int getColumn();
-    abstract void showAchievement();
+    abstract void showAchievement(String user, int objectiveNumber);
     abstract void showError(String errorMessage);
 
     abstract String gameIdSelection(ArrayList<String> gameIds);
