@@ -153,7 +153,7 @@ public class ClientSocket extends Client {
                     } else if (headerCode == USERNAME_TAKEN.getCode()) {
                         view.showError("Username taken.");
                         setUsername(view.getUsername());
-                    } else if (headerCode == GENERIC_ERROR.getCode()) {
+                    } else if (headerCode == BAD_HEADER.getCode()) {
                         // A generic error occurred. The client throws an exception.
                         throw new RuntimeException("Unknown error");
                     }
@@ -179,7 +179,7 @@ public class ClientSocket extends Client {
                                         // TODO Remove debug statement
                                         System.err.println("The game was correctly created.");
                                         gameCreated = true;
-                                    } else if (headerCode == GENERIC_ERROR.getCode()) {
+                                    } else if (headerCode == BAD_HEADER.getCode()) {
                                         view.showError("An error occurred. Please retry.");
                                     } else throw new UnknownError("An unknown error occurred.");
                                 }
@@ -206,7 +206,7 @@ public class ClientSocket extends Client {
                                                 operationCompleted = true;
                                             } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
                                                 view.showError("This game does not exist on the server. Please retry.");
-                                            } else if (gameJoinHeaderCode == GENERIC_ERROR.getCode()) {
+                                            } else if (gameJoinHeaderCode == BAD_HEADER.getCode()) {
                                                 view.showError("An error occurred. Please retry.");
                                             } else throw new UnknownError("An unknown error occurred.");
                                         } else {
@@ -268,7 +268,7 @@ public class ClientSocket extends Client {
             // Check reply to either resend coordinates or continue with the move
             if(headerCode == OK.getCode()) {
                 tileValidation = true;
-            } else if(headerCode == BAD_TILES.getCode() || headerCode == GENERIC_ERROR.getCode()) {
+            } else if(headerCode == BAD_TILES.getCode() || headerCode == BAD_HEADER.getCode()) {
                 view.showError("The tiles you chose are not valid. Please retry.");
             } else throw new UnknownError("An unknown error occurred.");
         }
@@ -303,7 +303,7 @@ public class ClientSocket extends Client {
 
             if(headerCode == OK.getCode()) {
                 columnValidation = true;
-            } else if(headerCode == BAD_COLUMN.getCode() || headerCode == GENERIC_ERROR.getCode()) {
+            } else if(headerCode == BAD_COLUMN.getCode() || headerCode == BAD_HEADER.getCode()) {
                 view.showError(reply.getBody().getJSONObject(0).getString("message"));
             } else throw new UnknownError("An unknown error occurred.");
         }
@@ -330,7 +330,7 @@ public class ClientSocket extends Client {
             if(replyHeaderCode == OK.getCode()) {
                 System.err.println("Successfully reconnected to server.");
                 return true;
-            } else if (replyHeaderCode == GENERIC_ERROR.getCode()) {
+            } else if (replyHeaderCode == BAD_HEADER.getCode()) {
                 attempts++;
                 view.showError("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
                 switch(attempts) {
