@@ -49,6 +49,8 @@ public abstract class Client {
 
     abstract void login() throws IOException;
 
+    abstract void setServerUsername() throws Exception;
+
     abstract void getTiles() throws Exception;
 
     abstract void getColumn() throws Exception;
