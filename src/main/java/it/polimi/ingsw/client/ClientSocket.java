@@ -245,6 +245,17 @@ public class ClientSocket extends Client {
         }
     }
 
+    @Override
+    void setServerUsername() {
+        setUsername(view.getUsername());
+        boolean loggedIn = false;
+
+        while(!loggedIn) {
+            send(new Message(LOGIN_REQUEST, new JSONObject().put("username", getUsername())));
+            loggedIn = checkUsernameValidity(getReply());
+        }
+    }
+
     /**
      * Reads the reply sent from the server and packages it as a Message.
      * @return The reply sent from the server as a Message object.
