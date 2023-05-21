@@ -1,7 +1,9 @@
 package it.polimi.ingsw.client.scene;
 
+import it.polimi.ingsw.client.ViewGUI;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
 
@@ -13,6 +15,7 @@ public class JoinController implements Initializable {
 
     @FXML
     public ListView<String> listView;
+    public Button button;
 
     public void addGameIds(ArrayList<String> gameIds) {
         // Sample data
@@ -22,7 +25,14 @@ public class JoinController implements Initializable {
     @FXML
     public void handleItemClick() {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
-        System.out.println("Selected item: " + selectedItem);
+        button.setVisible(true);
+        button.setOnAction(event -> {
+            try {
+                ViewGUI.queue.put(selectedItem);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            });
     }
 
     /**

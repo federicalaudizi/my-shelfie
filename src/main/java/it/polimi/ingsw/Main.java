@@ -46,7 +46,7 @@ class Main {
         } else if (args[0].equals("server")){
             GameSupervisor gameSupervisor = new GameSupervisor();
             if(args[1].equals("socket")){
-                new Thread(new SocketServer(5000, gameSupervisor)).start();
+                new Thread(new SocketServer(8000, gameSupervisor)).start();
             } else if (args[1].equals("rmi")){
                 new Thread(new RMIServer(1099, gameSupervisor)).start();
             }
