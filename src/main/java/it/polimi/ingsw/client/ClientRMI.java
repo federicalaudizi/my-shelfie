@@ -184,20 +184,7 @@ public class ClientRMI extends Client {
         setUsername(view.getUsername());
         boolean loggedIn = false;
 
-        while(!loggedIn) {
-            Message reply = loginInterface.login(getUsername());
-            int headerCode = reply.getHeaderCode();
-
-            if(headerCode == OK.getCode()) {
-                // TODO Remove debug statement
-                System.err.println("Correctly logged in as " + getUsername());
-                loggedIn = true;
-            } else if(headerCode == USERNAME_TAKEN.getCode()) {
-                view.showError(reply.getBody().getJSONObject(0).getString("message"));
-                setUsername(view.getUsername());
-            } else if(headerCode == BAD_HEADER.getCode()) {
-                view.showError(reply.getBody().getJSONObject(0).getString("message"));
-            } else throw new UnknownError("An unknown error occurred.");
-        }
+        while(!loggedIn)
+            loggedIn = checkUsernameValidity(loginInterface.login(getUsername()));
     }
 }
