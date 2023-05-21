@@ -70,7 +70,7 @@ public class ClientSocket extends Client {
                     gameOver(reply.getBody());
                     cleanUp();
                 } else if(headerCode == GAME_UPDATE.getCode())
-                    update(reply.getBody().getJSONObject(0));
+                    update(reply.getBody());
             }
         } catch (IOException e) {
             try {

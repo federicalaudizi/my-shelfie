@@ -45,7 +45,7 @@ public class ClientRMI extends Client {
             else if(headerCode == GET_COLUMN.getCode())
                 getColumn();
             else if(headerCode == GAME_UPDATE.getCode())
-                update(reply.getBody().getJSONObject(0));
+                update(reply.getBody());
             else if(headerCode == GAME_OVER.getCode()) {
                 gameOver = true;
                 gameOver(reply.getBody());
