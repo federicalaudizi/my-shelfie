@@ -269,6 +269,13 @@ public class ViewCLI extends View {
     void gameOverScreen(JSONArray leaderboard) {
 
     }
+
+    @Override
+    boolean continueScreen() {
+        System.out.print("Would you like to continue playing? (y/n) ");
+        String selection = scanner.nextLine();
+        return selection.equals("y");
+    }
 }
 
 /**
