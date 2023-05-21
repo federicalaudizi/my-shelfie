@@ -263,10 +263,18 @@ public class ViewCLI extends View {
      * @param leaderboard The leaderboard of the game
      * @author Mario Merlo
      */
+
     // TODO Make this substitution-based like the game view
     @Override
     void gameOverScreen(JSONArray leaderboard) {
 
+    }
+
+    @Override
+    boolean continueScreen() {
+        System.out.print("Would you like to continue playing? (y/n) ");
+        String selection = scanner.nextLine();
+        return selection.equals("y");
     }
 }
 

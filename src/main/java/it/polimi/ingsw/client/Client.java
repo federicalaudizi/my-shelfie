@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.server.controller.network.Message.Header.*;
+
 /**
  * This class handles the interactions between the user and the server.
  *
@@ -46,6 +48,8 @@ public abstract class Client {
     abstract void connect() throws IOException;
 
     abstract void login() throws IOException;
+
+    abstract void setServerUsername() throws Exception;
 
     abstract void getTiles() throws Exception;
 
@@ -236,6 +240,32 @@ public abstract class Client {
     void showError(Message reply) {
         if(reply.getHeaderCode() / 100 == 4)
             view.showError(reply.getBody().getJSONObject(0).getString("message"));
+    }
+
+    boolean checkUsernameValidity(Message message) {
+        if(message.getHeaderCode() == OK.getCode())
+            return true;
+        showError(message);
+        setUsername(view.getUsername());
+        return false;
+    }
+
+    boolean checkPlayerNumber(int playerNumber) {
+        return playerNumber >= 2 && playerNumber <= 4;
+    }
+
+    int getGameChoice() {
+        int choice = 0;
+        boolean validGameOption = false;
+
+        while(!validGameOption) {
+            choice = view.getGameOptions();
+            if(choice >= 1 && choice <= 3)
+                validGameOption = true;
+            else view.showError("You entered an invalid choice. Retry.");
+        }
+
+        return choice;
     }
 
     /**

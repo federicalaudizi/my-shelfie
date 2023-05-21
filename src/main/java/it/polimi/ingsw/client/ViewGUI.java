@@ -92,6 +92,12 @@ public class ViewGUI extends View {
     }
 
     @Override
+    boolean continueScreen() {
+        // TODO Implement
+        return false;
+    }
+
+    @Override
     public String getUsername() {
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
         String username = null;

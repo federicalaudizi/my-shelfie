@@ -26,4 +26,6 @@ public abstract class View {
     abstract String gameIdSelection(ArrayList<String> gameIds);
 
     abstract void gameOverScreen(JSONArray leaderboard);
+
+    abstract boolean continueScreen();
 }

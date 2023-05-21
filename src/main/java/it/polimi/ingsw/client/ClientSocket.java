@@ -46,42 +46,36 @@ public class ClientSocket extends Client {
      */
     @Override
     public void start() {
-        boolean gameOver = false;
-        try {
-            // First step: connect to the game server
-            connect();
-
-            // Second step: log into the server
-            login();
-
-            while(!gameOver) {
-                Message reply = getReply();
-                int headerCode = reply.getHeaderCode();
-
-                // Third step: when asked for a move, provide it
-                if(headerCode == GET_TILES.getCode())
-                    getTiles();
-                if(headerCode == GET_COLUMN.getCode())
-                    getColumn();
-                // Fourth step: execute game over operations when Game Over is sent by the server
-                else if(headerCode == GAME_OVER.getCode()) {
-                    gameOver = true;
-                    gameOver(reply.getBody());
-                    cleanUp();
-                } else if(headerCode == GAME_UPDATE.getCode())
-                    update(reply.getBody());
-            }
-        } catch (IOException e) {
+        boolean exit = false;
+        while(!exit) {
+            boolean gameOver = false;
             try {
-                reconnect();
-            } catch (IOException ex) {
-                try {
-                    cleanUp();
-                } catch (IOException exc) {
-                    view.showError("Something went wrong during the disconnection.");
+                // First step: connect to the game server
+                connect();
+
+                // Second step: log into the server
+                login();
+
+                while(!gameOver) {
+                    Message reply = getReply();
+                    int headerCode = reply.getHeaderCode();
+
+                    // Third step: when asked for a move, provide it
+                    if(headerCode == GET_TILES.getCode())
+                        getTiles();
+                    if(headerCode == GET_COLUMN.getCode())
+                        getColumn();
+                    // Fourth step: execute game over operations when Game Over is sent by the server
+                    else if(headerCode == GAME_OVER.getCode()) {
+                        gameOver = true;
+                        gameOver(reply.getBody());
+                        cleanUp();
+                        exit = view.continueScreen();
+                    } else if(headerCode == GAME_UPDATE.getCode())
+                        update(reply.getBody());
                 }
-                view.showError("Unable to reconnect. Exiting.");
-                throw new RuntimeException(ex);
+            } catch (IOException e) {
+                view.showError("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.");
             }
         }
     }
@@ -126,100 +120,73 @@ public class ClientSocket extends Client {
      */
     @Override
     void login() throws IOException {
-        setUsername(view.getUsername());
-        boolean loggedIn = false, operationCompleted = false, done = false;
+        Message reply;
+        int headerCode;
+        boolean operationCompleted = false, loggedIn = false;
 
-        while(!done) {
-            int choice = view.getGameOptions();
-            if(choice <= 0 || choice > 3)
-                view.showError("You entered an invalid option. Retry.");
-            else if(choice == 3) {
-                reconnect();
-                done = true;
-            } else {
-                while(!loggedIn) {
-                    JSONArray body = new JSONArray();
-                    body.put(new JSONObject().put("username", this.getUsername()));
-                    Message loginMessage = new Message(LOGIN_REQUEST, body);
-                    send(loginMessage);
+        while(!operationCompleted) {
+            // Choose whether to create a game, join a game or reconnect to one
+            int choice = getGameChoice();
 
-                    int headerCode = getReply().getHeaderCode();
+            // Set the server username when logging in normally
+            if(choice <= 2 && !loggedIn) {
+                setServerUsername();
+                loggedIn = true;
+            }
 
-                    if (headerCode == OK.getCode()) {
+            switch(choice) {
+                case 1 -> {
+                    // Set the player number and validate it
+                    boolean validPlayerNumber = false;
+                    int playerNumber = 0;
+                    while(!validPlayerNumber) {
+                        playerNumber = view.getPlayerNumber();
+                        validPlayerNumber = checkPlayerNumber(playerNumber);
+                    }
+
+                    // Send the new game message to the server
+                    send(new Message(NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber)));
+
+                    // Parse the reply
+                    reply = getReply();
+                    headerCode = reply.getHeaderCode();
+                    if(headerCode == OK.getCode()) {
                         // TODO Remove debug statement
-                        System.err.println(this.getUsername() + " correctly logged in. Welcome.");
-                        loggedIn = true;
-                    } else if (headerCode == USERNAME_TAKEN.getCode()) {
-                        view.showError("Username taken.");
-                        setUsername(view.getUsername());
-                    } else if (headerCode == BAD_HEADER.getCode()) {
-                        // A generic error occurred. The client throws an exception.
-                        throw new RuntimeException("Unknown error");
-                    }
-                    while(!operationCompleted) {
-                        switch (choice) {
-                            case 1 -> {
-                                boolean gameCreated = false;
-                                while (!gameCreated) {
-                                    boolean playerNumberValid = false;
-                                    int playerNumber = 0;
-                                    while (!playerNumberValid) {
-                                        playerNumber = view.getPlayerNumber();
-                                        if (playerNumber < 2 || playerNumber > 4)
-                                            view.showError("You entered an invalid number of players. Please retry.");
-                                        else playerNumberValid = true;
-                                    }
-                                    Message newGameMessage = new Message(NEW_GAME_REQUEST, new JSONObject().put("playerNumber", playerNumber));
-                                    send(newGameMessage);
+                        System.err.println("Correctly created game.");
+                        operationCompleted = true;
+                    } else showError(reply);
+                }
+                case 2 -> {
+                    // Join a new game option
+                    send(new Message(JOIN_GAME_REQUEST));
+                    reply = getReply();
+                    headerCode = reply.getHeaderCode();
 
-                                    headerCode = getReply().getHeaderCode();
+                    if(headerCode == GAME_LIST_RESPONSE.getCode()) {
+                        // Get game ID list from reply
+                        JSONArray gameListJSON = reply.getBody().getJSONObject(0).getJSONArray("games");
+                        ArrayList<String> gameList = new ArrayList<>();
+                        for(int i = 0; i < gameListJSON.length(); i++)
+                            gameList.add(gameListJSON.getString(i));
 
-                                    if (headerCode == OK.getCode()) {
-                                        // TODO Remove debug statement
-                                        System.err.println("The game was correctly created.");
-                                        gameCreated = true;
-                                    } else if (headerCode == BAD_HEADER.getCode()) {
-                                        view.showError("An error occurred. Please retry.");
-                                    } else throw new UnknownError("An unknown error occurred.");
-                                }
-                                operationCompleted = true;
-                            }
-                            case 2 -> {
-                                boolean gameJoined = false, noGames = true;
-                                while (!gameJoined && noGames) {
-                                    send(new Message(JOIN_GAME_REQUEST));
-                                    Message gameListMessage = getReply();
-                                    if (gameListMessage.getHeaderCode() == GAME_LIST_RESPONSE.getCode()) {
-                                        JSONArray gameListJSON = gameListMessage.getBody().getJSONObject(0).getJSONArray("games");
-                                        ArrayList<String> gameList = new ArrayList<>();
-                                        if(gameListJSON.length() != 0) {
-                                            for (int i = 0; i < gameListJSON.length(); i++)
-                                                gameList.add(gameListJSON.getString(i));
-                                            String selectedGame = view.gameIdSelection(gameList);
-                                            Message joinGameMessage = new Message(JOIN_GAME_RESPONSE, new JSONObject().put("gameId", selectedGame));
-                                            send(joinGameMessage);
-                                            int gameJoinHeaderCode = getReply().getHeaderCode();
-                                            if (gameJoinHeaderCode == OK.getCode()) {
-                                                System.err.println("You correctly joined the game.");
-                                                gameJoined = true;
-                                                operationCompleted = true;
-                                            } else if (gameJoinHeaderCode == BAD_GAME_ID.getCode()) {
-                                                view.showError("This game does not exist on the server. Please retry.");
-                                            } else if (gameJoinHeaderCode == BAD_HEADER.getCode()) {
-                                                view.showError("An error occurred. Please retry.");
-                                            } else throw new UnknownError("An unknown error occurred.");
-                                        } else {
-                                            view.showError("There are no ongoing games on this server. Creating a new game.");
-                                            noGames = false;
-                                            choice = 1;
-                                        }
-                                    }
-                                }
-                            }
-                            default -> view.showError("You entered an invalid option. Please retry.");
-                        }
-                    }
-                    done = true;
+                        // Choose and send the game ID to the server
+                        send(new Message(JOIN_GAME_RESPONSE, new JSONObject().put("gameId", view.gameIdSelection(gameList))));
+                        reply = getReply();
+                        headerCode = reply.getHeaderCode();
+
+                        if(headerCode == OK.getCode()) {
+                            // TODO Remove debug statement
+                            System.err.println("You correctly joined the game.");
+                            operationCompleted = true;
+                        } else showError(reply);
+                    } else showError(reply);
+                }
+                case 3 -> {
+                    // Reconnect option
+                    if(!reconnect())
+                        view.showError("Unable to reconnect. Try creating a new game or joining one.");
+                    else
+                        operationCompleted = true;
                 }
             }
         }
@@ -239,57 +206,28 @@ public class ClientSocket extends Client {
 
     /**
      * This method is used to reconnect to an ongoing game in case of an accidental client disconnection.
-     * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
      * @author Mario Merlo
      */
     @Override
-    boolean reconnect() throws IOException {
-        // TODO Change this according to the new signature
-        int attempts = 0;
-        boolean reconnected = false;
-        while(!reconnected && attempts < 3) {
-            if(!socket.isConnected())
-                connect();
+    boolean reconnect() {
+        setUsername(view.getUsername());
 
-            Message reconnectionMessage = new Message(Message.Header.RECONNECT, new JSONObject().put("username", getUsername()));
-            send(reconnectionMessage);
+        Message reconnectionMessage = new Message(RECONNECT, new JSONObject().put("username", getUsername()));
+        Message reply;
+        int headerCode;
 
-            int replyHeaderCode = getReply().getHeaderCode();
-            if(replyHeaderCode == OK.getCode()) {
-                System.err.println("Successfully reconnected to server.");
-                return true;
-            } else if (replyHeaderCode == BAD_HEADER.getCode()) {
-                attempts++;
-                view.showError("Something went wrong during the reconnection. Retrying... (Attempt " + attempts + "/3)");
-                switch(attempts) {
-                    case 1 -> {
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    case 2 -> {
-                        try {
-                            Thread.sleep(10000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    case 3 -> {
-                        try {
-                            Thread.sleep(30000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
+        send(reconnectionMessage);
+        reply = getReply();
+        headerCode = reply.getHeaderCode();
+
+        if(headerCode == OK.getCode()) {
+            // TODO Remove debug statement
+            System.err.println("Correctly reconnected to game.");
+            return true;
+        } else {
+            showError(reply);
+            return false;
         }
-        if(!reconnected) {
-            throw new IOException("Unable to reconnect.");
-        }
-        return false;
     }
 
     /**
@@ -304,6 +242,17 @@ public class ClientSocket extends Client {
             socket.close();
         } catch (IOException e) {
             throw new IOException(e.getMessage());
+        }
+    }
+
+    @Override
+    void setServerUsername() {
+        setUsername(view.getUsername());
+        boolean loggedIn = false;
+
+        while(!loggedIn) {
+            send(new Message(LOGIN_REQUEST, new JSONObject().put("username", getUsername())));
+            loggedIn = checkUsernameValidity(getReply());
         }
     }
 
