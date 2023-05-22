@@ -76,20 +76,15 @@ public enum Tile {
     }
 
     public String getPath() {
-        String path = null;
-        if(this.type.equals("Cats")){
-            path = "Images/Gatti1.1.png";
-        } else if (this.type.equals("Games")) {
-            path = "Images/Giochi1.1.png";
-        }else if (this.type.equals("Books")) {
-            path = "Images/Libri1.1.png";
-        }else if (this.type.equals("Frames")) {
-            path = "Images/Cornici1.1.png";
-        }else if (this.type.equals("Trophies")) {
-            path = "Images/Trofei1.1.png";
-        }else if (this.type.equals("Plants")) {
-            path = "Images/Piante1.1.png";
-        }
+        String path = switch (this.type) {
+            case "Cats" -> "file:src/main/resources/Images/Gatti1.1.png";
+            case "Games" -> "file:src/main/resources/Images/Giochi1.1.png";
+            case "Books" -> "file:src/main/resources/Images/Libri1.1.png";
+            case "Frames" -> "file:src/main/resources/Images/Cornici1.1.png";
+            case "Trophies" -> "file:src/main/resources/Images/Trofei1.1.png";
+            case "Plants" -> "file:src/main/resources/Images/Piante1.1.png";
+            default -> null;
+        };
         return path;
     }
 }
