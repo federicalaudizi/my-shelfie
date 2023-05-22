@@ -19,7 +19,7 @@ public class BoardController {
     @FXML
     GridPane shelf4;
 
-    void initializeBoard(Game game){
+    public void initializeBoard(Game game){
         for(int i=0; i< game.getBoard().getMAX_X(); i++){
             for(int j=0;j<game.getBoard().getMAX_Y();j++){
                 Image image = new Image(game.getBoard().getTile(i,j).getPath());
