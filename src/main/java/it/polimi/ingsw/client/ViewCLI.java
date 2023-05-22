@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class ViewCLI extends View {
+    public static final int MAX_USERNAME_CHARS = 15;
     Scanner scanner = new Scanner(System.in);
 
     /**
@@ -100,7 +101,6 @@ public class ViewCLI extends View {
         }
 
         // Pad to maintain correct formatting
-        final int MAX_USERNAME_CHARS = 15;
         if(formattedUsername.length() < MAX_USERNAME_CHARS) {
             while(formattedUsername.length() < MAX_USERNAME_CHARS)
                 formattedUsername.append(" ");
