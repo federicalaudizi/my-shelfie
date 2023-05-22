@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.ConnectionController">
    <ImageView fitHeight="406.0" fitWidth="607.0">
-      <Image url="@blurred_Welcome.jpg" />
+      <Image url="@Images/blurred_Welcome.jpg" />
    </ImageView>
    <TextField fx:id="ipAddress" layoutX="177.0" layoutY="203.0" prefHeight="25.0" prefWidth="225.0" />
    <Label layoutX="178.0" layoutY="173.0" text="Enter the server's IP (syntax: ip:port):">

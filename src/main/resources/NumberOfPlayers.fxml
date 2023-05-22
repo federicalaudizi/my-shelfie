@@ -12,7 +12,7 @@
             fx:controller="it.polimi.ingsw.client.scene.NumberOfPlayersController"
             prefHeight="400.0" prefWidth="600.0">
     <ImageView fitHeight="408.0" fitWidth="600.0">
-        <Image url="@blurred_Welcome.jpg" />
+        <Image url="@Images/blurred_Welcome.jpg" />
     </ImageView>
     <Label layoutX="214.0" layoutY="186.0" prefHeight="18.0" prefWidth="150.0" text="Enter the number of players:">
         <font>

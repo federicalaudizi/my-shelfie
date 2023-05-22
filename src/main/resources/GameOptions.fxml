@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.GameOptionsController">
    <ImageView fitHeight="408.0" fitWidth="600.0">
-      <Image url="@blurred_Welcome.jpg" />
+      <Image url="@Images/blurred_Welcome.jpg" />
    </ImageView>
    <Label layoutX="214.0" layoutY="186.0" prefHeight="18.0" prefWidth="150.0" text="What do you want to do?">
       <font>

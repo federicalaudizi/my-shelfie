@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.scene.*;
 import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.PersonalObjectiveCard;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -68,10 +69,66 @@ public class ViewGUI extends View {
         if (game.isLastTurn()) {
         }
         setCommonObjectivesCards(game);
+        setPersonalObjectiveCard(game);
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameRoot)));
         gameController.initializeBoard(game);
     }
 
+
+    public void setPersonalObjectiveCard(Game game){
+        String stream;
+        Image image;
+        PersonalObjectiveCard card = game.getPlayersPersonalObjective();
+        if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FIRST_PATTERN) {
+            stream = "file:src/main/resources/Images/one_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SECOND_PATTERN) {
+            stream = "file:src/main/resources/Images/two_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.THIRD_PATTERN) {
+            stream = "file:src/main/resources/Images/three_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FOURTH_PATTERN) {
+            stream = "file:src/main/resources/Images/four_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FIFTH_PATTERN) {
+            stream = "file:src/main/resources/Images/five_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SIXTH_PATTERN) {
+            stream = "file:src/main/resources/Images/six_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SEVENTH_PATTERN) {
+            stream = "file:src/main/resources/Images/seven_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.EIGHTH_PATTERN) {
+            stream = "file:src/main/resources/Images/eight_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.NINTH_PATTERN) {
+            stream = "file:src/main/resources/Images/nine_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.TENTH_PATTERN) {
+            stream = "file:src/main/resources/Images/ten_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.ELEVENTH_PATTERN) {
+            stream = "file:src/main/resources/Images/eleven_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.TWELFTH_PATTERN) {
+            stream = "file:src/main/resources/Images/twelve_po.png";
+            image = new Image(stream);
+            gameController.personalCard.setImage(image);
+        }
+    }
     public void setCommonObjectivesCards(Game game) {
         String stream;
         Image image;
@@ -126,6 +183,7 @@ public class ViewGUI extends View {
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         }
+
         if (Objects.equals(string[1], "PatternOne")) {
             stream = "file:src/main/resources/Images/one.jpg";
             image = new Image(stream);

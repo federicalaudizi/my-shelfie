@@ -108,7 +108,7 @@ public class PersonalObjectiveCard {
      * @return Returns the pattern of the personal objective
      * @author Federico
      */
-    PersonalObjectivePattern getPattern() {
+    public PersonalObjectivePattern getPattern() {
         return objective;
     }
 
@@ -158,7 +158,7 @@ public class PersonalObjectiveCard {
      *
      * @author Federico
      */
-    enum PersonalObjectivePattern {
+    public enum PersonalObjectivePattern {
         FIRST_PATTERN(new HashMap<>() {{
             put(new Coordinate(2, 5), Tile.TROPHIES); //Cyan
             put(new Coordinate(4, 5), Tile.CATS); //Green

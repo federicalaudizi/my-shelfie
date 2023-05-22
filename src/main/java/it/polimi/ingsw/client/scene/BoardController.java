@@ -148,7 +148,7 @@ public class BoardController{
     private GridPane boardPane;
 
     @FXML
-    private ImageView personalCard;
+    public ImageView personalCard;
 
     @FXML
     private GridPane shelfGrid;

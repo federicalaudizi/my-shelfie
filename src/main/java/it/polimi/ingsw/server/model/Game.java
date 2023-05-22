@@ -352,6 +352,17 @@ public class Game {
         return new String[]{collectiveObjectiveCard1.getClass().getSimpleName(), collectiveObjectiveCard2.getClass().getSimpleName()};
     }
 
+    /**
+     * Returns an string with the current players personal objective card.
+     *
+     * @return A String containing the name of the pattern
+     * @author Federica Laudizi
+     */
+    public PersonalObjectiveCard getPlayersPersonalObjective(){
+        return new Player(players.get(getCurrentPlayerIndex())).getObjective();
+    }
+
+
     public Player getCurrentPlayer() {
         return new Player(players.get(getCurrentPlayerIndex()));
     }
