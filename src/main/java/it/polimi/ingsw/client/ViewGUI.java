@@ -1,6 +1,4 @@
 package it.polimi.ingsw.client;
-
-import com.sun.source.tree.IfTree;
 import it.polimi.ingsw.client.scene.*;
 import it.polimi.ingsw.server.model.Game;
 import javafx.application.Platform;
@@ -8,13 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import org.json.JSONArray;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -74,6 +69,7 @@ public class ViewGUI extends View {
         }
         setCommonObjectivesCards(game);
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameRoot)));
+        gameController.initializeBoard(game);
     }
 
     public void setCommonObjectivesCards(Game game) {
