@@ -167,7 +167,21 @@ public class BoardController{
     public ImageView commonCard1;
     @FXML
     public ImageView commonCard2;
+    @FXML
+    private ImageView shelfImage2;
+    @FXML
+    private ImageView shelfImage3;
+    @FXML
+    private ImageView shelfImage4;
 
+    public void setShelves(Game game){
+        if(game.getNumberOfPlayers() == 2){
+            shelfImage3.setVisible(false);
+            shelfImage4.setVisible(false);
+        } else if (game.getNumberOfPlayers() ==3) {
+            shelfImage4.setVisible(false);
+        }
+    }
 
     public void initializeBoard(Game game){
         for(int i=0; i< game.getBoard().getMAX_X(); i++){
