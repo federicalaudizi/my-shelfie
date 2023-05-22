@@ -266,7 +266,31 @@ public class ViewCLI extends View {
 
     @Override
     void gameOverScreen(JSONArray leaderboard) {
+        String leaderboardPrototype = LeaderboardPrototypes.getLeaderboardByPlayerNum(leaderboard.length());
 
+
+        for(int i = 0; i < MAX_USERNAME_CHARS; i++) {
+            leaderboardPrototype = Pattern.compile("\\+").matcher(leaderboardPrototype).replaceFirst(usernameFormatter(leaderboard.getJSONObject(0).getString("username"), 0).substring(i, i + 1));
+            leaderboardPrototype = Pattern.compile("\\?").matcher(leaderboardPrototype).replaceFirst(usernameFormatter(leaderboard.getJSONObject(0).getString("username"), 0).substring(i, i + 1));
+            leaderboardPrototype = Pattern.compile("#").matcher(leaderboardPrototype).replaceFirst(usernameFormatter(leaderboard.getJSONObject(1).getString("username"), 0).substring(i, i + 1));
+            if(leaderboard.length() >= 3) {
+                leaderboardPrototype = Pattern.compile("-").matcher(leaderboardPrototype).replaceFirst(usernameFormatter(leaderboard.getJSONObject(2).getString("username"), 0).substring(i, i + 1));
+                if(leaderboard.length() == 4)
+                    leaderboardPrototype = Pattern.compile("_").matcher(leaderboardPrototype).replaceFirst(usernameFormatter(leaderboard.getJSONObject(3).getString("username"), 0).substring(i, i + 1));
+            }
+        }
+
+        for(int i = 0; i < 3; i++) {
+            leaderboardPrototype = Pattern.compile("\\*").matcher(leaderboardPrototype).replaceFirst(pointFormatter(leaderboard.getJSONObject(0).getInt("points")).substring(i, i + 1));
+            leaderboardPrototype = Pattern.compile("@").matcher(leaderboardPrototype).replaceFirst(pointFormatter(leaderboard.getJSONObject(1).getInt("points")).substring(i, i + 1));
+            if(leaderboard.length() >= 3) {
+                leaderboardPrototype = Pattern.compile("%").matcher(leaderboardPrototype).replaceFirst(pointFormatter(leaderboard.getJSONObject(2).getInt("points")).substring(i, i + 1));
+                if(leaderboard.length() == 4)
+                    leaderboardPrototype = Pattern.compile("\\$").matcher(leaderboardPrototype).replaceFirst(pointFormatter(leaderboard.getJSONObject(3).getInt("points")).substring(i, i + 1));
+            }
+        }
+
+        System.out.println(leaderboardPrototype);
     }
 
     @Override
