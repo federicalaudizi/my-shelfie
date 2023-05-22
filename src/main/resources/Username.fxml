@@ -23,7 +23,7 @@
       </Text>
       <ImageView fitHeight="408.0" fitWidth="600.0" layoutY="-6.0">
          <image>
-            <Image url="@blurred_Welcome.jpg" />
+            <Image url="@Images/blurred_Welcome.jpg" />
          </image>
       </ImageView>
       <TextField fx:id="nicknameText" alignment="CENTER" layoutX="203.0" layoutY="198.0" minWidth="9.0" pickOnBounds="false" prefHeight="35.0" prefWidth="179.0" promptText="type nick here">
