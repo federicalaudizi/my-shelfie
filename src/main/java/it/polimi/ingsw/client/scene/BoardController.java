@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image ;
 
+import java.util.Objects;
+
 public class BoardController{
     @FXML
     private ImageView b03;
@@ -195,6 +197,110 @@ public class BoardController{
         throw new IllegalStateException("ImageView not found for position: (" + row + ", " + col + ")");
     }
 
+    public void setCommonObjectivesCards(Game game) {
+        String stream;
+        Image image;
+
+        String[] string = game.getObjectives();
+        if (Objects.equals(string[0], "PatternOne")) {
+            stream = "file:src/main/resources/Images/one.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternTwo")) {
+            stream = "file:src/main/resources/Images/two.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternThree")) {
+            stream = "file:src/main/resources/Images/three.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternFour")) {
+            stream = "file:src/main/resources/Images/four.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternFive")) {
+            stream = "file:src/main/resources/Images/five.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternSix")) {
+            stream = "file:src/main/resources/Images/six.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternSeven")) {
+            stream = "file:src/main/resources/Images/seven.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternEight")) {
+            stream = "file:src/main/resources/Images/eight.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternNine")) {
+            stream = "file:src/main/resources/Images/nine.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternTen")) {
+            stream = "file:src/main/resources/Images/ten.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternEleven")) {
+            stream = "file:src/main/resources/Images/eleven.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternTwelve")) {
+            stream = "file:src/main/resources/Images/twelve.jpg";
+            image = new Image(stream);
+            commonCard1.setImage(image);
+        }
+        if (Objects.equals(string[1], "PatternOne")) {
+            stream = "file:src/main/resources/Images/one.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternTwo")) {
+            stream = "file:src/main/resources/Images/two.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternThree")) {
+            stream = "file:src/main/resources/Images/three.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternFour")) {
+            stream = "file:src/main/resources/Images/four.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternFive")) {
+            stream = "file:src/main/resources/Images/five.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternSix")) {
+            stream = "file:src/main/resources/Images/six.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternSeven")) {
+            stream = "file:src/main/resources/Images/seven.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternEight")) {
+            stream = "file:src/main/resources/Images/eight.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternNine")) {
+            stream = "file:src/main/resources/Images/nine.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternTen")) {
+            stream = "file:src/main/resources/Images/ten.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternEleven")) {
+            stream = "file:src/main/resources/Images/eleven.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternTwelve")) {
+            stream = "file:src/main/resources/Images/twelve.jpg";
+            image = new Image(stream);
+            commonCard2.setImage(image);
+        }
+    }
 
 }
 
