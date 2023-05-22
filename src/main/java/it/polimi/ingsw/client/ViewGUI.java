@@ -1,16 +1,23 @@
 package it.polimi.ingsw.client;
 
+import com.sun.source.tree.IfTree;
 import it.polimi.ingsw.client.scene.*;
 import it.polimi.ingsw.server.model.Game;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.json.JSONArray;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 
 
 public class ViewGUI extends View {
@@ -42,7 +49,7 @@ public class ViewGUI extends View {
         try {
             welcomeRoot = welcomeLoader.load();
             connectRoot = connectLoader.load();
-            nicknameRoot= nicknameLoader.load();
+            nicknameRoot = nicknameLoader.load();
             gameOptionsRoot = gameOptionsLoader.load();
             numberOfPlayersRoot = numberOfPlayersLoader.load();
             joinRoot = joinLoader.load();
@@ -63,8 +70,115 @@ public class ViewGUI extends View {
 
     @Override
     void update(Game game, LinkedList<String> playerOrder) {
-        if(game.isLastTurn()){}
+        if (game.isLastTurn()) {
+        }
+        setCommonObjectivesCards(game);
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameRoot)));
+    }
+
+    public void setCommonObjectivesCards(Game game) {
+        String stream;
+        Image image;
+
+        String[] string = game.getObjectives();
+        if (Objects.equals(string[0], "PatternOne")) {
+            stream = "file:src/main/resources/Images/one.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternTwo")) {
+            stream = "file:src/main/resources/Images/two.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternThree")) {
+            stream = "file:src/main/resources/Images/three.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternFour")) {
+            stream = "file:src/main/resources/Images/four.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternFive")) {
+            stream = "file:src/main/resources/Images/five.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternSix")) {
+            stream = "file:src/main/resources/Images/six.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternSeven")) {
+            stream = "file:src/main/resources/Images/seven.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternEight")) {
+            stream = "file:src/main/resources/Images/eight.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternNine")) {
+            stream = "file:src/main/resources/Images/nine.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternTen")) {
+            stream = "file:src/main/resources/Images/ten.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternEleven")) {
+            stream = "file:src/main/resources/Images/eleven.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        } else if (Objects.equals(string[0], "PatternTwelve")) {
+            stream = "file:src/main/resources/Images/twelve.jpg";
+            image = new Image(stream);
+            gameController.commonCard1.setImage(image);
+        }
+        if (Objects.equals(string[1], "PatternOne")) {
+            stream = "file:src/main/resources/Images/one.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternTwo")) {
+            stream = "file:src/main/resources/Images/two.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternThree")) {
+            stream = "file:src/main/resources/Images/three.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternFour")) {
+            stream = "file:src/main/resources/Images/four.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternFive")) {
+            stream = "file:src/main/resources/Images/five.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternSix")) {
+            stream = "file:src/main/resources/Images/six.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternSeven")) {
+            stream = "file:src/main/resources/Images/seven.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternEight")) {
+            stream = "file:src/main/resources/Images/eight.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternNine")) {
+            stream = "file:src/main/resources/Images/nine.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternTen")) {
+            stream = "file:src/main/resources/Images/ten.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternEleven")) {
+            stream = "file:src/main/resources/Images/eleven.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        } else if (Objects.equals(string[1], "PatternTwelve")) {
+            stream = "file:src/main/resources/Images/twelve.jpg";
+            image = new Image(stream);
+            gameController.commonCard2.setImage(image);
+        }
     }
 
     @Override
@@ -118,7 +232,7 @@ public class ViewGUI extends View {
     int getGameOptions() {
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameOptionsRoot)));
         int choice;
-        try{
+        try {
             choice = (int) queue.take();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -132,7 +246,7 @@ public class ViewGUI extends View {
         int numOfPlayers;
         try {
             numOfPlayers = (int) queue.take();
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             throw new RuntimeException();
         }
         return numOfPlayers;
@@ -156,7 +270,7 @@ public class ViewGUI extends View {
     @Override
     void showError(String errorMessage) {
         //TODO: distinguere tipo di errore con display error diversi
-        if(errorMessage.equals("You entered a malformed IP:port combo. Retry.") || errorMessage.equals("The host does not exist. Retry.") || errorMessage.equals("Something went wrong.")){
+        if (errorMessage.equals("You entered a malformed IP:port combo. Retry.") || errorMessage.equals("The host does not exist. Retry.") || errorMessage.equals("Something went wrong.")) {
             connectionController.displayError();
         }
     }
