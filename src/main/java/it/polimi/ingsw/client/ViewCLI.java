@@ -264,7 +264,6 @@ public class ViewCLI extends View {
      * @author Mario Merlo
      */
 
-    // TODO Make this substitution-based like the game view
     @Override
     void gameOverScreen(JSONArray leaderboard) {
 
