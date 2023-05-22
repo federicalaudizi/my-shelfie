@@ -293,6 +293,14 @@ public class ViewCLI extends View {
         System.out.println(leaderboardPrototype);
     }
 
+    private String pointFormatter(int points) {
+        if(points >= 100)
+            return String.valueOf(points);
+        else if(points >= 10)
+            return "0" + points;
+        else return "00" + points;
+    }
+
     @Override
     boolean continueScreen() {
         System.out.print("Would you like to continue playing? (y/n) ");
