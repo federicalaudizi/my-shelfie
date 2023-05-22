@@ -406,6 +406,43 @@ enum ViewPrototypes {
     }
 }
 
+enum LeaderboardPrototypes {
+    TWO_PLAYERS(2, """
+            Game over! The winner is +++++++++++++++
+            [1] ???????????????: ***
+            [2] ###############: @@@
+            """),
+    THREE_PLAYERS(3, """
+            Game over! The winner is +++++++++++++++
+            [1] ???????????????: ***
+            [2] ###############: @@@
+            [3] ---------------: %%%
+            """),
+    FOUR_PLAYERS(4, """
+            Game over! The winner is +++++++++++++++
+            [1] ???????????????: ***
+            [2] ###############: @@@
+            [3] ---------------: %%%
+            [4] _______________: $$$
+            """);
+
+    final int playerNumber;
+    final String leaderboardPrototype;
+
+    LeaderboardPrototypes(int playerNumber, String leaderboardPrototype) {
+        this.playerNumber = playerNumber;
+        this.leaderboardPrototype = leaderboardPrototype;
+    }
+
+    public static String getLeaderboardByPlayerNum(int playerNumber) {
+        for(LeaderboardPrototypes leaderboardPrototypes : LeaderboardPrototypes.values()) {
+            if(leaderboardPrototypes.playerNumber == playerNumber)
+                return leaderboardPrototypes.leaderboardPrototype;
+        }
+        throw new IllegalArgumentException("No such game with " + playerNumber + " players.");
+    }
+}
+
 /**
  * Contains short descriptions that define collective objectives. Once the game starts, the view checks what objectives
  * are currently reachable in the game and substitutes the placeholders on the view prototype with the correct
