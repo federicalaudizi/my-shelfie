@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.ViewCLI;
 import it.polimi.ingsw.server.model.Game;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,6 +72,21 @@ public class ViewCLITest {
         } catch (Exception e) {
             fail();
         }
+    }
 
+    @Test
+    public void gameOverScreenTest() {
+        JSONArray leaderboard = new JSONArray().put(new JSONObject().put("username", "Mario").put("points", 120))
+                .put(new JSONObject().put("username", "Martina").put("points", 69))
+                .put(new JSONObject().put("username", "Margherita").put("points", 8))
+                .put(new JSONObject().put("username", "Camilla").put("points", 0));
+
+        try {
+            Method gameOverScreen = ViewCLI.class.getDeclaredMethod("gameOverScreen", JSONArray.class);
+            gameOverScreen.setAccessible(true);
+            gameOverScreen.invoke(view, leaderboard);
+        } catch (Exception e) {
+            fail();
+        }
     }
 }
