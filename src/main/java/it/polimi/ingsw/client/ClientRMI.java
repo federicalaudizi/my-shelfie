@@ -75,7 +75,7 @@ public class ClientRMI extends Client {
         } catch (NotBoundException e) {
             // TODO Remove debug statement
             System.err.println("Login RMI registry not bound.");
-            throw new RuntimeException(e.getMessage());
+            throw new RemoteException(e.getMessage());
         }
 
         try {
@@ -83,7 +83,7 @@ public class ClientRMI extends Client {
         } catch (NotBoundException e) {
             // TODO Remove debug statement
             System.err.println("Game RMI registry not bound.");
-            throw new RuntimeException(e.getMessage());
+            throw new RemoteException(e.getMessage());
         }
     }
 
