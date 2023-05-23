@@ -48,9 +48,9 @@ public class GameController implements Runnable {
     }
 
     /**
-     * called by the ClientHandler to modify the connection status of the player in disconnected
+     * Changes the connection status of the player when disconnected
      *
-     * @param playerId of which ClientHandler needs to modify the status
+     * @param playerId the disconnected player
      */
     void notifyDisconnection(String playerId) {
         System.out.println(gameId+": "+playerId+" disconnected from this game");
