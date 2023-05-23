@@ -183,7 +183,7 @@ public class ClientSocket extends Client {
                 }
                 case 3 -> {
                     // Reconnect option
-                    if(!reconnect())
+                    if(isDisconnected())
                         view.showError("Unable to reconnect. Try creating a new game or joining one.");
                     else
                         operationCompleted = true;
@@ -209,7 +209,7 @@ public class ClientSocket extends Client {
      * @author Mario Merlo
      */
     @Override
-    boolean reconnect() {
+    boolean isDisconnected() {
         setUsername(view.getUsername());
 
         Message reconnectionMessage = new Message(RECONNECT, new JSONObject().put("username", getUsername()));
@@ -223,11 +223,11 @@ public class ClientSocket extends Client {
         if(headerCode == OK.getCode()) {
             // TODO Remove debug statement
             System.err.println("Correctly reconnected to game.");
-            return true;
-        } else {
-            showError(reply);
             return false;
         }
+
+        showError(reply);
+        return true;
     }
 
     /**

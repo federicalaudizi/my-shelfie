@@ -141,7 +141,7 @@ public class ClientRMI extends Client {
                 }
                 case 3 -> {
                     // Reconnect option
-                    if(!reconnect())
+                    if(isDisconnected())
                         view.showError("Unable to reconnect. Try creating a new game or joining one.");
                     else
                         operationCompleted = true;
@@ -163,7 +163,7 @@ public class ClientRMI extends Client {
     }
 
     @Override
-    boolean reconnect() throws RemoteException {
+    boolean isDisconnected() throws RemoteException {
         setUsername(view.getUsername());
 
         Message reply = loginInterface.reconnect(getUsername());
@@ -172,11 +172,11 @@ public class ClientRMI extends Client {
         if(headerCode == OK.getCode()) {
             // TODO Remove debug statement
             System.err.println("Correctly reconnected to game.");
-            return true;
-        } else {
-            showError(reply);
             return false;
         }
+
+        showError(reply);
+        return true;
     }
 
     @Override
