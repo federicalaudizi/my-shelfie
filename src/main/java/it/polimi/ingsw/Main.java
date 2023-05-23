@@ -45,10 +45,15 @@ class Main {
             c.start();
         } else if (args[0].equals("server")){
             GameSupervisor gameSupervisor = new GameSupervisor();
-            if(args[1].equals("socket")){
-                new Thread(new SocketServer(8000, gameSupervisor)).start();
-            } else if (args[1].equals("rmi")){
-                new Thread(new RMIServer(1099, gameSupervisor)).start();
+            switch (args[1]) {
+                case "socket" -> new Thread(new SocketServer(8000, gameSupervisor)).start();
+                case "rmi" -> new Thread(new RMIServer(1099, gameSupervisor)).start();
+                case "both" -> {
+                    new Thread(new SocketServer(8000, gameSupervisor)).start();
+                    new Thread(new RMIServer(1099, gameSupervisor)).start();
+                }
+                default ->
+                        System.out.println("invalid option -- " + args[1] + "\n" + "To be provided: 'socket' or 'rmi' or 'both'");
             }
         }else {
             System.out.println("invalid option -- " + args[0] + "\n" + "To be provided: 'client' or 'server'");

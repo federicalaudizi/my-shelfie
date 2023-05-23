@@ -19,6 +19,7 @@ public class RMIClientHandler extends ClientHandler {
 
     private final Object heartbeatLock;
     private boolean isAlive;
+    private boolean tempAlive;
 
     private boolean gameOver;
 
@@ -44,6 +45,7 @@ public class RMIClientHandler extends ClientHandler {
         this.pingLock = new Object();
         this.heartbeatLock = new Object();
         this.isAlive = true;
+        this.tempAlive = true;
         this.gameOver = false;
 
         this.pingFlag = false;
@@ -63,26 +65,20 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void run() {
-        boolean temp;
         // Heartbeat
-        synchronized (heartbeatLock) {
-            temp = isAlive;
-        }
-        while(temp && !gameOver){
+        while(isAlive && !gameOver){
             try {
                 synchronized (heartbeatLock) {
-                    isAlive = false;
+                    tempAlive = false;
                     heartbeatLock.wait(10000);
-                    temp = isAlive;
+                    isAlive = tempAlive;
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        if(!isAlive) {
-            ongoingGames.notifyDisconnection(thisPlayerId);
-        }
+        ongoingGames.notifyDisconnection(thisPlayerId);
 
         // TODO: Game over
     }
@@ -107,8 +103,10 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public void sendGameState(Game gameState, String player, int gainedObjective) {
         JSONObject objectiveWinner = new JSONObject();
+
         objectiveWinner.put("username", player);
         objectiveWinner.put("objective", gainedObjective);
+
         JSONArray body = new JSONArray();
         body.put(gameState.toJson());
         body.put(objectiveWinner);
@@ -141,7 +139,7 @@ public class RMIClientHandler extends ClientHandler {
         synchronized (tilesLock) {
             try {
                 // Wait for 10 seconds the answer
-                tilesLock.wait(10000);
+                tilesLock.wait(60000);
                 // If the answer is not received, the player disconnected
                 if(!tilesFlag) throw new PlayerDisconnectedException();
             } catch (InterruptedException e) {
@@ -184,8 +182,8 @@ public class RMIClientHandler extends ClientHandler {
 
         synchronized (columnLock) {
             try {
-                // Wait for 10 seconds the answer
-                columnLock.wait(10000);
+                // Wait for 60 seconds the answer
+                columnLock.wait(60000);
                 // If the answer is not received, the player disconnected
                 if(!columnFlag) throw new PlayerDisconnectedException();
             } catch (InterruptedException e) {
@@ -228,6 +226,15 @@ public class RMIClientHandler extends ClientHandler {
 
     private void sendPing(Message message){
         synchronized (pingLock) {
+            while(pingFlag){
+                // If there still is a pending message, wait
+                // TODO: wait forever?
+                try {
+                    pingLock.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             System.out.println(thisPlayerId + ": sending ping "+message.toString());
             pingFlag = true;
             pingMessage = message;
@@ -246,13 +253,14 @@ public class RMIClientHandler extends ClientHandler {
     Message ping(){
         System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
-            isAlive = true;
+            tempAlive = true;
             heartbeatLock.notifyAll();
         }
         synchronized (pingLock) {
             if(!pingFlag) return new Message(PING);
             else {
                 pingFlag = false;
+                pingLock.notifyAll();
                 return pingMessage;
             }
         }

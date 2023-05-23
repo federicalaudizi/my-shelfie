@@ -51,6 +51,34 @@ public class Game {
     }
 
     /**
+     * Json constructor for game
+     * @param jsonObject is the json Object containing the game
+     * */
+    public Game(JSONObject jsonObject) {
+        this.board = new Board(jsonObject.getJSONObject("board"));
+
+        this.players = new ArrayList<>();
+        JSONArray playersArray = jsonObject.getJSONArray("players");
+        for (int i = 0; i < playersArray.length(); i++) {
+            JSONObject playerJson = playersArray.getJSONObject(i);
+            Player player = new Player(playerJson);
+            this.players.add(player);
+        }
+
+        JSONArray decksArray = jsonObject.getJSONArray("pointDecks");
+        this.pointCardDeck1 = new PointDeck(decksArray.getJSONObject(0));
+        this.pointCardDeck2 = new PointDeck(decksArray.getJSONObject(1));
+
+
+        JSONArray objectivesArray = jsonObject.getJSONArray("objectives");
+        this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(0));
+        this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(1));
+
+        this.lastTurn = jsonObject.getBoolean("lastTurn");
+
+    }
+
+    /**
      * Copy constructor
      */
     public Game(Game other, CollectiveObjectiveCard collectiveObjectiveCard1, CollectiveObjectiveCard collectiveObjectiveCard2) {
@@ -98,7 +126,6 @@ public class Game {
         }
     }
 
-
     /**
      * This method manages the turn modifying the current player index.
      */
@@ -113,7 +140,6 @@ public class Game {
         }
         return isOver;
     }
-
 
     /**
      * Checks if the player in turn has achieved common goals and, if so, assigns them the score
@@ -156,7 +182,6 @@ public class Game {
         return returnStatus;
     }
 
-
     /**
      * This method checks if the board needs to be repopulated and removes the chosen tiles
      * from the board
@@ -167,7 +192,6 @@ public class Game {
     public Tile[] chooseTiles(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
         return board.pickTile(c1, c2, c3);
     }
-
 
     /**
      * This method handles the insertion of tiles into the shelf.
@@ -212,8 +236,6 @@ public class Game {
         return currentPlayerIndex;
     }
 
-
-
     /**
      * getter for the last Turn
      *
@@ -228,71 +250,6 @@ public class Game {
      */
     public int getNumberOfPlayers() {
         return players.size();
-    }
-
-    /**
-     * @return game to json object
-     * @author Federica, Federico
-     */
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-
-        //Inserting the board
-        json.put("board", board.toJSON());
-
-        //Inserting the players
-        JSONArray JSONArrayPlayers = new JSONArray();
-        for (Player player : players) {
-            JSONArrayPlayers.put(player.toJson());
-        }
-        json.put("players", JSONArrayPlayers);
-
-        //Inserting the objectives
-        JSONArray JSONArrayObjectives = new JSONArray();
-        JSONArrayObjectives.put(collectiveObjectiveCard1.toJson());
-        JSONArrayObjectives.put(collectiveObjectiveCard2.toJson());
-        json.put("objectives", JSONArrayObjectives);
-
-
-        //Inserting the decks
-        JSONArray JSONArrayDecks = new JSONArray();
-        JSONArrayDecks.put(pointCardDeck1.topValue());
-        JSONArrayDecks.put(pointCardDeck2.topValue());
-        json.put("pointDecks", JSONArrayDecks);
-
-        //Inserting the "isOver" flag
-        json.put("lastTurn", lastTurn);
-
-        return json;
-    }
-
-
-    /**
-     * Json constructor for game
-     * @param jsonObject is the json Object containing the game
-     * */
-    public Game(JSONObject jsonObject) {
-        this.board = new Board(jsonObject.getJSONObject("board"));
-
-        this.players = new ArrayList<>();
-        JSONArray playersArray = jsonObject.getJSONArray("players");
-        for (int i = 0; i < playersArray.length(); i++) {
-            JSONObject playerJson = playersArray.getJSONObject(i);
-            Player player = new Player(playerJson);
-            this.players.add(player);
-        }
-
-        JSONArray decksArray = jsonObject.getJSONArray("pointDecks");
-        this.pointCardDeck1 = new PointDeck(this.getNumberOfPlayers(), decksArray.getInt(0));
-        this.pointCardDeck2 = new PointDeck(this.getNumberOfPlayers(), decksArray.getInt(1));
-
-
-        JSONArray objectivesArray = jsonObject.getJSONArray("objectives");
-        this.collectiveObjectiveCard1 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(0));
-        this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(1));
-
-        this.lastTurn = jsonObject.getBoolean("lastTurn");
-
     }
 
     /**
@@ -341,7 +298,6 @@ public class Game {
         throw new IllegalArgumentException("No such player exists.");
     }
 
-
     /**
      * Returns an array with the names of the objectives associated to the current game.
      *
@@ -352,18 +308,42 @@ public class Game {
         return new String[]{collectiveObjectiveCard1.getClass().getSimpleName(), collectiveObjectiveCard2.getClass().getSimpleName()};
     }
 
-    /**
-     * Returns an string with the current players personal objective card.
-     *
-     * @return A String containing the name of the pattern
-     * @author Federica Laudizi
-     */
-    public PersonalObjectiveCard getPlayersPersonalObjective(){
-        return new Player(players.get(getCurrentPlayerIndex())).getObjective();
-    }
-
-
     public Player getCurrentPlayer() {
         return new Player(players.get(getCurrentPlayerIndex()));
+    }
+
+    /**
+     * @return game to json object
+     * @author Federica, Federico
+     */
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+
+        //Inserting the board
+        json.put("board", board.toJSON());
+
+        //Inserting the players
+        JSONArray JSONArrayPlayers = new JSONArray();
+        for (Player player : players) {
+            JSONArrayPlayers.put(player.toJson());
+        }
+        json.put("players", JSONArrayPlayers);
+
+        //Inserting the objectives
+        JSONArray JSONArrayObjectives = new JSONArray();
+        JSONArrayObjectives.put(collectiveObjectiveCard1.toJson());
+        JSONArrayObjectives.put(collectiveObjectiveCard2.toJson());
+        json.put("objectives", JSONArrayObjectives);
+
+        //Inserting the decks
+        JSONArray JSONArrayDecks = new JSONArray();
+        JSONArrayDecks.put(pointCardDeck1.toJson());
+        JSONArrayDecks.put(pointCardDeck2.toJson());
+        json.put("pointDecks", JSONArrayDecks);
+
+        //Inserting the "isOver" flag
+        json.put("lastTurn", lastTurn);
+
+        return json;
     }
 }
