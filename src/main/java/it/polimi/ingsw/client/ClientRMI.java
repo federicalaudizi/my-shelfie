@@ -63,6 +63,7 @@ public class ClientRMI extends Client {
 
     @Override
     void connect() throws RemoteException {
+        //TODO: This only works on local host
         Registry registry = LocateRegistry.getRegistry();
 
         try {
