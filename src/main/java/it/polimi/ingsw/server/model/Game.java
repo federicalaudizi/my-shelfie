@@ -66,8 +66,8 @@ public class Game {
         }
 
         JSONArray decksArray = jsonObject.getJSONArray("pointDecks");
-        this.pointCardDeck1 = new PointDeck(this.getNumberOfPlayers(), decksArray.getInt(0));
-        this.pointCardDeck2 = new PointDeck(this.getNumberOfPlayers(), decksArray.getInt(1));
+        this.pointCardDeck1 = new PointDeck(decksArray.getJSONObject(0));
+        this.pointCardDeck2 = new PointDeck(decksArray.getJSONObject(1));
 
 
         JSONArray objectivesArray = jsonObject.getJSONArray("objectives");
@@ -126,7 +126,6 @@ public class Game {
         }
     }
 
-
     /**
      * This method manages the turn modifying the current player index.
      */
@@ -141,7 +140,6 @@ public class Game {
         }
         return isOver;
     }
-
 
     /**
      * Checks if the player in turn has achieved common goals and, if so, assigns them the score
@@ -350,8 +348,8 @@ public class Game {
 
         //Inserting the decks
         JSONArray JSONArrayDecks = new JSONArray();
-        JSONArrayDecks.put(pointCardDeck1.topValue());
-        JSONArrayDecks.put(pointCardDeck2.topValue());
+        JSONArrayDecks.put(pointCardDeck1.toJson());
+        JSONArrayDecks.put(pointCardDeck2.toJson());
         json.put("pointDecks", JSONArrayDecks);
 
         //Inserting the "isOver" flag
