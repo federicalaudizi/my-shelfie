@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -45,9 +44,9 @@ public abstract class Client {
 
     public abstract void start() throws Exception;
 
-    abstract void connect() throws IOException;
+    abstract void connect() throws Exception;
 
-    abstract void login() throws IOException;
+    abstract void login() throws Exception;
 
     abstract void setServerUsername() throws Exception;
 
