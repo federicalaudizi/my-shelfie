@@ -48,8 +48,9 @@ public class ClientSocket extends Client {
     public void start() {
         boolean exit = false;
         while(!exit) {
-            boolean gameOver = false;
             try {
+                boolean gameOver = false;
+
                 // First step: connect to the game server
                 connect();
 
@@ -65,17 +66,21 @@ public class ClientSocket extends Client {
                         getTiles();
                     if(headerCode == GET_COLUMN.getCode())
                         getColumn();
+                    else if(headerCode == GAME_UPDATE.getCode())
+                        update(reply.getBody());
                     // Fourth step: execute game over operations when Game Over is sent by the server
                     else if(headerCode == GAME_OVER.getCode()) {
                         gameOver = true;
                         gameOver(reply.getBody());
                         cleanUp();
                         exit = view.continueScreen();
-                    } else if(headerCode == GAME_UPDATE.getCode())
-                        update(reply.getBody());
+                    }
                 }
             } catch (IOException e) {
-                view.showError("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.");
+                if (isDisconnected()) {
+                    view.showError("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.");
+                    cleanUp();
+                }
             }
         }
     }
@@ -220,24 +225,29 @@ public class ClientSocket extends Client {
      * @author Mario Merlo
      */
     @Override
-    boolean isDisconnected() throws IOException {
-        setUsername(view.getUsername());
-
-        Message reconnectionMessage = new Message(RECONNECT, new JSONObject().put("username", getUsername()));
+    boolean isDisconnected() {
         Message reply;
-        int headerCode;
+        try {
+            setUsername(view.getUsername());
 
-        send(reconnectionMessage);
-        reply = getReply();
-        headerCode = reply.getHeaderCode();
+            Message reconnectionMessage = new Message(RECONNECT, new JSONObject().put("username", getUsername()));
+            int headerCode;
 
-        if(headerCode == OK.getCode()) {
-            // TODO Remove debug statement
-            System.err.println("Correctly reconnected to game.");
-            return false;
+            send(reconnectionMessage);
+            reply = getReply();
+            headerCode = reply.getHeaderCode();
+
+            if(headerCode == OK.getCode()) {
+                // TODO Remove debug statement
+                System.err.println("Correctly reconnected to game.");
+                return false;
+            }
+
+            showError(reply);
+        } catch (IOException e) {
+            view.showError(e.getMessage());
         }
 
-        showError(reply);
         return true;
     }
 

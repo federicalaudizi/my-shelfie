@@ -34,35 +34,41 @@ public class ClientRMI extends Client {
     public void start() throws RemoteException {
         boolean exit = false;
         while(!exit) {
-            connect();
+            try {
+                boolean gameOver = false;
 
-            login();
+                connect();
 
-            boolean gameOver = false;
-            Message reply;
-            int headerCode;
+                login();
 
-            while(!gameOver) {
-                reply = gameInterface.ping(getUsername());
-                headerCode = reply.getHeaderCode();
+                while(!gameOver) {
+                    Message reply;
+                    int headerCode;
 
-                if(headerCode == GET_TILES.getCode())
-                    getTiles();
-                else if(headerCode == GET_COLUMN.getCode())
-                    getColumn();
-                else if(headerCode == GAME_UPDATE.getCode())
-                    update(reply.getBody());
-                else if(headerCode == GAME_OVER.getCode()) {
-                    gameOver = true;
-                    gameOver(reply.getBody());
-                    exit = view.continueScreen();
-                } else if(headerCode == PING.getCode()) {
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                    reply = gameInterface.ping(getUsername());
+                    headerCode = reply.getHeaderCode();
+
+                    if(headerCode == GET_TILES.getCode())
+                        getTiles();
+                    else if(headerCode == GET_COLUMN.getCode())
+                        getColumn();
+                    else if(headerCode == GAME_UPDATE.getCode())
+                        update(reply.getBody());
+                    else if(headerCode == GAME_OVER.getCode()) {
+                        gameOver = true;
+                        gameOver(reply.getBody());
+                        exit = view.continueScreen();
+                    } else if(headerCode == PING.getCode()) {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
+            } catch (RemoteException e) {
+                if(isDisconnected())
+                    view.showError("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.");
             }
         }
     }
@@ -195,19 +201,25 @@ public class ClientRMI extends Client {
      * @author Mario Merlo
      */
     @Override
-    boolean isDisconnected() throws RemoteException {
-        setUsername(view.getUsername());
+    boolean isDisconnected() {
+        Message reply;
+        try {
+            setUsername(view.getUsername());
 
-        Message reply = loginInterface.reconnect(getUsername());
-        int headerCode = reply.getHeaderCode();
+            reply = loginInterface.reconnect(getUsername());
+            int headerCode = reply.getHeaderCode();
 
-        if(headerCode == OK.getCode()) {
-            // TODO Remove debug statement
-            System.err.println("Correctly reconnected to game.");
-            return false;
+            if(headerCode == OK.getCode()) {
+                // TODO Remove debug statement
+                System.err.println("Correctly reconnected to game.");
+                return false;
+            }
+
+            showError(reply);
+        } catch (RemoteException e) {
+            view.showError(e.getMessage());
         }
 
-        showError(reply);
         return true;
     }
 
