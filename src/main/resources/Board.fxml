@@ -17,7 +17,7 @@
     <ImageView fitHeight="249.0" fitWidth="231.0" layoutX="640.0" layoutY="36.0">
         <Image url="@Images/bookshelf.png" />
     </ImageView>
-    <ImageView fx:id="personalCard" fitHeight="193.0" fitWidth="159.0" layoutX="788.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true" />
+    <ImageView fx:id="personalCard" fitHeight="249.0" fitWidth="189.0" layoutX="756.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fx:id="shelfImage2" fitHeight="124.0" fitWidth="107.0" layoutX="61.0" layoutY="476.0">
         <Image url="@Images/bookshelf.png" />
     </ImageView>

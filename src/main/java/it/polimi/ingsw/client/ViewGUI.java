@@ -1,4 +1,5 @@
 package it.polimi.ingsw.client;
+
 import it.polimi.ingsw.client.scene.*;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.PersonalObjectiveCard;
@@ -76,10 +77,10 @@ public class ViewGUI extends View {
     }
 
 
-    public void setPersonalObjectiveCard(Game game){
+    public void setPersonalObjectiveCard(Game game) {
         String stream;
         Image image;
-        PersonalObjectiveCard card = game.getPlayersPersonalObjective();
+        PersonalObjectiveCard card = game.getPlayerByUsername(client.getUsername()).getObjective();
         if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FIRST_PATTERN) {
             stream = "file:src/main/resources/Images/one_po.png";
             image = new Image(stream);
@@ -88,48 +89,49 @@ public class ViewGUI extends View {
             stream = "file:src/main/resources/Images/two_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.THIRD_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.THIRD_PATTERN) {
             stream = "file:src/main/resources/Images/three_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FOURTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FOURTH_PATTERN) {
             stream = "file:src/main/resources/Images/four_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FIFTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FIFTH_PATTERN) {
             stream = "file:src/main/resources/Images/five_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SIXTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SIXTH_PATTERN) {
             stream = "file:src/main/resources/Images/six_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SEVENTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SEVENTH_PATTERN) {
             stream = "file:src/main/resources/Images/seven_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.EIGHTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.EIGHTH_PATTERN) {
             stream = "file:src/main/resources/Images/eight_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.NINTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.NINTH_PATTERN) {
             stream = "file:src/main/resources/Images/nine_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.TENTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.TENTH_PATTERN) {
             stream = "file:src/main/resources/Images/ten_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.ELEVENTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.ELEVENTH_PATTERN) {
             stream = "file:src/main/resources/Images/eleven_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
-        }else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.TWELFTH_PATTERN) {
+        } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.TWELFTH_PATTERN) {
             stream = "file:src/main/resources/Images/twelve_po.png";
             image = new Image(stream);
             gameController.personalCard.setImage(image);
         }
     }
+
     public void setCommonObjectivesCards(Game game) {
         String stream;
         Image image;
