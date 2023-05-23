@@ -68,11 +68,13 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public void run() {
         // Heartbeat
-        while((isAlive && !gameOver && !terminated) || (!terminated && (columnFlag || tilesFlag))){
+        while(isAlive && !gameOver && !terminated){
             try {
                 synchronized (heartbeatLock) {
-                    tempAlive = false;
-                    heartbeatLock.wait(60000);
+                    // Here i "fake" the liveliness of the client when i'm in the process of retrieving a tile or a flag
+                    tempAlive = columnFlag || tilesFlag;
+
+                    heartbeatLock.wait(30000);
                     isAlive = tempAlive;
                 }
             } catch (InterruptedException e) {
