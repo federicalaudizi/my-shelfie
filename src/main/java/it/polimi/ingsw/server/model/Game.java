@@ -320,7 +320,6 @@ public class Game {
         return new Player(players.get(getCurrentPlayerIndex())).getObjective();
     }
 
-
     public Player getCurrentPlayer() {
         return new Player(players.get(getCurrentPlayerIndex()));
     }
