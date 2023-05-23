@@ -20,6 +20,7 @@ public class RMIClientHandler extends ClientHandler {
     private final Object heartbeatLock;
     private boolean isAlive;
     private boolean tempAlive;
+    private boolean terminated;
 
     private boolean gameOver;
 
@@ -46,6 +47,7 @@ public class RMIClientHandler extends ClientHandler {
         this.heartbeatLock = new Object();
         this.isAlive = true;
         this.tempAlive = true;
+        this.terminated = false;
         this.gameOver = false;
 
         this.pingFlag = false;
@@ -66,11 +68,11 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public void run() {
         // Heartbeat
-        while(isAlive && !gameOver){
+        while((isAlive && !gameOver && !terminated) || (!terminated && (columnFlag || tilesFlag))){
             try {
                 synchronized (heartbeatLock) {
                     tempAlive = false;
-                    heartbeatLock.wait(10000);
+                    heartbeatLock.wait(60000);
                     isAlive = tempAlive;
                 }
             } catch (InterruptedException e) {
@@ -78,7 +80,8 @@ public class RMIClientHandler extends ClientHandler {
             }
         }
 
-        ongoingGames.notifyDisconnection(thisPlayerId);
+        // Exited while before game is over, i must notify the disconnection;
+        if (!gameOver) ongoingGames.notifyDisconnection(thisPlayerId);
 
         // TODO: Game over
     }
@@ -131,7 +134,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public Coordinate[] getTiles() throws PlayerDisconnectedException {
-        if(!isAlive) throw new PlayerDisconnectedException();
+        if(!isAlive) terminate();
 
         // Sending the tiles request
         sendPing(new Message(GET_TILES));
@@ -141,7 +144,7 @@ public class RMIClientHandler extends ClientHandler {
                 // Wait for 10 seconds the answer
                 tilesLock.wait(60000);
                 // If the answer is not received, the player disconnected
-                if(!tilesFlag) throw new PlayerDisconnectedException();
+                if(!tilesFlag) terminate();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -176,7 +179,8 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public int getColumn() throws PlayerDisconnectedException {
-        if(!isAlive) throw new PlayerDisconnectedException();
+        if(!isAlive) terminate();
+
         // Sending the column request
         sendPing(new Message(GET_COLUMN));
 
@@ -185,7 +189,7 @@ public class RMIClientHandler extends ClientHandler {
                 // Wait for 60 seconds the answer
                 columnLock.wait(60000);
                 // If the answer is not received, the player disconnected
-                if(!columnFlag) throw new PlayerDisconnectedException();
+                if(!columnFlag) terminate();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -248,6 +252,14 @@ public class RMIClientHandler extends ClientHandler {
             responseMessage = message;
             responseLock.notifyAll();
         }
+    }
+
+    private void terminate() throws PlayerDisconnectedException{
+        terminated = true;
+        synchronized (heartbeatLock) {
+            heartbeatLock.notifyAll();
+        }
+        throw new PlayerDisconnectedException();
     }
 
     Message ping(){
