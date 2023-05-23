@@ -8,6 +8,7 @@ import org.junit.*;
 
 import java.util.Objects;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
@@ -52,8 +53,15 @@ public class PlayerTest {
         player = new Player(playerObjectve);
         comparingShelf = new Shelf();
 
-        player.assignPointCard(new PointCard(4));
+        assertEquals(0, player.getPointCardStatus());
+
+        player.assignPointCard(new PointCard(4), 0);
+        assertEquals(1, player.getPointCardStatus());
         Assert.assertEquals(4, player.calculatePoints());
+
+        player.assignPointCard(new PointCard(6), 1);
+        assertEquals(3, player.getPointCardStatus());
+        Assert.assertEquals(10, player.calculatePoints());
     }
 
     @Test

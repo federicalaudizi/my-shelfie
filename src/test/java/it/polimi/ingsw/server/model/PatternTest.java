@@ -16,14 +16,23 @@ public class PatternTest {
 
 
         testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(1, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(1, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(2, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(2, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(3, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(3, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(4, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(4, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
 
         System.out.println(testingShelf);
@@ -37,14 +46,23 @@ public class PatternTest {
         CollectiveObjectiveCard.PatternOne pattern = new CollectiveObjectiveCard.PatternOne();
 
         testingShelf.addTiles(0, new Tile[]{Tile.PLANTS, Tile.PLANTS, Tile.TROPHIES});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.GAMES, Tile.FRAMES});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(1, new Tile[]{Tile.GAMES, Tile.FRAMES, Tile.FRAMES});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(1, new Tile[]{Tile.CATS, Tile.PLANTS, Tile.GAMES});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(2, new Tile[]{Tile.FRAMES, Tile.BOOKS, Tile.PLANTS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(2, new Tile[]{Tile.FRAMES, Tile.TROPHIES, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(3, new Tile[]{Tile.PLANTS, Tile.TROPHIES, Tile.TROPHIES});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(3, new Tile[]{Tile.FRAMES, Tile.CATS});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(4, new Tile[]{Tile.CATS, Tile.BOOKS, Tile.FRAMES});
+        assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(4, new Tile[]{Tile.CATS, Tile.BOOKS});
 
         System.out.println(testingShelf);
