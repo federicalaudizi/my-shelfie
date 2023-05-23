@@ -103,8 +103,10 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public void sendGameState(Game gameState, String player, int gainedObjective) {
         JSONObject objectiveWinner = new JSONObject();
+
         objectiveWinner.put("username", player);
         objectiveWinner.put("objective", gainedObjective);
+
         JSONArray body = new JSONArray();
         body.put(gameState.toJson());
         body.put(objectiveWinner);
