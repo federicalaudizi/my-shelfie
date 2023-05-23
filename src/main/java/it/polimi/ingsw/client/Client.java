@@ -350,7 +350,6 @@ public abstract class Client {
     }
 
     // TODO This might change visibility later on
-
     /**
      * This method returns the view associated to this client.
      * @return the view associated to this client
