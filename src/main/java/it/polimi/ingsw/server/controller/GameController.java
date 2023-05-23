@@ -139,6 +139,7 @@ public class GameController implements Runnable {
                         playerMakeMove(currentPlayerId);
                     } catch (PlayerDisconnectedException e) {
                         // Player disconnected, game over
+                        e.printStackTrace();
                         notifyDisconnection(currentPlayerId);
                     }
 
