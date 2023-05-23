@@ -144,9 +144,12 @@ public class GameController implements Runnable {
                     }
 
                 }
+
+                int result = game.checkGoals();
+
                 isOver = game.nextTurn();
 
-                updateAllPlayers();
+                updateAllPlayers(currentPlayerId, result);
             } else {
                 System.out.println(gameId+": Not enough players to continue, waiting for more players to connect");
                 // Case 1 or zero players connected
@@ -178,12 +181,25 @@ public class GameController implements Runnable {
         for (String player : players) {
             if(connectedPlayers.get(player) == 1) {
                 System.out.println(gameId + ": Sending game state to " + player);
-                // Sending the game state with the information about the current player if he won a collective objective
-                if(game.checkGoals() != 0) getClientHandler(player).sendGameState(game, game.getCurrentPlayer().getUsername(), game.checkGoals());
-                // Sending only the game state
-                else getClientHandler(player).sendGameState(game);
+                getClientHandler(player).sendGameState(game);
             }
         }
+    }
+
+    /**
+     * Helper method to update the game state of all players after the game started
+     */
+    private void updateAllPlayers(String playerWinner, int winStatus){
+        // Send game state to all players after the move
+        if(winStatus != 0){
+            System.out.println(gameId + ": "+playerWinner+" won an objective with status "+winStatus);
+            for (String player : players) {
+                if (connectedPlayers.get(player) == 1) {
+                    System.out.println(gameId + ": Sending game state to " + player);
+                    getClientHandler(player).sendGameState(game, playerWinner, winStatus);
+                }
+            }
+        } else updateAllPlayers();
     }
 
     /**
