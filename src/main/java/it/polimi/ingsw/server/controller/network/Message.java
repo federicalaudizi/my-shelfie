@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -12,9 +14,9 @@ import java.util.Arrays;
  *
  * @author Federico Liuzzi, Mario Merlo
  */
-public class Message {
-    private final Header header;
-    private final JSONArray body;
+public class Message implements Serializable {
+    private Header header;
+    private JSONArray body;
 
     public Message(String message) throws IOException{
         JSONObject jsonMessage = new JSONObject(message);
@@ -49,9 +51,21 @@ public class Message {
     @Override
     public String toString() {
         return "{" +
-               "\"header\":" + header.toString() + "," +
+               "\"header\":" + header.getCode() + "," +
                "\"body\":" + body.toString() +
                "}";
+    }
+
+    @Serial
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+        out.writeUTF(toString());
+    }
+
+    @Serial
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        JSONObject jsonMessage = new JSONObject(in.readUTF());
+        header = Arrays.stream(Header.values()).filter(h -> h.getCode() == jsonMessage.getInt("header")).findFirst().orElseThrow(IOException::new);
+        body = jsonMessage.getJSONArray("body");
     }
 
     /**
