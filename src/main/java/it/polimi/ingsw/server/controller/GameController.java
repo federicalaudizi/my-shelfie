@@ -170,6 +170,9 @@ public class GameController implements Runnable {
         }
     }
 
+    /**
+     * Helper method to update the game state of all players
+     */
     private void updateAllPlayers(){
         // Send game state to all players after the move
         for (String player : players) {
