@@ -255,13 +255,13 @@ public class ClientSocket extends Client {
      * Correctly closes the socket components and the socket itself once the client disconnects or the game ends
      * @author Mario Merlo
      */
-    void cleanUp() throws IOException {
+    void cleanUp() {
         writer.close();
         try {
             bufferedReader.close();
             socket.close();
         } catch (IOException e) {
-            throw new IOException(e.getMessage());
+            view.showError(e.getMessage());
         }
     }
 
