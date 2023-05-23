@@ -156,11 +156,9 @@ public class ClientSocket extends Client {
                     // Parse the reply
                     reply = getReply();
                     headerCode = reply.getHeaderCode();
-                    if(headerCode == OK.getCode()) {
-                        // TODO Remove debug statement
-                        System.err.println("Correctly created game.");
+                    if(headerCode == OK.getCode())
                         operationCompleted = true;
-                    } else showError(reply);
+                    else showError(reply);
                 }
                 case 2 -> {
                     // Join a new game option
@@ -180,11 +178,9 @@ public class ClientSocket extends Client {
                         reply = getReply();
                         headerCode = reply.getHeaderCode();
 
-                        if(headerCode == OK.getCode()) {
-                            // TODO Remove debug statement
-                            System.err.println("You correctly joined the game.");
+                        if(headerCode == OK.getCode())
                             operationCompleted = true;
-                        } else showError(reply);
+                        else showError(reply);
                     } else showError(reply);
                 }
                 case 3 -> {
@@ -237,11 +233,8 @@ public class ClientSocket extends Client {
             reply = getReply();
             headerCode = reply.getHeaderCode();
 
-            if(headerCode == OK.getCode()) {
-                // TODO Remove debug statement
-                System.err.println("Correctly reconnected to game.");
+            if(headerCode == OK.getCode())
                 return false;
-            }
 
             showError(reply);
         } catch (IOException e) {

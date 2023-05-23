@@ -86,16 +86,12 @@ public class ClientRMI extends Client {
         try {
             loginInterface = (RMILoginInterface) registry.lookup("RMILoginInterface");
         } catch (NotBoundException e) {
-            // TODO Remove debug statement
-            System.err.println("Login RMI registry not bound.");
             throw new RemoteException(e.getMessage());
         }
 
         try {
             gameInterface = (RMIGameInterface) registry.lookup("RMIGameInterface");
         } catch (NotBoundException e) {
-            // TODO Remove debug statement
-            System.err.println("Game RMI registry not bound.");
             throw new RemoteException(e.getMessage());
         }
     }
@@ -134,11 +130,9 @@ public class ClientRMI extends Client {
 
                     reply = loginInterface.createGame(getUsername(), playerNumber);
                     headerCode = reply.getHeaderCode();
-                    if(headerCode == OK.getCode()) {
-                        // TODO Remove debug statement
-                        System.err.println("Correctly created game.");
+                    if(headerCode == OK.getCode())
                         operationCompleted = true;
-                    } else showError(reply);
+                    else showError(reply);
                 }
                 case 2 -> {
                     // Join a new game option
@@ -156,11 +150,9 @@ public class ClientRMI extends Client {
                         reply = loginInterface.joinGame(getUsername(), view.gameIdSelection(gameList));
                         headerCode = reply.getHeaderCode();
 
-                        if(headerCode == OK.getCode()) {
-                            // TODO Remove debug statement
-                            System.err.println("You correctly joined the game.");
+                        if(headerCode == OK.getCode())
                             operationCompleted = true;
-                        } else showError(reply);
+                        else showError(reply);
                     }
                 }
                 case 3 -> {
@@ -209,11 +201,8 @@ public class ClientRMI extends Client {
             reply = loginInterface.reconnect(getUsername());
             int headerCode = reply.getHeaderCode();
 
-            if(headerCode == OK.getCode()) {
-                // TODO Remove debug statement
-                System.err.println("Correctly reconnected to game.");
+            if(headerCode == OK.getCode())
                 return false;
-            }
 
             showError(reply);
         } catch (RemoteException e) {
