@@ -235,7 +235,6 @@ public abstract class Client {
     Message tileValidation() {
         boolean inputValidation = false;
         ArrayList<Coordinate> coordinates = null;
-        JSONArray body = null;
 
         // This loop does not break until the input from the user is validated by the client.
         // The validation checks whether the user input the correct number of coordinates -- between 1 and 3.
@@ -244,20 +243,14 @@ public abstract class Client {
             String input = view.getTiles();
             try {
                 coordinates = parseMoveInput(input);
-                inputValidation = true;
+                if(coordinates != null)
+                    inputValidation = true;
             } catch (IllegalStateException e) {
                 view.showError("You entered an invalid number of coordinates. Retry.");
             }
         }
 
-        try {
-            body = coordsToJson(coordinates);
-        } catch (NullPointerException e) {
-            // TODO Remove debug statement
-            System.err.println(e.getMessage());
-        }
-
-        return new Message(Message.Header.SEND_TILES, body);
+        return new Message(Message.Header.SEND_TILES, coordsToJson(coordinates));
     }
 
     /**
