@@ -101,7 +101,7 @@ public class ClientRMI extends Client {
      * @author Mario Merlo
      */
     @Override
-    void login() throws RemoteException, UnknownError {
+    void login() throws RemoteException {
         Message reply;
         int headerCode;
         boolean operationCompleted = false, loggedIn = false;
