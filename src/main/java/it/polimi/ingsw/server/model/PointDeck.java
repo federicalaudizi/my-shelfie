@@ -40,21 +40,27 @@ public class PointDeck {
         }
     }
 
-    public int simplifiedPointDeck() {
-        return this.topValue();
-    }
-
     /**
      * copy constructor
      */
     PointDeck(PointDeck other) {
         this.size = other.size;
         this.cards = new Stack<>();
-        Stack<PointCard> otherCards = new Stack<>();
-        otherCards.addAll(other.cards);
+        this.cards.addAll(other.cards);
+    }
 
-        while (!otherCards.isEmpty()) {
-            this.cards.push(otherCards.pop());
+    /**
+     * Creates this object from a JSONObject
+     * @param pointDeckJson the JSONObject to copy from
+     */
+    PointDeck(JSONObject pointDeckJson){
+        this.size = pointDeckJson.getInt("size");
+        this.cards = new Stack<>();
+
+        JSONArray cards = pointDeckJson.getJSONArray("cards");
+
+        for(int i=0; i < cards.length(); i++){
+            this.cards.push(new PointCard(cards.getJSONObject(i)));
         }
     }
 
@@ -95,61 +101,28 @@ public class PointDeck {
         else return 0;
     }
 
-    public PointDeck(int numOfPlayers, int peek) {
-        cards = new Stack<>();
-
-        if (numOfPlayers == 2) {
-            if (peek == 8) {
-                cards.push(new PointCard(4));
-                cards.push(new PointCard(8));
-                size = 2;
-            } else if (peek == 4) {
-                cards.push(new PointCard(4));
-                size = 1;
-            }
-
-        } else if (numOfPlayers == 3) {
-            if (peek == 8) {
-                cards.push(new PointCard(4));
-                cards.push(new PointCard(6));
-                cards.push(new PointCard(8));
-                size = 3;
-            } else if (peek == 6) {
-                cards.push(new PointCard(4));
-                cards.push(new PointCard(6));
-                size = 2;
-            } else if (peek == 4) {
-                cards.push(new PointCard(4));
-                size = 1;
-            }
-        } else if (numOfPlayers == 4) {
-            if (peek == 8) {
-                cards.push(new PointCard(2));
-                cards.push(new PointCard(4));
-                cards.push(new PointCard(6));
-                cards.push(new PointCard(8));
-                size = 4;
-            } else if (peek == 6) {
-                cards.push(new PointCard(2));
-                cards.push(new PointCard(4));
-                cards.push(new PointCard(6));
-                size = 3;
-            } else if (peek == 4) {
-                cards.push(new PointCard(2));
-                cards.push(new PointCard(4));
-                size = 2;
-            } else {
-                cards.push(new PointCard(2));
-                size = 1;
-            }
-        }
-    }
-
     public String toString() {
         StringBuilder s = new StringBuilder("(");
         for (PointCard c : cards) {
             s.append(c.toString()).append(",");
         }
         return s + ")";
+    }
+
+    /**
+     * @return this represented as a JSONObject
+     */
+    JSONObject toJson(){
+        JSONObject ret = new JSONObject();
+
+        ret.put("size", size);
+
+        JSONArray stack = new JSONArray();
+        for(PointCard card : cards){
+            stack.put(card.toJson());
+        }
+        ret.put("cards", stack);
+
+        return ret;
     }
 }
