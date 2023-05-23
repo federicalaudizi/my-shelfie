@@ -17,13 +17,17 @@ import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
 /**
  * This class handles the interactions between the user and the server.
- *
  * @author Mario Merlo
  */
 public abstract class Client {
     private String username;
     final View view;
 
+    /**
+     * This constructor creates a client and the corresponding view.
+     * @param cli Specifies whether the client should be CLI-only or not
+     * @author Mario Merlo
+     */
     public Client(boolean cli) {
         if (cli)
             view = new ViewCLI(this);
@@ -42,24 +46,60 @@ public abstract class Client {
         this.username = username;
     }
 
+    /**
+     * This method starts the main loop of the client.
+     * @throws Exception This method can throw a subclass of Exception when the connection with the server malfunctions.
+     * @author Mario Merlo
+     */
     public abstract void start() throws Exception;
 
+    /**
+     * This method is used to connect the client to the server.
+     * @throws Exception This method can throw a subclass of Exception when the connection with the server malfunctions.
+     * @author Mario Merlo
+     */
     abstract void connect() throws Exception;
 
+    /**
+     * This method is used to let the player log in with a username and choose whether to create a new game, join one or
+     * reconnect to a game they were previously playing in.
+     * @throws Exception This method can throw a subclass of Exception when the connection with the server malfunctions.
+     * @author Mario Merlo
+     */
     abstract void login() throws Exception;
 
+    /**
+     * This method is used to set the user's username in the server and handles errors when a username is already taken.
+     * @throws Exception This method can throw a subclass of Exception when the connection with the server malfunctions.
+     * @author Mario Merlo
+     */
     abstract void setServerUsername() throws Exception;
 
+    /**
+     * This method is used to send the user selected tiles to the server for validation and registration.
+     * @throws Exception This method can throw a subclass of Exception when the connection with the server malfunctions.
+     * @author Mario Merlo
+     */
     abstract void getTiles() throws Exception;
 
+    /**
+     * This method is used to send the user selected column to the server for validation and registration.
+     * @throws Exception This method can throw a subclass of Exception when the connection with the server malfunctions.
+     * @author Mario Merlo
+     */
     abstract void getColumn() throws Exception;
 
+    /**
+     * This method checks whether the client disconnected from the server and returns to the main menu if it did.
+     * @return true if the client disconnected from the server, false otherwise
+     * @throws Exception This method can throw a subclass of Exception when the connection with the server malfunctions.
+     * @author Mario Merlo
+     */
     abstract boolean isDisconnected() throws Exception;
 
     /**
-     * Triggers the game over screen on the view, passing the player leaderboard to it
-     *
-     * @param leaderboard The message containing the leaderboard
+     * This method triggers the game over screen on the view, passing the player leaderboard to it.
+     * @param leaderboard A JSONArray containing the ordered players and their corresponding points
      * @author Mario Merlo
      */
     void gameOver(JSONArray leaderboard) {
@@ -67,9 +107,9 @@ public abstract class Client {
     }
 
     /**
-     * Sends the game data to the view in order to update it
-     *
-     * @param gameData The JSONObject containing a representation of the Game object stored in the server
+     * This method sends the game data to the view in order to update it.
+     * @param gameData The JSONArray containing a representation of the Game object stored in the server and, when
+     *                 applicable, a JSONObject specifying which player won what objective.
      * @author Mario Merlo
      */
     void update(JSONArray gameData) {
@@ -189,12 +229,17 @@ public abstract class Client {
         return inputCoords;
     }
 
+    /**
+     * This method is used to validate and package the tiles in a Message to be sent to the server.
+     * @return a Message object with SEND_TILES as a header and the JSON representation of the selected
+     *         tiles as the body.
+     * @author Mario Merlo
+     */
     Message tileValidation() {
         boolean inputValidation = false;
         ArrayList<Coordinate> coordinates = null;
         JSONArray body = null;
 
-        // --- Client-side validation ---
         // This loop does not break until the input from the user is validated by the client.
         // The validation checks whether the user input the correct number of coordinates -- between 1 and 3.
         // The user is also prompted to confirm his own input with the confirmationPrompt method of ViewCLI.
@@ -218,6 +263,12 @@ public abstract class Client {
         return new Message(Message.Header.SEND_TILES, body);
     }
 
+    /**
+     * This method is used to validate and package the column in a Message to be sent to the server.
+     * @return a Message object with SEND_COLUMN as a header and the JSON representation of the selected
+     *          column as the body.
+     * @author Mario Merlo
+     */
     Message columnValidation() {
         boolean inputValidation = false;
         int column;
@@ -236,11 +287,22 @@ public abstract class Client {
         return new Message(Message.Header.SEND_COLUMN, body);
     }
 
+    /**
+     * This method is used to show the error message contained in replies sent by the server on the View.
+     * @param reply The Message object sent as a response by the server
+     * @author Mario Merlo
+     */
     void showError(Message reply) {
         if(reply.getHeaderCode() / 100 == 4)
             view.showError(reply.getBody().getJSONObject(0).getString("message"));
     }
 
+    /**
+     * This method checks whether the response sent by the server when validating a username is positive or negative.
+     * @param message The response sent by the server
+     * @return true if the username is valid, false otherwise
+     * @author Mario Merlo
+     */
     boolean checkUsernameValidity(Message message) {
         if(message.getHeaderCode() == OK.getCode())
             return true;
@@ -249,10 +311,22 @@ public abstract class Client {
         return false;
     }
 
+    /**
+     * This method validates the number of players input by the user when creating a new game.
+     * @param playerNumber The number of players input by the user
+     * @return true if the number is valid, false otherwise
+     * @author Mario Merlo
+     */
     boolean checkPlayerNumber(int playerNumber) {
         return playerNumber >= 2 && playerNumber <= 4;
     }
 
+    /**
+     * This method asks the user to create a new game, join one or reconnect to a game they were previously playing in.
+     * The method also validates the number sent by the View.
+     * @return the integer input by the user
+     * @author Mario Merlo
+     */
     int getGameChoice() {
         int choice = 0;
         boolean validGameOption = false;
@@ -268,8 +342,7 @@ public abstract class Client {
     }
 
     /**
-     * Gets the player's username.
-     *
+     * This method gets the player's username.
      * @return The player's username.
      * @author Mario Merlo
      */
@@ -278,8 +351,7 @@ public abstract class Client {
     }
 
     /**
-     * Sets the player's username.
-     *
+     * This method sets the player's username.
      * @param username The username chosen by the user.
      * @author Mario Merlo
      */
@@ -290,8 +362,7 @@ public abstract class Client {
     // TODO This might change visibility later on
 
     /**
-     * Returns the view associated to this client
-     *
+     * This method returns the view associated to this client.
      * @return the view associated to this client
      * @author Mario Merlo
      */

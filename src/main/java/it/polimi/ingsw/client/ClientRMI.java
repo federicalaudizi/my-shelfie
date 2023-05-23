@@ -61,6 +61,11 @@ public class ClientRMI extends Client {
         }
     }
 
+    /**
+     * Locates the RMI registry containing login and game methods.
+     * @throws RemoteException If something goes wrong while locating the method registries, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void connect() throws RemoteException {
         Registry registry = LocateRegistry.getRegistry();

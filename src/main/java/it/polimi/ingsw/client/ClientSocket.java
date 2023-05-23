@@ -114,7 +114,8 @@ public class ClientSocket extends Client {
     }
 
     /**
-     * Prompts the user for a username and logs into the connected server
+     * Prompts the user for a username, logs into the connected server and asks the user if they want to create a new
+     * game, join one or reconnect to a game they were disconnected from.
      * @throws IOException If the client disconnects inadvertently from the server, this exception is thrown
      * @author Mario Merlo
      */
@@ -192,12 +193,22 @@ public class ClientSocket extends Client {
         }
     }
 
+    /**
+     * Asks the user for the tiles they want to pick from the board.
+     * @throws IOException If the connection to the server fails, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void getTiles() throws IOException {
         send(tileValidation());
         showError(getReply());
     }
 
+    /**
+     * Asks the user for the column they want to put their selected tiles in.
+     * @throws IOException If the connection to the server fails, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void getColumn() throws IOException {
         send(columnValidation());
@@ -205,7 +216,7 @@ public class ClientSocket extends Client {
     }
 
     /**
-     * This method is used to reconnect to an ongoing game in case of an accidental client disconnection.
+     * This method is used to stop the ongoing game if the client disconnects from the server.
      * @author Mario Merlo
      */
     @Override
@@ -245,6 +256,11 @@ public class ClientSocket extends Client {
         }
     }
 
+    /**
+     * This method handles the username setting on the server
+     * @throws IOException If the connection to the server fails, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void setServerUsername() {
         setUsername(view.getUsername());
@@ -259,7 +275,7 @@ public class ClientSocket extends Client {
     /**
      * Reads the reply sent from the server and packages it as a Message.
      * @return The reply sent from the server as a Message object.
-     * @throws NullPointerException If the reply is null, this exception is thrown.
+     * @throws IOException If something goes wrong when reading the socket's input stream, this exception is thrown
      * @author Mario Merlo
      */
     Message getReply() throws NullPointerException {
