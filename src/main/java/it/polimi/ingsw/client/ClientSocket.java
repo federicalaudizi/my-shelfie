@@ -243,7 +243,6 @@ public class ClientSocket extends Client {
 
     /**
      * Correctly closes the socket components and the socket itself once the client disconnects or the game ends
-     * @throws IOException If something goes wrong when closing the components or the socket, this exception is thrown
      * @author Mario Merlo
      */
     void cleanUp() throws IOException {

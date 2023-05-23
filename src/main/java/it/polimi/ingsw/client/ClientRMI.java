@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
 /**
+ * This class implements a client that connects to a server through RMI.
  * @author Mario Merlo
  */
 public class ClientRMI extends Client {
@@ -24,6 +25,11 @@ public class ClientRMI extends Client {
         super(cli);
     }
 
+    /**
+     * Starts the client by cycling through the game phases such as connection, login and move parsing
+     * @throws RemoteException If the RMI connection fails, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     public void start() throws RemoteException {
         boolean exit = false;
@@ -88,6 +94,12 @@ public class ClientRMI extends Client {
         }
     }
 
+    /**
+     * Prompts the user for a username, logs into the connected server and asks the user if they want to create a new
+     * game, join one or reconnect to a game they were disconnected from.
+     * @throws RemoteException If the RMI connection fails, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void login() throws RemoteException, UnknownError {
         Message reply;
@@ -158,16 +170,30 @@ public class ClientRMI extends Client {
 
     }
 
+    /**
+     * Asks the user for the tiles they want to pick from the board.
+     * @throws RemoteException If the RMI connection fails, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void getTiles() throws RemoteException {
         showError(gameInterface.submitTiles(getUsername(), tileValidation()));
     }
 
+    /**
+     * Asks the user for the column they want to put their selected tiles in.
+     * @throws RemoteException If the RMI connection fails, this exception is thrown.
+     * @author Mario Merlo
+     */
     @Override
     void getColumn() throws RemoteException {
         showError(gameInterface.submitColumn(getUsername(), columnValidation()));
     }
 
+    /**
+     * This method is used to stop the ongoing game if the client disconnects from the server.
+     * @author Mario Merlo
+     */
     @Override
     boolean isDisconnected() throws RemoteException {
         setUsername(view.getUsername());
@@ -185,6 +211,11 @@ public class ClientRMI extends Client {
         return true;
     }
 
+    /**
+     * This method handles the username setting on the server
+     * @throws RemoteException If the RMI connection fails, this exception is thrown
+     * @author Mario Merlo
+     */
     @Override
     void setServerUsername() throws RemoteException {
         setUsername(view.getUsername());
