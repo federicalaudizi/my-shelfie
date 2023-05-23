@@ -224,6 +224,15 @@ public class RMIClientHandler extends ClientHandler {
 
     private void sendPing(Message message){
         synchronized (pingLock) {
+            while(pingFlag){
+                // If there still is a pending message, wait
+                // TODO: wait forever?
+                try {
+                    pingLock.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             System.out.println(thisPlayerId + ": sending ping "+message.toString());
             pingFlag = true;
             pingMessage = message;
@@ -249,6 +258,7 @@ public class RMIClientHandler extends ClientHandler {
             if(!pingFlag) return new Message(PING);
             else {
                 pingFlag = false;
+                pingLock.notifyAll();
                 return pingMessage;
             }
         }
