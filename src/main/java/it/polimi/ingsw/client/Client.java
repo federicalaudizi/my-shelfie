@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -89,11 +88,9 @@ public abstract class Client {
             playerOrder.addFirst(username);
 
         // Check for won objective JSONObject
-        try {
+        if(gameData.length() == 2){
             JSONObject objectiveStatus = gameData.getJSONObject(1);
             view.showAchievement(objectiveStatus.getString("username"), objectiveStatus.getInt("objective"));
-        } catch (JSONException e) {
-            // No objectives were won, so there is nothing else to do
         }
 
         // Send updates to view
