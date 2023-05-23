@@ -220,7 +220,7 @@ public class ClientSocket extends Client {
      * @author Mario Merlo
      */
     @Override
-    boolean isDisconnected() {
+    boolean isDisconnected() throws IOException {
         setUsername(view.getUsername());
 
         Message reconnectionMessage = new Message(RECONNECT, new JSONObject().put("username", getUsername()));
@@ -262,7 +262,7 @@ public class ClientSocket extends Client {
      * @author Mario Merlo
      */
     @Override
-    void setServerUsername() {
+    void setServerUsername() throws IOException {
         setUsername(view.getUsername());
         boolean loggedIn = false;
 
@@ -278,18 +278,8 @@ public class ClientSocket extends Client {
      * @throws IOException If something goes wrong when reading the socket's input stream, this exception is thrown
      * @author Mario Merlo
      */
-    Message getReply() throws NullPointerException {
-        Message reply = null;
-        try {
-            reply = new Message(bufferedReader.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(reply != null) {
-            // TODO Remove debug statement
-            System.err.println(reply);
-            return reply;
-        } else throw new NullPointerException("Reply was empty.");
+    Message getReply() throws IOException {
+        return new Message(bufferedReader.readLine());
     }
 
     /**
