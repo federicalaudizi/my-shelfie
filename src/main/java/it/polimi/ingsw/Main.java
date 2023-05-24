@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.rmi.RMIServer;
 import it.polimi.ingsw.server.controller.network.socket.SocketServer;
+import javafx.scene.image.Image;
 
 class Main {
     /**
