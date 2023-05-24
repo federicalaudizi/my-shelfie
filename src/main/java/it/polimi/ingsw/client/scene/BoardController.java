@@ -1,16 +1,23 @@
 package it.polimi.ingsw.client.scene;
 
+import it.polimi.ingsw.client.ViewGUI;
 import it.polimi.ingsw.server.model.Game;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image ;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardController{
+    public Button continueBotton;
+    private List<String> tiles;
     @FXML
     private ImageView b03;
 
@@ -173,6 +180,95 @@ public class BoardController{
     private ImageView shelfImage3;
     @FXML
     private ImageView shelfImage4;
+    @FXML
+    private ImageView s00;
+
+    @FXML
+    private ImageView s01;
+
+    @FXML
+    private ImageView s02;
+
+    @FXML
+    private ImageView s03;
+
+    @FXML
+    private ImageView s04;
+
+    @FXML
+    private ImageView s10;
+
+    @FXML
+    private ImageView s11;
+
+    @FXML
+    private ImageView s12;
+
+    @FXML
+    private ImageView s13;
+
+    @FXML
+    private ImageView s14;
+
+    @FXML
+    private ImageView s20;
+
+    @FXML
+    private ImageView s21;
+
+    @FXML
+    private ImageView s22;
+
+    @FXML
+    private ImageView s23;
+
+    @FXML
+    private ImageView s24;
+
+    @FXML
+    private ImageView s30;
+
+    @FXML
+    private ImageView s31;
+
+    @FXML
+    private ImageView s32;
+
+    @FXML
+    private ImageView s33;
+
+    @FXML
+    private ImageView s34;
+
+    @FXML
+    private ImageView s40;
+
+    @FXML
+    private ImageView s41;
+
+    @FXML
+    private ImageView s42;
+
+    @FXML
+    private ImageView s43;
+
+    @FXML
+    private ImageView s44;
+
+    @FXML
+    private ImageView s50;
+
+    @FXML
+    private ImageView s51;
+
+    @FXML
+    private ImageView s52;
+
+    @FXML
+    private ImageView s53;
+
+    @FXML
+    private ImageView s54;
 
     public void setShelves(Game game){
         if(game.getNumberOfPlayers() == 2){
@@ -184,6 +280,8 @@ public class BoardController{
     }
 
     public void initializeBoard(Game game){
+        this.tiles = new ArrayList<>();
+        continueBotton.setVisible(false);
         for(int i=0; i< game.getBoard().getMAX_X(); i++){
             for(int j=0;j<game.getBoard().getMAX_Y();j++){
                Image image;
@@ -191,134 +289,340 @@ public class BoardController{
                    continue;
                }
                image = new Image(game.getBoard().getTile(i,j).getPath());
-               getImageViewForPosition(i,j).setImage(image);
+               getImageViewForPositionBoard(i,j).setImage(image);
             }
         }
     }
 
-    private ImageView getImageViewForPosition(int row, int col) {
-        ObservableList<Node> children = boardPane.getChildren();
+    public void initializeShelves(Game game){
+        for(int k=0;k< game.getNumberOfPlayers();k++) {
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 5; j++) {
+                    Image image;
+                    if (game.getPlayers().get(k).getShelf().getTile(i, j).getPath() == null) {
+                        continue;
+                    }
+                    image = new Image(game.getPlayers().get(k).getShelf().getTile(i, j).getPath());
+                    getImageViewForPositionShelf(i, j).setImage(image);
+                }
+            }
+        }
+    }
+
+    private ImageView getImageViewForPositionShelf(int i, int j) {
+        return getImageView(i, j, shelfGrid);
+    }
+
+    private ImageView getImageView(int i, int j, GridPane shelfGrid) {
+        ObservableList<Node> children = shelfGrid.getChildren();
 
         for (Node node : children) {
             Integer rowIndex = GridPane.getRowIndex(node);
             Integer colIndex = GridPane.getColumnIndex(node);
 
-            if (rowIndex != null && colIndex != null && rowIndex == row && colIndex == col && node instanceof ImageView) {
+            if (rowIndex != null && colIndex != null && rowIndex == i && colIndex == j && node instanceof ImageView) {
                 return (ImageView) node;
             }
         }
 
-        throw new IllegalStateException("ImageView not found for position: (" + row + ", " + col + ")");
+        throw new IllegalStateException("ImageView not found for position: (" + i + ", " + j + ")");
     }
 
-    public void setCommonObjectivesCards(Game game) {
-        String stream;
-        Image image;
-
-        String[] string = game.getObjectives();
-        if (Objects.equals(string[0], "PatternOne")) {
-            stream = "file:src/main/resources/Images/one.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternTwo")) {
-            stream = "file:src/main/resources/Images/two.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternThree")) {
-            stream = "file:src/main/resources/Images/three.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternFour")) {
-            stream = "file:src/main/resources/Images/four.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternFive")) {
-            stream = "file:src/main/resources/Images/five.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternSix")) {
-            stream = "file:src/main/resources/Images/six.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternSeven")) {
-            stream = "file:src/main/resources/Images/seven.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternEight")) {
-            stream = "file:src/main/resources/Images/eight.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternNine")) {
-            stream = "file:src/main/resources/Images/nine.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternTen")) {
-            stream = "file:src/main/resources/Images/ten.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternEleven")) {
-            stream = "file:src/main/resources/Images/eleven.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        } else if (Objects.equals(string[0], "PatternTwelve")) {
-            stream = "file:src/main/resources/Images/twelve.jpg";
-            image = new Image(stream);
-            commonCard1.setImage(image);
-        }
-        if (Objects.equals(string[1], "PatternOne")) {
-            stream = "file:src/main/resources/Images/one.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternTwo")) {
-            stream = "file:src/main/resources/Images/two.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternThree")) {
-            stream = "file:src/main/resources/Images/three.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternFour")) {
-            stream = "file:src/main/resources/Images/four.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternFive")) {
-            stream = "file:src/main/resources/Images/five.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternSix")) {
-            stream = "file:src/main/resources/Images/six.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternSeven")) {
-            stream = "file:src/main/resources/Images/seven.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternEight")) {
-            stream = "file:src/main/resources/Images/eight.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternNine")) {
-            stream = "file:src/main/resources/Images/nine.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternTen")) {
-            stream = "file:src/main/resources/Images/ten.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternEleven")) {
-            stream = "file:src/main/resources/Images/eleven.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        } else if (Objects.equals(string[1], "PatternTwelve")) {
-            stream = "file:src/main/resources/Images/twelve.jpg";
-            image = new Image(stream);
-            commonCard2.setImage(image);
-        }
+    private ImageView getImageViewForPositionBoard(int row, int col) {
+        return getImageView(row, col, boardPane);
     }
 
+    public void b03clicked(MouseEvent mouseEvent) {
+        b03.setOpacity(0.5);
+        tiles.add("(0,3)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b04clicked(MouseEvent mouseEvent) {
+        b04.setOpacity(0.5);
+        tiles.add("(0,4)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b13clicked(MouseEvent mouseEvent) {
+        b13.setOpacity(0.5);
+        tiles.add("(1,3)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b14clicked(MouseEvent mouseEvent) {
+        b14.setOpacity(0.5);
+        tiles.add("(1,4)");
+        updateContinueButtonVisibility();
+
+    }
+
+    public void b15clicked(MouseEvent mouseEvent) {
+        b15.setOpacity(0.5);
+        tiles.add("(1,5)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b22clicked(MouseEvent mouseEvent) {
+        b22.setOpacity(0.5);
+        tiles.add("(2,2)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b23clicked(MouseEvent mouseEvent) {
+        b23.setOpacity(0.5);
+        tiles.add("(2,3)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b24clicked(MouseEvent mouseEvent) {
+        b24.setOpacity(0.5);
+        tiles.add("(2,4)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b25clicked(MouseEvent mouseEvent) {
+        b25.setOpacity(0.5);
+        tiles.add("(2,5)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b26clicked(MouseEvent mouseEvent) {
+        b26.setOpacity(0.5);
+        tiles.add("(2,6)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b31clicked(MouseEvent mouseEvent) {
+        b31.setOpacity(0.5);
+        tiles.add("(3,1)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b32clicked(MouseEvent mouseEvent) {
+        b32.setOpacity(0.5);
+        tiles.add("(3,2)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b33clicked(MouseEvent mouseEvent) {
+        b33.setOpacity(0.5);
+        tiles.add("(3,3)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b34clicked(MouseEvent mouseEvent) {
+        b34.setOpacity(0.5);
+        tiles.add("(3,4)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b35clicked(MouseEvent mouseEvent) {
+        b35.setOpacity(0.5);
+        tiles.add("(3,5)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b36clicked(MouseEvent mouseEvent) {
+        b36.setOpacity(0.5);
+        tiles.add("(3,6)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b37clicked(MouseEvent mouseEvent) {
+        b37.setOpacity(0.5);
+        tiles.add("(3,7)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b38clicked(MouseEvent mouseEvent) {
+        b38.setOpacity(0.5);
+        tiles.add("(3,8)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b40clicked(MouseEvent mouseEvent) {
+        b40.setOpacity(0.5);
+        tiles.add("(4,0)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b41clicked(MouseEvent mouseEvent) {
+        b41.setOpacity(0.5);
+        tiles.add("(4,1)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b42clicked(MouseEvent mouseEvent) {
+        b42.setOpacity(0.5);
+        tiles.add("(4,2)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b43clicked(MouseEvent mouseEvent) {
+        b43.setOpacity(0.5);
+        tiles.add("(4,3)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b44clicked(MouseEvent mouseEvent) {
+        b44.setOpacity(0.5);
+        tiles.add("(4,4)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b45clicked(MouseEvent mouseEvent) {
+        b45.setOpacity(0.5);
+        tiles.add("(4,5)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b46clicked(MouseEvent mouseEvent) {
+        b46.setOpacity(0.5);
+        tiles.add("(4,6)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b47clicked(MouseEvent mouseEvent) {
+        b47.setOpacity(0.5);
+        tiles.add("(4,7)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b48clicked(MouseEvent mouseEvent) {
+        b48.setOpacity(0.5);
+        tiles.add("(4,8)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b50clicked(MouseEvent mouseEvent) {
+        b50.setOpacity(0.5);
+        tiles.add("(5,0)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b62clicked(MouseEvent mouseEvent) {
+        b62.setOpacity(0.5);
+        tiles.add("(6,2)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b57clicked(MouseEvent mouseEvent) {
+        b57.setOpacity(0.5);
+        tiles.add("(5,7)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b56clicked(MouseEvent mouseEvent) {
+        b56.setOpacity(0.5);
+        tiles.add("(5,6)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b55clicked(MouseEvent mouseEvent) {
+        b55.setOpacity(0.5);
+        tiles.add("(5,5)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b54clicked(MouseEvent mouseEvent) {
+        b54.setOpacity(0.5);
+        tiles.add("(5,4)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b53clicked(MouseEvent mouseEvent) {
+        b53.setOpacity(0.5);
+        tiles.add("(5,3)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b52clicked(MouseEvent mouseEvent) {
+        b52.setOpacity(0.5);
+        tiles.add("(5,2)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b51clicked(MouseEvent mouseEvent) {
+        b51.setOpacity(0.5);
+        tiles.add("(5,1)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b63clicked(MouseEvent mouseEvent) {
+        b63.setOpacity(0.5);
+        tiles.add("(6,3)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b64clicked(MouseEvent mouseEvent) {
+        b64.setOpacity(0.5);
+        tiles.add("(6,4)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b65clicked(MouseEvent mouseEvent) {
+        b65.setOpacity(0.5);
+        tiles.add("(6,5)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b66clicked(MouseEvent mouseEvent) {
+        b66.setOpacity(0.5);
+        tiles.add("(6,6)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b73clicked(MouseEvent mouseEvent) {
+        b73.setOpacity(0.5);
+        tiles.add("(7,3)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b74clicked(MouseEvent mouseEvent) {
+        b74.setOpacity(0.5);
+        tiles.add("(7,4)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b75clicked(MouseEvent mouseEvent) {
+        b75.setOpacity(0.5);
+        tiles.add("(7,5)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b84clicked(MouseEvent mouseEvent) {
+        b84.setOpacity(0.5);
+        tiles.add("(8,4)");
+        updateContinueButtonVisibility();
+    }
+
+    public void b85clicked(MouseEvent mouseEvent) {
+        b85.setOpacity(0.5);
+        tiles.add("(8,5)");
+        updateContinueButtonVisibility();
+    }
+
+    public void getTile(){
+        String r =  String.join(",",tiles);
+        try {
+            //give nick to manager thread
+            ViewGUI.queue.put(r);
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        tiles.clear();
+    }
+
+    public void handleConfirmation(ActionEvent actionEvent) {
+        getTile();
+    }
+
+    private void updateContinueButtonVisibility(){
+        if(tiles.size()>0){
+            continueBotton.setVisible(true);
+        }
+    }
 }
-
-
-
-
 
