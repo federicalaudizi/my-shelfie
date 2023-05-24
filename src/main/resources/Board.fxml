@@ -197,5 +197,5 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
     </GridPane>
-   <Button fx:id="continueBotton" layoutX="540.0" layoutY="100.0" mnemonicParsing="false" onAction="#handleConfirmation" text="Continue" />
+   <Button fx:id="continueBotton" layoutX="540.0" layoutY="100.0" mnemonicParsing="false" onAction="#handleConfirmation" text="Continue" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-width: 1px; -fx-border-color: #25171c; -fx-border-radius: 15px;"/>
 </AnchorPane>
