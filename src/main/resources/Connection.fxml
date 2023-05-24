@@ -19,15 +19,5 @@
          <Font size="14.0" />
       </font>
    </Label>
-   <Button fx:id="ok" layoutX="273.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleMouseClickForIp" text="ok" />
-   <Text fx:id="genericError" fill="RED" layoutX="223.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="An unknown error occured" textAlignment="CENTER" visible="false">
-      <font>
-         <Font name="Negotiate Free" size="14.0" />
-      </font>
-   </Text>
-   <Text fx:id="wrongIp" fill="RED" layoutX="149.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You entered a malformed IP:port combo. Please retry." textAlignment="CENTER" visible="false">
-      <font>
-         <Font name="Negotiate Free" size="14.0" />
-      </font>
-   </Text>
+   <Button fx:id="ok" layoutX="283.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleMouseClickForIp" text="ok" />
 </AnchorPane>
