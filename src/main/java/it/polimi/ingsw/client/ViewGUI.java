@@ -71,7 +71,10 @@ public class ViewGUI extends View {
         }
         setCommonObjectivesCards(game);
         setPersonalObjectiveCard(game);
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameRoot)));
+        Platform.runLater(() -> {
+            Gui.getStage().setTitle(client.getUsername());
+            Gui.getStage().setScene(new Scene(gameRoot));
+        });
         gameController.setShelves(game);
         gameController.initializeBoard(game);
     }
