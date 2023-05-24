@@ -314,7 +314,13 @@ public class ViewGUI extends View {
 
     @Override
     String getTiles() {
-        return null;
+        String r = null;
+        try {
+            r = (String) queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return r;
     }
 
     @Override
