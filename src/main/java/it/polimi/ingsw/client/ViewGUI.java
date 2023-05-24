@@ -337,7 +337,8 @@ public class ViewGUI extends View {
     void showError(String errorMessage) {
         //TODO: distinguere tipo di errore con display error diversi
         if (errorMessage.equals("You entered a malformed IP:port combo. Retry.") || errorMessage.equals("The host does not exist. Retry.") || errorMessage.equals("Something went wrong.")) {
-            connectionController.displayError();
+            //connectionController.displayError();
+            Platform.runLater(connectionController::displayError);
         }
     }
 }
