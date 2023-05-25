@@ -124,32 +124,6 @@ public class GameController implements Runnable {
         }
     }
 
-
-    /**
-     * this thread manages the player turn.
-     * Firstly it waits until all the players are connected.
-     * When all the players are connected sends to all the client handlers the game state, then the game can start.
-     * */
-    @Override
-    public void run() {
-        //waiting for all the players to be connected
-        waitAllPlayers();
-
-        //players added to the map
-        players.addAll(playerToClientHandlerMap.keySet());
-
-        game.setUsernames(players);
-
-        // Sends the first game update to all the client handlers
-        updateAllPlayers();
-
-        System.out.println(gameId+": Let's start playing!");
-        //let's start playing
-        playGame();
-
-        gameOver();
-    }
-
     /**
      * Helper method to play the game
      *
