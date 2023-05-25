@@ -92,6 +92,19 @@ public class Shelf {
     }
 
     /**
+     * Method that gives the tile present at a specified coordinate
+     *
+     * @author Federico
+     *
+     * @param row the row of the requested tile
+     * @param column the column of the requested tile
+     * @return the tile present at the specified coordinates
+     */
+    public Tile getTile(int row, int column) {
+        return contents[row][column];
+    }
+
+    /**
      * Adds up to three tiles into the shelf in a specified column and in a specified order,
      * the first tile of the array gets placed in the lowest position of the selected column
      *
