@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardController{
-    public Button continueBotton;
+    public Button continueButton;
     public Button column0;
     public Button column1;
     public Button column2;
@@ -200,9 +200,12 @@ public class BoardController{
     public void setShelves(Game game){
         if(game.getNumberOfPlayers() == 2){
             shelfImage3.setVisible(false);
+            shelfGrid3.setVisible(false);
             shelfImage4.setVisible(false);
+            shelfGrid4.setVisible(false);
         } else if (game.getNumberOfPlayers() ==3) {
             shelfImage4.setVisible(false);
+            shelfGrid4.setVisible(false);
         }
     }
 
@@ -212,7 +215,7 @@ public class BoardController{
      * */
     public void initializeBoard(Game game){
         this.tiles = new ArrayList<>();
-        continueBotton.setVisible(false);
+        continueButton.setVisible(false);
         for(int i=0; i< game.getBoard().getMAX_X(); i++){
             for(int j=0;j<game.getBoard().getMAX_Y();j++){
                Image image;
@@ -707,7 +710,7 @@ public class BoardController{
      * */
     private void updateContinueButtonVisibility(){
         if(tiles.size()>0){
-            continueBotton.setVisible(true);
+            continueButton.setVisible(true);
         }
     }
 
