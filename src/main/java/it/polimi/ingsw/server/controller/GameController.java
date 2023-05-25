@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.controller.network.ClientHandler;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Tile;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -243,56 +242,38 @@ public class GameController implements Runnable {
      * @author Federico
      */
     private void playerMakeMove(String currentPlayerId) throws PlayerDisconnectedException {
-            tilesInShelf(getTiles(currentPlayerId), currentPlayerId);
-    }
-
-    /**
-     * Private method used to keep asking the user to pick some tiles until they are in the correct position
-     * or the correct amount
-     *
-     * @param currentPlayerId is the player in turn
-     *
-     * @return an array with the chosen tiles
-     */
-    private Tile[] getTiles(String currentPlayerId) throws PlayerDisconnectedException {
-        Coordinate[] coordinates = getClientHandler(currentPlayerId).getTiles();
-        Tile[] tiles;
-
-        try {
-            tiles = switch (coordinates.length) {
-                case 1 -> game.chooseTiles(coordinates[0], null, null);
-                case 2 -> game.chooseTiles(coordinates[0], coordinates[1], null);
-                default -> game.chooseTiles(coordinates[0], coordinates[1], coordinates[2]);
-            };
-        } catch (TileUnpickableException | IllegalArgumentException e) {
-            System.out.println(gameId+": "+currentPlayerId+" chose the wrong tiles!");
-            getClientHandler(currentPlayerId).badTile();
-            return getTiles(currentPlayerId);
-        }
-
-        System.out.println(gameId+": "+currentPlayerId+" chose the tiles!");
-        getClientHandler(currentPlayerId).sendOk();
-        return tiles;
-    }
-
-    /**
-     * Private method to insert the tiles chosen by the player in the correct shelf
-     *
-     * @param tiles an array with the chosen tiles
-     * @param  currentPlayerId is the player in turn
-     *
-     * */
-    private void tilesInShelf(Tile[] tiles, String currentPlayerId) throws PlayerDisconnectedException {
+        boolean tilesPicked = false;
+        boolean columnPicked = false;
+        Coordinate[] coordinates = null;
         int column;
-        column = getClientHandler(currentPlayerId).getColumn();
 
-        try {
-            game.insertInShelf(column, tiles);
-            getClientHandler(currentPlayerId).sendOk();
-        } catch (fullColumnException | tooManyTilesException | notEnoughTilesException e) {
-            getClientHandler(currentPlayerId).badColumn();
-            tilesInShelf(tiles, currentPlayerId);
+        while(!tilesPicked){
+            boolean pickables = true;
+            coordinates = getClientHandler(currentPlayerId).getTiles();
+            // Check if all coordinates are pickable
+            for (Coordinate c : coordinates) {
+                if(c != null) pickables = pickables && game.isPickable(c);
+            }
+            tilesPicked = pickables;
+            if(!tilesPicked) getClientHandler(currentPlayerId).badTile();
         }
+        getClientHandler(currentPlayerId).sendOk();
+
+        while(!columnPicked){
+            column = getClientHandler(currentPlayerId).getColumn();
+
+            try {
+                switch (coordinates.length) {
+                    case 1 -> game.makeMove(column, coordinates[0], null, null);
+                    case 2 -> game.makeMove(column, coordinates[0], coordinates[1], null);
+                    default -> game.makeMove(column, coordinates[0], coordinates[1], coordinates[2]);
+                }
+                columnPicked = true;
+            } catch (tooManyTilesException | notEnoughTilesException | fullColumnException e){
+                getClientHandler(currentPlayerId).badTile();
+            }
+        }
+        getClientHandler(currentPlayerId).sendOk();
     }
 
     /**
