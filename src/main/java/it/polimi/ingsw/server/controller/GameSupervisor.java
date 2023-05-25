@@ -302,8 +302,10 @@ public class GameSupervisor implements Runnable{
         JSONArray playersGamesArray = new JSONArray();
         for(String playerId : playersGames.keySet()){
             JSONObject playerGame = new JSONObject();
+            String gameId = playersGames.get(playerId);
+            if(!games.get(gameId).isStarted()) continue;
             playerGame.put("playerId", playerId);
-            playerGame.put("gameId", playersGames.get(playerId));
+            playerGame.put("gameId", gameId);
             playersGamesArray.put(playerGame);
         }
         json.put("playersGames", playersGamesArray);
