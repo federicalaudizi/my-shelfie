@@ -58,7 +58,9 @@ public class GameSupervisor implements Runnable{
     public void run() {
         while(true){
             try {
-                this.wait(10000);
+                synchronized (this) {
+                    this.wait(10000);
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
