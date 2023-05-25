@@ -351,6 +351,8 @@ public class ViewGUI extends View {
             Platform.runLater(() -> connectionController.displayError(errorMessage));
         } else if (errorMessage.equals("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.")) {
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(networkErrorRoot)));
+        } else if (errorMessage.equals("Wrong number of coordinates input.") || errorMessage.equals("You entered an invalid number of coordinates. Retry.")) {
+            Platform.runLater(()-> gameController.displayError(errorMessage));
         }
     }
 }
