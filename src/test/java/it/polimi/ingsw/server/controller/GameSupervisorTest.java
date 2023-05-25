@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.controller.network.ClientHandler;
+import it.polimi.ingsw.server.controller.network.FakeClientHandler;
 import it.polimi.ingsw.server.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,12 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameSupervisorTest {
     GameSupervisor gameSupervisor;
     ClientHandler clientHandler;
+    ClientHandler clientHandler2;
     String gameId;
 
     @BeforeEach
     void setUp() {
         gameSupervisor = new GameSupervisor();
         clientHandler = new FakeClientHandler();
+        clientHandler2 = new FakeClientHandler();
     }
 
     @Test
@@ -72,7 +75,15 @@ class GameSupervisorTest {
     }
 
     @Test
-    void toJson(){
+    void toJson() throws PlayerIdTakenException, ReachedMaxNumberOfPlayers, NonExistentGameException {
+        gameSupervisor.newUser("player1", clientHandler);
+        gameSupervisor.newUser("player2", clientHandler2);
+        gameId = gameSupervisor.newGame(2);
+        gameSupervisor.joinGame("player1", gameId);
+        gameSupervisor.joinGame("player2", gameId);
 
+        GameSupervisor gameSupervisor2 = new GameSupervisor(gameSupervisor.toJson());
+
+        assertTrue(gameSupervisor2.equals(gameSupervisor));
     }
 }
