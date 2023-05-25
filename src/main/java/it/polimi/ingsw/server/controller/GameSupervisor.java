@@ -64,9 +64,10 @@ public class GameSupervisor implements Runnable{
             }
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String filePath = timeStamp + ".txt";
+            String filePath = "gamesaves/"+timeStamp + ".txt";
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                System.out.println("Supervisor: saving state on "+filePath);
                 writer.write(this.toJson().toString(1));
             } catch (IOException e) {
                 e.printStackTrace();
