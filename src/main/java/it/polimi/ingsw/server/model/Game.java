@@ -189,7 +189,11 @@ public class Game {
      * @author Federico
      */
     public boolean isPickable(Coordinate c){
-        return board.isPickable(c);
+        try{
+            return board.isPickable(c);
+        } catch (IllegalArgumentException e){
+            return false;
+        }
     }
 
     /**
