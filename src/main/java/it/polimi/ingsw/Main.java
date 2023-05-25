@@ -23,6 +23,7 @@ class Main {
             Client c;
             if(args[1].equals("socket")){
                 if (args[2].equals("gui")){
+                    //Image image = new Image("file:src/main/resources/Images/eight.jpg");
                     c = new ClientSocket(false);
                 }else if (args[2].equals("tui")){
                     c = new ClientSocket(true);

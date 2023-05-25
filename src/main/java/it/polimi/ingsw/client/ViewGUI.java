@@ -27,6 +27,7 @@ public class ViewGUI extends View {
     private final NumberOfPlayersController numberOfPlayersController;
     private final BoardController gameController;
     public static Parent welcomeRoot;
+    public static Parent networkErrorRoot;
     public static Parent joinRoot;
     public static Parent gameOptionsRoot;
     public static Parent connectRoot;
@@ -42,6 +43,7 @@ public class ViewGUI extends View {
         FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/NumberOfPlayers.fxml"));
         FXMLLoader joinLoader = new FXMLLoader(getClass().getResource("/JoinGame.fxml"));
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/Board.fxml"));
+        FXMLLoader networkErrorLoader = new FXMLLoader(getClass().getResource("/Network_error.fxml"));
 
         try {
             welcomeRoot = welcomeLoader.load();
@@ -51,6 +53,8 @@ public class ViewGUI extends View {
             numberOfPlayersRoot = numberOfPlayersLoader.load();
             joinRoot = joinLoader.load();
             gameRoot = gameLoader.load();
+            networkErrorRoot = networkErrorLoader.load();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -340,8 +344,9 @@ public class ViewGUI extends View {
     void showError(String errorMessage) {
         //TODO: distinguere tipo di errore con display error diversi
         if (errorMessage.equals("You entered a malformed IP:port combo. Retry.") || errorMessage.equals("The host does not exist. Retry.") || errorMessage.equals("Something went wrong.")) {
-            //connectionController.displayError();
             Platform.runLater(connectionController::displayError);
+        } else if (errorMessage.equals("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.")) {
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(networkErrorRoot)));
         }
     }
 }

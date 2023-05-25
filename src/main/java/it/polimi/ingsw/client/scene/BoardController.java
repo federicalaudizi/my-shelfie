@@ -306,7 +306,7 @@ public class BoardController{
      * Sets the shelves view
      * @param game is the game model
      * */
-    public void initializeShelves(Game game){
+    /*public void initializeShelves(Game game){
         for(int k=0;k< game.getNumberOfPlayers();k++) {
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < 5; j++) {
@@ -319,7 +319,7 @@ public class BoardController{
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Helper method to get the ImageView of the tile for the shelf
