@@ -181,6 +181,7 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public int getColumn() throws PlayerDisconnectedException {
+        // TODO: there is a bug, i signal this as not alive while i wait for the column or tile, must be fixed
         if(!isAlive) terminate();
 
         // Sending the column request
