@@ -6,6 +6,8 @@ import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +20,7 @@ import java.util.HashMap;
  */
 
 public class GameController implements Runnable {
-
+    private final boolean resumed;
     private final Game game;
     private final GameSupervisor ongoingGames;
     private final HashMap<String, ClientHandler> playerToClientHandlerMap;
@@ -45,6 +47,33 @@ public class GameController implements Runnable {
         this.connectedPlayers = new HashMap<>();
         this.ongoingGames = ongoingGames;
         this.waitLock = new Object();
+        this.resumed = false;
+    }
+
+    /**
+     * this thread manages the player turn.
+     * Firstly it waits until all the players are connected.
+     * When all the players are connected sends to all the client handlers the game state, then the game can start.
+     * */
+    @Override
+    public void run() {
+        //waiting for all the players to be connected
+        waitAllPlayers();
+
+        //players added to the map
+        players.addAll(playerToClientHandlerMap.keySet());
+
+        if(!resumed) game.setUsernames(players);
+
+        // Sends the first game update to all the client handlers
+        updateAllPlayers();
+
+        if(resumed) System.out.println(gameId+": Let's resume the game!");
+        else System.out.println(gameId+": Let's start playing!");
+        //let's start playing
+        playGame();
+
+        gameOver();
     }
 
     /**
