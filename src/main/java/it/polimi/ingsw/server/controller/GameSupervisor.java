@@ -184,6 +184,17 @@ public class GameSupervisor{
     }
 
     /**
+     * This method returns the game controller of a game by its id
+     *
+     * @param gameId the id of the game
+     * @return the game controller of the game
+     * @author Federico
+     */
+    public GameController getGameControllerById(String gameId){
+        return games.get(gameId);
+    }
+
+    /**
      * This method returns whether two GameSupervisors contain the same players, games and player to game associations
      *
      * @param other the other GameSupervisor
