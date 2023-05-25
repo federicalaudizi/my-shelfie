@@ -797,5 +797,15 @@ public class BoardController{
             continueBotton.setVisible(true);
         }
     }
+
+    public void disableView(){
+        boardPane.setDisable(true);
+        shelfGrid.setDisable(true);
+    }
+
+    public void ableView(){
+        boardPane.setDisable(false);
+        shelfGrid.setDisable(false);
+    }
 }
 

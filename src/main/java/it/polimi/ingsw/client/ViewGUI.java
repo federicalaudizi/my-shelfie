@@ -71,12 +71,18 @@ public class ViewGUI extends View {
         }
         setCommonObjectivesCards(game);
         setPersonalObjectiveCard(game);
+        gameController.setShelves(game);
+        gameController.initializeBoard(game);
+        //gameController.initializeShelves(game);
         Platform.runLater(() -> {
             Gui.getStage().setTitle(client.getUsername());
             Gui.getStage().setScene(new Scene(gameRoot));
         });
-        gameController.setShelves(game);
-        gameController.initializeBoard(game);
+        if(!client.getUsername().equals(game.getCurrentPlayer().getUsername())){
+            gameController.disableView();
+        }else {
+            gameController.ableView();
+        }
     }
 
 
