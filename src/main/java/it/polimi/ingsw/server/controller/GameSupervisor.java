@@ -269,7 +269,13 @@ public class GameSupervisor implements Runnable{
     }
 
     /**
-     * This method returns a JSONObject representation of the GameSupervisor
+     * This method returns a JSONObject representation of the GameSupervisor containing all players, all the games that are
+     * actually running (all players joined the game). For example:
+     * {
+     *     "games":[{"gameId":"game123", "game":{game.toJson()}},...],
+     *     "players":["player1","player2"...],
+     *     "playersGames":[{"playerId": "player1", "gameId": "code123"}, ...]
+     * }
      *
      * @return a JSONObject representation of the GameSupervisor
      */
@@ -296,8 +302,10 @@ public class GameSupervisor implements Runnable{
         JSONArray playersGamesArray = new JSONArray();
         for(String playerId : playersGames.keySet()){
             JSONObject playerGame = new JSONObject();
+            String gameId = playersGames.get(playerId);
+            if(!games.get(gameId).isStarted()) continue;
             playerGame.put("playerId", playerId);
-            playerGame.put("gameId", playersGames.get(playerId));
+            playerGame.put("gameId", gameId);
             playersGamesArray.put(playerGame);
         }
         json.put("playersGames", playersGamesArray);
