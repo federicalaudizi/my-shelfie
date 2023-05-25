@@ -229,6 +229,18 @@ public class Game {
     }
 
     /**
+     * This method checks if the board needs to be repopulated and removes the chosen tiles
+     * from the board
+     *
+     * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
+     * @return an array with the chosen tiles
+     */
+    @Deprecated
+    public Tile[] chooseTiles(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
+        return board.pickTile(c1, c2, c3);
+    }
+
+    /**
      * @return a HashMap with the player as key and the player's score
      * as value, sorted in descending order based on the player's score.
      */
