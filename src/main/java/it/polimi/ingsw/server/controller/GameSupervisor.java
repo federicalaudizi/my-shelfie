@@ -94,8 +94,9 @@ public class GameSupervisor{
      * @author Federico
      */
     private void notifyConnection(String playerId){
+        if (!playersGames.contains(playerId)) return;
         GameController game = games.get(playersGames.get(playerId));
-        if(game != null) game.notifyConnection(playerId);
+        game.notifyConnection(playerId);
     }
 
     /**
