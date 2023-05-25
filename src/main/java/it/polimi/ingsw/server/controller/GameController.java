@@ -401,4 +401,10 @@ public class GameController implements Runnable {
     public HashMap<String, Integer> getConnectedPlayers(){
         return connectedPlayers;
     }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isStarted() {return started;}
 }
