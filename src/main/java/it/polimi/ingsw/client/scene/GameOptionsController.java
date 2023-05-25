@@ -11,7 +11,10 @@ public class GameOptionsController {
     @FXML
     public Button button;
 
-
+    /**
+     * The player can decide if create a new game, join an existing game or to reconnect to an old one
+     * This method lets the player chose and sends the choice to the manager thread as a number
+     * */
     public void chooseOption() {
         String selectedOption = choiceSelector.getValue();
         button.setVisible(true);

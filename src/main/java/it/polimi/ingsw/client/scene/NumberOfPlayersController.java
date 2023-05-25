@@ -11,6 +11,9 @@ public class NumberOfPlayersController {
     @FXML
     public Button button;
 
+    /**
+     * Manages the number of player selection
+     * */
     public void chooseOption(){
         Integer selectedOption = choiceSelector.getValue();
         button.setVisible(true);
@@ -28,7 +31,6 @@ public class NumberOfPlayersController {
                 }
                 case 3 -> {
                     try {
-                        //give nick to manager thread
                         ViewGUI.queue.put(3);
 
                     } catch (InterruptedException ex) {
@@ -37,7 +39,6 @@ public class NumberOfPlayersController {
                 }
                 case 4 -> {
                     try {
-                        //give nick to manager thread
                         ViewGUI.queue.put(4);
 
                     } catch (InterruptedException ex) {

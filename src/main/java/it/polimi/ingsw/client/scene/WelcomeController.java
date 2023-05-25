@@ -22,8 +22,9 @@ public class WelcomeController {
     public WelcomeController() {
     }
 
-    /*
-     * if(startGame) ==> changes scene asking ip
+
+    /**
+     * When the mainPane button is clicked the Stage changes
      * */
     @FXML
     private void handleStartGameButtonClick() {

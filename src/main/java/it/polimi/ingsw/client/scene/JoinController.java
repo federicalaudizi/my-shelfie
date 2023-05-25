@@ -17,11 +17,18 @@ public class JoinController implements Initializable {
     public ListView<String> listView;
     public Button button;
 
+    /***
+     * ListView initializer
+     * @param gameIds list of the existing games
+     */
     public void addGameIds(ArrayList<String> gameIds) {
         // Sample data
         listView.getItems().addAll(gameIds);
     }
 
+    /**
+     * When the player choses the game to join it sends it to the manager thread
+     * */
     @FXML
     public void handleItemClick() {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
@@ -36,8 +43,7 @@ public class JoinController implements Initializable {
     }
 
     /**
-     * @param url
-     * @param resourceBundle
+     * Manages the selection of the GameID
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

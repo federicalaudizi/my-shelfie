@@ -23,6 +23,9 @@ public class NicknameController {
     public NicknameController() {
     }
 
+    /**
+     * When the okNick button is clicked sends the nickname chosen to the manager thread
+     * */
     @FXML
     private void handleMouseClickForNickname() {
         String nickname = nicknameText.getCharacters().toString();
