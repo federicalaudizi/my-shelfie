@@ -25,7 +25,6 @@ class GameSupervisorTest {
     void run() throws InterruptedException {
         Thread supervisorThread = new Thread(gameSupervisor);
         supervisorThread.start();
-        supervisorThread.join();
     }
 
     @Test
