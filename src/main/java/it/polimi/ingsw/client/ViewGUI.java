@@ -78,11 +78,6 @@ public class ViewGUI extends View {
             Gui.getStage().setTitle(client.getUsername());
             Gui.getStage().setScene(new Scene(gameRoot));
         });
-        if(!client.getUsername().equals(game.getCurrentPlayer().getUsername())){
-            gameController.disableView();
-        }else {
-            gameController.ableView();
-        }
     }
 
 
@@ -320,12 +315,14 @@ public class ViewGUI extends View {
 
     @Override
     String getTiles() {
+        gameController.ableView();
         String r = null;
         try {
             r = (String) queue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        gameController.disableView();
         return r;
     }
 
