@@ -23,6 +23,31 @@ public class GameSupervisor{
         playersGames = new ConcurrentHashMap<>();
     }
 
+    public GameSupervisor(JSONObject other){
+        this.games = new ConcurrentHashMap<>();
+        this.players = new ConcurrentHashMap<>();
+        this.playersGames = new ConcurrentHashMap<>();
+
+        JSONArray games = other.getJSONArray("games");
+        for(int i = 0; i < games.length(); i++){
+            JSONObject game = games.getJSONObject(i);
+            this.games.put(game.getString("gameId"), new GameController(game.getJSONObject("game"), this));
+        }
+
+        JSONArray players = other.getJSONArray("players");
+        for(int i = 0; i < players.length(); i++){
+            this.players.put(players.getString(i), new FakeClientHandler());
+        }
+
+        JSONArray playersGames = other.getJSONArray("playersGames");
+        for(int i = 0; i < playersGames.length(); i++){
+            JSONObject playerGame = playersGames.getJSONObject(i);
+            this.playersGames.put(playerGame.getString("playerId"), playerGame.getString("gameId"));
+        }
+    }
+
+    //TODO: Create run method
+
     /**
      * This method adds a new player to the list of players that are logged in
      *
