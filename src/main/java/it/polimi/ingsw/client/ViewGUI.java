@@ -347,8 +347,8 @@ public class ViewGUI extends View {
     @Override
     void showError(String errorMessage) {
         //TODO: distinguere tipo di errore con display error diversi
-        if (errorMessage.equals("You entered a malformed IP:port combo. Retry.") || errorMessage.equals("The host does not exist. Retry.") || errorMessage.equals("Something went wrong.")) {
-            Platform.runLater(connectionController::displayError);
+        if (errorMessage.equals("You entered a malformed IP:port combo. Retry.") || errorMessage.equals("The host does not exist. Retry.") || errorMessage.equals("Something went wrong.") || errorMessage.equals("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.")) {
+            Platform.runLater(() -> connectionController.displayError(errorMessage));
         } else if (errorMessage.equals("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.")) {
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(networkErrorRoot)));
         }
