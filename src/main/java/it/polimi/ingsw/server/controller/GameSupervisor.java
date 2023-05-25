@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Federico
  */
-public class GameSupervisor{
+public class GameSupervisor implements Runnable{
     private final ConcurrentHashMap<String, GameController> games; //Associates a game to its id
     private final ConcurrentHashMap<String, ClientHandler> players; //Associates a player to his client handler, client handler is null if the player is not connected
     private final ConcurrentHashMap<String, String> playersGames; //Associates a player to the game he is playing
@@ -49,7 +49,10 @@ public class GameSupervisor{
         }
     }
 
-    //TODO: Create run method
+    @Override
+    public void run() {
+        // TODO: Write periodic save code
+    }
 
     /**
      * This method adds a new player to the list of players that are logged in
