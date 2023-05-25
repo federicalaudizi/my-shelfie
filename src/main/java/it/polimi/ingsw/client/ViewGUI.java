@@ -80,7 +80,11 @@ public class ViewGUI extends View {
         //gameController.initializeShelves(game);
         Platform.runLater(() -> {
             Gui.getStage().setTitle(client.getUsername());
-            Gui.getStage().setScene(new Scene(gameRoot));
+            Scene currentScene = Gui.getStage().getScene();
+            if (currentScene == null || currentScene.getRoot() != gameRoot) {
+                Scene newScene = new Scene(gameRoot);
+                Gui.getStage().setScene(newScene);
+            }
         });
     }
 
