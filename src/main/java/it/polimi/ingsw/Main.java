@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.rmi.RMIServer;
 import it.polimi.ingsw.server.controller.network.socket.SocketServer;
-import javafx.scene.image.Image;
 
 class Main {
     /**
@@ -47,6 +46,7 @@ class Main {
             c.start();
         } else if (args[0].equals("server")){
             GameSupervisor gameSupervisor = new GameSupervisor();
+            new Thread(gameSupervisor).start();
             switch (args[1]) {
                 case "socket" -> new Thread(new SocketServer(8000, gameSupervisor)).start();
                 case "rmi" -> new Thread(new RMIServer(1099, gameSupervisor)).start();
