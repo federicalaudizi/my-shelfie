@@ -269,7 +269,13 @@ public class GameSupervisor implements Runnable{
     }
 
     /**
-     * This method returns a JSONObject representation of the GameSupervisor
+     * This method returns a JSONObject representation of the GameSupervisor containing all players, all the games that are
+     * actually running (all players joined the game). For example:
+     * {
+     *     "games":[{"gameId":"game123", "game":{game.toJson()}},...],
+     *     "players":["player1","player2"...],
+     *     "playersGames":[{"playerId": "player1", "gameId": "code123"}, ...]
+     * }
      *
      * @return a JSONObject representation of the GameSupervisor
      */
