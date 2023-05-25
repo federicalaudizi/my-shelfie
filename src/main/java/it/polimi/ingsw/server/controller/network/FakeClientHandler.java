@@ -29,6 +29,7 @@ public class FakeClientHandler extends ClientHandler {
     @Override
     public void sendGameState(Game gameState) {
         System.out.println(gameState.getBoard().toString());
+        System.out.println(gameState.getCurrentPlayer().getShelf());
     }
 
     /**
@@ -40,7 +41,7 @@ public class FakeClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState, String player, int gainedObjective) {
-
+        System.out.println("Someone won");
     }
 
     /**
@@ -77,7 +78,7 @@ public class FakeClientHandler extends ClientHandler {
      */
     @Override
     public void badTile() {
-        System.out.println("Wrong tile, try again");
+        // System.out.println("Wrong tile, try again");
     }
 
     /**
@@ -89,7 +90,9 @@ public class FakeClientHandler extends ClientHandler {
     @Override
     public int getColumn() {
         Random r = new Random();
-        return r.nextInt(0,5);
+        int ret = r.nextInt(0,5);
+        System.out.println("Picked: "+ret);
+        return ret;
     }
 
     /**

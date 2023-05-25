@@ -216,7 +216,7 @@ public class Game {
         if(c2 != null) selectedTiles++;
         if(c3 != null) selectedTiles++;
         if(selectedTiles == 0) throw new notEnoughTilesException();
-        if(players.get(currentPlayerIndex).getShelf().availableSlots(column) == 5) throw new fullColumnException();
+        if(players.get(currentPlayerIndex).getShelf().availableSlots(column) == 0) throw new fullColumnException();
         else if(players.get(currentPlayerIndex).getShelf().availableSlots(column) < selectedTiles) throw new tooManyTilesException();
 
         // This instruction is now atomic, all checks are executed before taking the tiles out of the board

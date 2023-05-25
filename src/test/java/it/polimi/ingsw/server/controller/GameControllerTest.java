@@ -37,7 +37,7 @@ class GameControllerTest {
 
     @Test
     void toJson() throws ReachedMaxNumberOfPlayers, NonExistentGameException, PlayerIdTakenException, InterruptedException {
-        gameId = gameSupervisor.newGame(2);
+        gameId = gameSupervisor.newGameTest(2);
         gameController1 = gameSupervisor.getGameControllerById(gameId);
 
         assertThrows(NonExistentGameException.class, () -> gameController1.toJson());
@@ -47,8 +47,9 @@ class GameControllerTest {
         gameSupervisor.newUser("player2", new FakeClientHandler());
         gameSupervisor.joinGame("player2", gameId);
 
-        //Wait a bit for the game to start
-        Thread.sleep(1000);
+        Thread t = new Thread(gameController1);
+        t.start();
+        t.join();
 
         gameController2 = new GameController(gameController1.toJson(), gameSupervisor);
 

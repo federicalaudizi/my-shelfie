@@ -248,6 +248,7 @@ public class GameController implements Runnable {
         int column;
 
         while(!tilesPicked){
+            System.out.println(gameId+": "+currentPlayerId+" has to choose the tile");
             boolean pickables = true;
             coordinates = getClientHandler(currentPlayerId).getTiles();
             // Check if all coordinates are pickable
@@ -257,9 +258,11 @@ public class GameController implements Runnable {
             tilesPicked = pickables;
             if(!tilesPicked) getClientHandler(currentPlayerId).badTile();
         }
+        System.out.println(gameId+": "+currentPlayerId+" got the tiles right");
         getClientHandler(currentPlayerId).sendOk();
 
         while(!columnPicked){
+            System.out.println(gameId+": "+currentPlayerId+" has to choose the column");
             column = getClientHandler(currentPlayerId).getColumn();
 
             try {
@@ -270,9 +273,11 @@ public class GameController implements Runnable {
                 }
                 columnPicked = true;
             } catch (tooManyTilesException | notEnoughTilesException | fullColumnException e){
-                getClientHandler(currentPlayerId).badTile();
+                e.printStackTrace();
+                getClientHandler(currentPlayerId).badColumn();
             }
         }
+        System.out.println(gameId+": "+currentPlayerId+" has got the column right");
         getClientHandler(currentPlayerId).sendOk();
     }
 
