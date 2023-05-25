@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.controller.network.ClientHandler;
+import it.polimi.ingsw.server.controller.network.FakeClientHandler;
 import it.polimi.ingsw.server.exceptions.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -260,6 +263,43 @@ public class GameSupervisor{
         }
 
         return games && players && playersGames;
+    }
+
+    /**
+     * This method returns a JSONObject representation of the GameSupervisor
+     *
+     * @return a JSONObject representation of the GameSupervisor
+     */
+    public JSONObject toJson(){
+        JSONObject json = new JSONObject();
+
+        //JSONArray like this: [{"gameId": "gameId", "game": {game}}, ...]
+        JSONArray gamesArray = new JSONArray();
+        for(String gameId : games.keySet()){
+            JSONObject game = new JSONObject();
+            game.put("gameId", gameId);
+            try {
+                game.put("game", games.get(gameId).toJson());
+            } catch (NonExistentGameException e) {
+                continue;
+            }
+            gamesArray.put(game);
+        }
+        json.put("games", gamesArray);
+
+        json.put("players", players.keySet());
+
+        //JSONArray like this: [{"playerId": "player1", "gameId": "code123"}, ...]
+        JSONArray playersGamesArray = new JSONArray();
+        for(String playerId : playersGames.keySet()){
+            JSONObject playerGame = new JSONObject();
+            playerGame.put("playerId", playerId);
+            playerGame.put("gameId", playersGames.get(playerId));
+            playersGamesArray.put(playerGame);
+        }
+        json.put("playersGames", playersGamesArray);
+
+        return json;
     }
 
     /**
