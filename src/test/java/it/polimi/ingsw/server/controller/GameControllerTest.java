@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
