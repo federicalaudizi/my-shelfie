@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 public class GameController implements Runnable {
     private final boolean resumed;
+    private boolean started;
     private final Game game;
     private final GameSupervisor ongoingGames;
     private final HashMap<String, ClientHandler> playerToClientHandlerMap;
@@ -29,6 +30,7 @@ public class GameController implements Runnable {
     private final String gameId;
     private boolean isOver;
     private final Object waitLock;
+    private final Object stateLock;
 
     /**
      * Constructor for the game controller
@@ -47,7 +49,9 @@ public class GameController implements Runnable {
         this.connectedPlayers = new HashMap<>();
         this.ongoingGames = ongoingGames;
         this.waitLock = new Object();
+        this.stateLock = new Object();
         this.resumed = false;
+        this.started = false;
     }
 
     /**
@@ -56,6 +60,7 @@ public class GameController implements Runnable {
      */
     public GameController(JSONObject toCopy, GameSupervisor ongoingGames){
         this.waitLock = new Object();
+        this.stateLock = new Object();
         this.ongoingGames = ongoingGames;
         this.gameId = toCopy.getString("gameId");
         this.game = new Game(toCopy.getJSONObject("game"));
@@ -71,6 +76,7 @@ public class GameController implements Runnable {
             this.players.add(playerId);
         }
         this.resumed = true;
+        this.started = true;
     }
 
     /**
@@ -94,7 +100,12 @@ public class GameController implements Runnable {
         if(resumed) System.out.println(gameId+": Let's resume the game!");
         else System.out.println(gameId+": Let's start playing!");
         //let's start playing
-        playGame();
+        while (!isOver) {
+            synchronized (stateLock) {
+                started = true;
+                playTurn();
+            }
+        }
 
         gameOver();
     }
@@ -152,49 +163,47 @@ public class GameController implements Runnable {
      *
      * @author Sara, Federica
      */
-    private void playGame(){
-        while (!isOver) {
-            String currentPlayerId = players.get(game.getCurrentPlayerIndex());
-            System.out.println(gameId+": It's "+currentPlayerId+"'s turn!");
+    private void playTurn(){
+        String currentPlayerId = players.get(game.getCurrentPlayerIndex());
+        System.out.println(gameId+": It's "+currentPlayerId+"'s turn!");
 
-            if(connectedPlayers.values().stream().filter(value -> value == 1).count() > 1){
-                // Case when there are more than 1 player connected
-                if(connectedPlayers.get(currentPlayerId) == 1){
-                    // Case when the current player is connected
-                    try {
-                        playerMakeMove(currentPlayerId);
-                    } catch (PlayerDisconnectedException e) {
-                        // Player disconnected, game over
-                        e.printStackTrace();
-                        notifyDisconnection(currentPlayerId);
-                    }
-
-                }
-
-                int result = game.checkGoals();
-
-                isOver = game.nextTurn();
-
-                updateAllPlayers(currentPlayerId, result);
-            } else {
-                System.out.println(gameId+": Not enough players to continue, waiting for more players to connect");
-                // Case 1 or zero players connected
+        if(connectedPlayers.values().stream().filter(value -> value == 1).count() > 1){
+            // Case when there are more than 1 player connected
+            if(connectedPlayers.get(currentPlayerId) == 1){
+                // Case when the current player is connected
                 try {
-                    synchronized (waitLock){
-                        // Wait for a minute
-                        waitLock.wait(60000);
-                    }
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    playerMakeMove(currentPlayerId);
+                } catch (PlayerDisconnectedException e) {
+                    // Player disconnected, game over
+                    e.printStackTrace();
+                    notifyDisconnection(currentPlayerId);
                 }
 
-                if(connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1){
-                    // No one connected, game over
-                    System.out.println(gameId+": No one connected, game over");
-                    isOver = true;
-                } else {
-                    System.out.println(gameId+" resuming game");
+            }
+
+            int result = game.checkGoals();
+
+            isOver = game.nextTurn();
+
+            updateAllPlayers(currentPlayerId, result);
+        } else {
+            System.out.println(gameId+": Not enough players to continue, waiting for more players to connect");
+            // Case 1 or zero players connected
+            try {
+                synchronized (waitLock){
+                    // Wait for a minute
+                    waitLock.wait(60000);
                 }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            if(connectedPlayers.values().stream().filter(value -> value == 1).count() <= 1){
+                // No one connected, game over
+                System.out.println(gameId+": No one connected, game over");
+                isOver = true;
+            } else {
+                System.out.println(gameId+" resuming game");
             }
         }
     }
@@ -345,7 +354,7 @@ public class GameController implements Runnable {
      */
     public boolean equals(GameController other) {
         return this.gameId.equals(other.gameId) &&
-                this.game.toJson().equals(other.game.toJson()) &&
+                this.game.toJson().toString().equals(other.game.toJson().toString()) &&
                 this.players.containsAll(other.players) &&
                 this.isOver == other.isOver;
     }
@@ -354,15 +363,21 @@ public class GameController implements Runnable {
      * Creates a JSON representation of the GameController
      *
      * @return the JSONObject representation of the GameController
+     * @throws NonExistentGameException if the game hasn't been started yet or nobody is connected
      * @author Federico
      */
-    public JSONObject toJson(){
+    public JSONObject toJson() throws NonExistentGameException {
         JSONObject ret = new JSONObject();
 
-        ret.put("gameId", gameId);
-        ret.put("game", game.toJson());
-        ret.put("players", new JSONArray(players));
-        ret.put("isOver", isOver);
+        synchronized (stateLock) {
+            // Check if the game has started
+            if(!started) throw new NonExistentGameException("Game hasn't started yet");
+
+            ret.put("gameId", gameId);
+            ret.put("game", game.toJson());
+            ret.put("players", new JSONArray(players));
+            ret.put("isOver", isOver);
+        }
 
         return ret;
     }
