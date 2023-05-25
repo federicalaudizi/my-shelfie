@@ -170,7 +170,7 @@ public class Board {
      *                                  empty or outside the game board, this exception is thrown.
      * @author Mario Merlo
      */
-    private boolean isPickable(Coordinate coord) throws IllegalArgumentException {
+    public boolean isPickable(Coordinate coord) throws IllegalArgumentException {
         // Saving coordinate to make code more readable and avoid subsequent method calls.
         int row = coord.getRow();
         int column = coord.getColumn();
