@@ -22,6 +22,13 @@ class GameSupervisorTest {
     }
 
     @Test
+    void run() throws InterruptedException {
+        Thread supervisorThread = new Thread(gameSupervisor);
+        supervisorThread.start();
+        supervisorThread.join();
+    }
+
+    @Test
     void newUser() throws PlayerIdTakenException {
         gameSupervisor.newUser("testId", clientHandler);
         assertThrows(PlayerIdTakenException.class, () -> gameSupervisor.newUser("testId", clientHandler));
