@@ -6,7 +6,12 @@ import it.polimi.ingsw.server.exceptions.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -51,7 +56,22 @@ public class GameSupervisor implements Runnable{
 
     @Override
     public void run() {
-        // TODO: Write periodic save code
+        while(true){
+            try {
+                this.wait(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String filePath = timeStamp + ".txt";
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                writer.write(this.toJson().toString(1));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
