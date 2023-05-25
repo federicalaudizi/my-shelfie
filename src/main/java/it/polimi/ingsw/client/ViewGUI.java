@@ -336,7 +336,15 @@ public class ViewGUI extends View {
 
     @Override
     int getColumn() {
-        return 0;
+        gameController.ableView();
+        int column = 0;
+        try {
+            column = (int) queue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        gameController.disableView();
+        return column;
     }
 
     @Override
