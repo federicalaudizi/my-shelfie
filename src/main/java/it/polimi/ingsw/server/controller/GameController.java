@@ -403,8 +403,8 @@ public class GameController implements Runnable {
     }
 
     /**
-     *
-     * @return
+     * @return if the game started (all players joined) or not
+     * @author Federico
      */
     public boolean isStarted() {return started;}
 }
