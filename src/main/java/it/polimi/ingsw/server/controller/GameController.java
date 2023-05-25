@@ -51,6 +51,29 @@ public class GameController implements Runnable {
     }
 
     /**
+     * Creates a copy of this object from its JSON representation
+     * @param toCopy the JSON representation of the object to copy
+     */
+    public GameController(JSONObject toCopy, GameSupervisor ongoingGames){
+        this.waitLock = new Object();
+        this.ongoingGames = ongoingGames;
+        this.gameId = toCopy.getString("gameId");
+        this.game = new Game(toCopy.getJSONObject("game"));
+        this.isOver = toCopy.getBoolean("isOver");
+
+        this.players = new ArrayList<>();
+        this.playerToClientHandlerMap = new HashMap<>();
+        this.connectedPlayers = new HashMap<>();
+
+        JSONArray jsonPlayers = toCopy.getJSONArray("players");
+        for (int i = 0; i < jsonPlayers.length(); i++) {
+            String playerId = jsonPlayers.getString(i);
+            this.players.add(playerId);
+        }
+        this.resumed = true;
+    }
+
+    /**
      * this thread manages the player turn.
      * Firstly it waits until all the players are connected.
      * When all the players are connected sends to all the client handlers the game state, then the game can start.
@@ -312,6 +335,36 @@ public class GameController implements Runnable {
         }
 
         ongoingGames.gameOver(gameId);
+    }
+
+    /**
+     * Checks if this GameController is equal to another one
+     * @param other the other GameController
+     * @return true if the two GameController are equal, false otherwise
+     * @author Federico
+     */
+    public boolean equals(GameController other) {
+        return this.gameId.equals(other.gameId) &&
+                this.game.toJson().equals(other.game.toJson()) &&
+                this.players.containsAll(other.players) &&
+                this.isOver == other.isOver;
+    }
+
+    /**
+     * Creates a JSON representation of the GameController
+     *
+     * @return the JSONObject representation of the GameController
+     * @author Federico
+     */
+    public JSONObject toJson(){
+        JSONObject ret = new JSONObject();
+
+        ret.put("gameId", gameId);
+        ret.put("game", game.toJson());
+        ret.put("players", new JSONArray(players));
+        ret.put("isOver", isOver);
+
+        return ret;
     }
 
     /**
