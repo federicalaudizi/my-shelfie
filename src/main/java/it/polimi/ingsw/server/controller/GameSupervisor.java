@@ -127,6 +127,16 @@ public class GameSupervisor implements Runnable{
         return newGameId;
     }
 
+    // This method is for testing only
+    @Deprecated
+    public String newGameTest(int numberOfPlayers) {
+        String newGameId = randomString();
+        GameController game = new GameController(numberOfPlayers, newGameId, this);
+        games.put(newGameId, game);
+
+        return newGameId;
+    }
+
     /**
      * This method adds a player to a game
      *

@@ -66,8 +66,7 @@ public class FakeClientHandler extends ClientHandler {
         int x = r.nextInt(1,8);
         int y = r.nextInt(1,8);
         chosenCoordinate[0] = new Coordinate(x, y);
-        chosenCoordinate[1] = new Coordinate(x+1, y);
-        chosenCoordinate[2] = null;
+        System.out.println("Picked: ("+x+","+y+")");
         return chosenCoordinate;
     }
 
