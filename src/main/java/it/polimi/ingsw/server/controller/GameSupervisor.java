@@ -80,8 +80,8 @@ public class GameSupervisor{
      * @param gameId   the id of the game
      * @author Federico
      */
-    public void joinGame(String playerId, String gameId) throws NonExsistentGameException, ReachedMaxNumberOfPlayers {
-        if(!games.containsKey(gameId)) throw new NonExsistentGameException();
+    public void joinGame(String playerId, String gameId) throws NonExistentGameException, ReachedMaxNumberOfPlayers {
+        if(!games.containsKey(gameId)) throw new NonExistentGameException();
         GameController game = games.get(gameId);
         game.addPlayer(playerId, players.get(playerId));
         playersGames.put(playerId, gameId);

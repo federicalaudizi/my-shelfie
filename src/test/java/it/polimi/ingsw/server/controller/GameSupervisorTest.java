@@ -56,7 +56,7 @@ class GameSupervisorTest {
     }
 
     @Test
-    void joinGame() throws PlayerIdTakenException, ReachedMaxNumberOfPlayers, NonExsistentGameException {
+    void joinGame() throws PlayerIdTakenException, ReachedMaxNumberOfPlayers, NonExistentGameException {
         gameSupervisor.newUser("player1", clientHandler);
         gameId = gameSupervisor.newGame(2);
         gameSupervisor.joinGame("player1", gameId);

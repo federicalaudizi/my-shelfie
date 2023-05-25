@@ -319,7 +319,7 @@ public class SocketClientHandler extends ClientHandler {
                 send(new Message(BAD_HEADER, new JSONObject().put("message", "Wrong header")));
                 joinGamePhase();
             }
-        } catch (NonExsistentGameException e) {
+        } catch (NonExistentGameException e) {
             // An NonExistentGameException occurred, send the error and restart the login phase
             System.out.println(thisPlayerId+": Game does not exist");
             send(new Message(BAD_GAME_ID, new JSONObject().put("message", "Game does not exists")));
