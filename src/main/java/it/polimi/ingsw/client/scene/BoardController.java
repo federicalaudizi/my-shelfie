@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.scene;
 
 import it.polimi.ingsw.client.ViewGUI;
 import it.polimi.ingsw.server.model.Game;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -25,6 +24,11 @@ import java.util.List;
 
 public class BoardController{
     public Button continueBotton;
+    public Button column0;
+    public Button column1;
+    public Button column2;
+    public Button column3;
+    public Button column4;
     private List<String> tiles;
     @FXML
     private ImageView b03;
@@ -188,95 +192,6 @@ public class BoardController{
     private ImageView shelfImage3;
     @FXML
     private ImageView shelfImage4;
-    @FXML
-    private ImageView s00;
-
-    @FXML
-    private ImageView s01;
-
-    @FXML
-    private ImageView s02;
-
-    @FXML
-    private ImageView s03;
-
-    @FXML
-    private ImageView s04;
-
-    @FXML
-    private ImageView s10;
-
-    @FXML
-    private ImageView s11;
-
-    @FXML
-    private ImageView s12;
-
-    @FXML
-    private ImageView s13;
-
-    @FXML
-    private ImageView s14;
-
-    @FXML
-    private ImageView s20;
-
-    @FXML
-    private ImageView s21;
-
-    @FXML
-    private ImageView s22;
-
-    @FXML
-    private ImageView s23;
-
-    @FXML
-    private ImageView s24;
-
-    @FXML
-    private ImageView s30;
-
-    @FXML
-    private ImageView s31;
-
-    @FXML
-    private ImageView s32;
-
-    @FXML
-    private ImageView s33;
-
-    @FXML
-    private ImageView s34;
-
-    @FXML
-    private ImageView s40;
-
-    @FXML
-    private ImageView s41;
-
-    @FXML
-    private ImageView s42;
-
-    @FXML
-    private ImageView s43;
-
-    @FXML
-    private ImageView s44;
-
-    @FXML
-    private ImageView s50;
-
-    @FXML
-    private ImageView s51;
-
-    @FXML
-    private ImageView s52;
-
-    @FXML
-    private ImageView s53;
-
-    @FXML
-    private ImageView s54;
 
     /**
      * Sets the number of shelves in the view
@@ -314,7 +229,7 @@ public class BoardController{
      * Sets the shelves view
      * @param game is the game model
      * */
-    /*public void initializeShelves(Game game){
+    public void initializeShelves(Game game){
         for(int k=0;k< game.getNumberOfPlayers();k++) {
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < 5; j++) {
@@ -327,7 +242,7 @@ public class BoardController{
                 }
             }
         }
-    }*/
+    }
 
     /**
      * Helper method to get the ImageView of the tile for the shelf
@@ -798,12 +713,64 @@ public class BoardController{
 
     public void disableView(){
         boardPane.setDisable(true);
-        shelfGrid.setDisable(true);
+        column0.setDisable(true);
+        column1.setDisable(true);
     }
 
     public void ableView(){
         boardPane.setDisable(false);
-        shelfGrid.setDisable(false);
+        column0.setDisable(false);
+        column1.setDisable(false);
+    }
+
+    public void insertInColumn0(ActionEvent actionEvent) {
+        try {
+            ViewGUI.queue.put(0);
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        disableView();
+    }
+
+    public void insertInColumn1(ActionEvent actionEvent) {
+        try {
+            ViewGUI.queue.put(1);
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        disableView();
+    }
+
+    public void insertInColumn2(ActionEvent actionEvent) {
+        try {
+            ViewGUI.queue.put(2);
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        disableView();
+    }
+
+    public void insertInColumn3(ActionEvent actionEvent) {
+        try {
+            ViewGUI.queue.put(3);
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        disableView();
+    }
+
+    public void insertInColumn4(ActionEvent actionEvent) {
+        try {
+            ViewGUI.queue.put(4);
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        disableView();
     }
 
     public void displayError(String errorMessage) {
