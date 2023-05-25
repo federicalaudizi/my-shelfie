@@ -183,14 +183,13 @@ public class Game {
     }
 
     /**
-     * This method checks if the board needs to be repopulated and removes the chosen tiles
-     * from the board
-     *
-     * @param c1,c2,c3 are the coordinates of the tiles chosen by the playerInTurn
-     * @return an array with the chosen tiles
+     * Ensures that a tile is a pickable
+     * @param c the coordinate of the tile
+     * @return true if pickable, false otherwise
+     * @author Federico
      */
-    public Tile[] chooseTiles(Coordinate c1, Coordinate c2, Coordinate c3) throws TileUnpickableException {
-        return board.pickTile(c1, c2, c3);
+    public boolean isPickable(Coordinate c){
+        return board.isPickable(c);
     }
 
     /**
@@ -199,12 +198,30 @@ public class Game {
      * Subsequently, the method checks if this insertion enables the player to achieve some shared objectives.
      * Additionally, the method verifies if the player's shelf has become full, and if so, it sets
      * the player's turn as the last one.
+     * All tiles are expected to be checked for pickability first.
      *
      * @param column of the shelf where to place the tiles
-     * @param tiles  to place in the shelf
+     * @param c1 first coordinate of the tile, must be pickable
+     * @param c2 second coordinate of the tile, must be pickable
+     * @param c3 third coordinate of the tile, must be pickable
      */
-    public void insertInShelf(int column, Tile[] tiles) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
-        players.get(currentPlayerIndex).addPlayerTiles(column, tiles);
+    public void makeMove(int column, Coordinate c1, Coordinate c2, Coordinate c3) throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+        // Executing all checks to be sure that the move is legal
+        int selectedTiles = 0;
+        if(c1 != null) selectedTiles++;
+        if(c2 != null) selectedTiles++;
+        if(c3 != null) selectedTiles++;
+        if(selectedTiles == 0) throw new notEnoughTilesException();
+        if(players.get(currentPlayerIndex).getShelf().availableSlots(column) == 5) throw new fullColumnException();
+        else if(players.get(currentPlayerIndex).getShelf().availableSlots(column) < selectedTiles) throw new tooManyTilesException();
+
+        // This instruction is now atomic, all checks are executed before taking the tiles out of the board
+        try {
+            Tile[] tiles = board.pickTile(c1, c2, c3);
+            players.get(currentPlayerIndex).addPlayerTiles(column, tiles);
+        } catch (TileUnpickableException ignored) {
+        }
+
         if (players.get(currentPlayerIndex).getShelf().isFull()) {
             lastTurn = true;
             players.get(currentPlayerIndex).setEndGameCard();
