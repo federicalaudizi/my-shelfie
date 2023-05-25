@@ -184,6 +184,49 @@ public class GameSupervisor{
     }
 
     /**
+     * This method returns whether two GameSupervisors contain the same players, games and player to game associations
+     *
+     * @param other the other GameSupervisor
+     * @return true if the two GameSupervisors are equal, false otherwise
+     * @author Federico
+     */
+    public boolean equals(GameSupervisor other){
+        boolean games = true;
+        boolean players = true;
+        boolean playersGames = true;
+
+        for(String gameId : this.games.keySet()){
+            if (!other.games.containsKey(gameId)) {
+                // Check if all game Ids are the same
+                games = false;
+                break;
+            }
+        }
+
+        for(String playerId : this.players.keySet()){
+            if (!other.players.containsKey(playerId)) {
+                // Check if all player Ids are the same
+                players = false;
+                break;
+            }
+        }
+
+        for(String playerId : this.playersGames.keySet()){
+            if (!other.playersGames.containsKey(playerId)) {
+                // Check if all player Ids are the same
+                playersGames = false;
+                break;
+            } else if (!this.playersGames.get(playerId).equals(other.playersGames.get(playerId))) {
+                // Check if all player to game associations are the same
+                playersGames = false;
+                break;
+            }
+        }
+
+        return games && players && playersGames;
+    }
+
+    /**
      * This is a helper method that generates random strings
      *
      * @return a random string
