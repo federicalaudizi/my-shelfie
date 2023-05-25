@@ -158,7 +158,7 @@ public class Shelf {
      * @param column number of the column
      * @return number of available slots
      */
-    private int availableSlots(int column){
+    public int availableSlots(int column){
         int takenSlots = 0;
 
         for (Tile checkedTile : contents[column]) {
