@@ -270,6 +270,10 @@ public class BoardController{
     @FXML
     private ImageView s54;
 
+    /**
+     * Sets the number of shelves in the view
+     * @param game is the model game
+     * */
     public void setShelves(Game game){
         if(game.getNumberOfPlayers() == 2){
             shelfImage3.setVisible(false);
@@ -279,6 +283,10 @@ public class BoardController{
         }
     }
 
+    /**
+     * Initialize the board view
+     * @param game is the model game
+     * */
     public void initializeBoard(Game game){
         this.tiles = new ArrayList<>();
         continueBotton.setVisible(false);
@@ -294,6 +302,10 @@ public class BoardController{
         }
     }
 
+    /**
+     * Sets the shelves view
+     * @param game is the game model
+     * */
     public void initializeShelves(Game game){
         for(int k=0;k< game.getNumberOfPlayers();k++) {
             for (int i = 0; i < 6; i++) {
@@ -309,12 +321,24 @@ public class BoardController{
         }
     }
 
+    /**
+     * Helper method to get the ImageView of the tile for the shelf
+     * @param i is the row
+     * @param  j is the column
+     * @return the ImageView of the tile in position i,j
+     * */
     private ImageView getImageViewForPositionShelf(int i, int j) {
         return getImageView(i, j, shelfGrid);
     }
 
-    private ImageView getImageView(int i, int j, GridPane shelfGrid) {
-        ObservableList<Node> children = shelfGrid.getChildren();
+    /**
+     * Private method to get the ImageView of the tile in the grid
+     * @param i is the row
+     * @param  j is the column
+     * @param grid is the grid where I want to put the tiles
+     * */
+    private ImageView getImageView(int i, int j, GridPane grid) {
+        ObservableList<Node> children = grid.getChildren();
 
         for (Node node : children) {
             Integer rowIndex = GridPane.getRowIndex(node);
@@ -328,28 +352,45 @@ public class BoardController{
         throw new IllegalStateException("ImageView not found for position: (" + i + ", " + j + ")");
     }
 
+    /**
+     * Helper method to get the ImageView of the tile for the board
+     *      * @param i is the row
+     *      * @param  j is the column
+     *      * @return the ImageView of the tile in position i,j*/
     private ImageView getImageViewForPositionBoard(int row, int col) {
         return getImageView(row, col, boardPane);
     }
 
+    /**
+     * Method that decides what happens when cell (0,3) is clicked on the board
+     */
     public void b03clicked(MouseEvent mouseEvent) {
         b03.setOpacity(0.5);
         tiles.add("(0,3)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (0,4) is clicked on the board
+     */
     public void b04clicked(MouseEvent mouseEvent) {
         b04.setOpacity(0.5);
         tiles.add("(0,4)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (1,3) is clicked on the board
+     */
     public void b13clicked(MouseEvent mouseEvent) {
         b13.setOpacity(0.5);
         tiles.add("(1,3)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (1,4) is clicked on the board
+     */
     public void b14clicked(MouseEvent mouseEvent) {
         b14.setOpacity(0.5);
         tiles.add("(1,4)");
@@ -357,256 +398,381 @@ public class BoardController{
 
     }
 
+    /**
+     * Method that decides what happens when cell (1,5) is clicked on the board
+     */
     public void b15clicked(MouseEvent mouseEvent) {
         b15.setOpacity(0.5);
         tiles.add("(1,5)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (2,2) is clicked on the board
+     */
     public void b22clicked(MouseEvent mouseEvent) {
         b22.setOpacity(0.5);
         tiles.add("(2,2)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (2,3) is clicked on the board
+     */
     public void b23clicked(MouseEvent mouseEvent) {
         b23.setOpacity(0.5);
         tiles.add("(2,3)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (2,4) is clicked on the board
+     */
     public void b24clicked(MouseEvent mouseEvent) {
         b24.setOpacity(0.5);
         tiles.add("(2,4)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (2,5) is clicked on the board
+     */
     public void b25clicked(MouseEvent mouseEvent) {
         b25.setOpacity(0.5);
         tiles.add("(2,5)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (2,6) is clicked on the board
+     */
     public void b26clicked(MouseEvent mouseEvent) {
         b26.setOpacity(0.5);
         tiles.add("(2,6)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (3,1) is clicked on the board
+     */
     public void b31clicked(MouseEvent mouseEvent) {
         b31.setOpacity(0.5);
         tiles.add("(3,1)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (3,2) is clicked on the board
+     */
     public void b32clicked(MouseEvent mouseEvent) {
         b32.setOpacity(0.5);
         tiles.add("(3,2)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (3,3) is clicked on the board
+     */
     public void b33clicked(MouseEvent mouseEvent) {
         b33.setOpacity(0.5);
         tiles.add("(3,3)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (3,4) is clicked on the board
+     */
     public void b34clicked(MouseEvent mouseEvent) {
         b34.setOpacity(0.5);
         tiles.add("(3,4)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (3,5) is clicked on the board
+     */
     public void b35clicked(MouseEvent mouseEvent) {
         b35.setOpacity(0.5);
         tiles.add("(3,5)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (3,6) is clicked on the board
+     */
     public void b36clicked(MouseEvent mouseEvent) {
         b36.setOpacity(0.5);
         tiles.add("(3,6)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (3,7) is clicked on the board
+     */
     public void b37clicked(MouseEvent mouseEvent) {
         b37.setOpacity(0.5);
         tiles.add("(3,7)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (3,8) is clicked on the board
+     */
     public void b38clicked(MouseEvent mouseEvent) {
         b38.setOpacity(0.5);
         tiles.add("(3,8)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,0) is clicked on the board
+     */
     public void b40clicked(MouseEvent mouseEvent) {
         b40.setOpacity(0.5);
         tiles.add("(4,0)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,1) is clicked on the board
+     */
     public void b41clicked(MouseEvent mouseEvent) {
         b41.setOpacity(0.5);
         tiles.add("(4,1)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,2) is clicked on the board
+     */
     public void b42clicked(MouseEvent mouseEvent) {
         b42.setOpacity(0.5);
         tiles.add("(4,2)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,3) is clicked on the board
+     */
     public void b43clicked(MouseEvent mouseEvent) {
         b43.setOpacity(0.5);
         tiles.add("(4,3)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,4) is clicked on the board
+     */
     public void b44clicked(MouseEvent mouseEvent) {
         b44.setOpacity(0.5);
         tiles.add("(4,4)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,5) is clicked on the board
+     */
     public void b45clicked(MouseEvent mouseEvent) {
         b45.setOpacity(0.5);
         tiles.add("(4,5)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,6) is clicked on the board
+     */
     public void b46clicked(MouseEvent mouseEvent) {
         b46.setOpacity(0.5);
         tiles.add("(4,6)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,7) is clicked on the board
+     */
     public void b47clicked(MouseEvent mouseEvent) {
         b47.setOpacity(0.5);
         tiles.add("(4,7)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (4,8) is clicked on the board
+     */
     public void b48clicked(MouseEvent mouseEvent) {
         b48.setOpacity(0.5);
         tiles.add("(4,8)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (5,0) is clicked on the board
+     */
     public void b50clicked(MouseEvent mouseEvent) {
         b50.setOpacity(0.5);
         tiles.add("(5,0)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (6,2) is clicked on the board
+     */
     public void b62clicked(MouseEvent mouseEvent) {
         b62.setOpacity(0.5);
         tiles.add("(6,2)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (5,7) is clicked on the board
+     */
     public void b57clicked(MouseEvent mouseEvent) {
         b57.setOpacity(0.5);
         tiles.add("(5,7)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (5,6) is clicked on the board
+     */
     public void b56clicked(MouseEvent mouseEvent) {
         b56.setOpacity(0.5);
         tiles.add("(5,6)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (5,5) is clicked on the board
+     */
     public void b55clicked(MouseEvent mouseEvent) {
         b55.setOpacity(0.5);
         tiles.add("(5,5)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (5,4) is clicked on the board
+     */
     public void b54clicked(MouseEvent mouseEvent) {
         b54.setOpacity(0.5);
         tiles.add("(5,4)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (5,3) is clicked on the board
+     */
     public void b53clicked(MouseEvent mouseEvent) {
         b53.setOpacity(0.5);
         tiles.add("(5,3)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (5,2) is clicked on the board
+     */
     public void b52clicked(MouseEvent mouseEvent) {
         b52.setOpacity(0.5);
         tiles.add("(5,2)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (5,1) is clicked on the board
+     */
     public void b51clicked(MouseEvent mouseEvent) {
         b51.setOpacity(0.5);
         tiles.add("(5,1)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (6,3) is clicked on the board
+     */
     public void b63clicked(MouseEvent mouseEvent) {
         b63.setOpacity(0.5);
         tiles.add("(6,3)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (6,4) is clicked on the board
+     */
     public void b64clicked(MouseEvent mouseEvent) {
         b64.setOpacity(0.5);
         tiles.add("(6,4)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (6,5) is clicked on the board
+     */
     public void b65clicked(MouseEvent mouseEvent) {
         b65.setOpacity(0.5);
         tiles.add("(6,5)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (6,6) is clicked on the board
+     */
     public void b66clicked(MouseEvent mouseEvent) {
         b66.setOpacity(0.5);
         tiles.add("(6,6)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (7,3) is clicked on the board
+     */
     public void b73clicked(MouseEvent mouseEvent) {
         b73.setOpacity(0.5);
         tiles.add("(7,3)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (7,4) is clicked on the board
+     */
     public void b74clicked(MouseEvent mouseEvent) {
         b74.setOpacity(0.5);
         tiles.add("(7,4)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (7,5) is clicked on the board
+     */
     public void b75clicked(MouseEvent mouseEvent) {
         b75.setOpacity(0.5);
         tiles.add("(7,5)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (8,4) is clicked on the board
+     */
     public void b84clicked(MouseEvent mouseEvent) {
         b84.setOpacity(0.5);
         tiles.add("(8,4)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method that decides what happens when cell (8,5) is clicked on the board
+     */
     public void b85clicked(MouseEvent mouseEvent) {
         b85.setOpacity(0.5);
         tiles.add("(8,5)");
         updateContinueButtonVisibility();
     }
 
+    /**
+     * Method used to set the tiles in the correct format and give them to the manager thread
+     */
     public void getTile(){
         String r =  String.join(",",tiles);
         try {
-            //give nick to manager thread
             ViewGUI.queue.put(r);
 
         } catch (InterruptedException ex) {
@@ -615,10 +781,17 @@ public class BoardController{
         tiles.clear();
     }
 
+    /**
+     * Handles the confirmation Button when the player has chosen the tiles
+     * */
     public void handleConfirmation(ActionEvent actionEvent) {
         getTile();
     }
 
+    /**
+     * When more than a cell is selected this method sets the visibility of the
+     * confirmation button as true
+     * */
     private void updateContinueButtonVisibility(){
         if(tiles.size()>0){
             continueBotton.setVisible(true);
