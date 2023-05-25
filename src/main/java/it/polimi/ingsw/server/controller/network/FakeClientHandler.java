@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.network;
 
-import it.polimi.ingsw.server.controller.network.ClientHandler;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.Game;
 
