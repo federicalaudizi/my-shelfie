@@ -122,17 +122,6 @@ public class GameSupervisor{
     }
 
     /**
-     * this method returns the game controller of a game by its id
-     *
-     * @param gameId the id of the game
-     * @return the game controller of the game
-     * @author Federico
-     */
-    public GameController getGameById(String gameId) {
-        return games.get(gameId);
-    }
-
-    /**
      * This method returns whether a player exists or not
      *
      * @param playerId the id of the player
