@@ -328,28 +328,18 @@ public class BoardController{
      * @return the ImageView of the tile in position i,j
      * */
     private ImageView getImageViewForPositionShelf(int i, int j) {
-        return getImageView(i, j, shelfGrid);
+        return getImageViewFromCoordinates(i, j, shelfGrid);
     }
 
-    /**
-     * Private method to get the ImageView of the tile in the grid
-     * @param i is the row
-     * @param  j is the column
-     * @param grid is the grid where I want to put the tiles
-     * */
-    private ImageView getImageView(int i, int j, GridPane grid) {
-        ObservableList<Node> children = grid.getChildren();
+    private ImageView getImageViewFromCoordinates(int rowIndex, int colIndex, GridPane grid) {
+        String imageViewId = "#b" + rowIndex + colIndex;
+        Node node = grid.lookup(imageViewId);
 
-        for (Node node : children) {
-            Integer rowIndex = GridPane.getRowIndex(node);
-            Integer colIndex = GridPane.getColumnIndex(node);
-
-            if (rowIndex != null && colIndex != null && rowIndex == i && colIndex == j && node instanceof ImageView) {
-                return (ImageView) node;
-            }
+        if (node instanceof ImageView) {
+            return (ImageView) node;
+        } else {
+            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
         }
-
-        throw new IllegalStateException("ImageView not found for position: (" + i + ", " + j + ")");
     }
 
     /**
@@ -358,7 +348,7 @@ public class BoardController{
      *      * @param  j is the column
      *      * @return the ImageView of the tile in position i,j*/
     private ImageView getImageViewForPositionBoard(int row, int col) {
-        return getImageView(row, col, boardPane);
+        return getImageViewFromCoordinates(row, col, boardPane);
     }
 
     /**
