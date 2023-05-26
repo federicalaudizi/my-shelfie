@@ -213,13 +213,15 @@ public class GameSupervisor implements Runnable{
      * @author Federico
      */
     public void gameOver(String gameId) {
-        //TODO: what should the supervisor do when a game ends?
-
         //Remove players association to the game
         for(String playerId : players.keySet()){
-            if(playersGames.get(playerId).equals(gameId)) playersGames.remove(playerId);
+            if(playersGames.get(playerId).equals(gameId)) {
+                //Remove player from game
+                playersGames.remove(playerId);
+                // Kill players
+                players.remove(playerId);
+            }
         }
-
         //Remove record of the game
         games.remove(gameId);
     }
