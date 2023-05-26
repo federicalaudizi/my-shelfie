@@ -24,6 +24,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardController{
+    private boolean b03click = false;
+    private boolean b13click = false;
+    private boolean b04click = false;
+    private boolean b14click = false;
+    private boolean b15click = false;
+    private boolean b22click = false;
+    private boolean b23click = false;
+    private boolean b24click = false;
+    private boolean b25click = false;
+    private boolean b26click = false;
+    private boolean b31click = false;
+    private boolean b32click = false;
+    private boolean b33click = false;
+    private boolean b34click = false;
+    private boolean b35click = false;
+    private boolean b36click = false;
+    private boolean b37click = false;
+    private boolean b38click = false;
+    private boolean b40click = false;
+    private boolean b41click = false;
+    private boolean b42click = false;
+    private boolean b43click = false;
+    private boolean b44click = false;
+    private boolean b45click = false;
+    private boolean b46click = false;
+    private boolean b47click = false;
+    private boolean b48click = false;
+    private boolean b50click = false;
+    private boolean b51click = false;
+    private boolean b52click = false;
+    private boolean b53click = false;
+    private boolean b54click = false;
+    private boolean b55click = false;
+    private boolean b56click = false;
+    private boolean b57click = false;
+    private boolean b62click = false;
+    private boolean b63click = false;
+    private boolean b64click = false;
+    private boolean b65click = false;
+    private boolean b66click = false;
+    private boolean b73click = false;
+    private boolean b74click = false;
+    private boolean b75click = false;
+    private boolean b84click = false;
+    private boolean b85click = false;
+
     public Button continueButton;
     public Button column0;
     public Button column1;
@@ -279,8 +325,15 @@ public class BoardController{
      * Method that decides what happens when cell (0,3) is clicked on the board
      */
     public void b03clicked(MouseEvent mouseEvent) {
-        b03.setOpacity(0.5);
-        tiles.add("(0,3)");
+        if(!b03click){
+            b03.setOpacity(0.5);
+            tiles.add("(0,3)");
+            b03click = true;
+        }else {
+            b03.setOpacity(1);
+            tiles.remove("(0,3)");
+            b03click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -288,8 +341,15 @@ public class BoardController{
      * Method that decides what happens when cell (0,4) is clicked on the board
      */
     public void b04clicked(MouseEvent mouseEvent) {
-        b04.setOpacity(0.5);
-        tiles.add("(0,4)");
+        if(!b04click){
+            b04.setOpacity(0.5);
+            tiles.add("(0,4)");
+            b04click = true;
+        }else {
+            b04.setOpacity(1);
+            tiles.remove("(0,4)");
+            b04click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -297,8 +357,15 @@ public class BoardController{
      * Method that decides what happens when cell (1,3) is clicked on the board
      */
     public void b13clicked(MouseEvent mouseEvent) {
-        b13.setOpacity(0.5);
-        tiles.add("(1,3)");
+        if(!b13click){
+            b13.setOpacity(0.5);
+            tiles.add("(1,3)");
+            b13click = true;
+        }else {
+            b13.setOpacity(1);
+            tiles.remove("(1,3)");
+            b13click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -306,18 +373,31 @@ public class BoardController{
      * Method that decides what happens when cell (1,4) is clicked on the board
      */
     public void b14clicked(MouseEvent mouseEvent) {
-        b14.setOpacity(0.5);
-        tiles.add("(1,4)");
+        if(!b14click){
+            b14.setOpacity(0.5);
+            tiles.add("(1,4)");
+            b14click = true;
+        }else {
+            b14.setOpacity(1);
+            tiles.remove("(1,4)");
+            b14click = false;
+        }
         updateContinueButtonVisibility();
-
     }
 
     /**
      * Method that decides what happens when cell (1,5) is clicked on the board
      */
     public void b15clicked(MouseEvent mouseEvent) {
-        b15.setOpacity(0.5);
-        tiles.add("(1,5)");
+        if(!b15click){
+            b15.setOpacity(0.5);
+            tiles.add("(1,5)");
+            b15click = true;
+        }else {
+            b15.setOpacity(1);
+            tiles.remove("(1,5)");
+            b15click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -325,8 +405,15 @@ public class BoardController{
      * Method that decides what happens when cell (2,2) is clicked on the board
      */
     public void b22clicked(MouseEvent mouseEvent) {
-        b22.setOpacity(0.5);
-        tiles.add("(2,2)");
+        if(!b22click){
+            b22.setOpacity(0.5);
+            tiles.add("(2,2)");
+            b22click = true;
+        }else {
+            b22.setOpacity(1);
+            tiles.remove("(2,2)");
+            b22click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -334,8 +421,15 @@ public class BoardController{
      * Method that decides what happens when cell (2,3) is clicked on the board
      */
     public void b23clicked(MouseEvent mouseEvent) {
-        b23.setOpacity(0.5);
-        tiles.add("(2,3)");
+        if(!b23click){
+            b23.setOpacity(0.5);
+            tiles.add("(2,3)");
+            b23click = true;
+        }else {
+            b23.setOpacity(1);
+            tiles.remove("(2,3)");
+            b23click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -343,8 +437,15 @@ public class BoardController{
      * Method that decides what happens when cell (2,4) is clicked on the board
      */
     public void b24clicked(MouseEvent mouseEvent) {
-        b24.setOpacity(0.5);
-        tiles.add("(2,4)");
+        if(!b24click){
+            b24.setOpacity(0.5);
+            tiles.add("(2,4)");
+            b24click = true;
+        }else {
+            b24.setOpacity(1);
+            tiles.remove("(2,4)");
+            b24click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -352,8 +453,15 @@ public class BoardController{
      * Method that decides what happens when cell (2,5) is clicked on the board
      */
     public void b25clicked(MouseEvent mouseEvent) {
-        b25.setOpacity(0.5);
-        tiles.add("(2,5)");
+        if(!b25click){
+            b25.setOpacity(0.5);
+            tiles.add("(2,5)");
+            b25click = true;
+        }else {
+            b25.setOpacity(1);
+            tiles.remove("(2,5)");
+            b25click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -361,8 +469,15 @@ public class BoardController{
      * Method that decides what happens when cell (2,6) is clicked on the board
      */
     public void b26clicked(MouseEvent mouseEvent) {
-        b26.setOpacity(0.5);
-        tiles.add("(2,6)");
+        if(!b26click){
+            b26.setOpacity(0.5);
+            tiles.add("(2,6)");
+            b26click = true;
+        }else {
+            b26.setOpacity(1);
+            tiles.remove("(2,6)");
+            b26click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -370,8 +485,15 @@ public class BoardController{
      * Method that decides what happens when cell (3,1) is clicked on the board
      */
     public void b31clicked(MouseEvent mouseEvent) {
-        b31.setOpacity(0.5);
-        tiles.add("(3,1)");
+        if(!b31click){
+            b31.setOpacity(0.5);
+            tiles.add("(3,1)");
+            b31click = true;
+        }else {
+            b31.setOpacity(1);
+            tiles.remove("(3,1)");
+            b31click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -379,8 +501,15 @@ public class BoardController{
      * Method that decides what happens when cell (3,2) is clicked on the board
      */
     public void b32clicked(MouseEvent mouseEvent) {
-        b32.setOpacity(0.5);
-        tiles.add("(3,2)");
+        if(!b32click){
+            b32.setOpacity(0.5);
+            tiles.add("(3,2)");
+            b32click = true;
+        }else {
+            b32.setOpacity(1);
+            tiles.remove("(3,2)");
+            b32click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -388,8 +517,15 @@ public class BoardController{
      * Method that decides what happens when cell (3,3) is clicked on the board
      */
     public void b33clicked(MouseEvent mouseEvent) {
-        b33.setOpacity(0.5);
-        tiles.add("(3,3)");
+        if(!b33click){
+            b33.setOpacity(0.5);
+            tiles.add("(3,3)");
+            b33click = true;
+        }else {
+            b33.setOpacity(1);
+            tiles.remove("(3,3)");
+            b33click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -397,8 +533,15 @@ public class BoardController{
      * Method that decides what happens when cell (3,4) is clicked on the board
      */
     public void b34clicked(MouseEvent mouseEvent) {
-        b34.setOpacity(0.5);
-        tiles.add("(3,4)");
+        if(!b34click){
+            b34.setOpacity(0.5);
+            tiles.add("(3,4)");
+            b34click = true;
+        }else {
+            b34.setOpacity(1);
+            tiles.remove("(3,4)");
+            b34click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -406,8 +549,15 @@ public class BoardController{
      * Method that decides what happens when cell (3,5) is clicked on the board
      */
     public void b35clicked(MouseEvent mouseEvent) {
-        b35.setOpacity(0.5);
-        tiles.add("(3,5)");
+        if(!b35click){
+            b35.setOpacity(0.5);
+            tiles.add("(3,5)");
+            b35click = true;
+        }else {
+            b35.setOpacity(1);
+            tiles.remove("(3,5)");
+            b35click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -415,8 +565,15 @@ public class BoardController{
      * Method that decides what happens when cell (3,6) is clicked on the board
      */
     public void b36clicked(MouseEvent mouseEvent) {
-        b36.setOpacity(0.5);
-        tiles.add("(3,6)");
+        if(!b36click){
+            b36.setOpacity(0.5);
+            tiles.add("(3,6)");
+            b36click = true;
+        }else {
+            b36.setOpacity(1);
+            tiles.remove("(3,6)");
+            b36click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -424,8 +581,15 @@ public class BoardController{
      * Method that decides what happens when cell (3,7) is clicked on the board
      */
     public void b37clicked(MouseEvent mouseEvent) {
-        b37.setOpacity(0.5);
-        tiles.add("(3,7)");
+        if(!b37click){
+            b37.setOpacity(0.5);
+            tiles.add("(3,7)");
+            b37click = true;
+        }else {
+            b37.setOpacity(1);
+            tiles.remove("(3,7)");
+            b37click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -433,8 +597,15 @@ public class BoardController{
      * Method that decides what happens when cell (3,8) is clicked on the board
      */
     public void b38clicked(MouseEvent mouseEvent) {
-        b38.setOpacity(0.5);
-        tiles.add("(3,8)");
+        if(!b38click){
+            b38.setOpacity(0.5);
+            tiles.add("(3,8)");
+            b38click = true;
+        }else {
+            b38.setOpacity(1);
+            tiles.remove("(3,8)");
+            b38click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -442,8 +613,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,0) is clicked on the board
      */
     public void b40clicked(MouseEvent mouseEvent) {
-        b40.setOpacity(0.5);
-        tiles.add("(4,0)");
+        if(!b40click){
+            b40.setOpacity(0.5);
+            tiles.add("(4,0)");
+            b40click = true;
+        }else {
+            b40.setOpacity(1);
+            tiles.remove("(4,0)");
+            b40click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -451,8 +629,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,1) is clicked on the board
      */
     public void b41clicked(MouseEvent mouseEvent) {
-        b41.setOpacity(0.5);
-        tiles.add("(4,1)");
+        if(!b41click){
+            b41.setOpacity(0.5);
+            tiles.add("(4,1)");
+            b41click = true;
+        }else {
+            b41.setOpacity(1);
+            tiles.remove("(4,1)");
+            b41click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -460,8 +645,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,2) is clicked on the board
      */
     public void b42clicked(MouseEvent mouseEvent) {
-        b42.setOpacity(0.5);
-        tiles.add("(4,2)");
+        if(!b42click){
+            b42.setOpacity(0.5);
+            tiles.add("(4,2)");
+            b42click = true;
+        }else {
+            b42.setOpacity(1);
+            tiles.remove("(4,2)");
+            b42click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -469,8 +661,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,3) is clicked on the board
      */
     public void b43clicked(MouseEvent mouseEvent) {
-        b43.setOpacity(0.5);
-        tiles.add("(4,3)");
+        if(!b43click){
+            b43.setOpacity(0.5);
+            tiles.add("(4,3)");
+            b43click = true;
+        }else {
+            b43.setOpacity(1);
+            tiles.remove("(4,3)");
+            b43click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -478,8 +677,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,4) is clicked on the board
      */
     public void b44clicked(MouseEvent mouseEvent) {
-        b44.setOpacity(0.5);
-        tiles.add("(4,4)");
+        if(!b44click){
+            b44.setOpacity(0.5);
+            tiles.add("(4,4)");
+            b44click = true;
+        }else {
+            b44.setOpacity(1);
+            tiles.remove("(4,4)");
+            b44click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -487,8 +693,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,5) is clicked on the board
      */
     public void b45clicked(MouseEvent mouseEvent) {
-        b45.setOpacity(0.5);
-        tiles.add("(4,5)");
+        if(!b45click){
+            b45.setOpacity(0.5);
+            tiles.add("(4,5)");
+            b45click = true;
+        }else {
+            b45.setOpacity(1);
+            tiles.remove("(4,5)");
+            b45click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -496,8 +709,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,6) is clicked on the board
      */
     public void b46clicked(MouseEvent mouseEvent) {
-        b46.setOpacity(0.5);
-        tiles.add("(4,6)");
+        if(!b46click){
+            b46.setOpacity(0.5);
+            tiles.add("(4,6)");
+            b46click = true;
+        }else {
+            b46.setOpacity(1);
+            tiles.remove("(4,6)");
+            b46click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -505,8 +725,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,7) is clicked on the board
      */
     public void b47clicked(MouseEvent mouseEvent) {
-        b47.setOpacity(0.5);
-        tiles.add("(4,7)");
+        if(!b47click){
+            b47.setOpacity(0.5);
+            tiles.add("(4,7)");
+            b47click = true;
+        }else {
+            b47.setOpacity(1);
+            tiles.remove("(4,7)");
+            b47click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -514,8 +741,15 @@ public class BoardController{
      * Method that decides what happens when cell (4,8) is clicked on the board
      */
     public void b48clicked(MouseEvent mouseEvent) {
-        b48.setOpacity(0.5);
-        tiles.add("(4,8)");
+        if(!b48click){
+            b48.setOpacity(0.5);
+            tiles.add("(4,8)");
+            b48click = true;
+        }else {
+            b48.setOpacity(1);
+            tiles.remove("(4,8)");
+            b48click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -523,8 +757,15 @@ public class BoardController{
      * Method that decides what happens when cell (5,0) is clicked on the board
      */
     public void b50clicked(MouseEvent mouseEvent) {
-        b50.setOpacity(0.5);
-        tiles.add("(5,0)");
+        if(!b50click){
+            b50.setOpacity(0.5);
+            tiles.add("(5,0)");
+            b50click = true;
+        }else {
+            b50.setOpacity(1);
+            tiles.remove("(5,0)");
+            b50click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -532,8 +773,15 @@ public class BoardController{
      * Method that decides what happens when cell (6,2) is clicked on the board
      */
     public void b62clicked(MouseEvent mouseEvent) {
-        b62.setOpacity(0.5);
-        tiles.add("(6,2)");
+        if(!b62click){
+            b62.setOpacity(0.5);
+            tiles.add("(6,2)");
+            b62click = true;
+        }else {
+            b62.setOpacity(1);
+            tiles.remove("(6,2)");
+            b62click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -541,8 +789,15 @@ public class BoardController{
      * Method that decides what happens when cell (5,7) is clicked on the board
      */
     public void b57clicked(MouseEvent mouseEvent) {
-        b57.setOpacity(0.5);
-        tiles.add("(5,7)");
+        if(!b57click){
+            b57.setOpacity(0.5);
+            tiles.add("(5,7)");
+            b57click = true;
+        }else {
+            b57.setOpacity(1);
+            tiles.remove("(5,7)");
+            b57click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -550,8 +805,15 @@ public class BoardController{
      * Method that decides what happens when cell (5,6) is clicked on the board
      */
     public void b56clicked(MouseEvent mouseEvent) {
-        b56.setOpacity(0.5);
-        tiles.add("(5,6)");
+        if(!b56click){
+            b56.setOpacity(0.5);
+            tiles.add("(5,6)");
+            b56click = true;
+        }else {
+            b56.setOpacity(1);
+            tiles.remove("(5,6)");
+            b56click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -559,8 +821,15 @@ public class BoardController{
      * Method that decides what happens when cell (5,5) is clicked on the board
      */
     public void b55clicked(MouseEvent mouseEvent) {
-        b55.setOpacity(0.5);
-        tiles.add("(5,5)");
+        if(!b55click){
+            b55.setOpacity(0.5);
+            tiles.add("(5,5)");
+            b55click = true;
+        }else {
+            b55.setOpacity(1);
+            tiles.remove("(5,5)");
+            b55click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -568,8 +837,15 @@ public class BoardController{
      * Method that decides what happens when cell (5,4) is clicked on the board
      */
     public void b54clicked(MouseEvent mouseEvent) {
-        b54.setOpacity(0.5);
-        tiles.add("(5,4)");
+        if(!b54click){
+            b54.setOpacity(0.5);
+            tiles.add("(5,4)");
+            b54click = true;
+        }else {
+            b54.setOpacity(1);
+            tiles.remove("(5,4)");
+            b54click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -577,8 +853,15 @@ public class BoardController{
      * Method that decides what happens when cell (5,3) is clicked on the board
      */
     public void b53clicked(MouseEvent mouseEvent) {
-        b53.setOpacity(0.5);
-        tiles.add("(5,3)");
+        if(!b53click){
+            b53.setOpacity(0.5);
+            tiles.add("(5,3)");
+            b53click = true;
+        }else {
+            b53.setOpacity(1);
+            tiles.remove("(5,3)");
+            b53click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -586,8 +869,15 @@ public class BoardController{
      * Method that decides what happens when cell (5,2) is clicked on the board
      */
     public void b52clicked(MouseEvent mouseEvent) {
-        b52.setOpacity(0.5);
-        tiles.add("(5,2)");
+        if(!b52click){
+            b52.setOpacity(0.5);
+            tiles.add("(5,2)");
+            b52click = true;
+        }else {
+            b52.setOpacity(1);
+            tiles.remove("(5,2)");
+            b52click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -595,8 +885,15 @@ public class BoardController{
      * Method that decides what happens when cell (5,1) is clicked on the board
      */
     public void b51clicked(MouseEvent mouseEvent) {
-        b51.setOpacity(0.5);
-        tiles.add("(5,1)");
+        if(!b51click){
+            b51.setOpacity(0.5);
+            tiles.add("(5,1)");
+            b51click = true;
+        }else {
+            b51.setOpacity(1);
+            tiles.remove("(5,1)");
+            b51click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -604,8 +901,15 @@ public class BoardController{
      * Method that decides what happens when cell (6,3) is clicked on the board
      */
     public void b63clicked(MouseEvent mouseEvent) {
-        b63.setOpacity(0.5);
-        tiles.add("(6,3)");
+        if(!b63click){
+            b63.setOpacity(0.5);
+            tiles.add("(6,3)");
+            b63click = true;
+        }else {
+            b63.setOpacity(1);
+            tiles.remove("(6,3)");
+            b63click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -613,8 +917,15 @@ public class BoardController{
      * Method that decides what happens when cell (6,4) is clicked on the board
      */
     public void b64clicked(MouseEvent mouseEvent) {
-        b64.setOpacity(0.5);
-        tiles.add("(6,4)");
+        if(!b64click){
+            b64.setOpacity(0.5);
+            tiles.add("(6,4)");
+            b64click = true;
+        }else {
+            b64.setOpacity(1);
+            tiles.remove("(6,4)");
+            b64click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -622,8 +933,15 @@ public class BoardController{
      * Method that decides what happens when cell (6,5) is clicked on the board
      */
     public void b65clicked(MouseEvent mouseEvent) {
-        b65.setOpacity(0.5);
-        tiles.add("(6,5)");
+        if(!b65click){
+            b65.setOpacity(0.5);
+            tiles.add("(6,5)");
+            b65click = true;
+        }else {
+            b65.setOpacity(1);
+            tiles.remove("(6,5)");
+            b65click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -631,8 +949,15 @@ public class BoardController{
      * Method that decides what happens when cell (6,6) is clicked on the board
      */
     public void b66clicked(MouseEvent mouseEvent) {
-        b66.setOpacity(0.5);
-        tiles.add("(6,6)");
+        if(!b66click){
+            b66.setOpacity(0.5);
+            tiles.add("(6,6)");
+            b66click = true;
+        }else {
+            b66.setOpacity(1);
+            tiles.remove("(6,6)");
+            b66click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -640,8 +965,15 @@ public class BoardController{
      * Method that decides what happens when cell (7,3) is clicked on the board
      */
     public void b73clicked(MouseEvent mouseEvent) {
-        b73.setOpacity(0.5);
-        tiles.add("(7,3)");
+        if(!b73click){
+            b73.setOpacity(0.5);
+            tiles.add("(7,3)");
+            b73click = true;
+        }else {
+            b73.setOpacity(1);
+            tiles.remove("(7,3)");
+            b73click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -649,8 +981,15 @@ public class BoardController{
      * Method that decides what happens when cell (7,4) is clicked on the board
      */
     public void b74clicked(MouseEvent mouseEvent) {
-        b74.setOpacity(0.5);
-        tiles.add("(7,4)");
+        if(!b74click){
+            b74.setOpacity(0.5);
+            tiles.add("(7,4)");
+            b74click = true;
+        }else {
+            b74.setOpacity(1);
+            tiles.remove("(7,4)");
+            b74click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -658,8 +997,15 @@ public class BoardController{
      * Method that decides what happens when cell (7,5) is clicked on the board
      */
     public void b75clicked(MouseEvent mouseEvent) {
-        b75.setOpacity(0.5);
-        tiles.add("(7,5)");
+        if(!b75click){
+            b75.setOpacity(0.5);
+            tiles.add("(7,5)");
+            b75click = true;
+        }else {
+            b75.setOpacity(1);
+            tiles.remove("(7,5)");
+            b75click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -667,8 +1013,15 @@ public class BoardController{
      * Method that decides what happens when cell (8,4) is clicked on the board
      */
     public void b84clicked(MouseEvent mouseEvent) {
-        b84.setOpacity(0.5);
-        tiles.add("(8,4)");
+        if(!b84click){
+            b84.setOpacity(0.5);
+            tiles.add("(8,4)");
+            b84click = true;
+        }else {
+            b84.setOpacity(1);
+            tiles.remove("(8,4)");
+            b84click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -676,8 +1029,15 @@ public class BoardController{
      * Method that decides what happens when cell (8,5) is clicked on the board
      */
     public void b85clicked(MouseEvent mouseEvent) {
-        b85.setOpacity(0.5);
-        tiles.add("(8,5)");
+        if(!b85click){
+            b55.setOpacity(0.5);
+            tiles.add("(8,5)");
+            b85click = true;
+        }else {
+            b85.setOpacity(1);
+            tiles.remove("(8,5)");
+            b85click = false;
+        }
         updateContinueButtonVisibility();
     }
 
@@ -707,9 +1067,7 @@ public class BoardController{
      * confirmation button as true
      * */
     private void updateContinueButtonVisibility(){
-        if(tiles.size()>0){
-            continueButton.setVisible(true);
-        }
+        continueButton.setVisible(tiles.size() > 0);
     }
 
     public void disableView(){
