@@ -77,7 +77,7 @@ public class ViewGUI extends View {
         setPersonalObjectiveCard(game);
         gameController.setShelves(game);
         gameController.initializeBoard(game);
-        //gameController.initializeShelves(game);
+        gameController.initializeShelves(game, this.client);
         Platform.runLater(() -> {
             Gui.getStage().setTitle(client.getUsername());
             Scene currentScene = Gui.getStage().getScene();
