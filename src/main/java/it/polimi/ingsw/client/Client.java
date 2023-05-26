@@ -336,7 +336,7 @@ public abstract class Client {
      * @return The player's username.
      * @author Mario Merlo
      */
-    String getUsername() {
+    public String getUsername() {
         return username;
     }
 
