@@ -1030,7 +1030,7 @@ public class BoardController{
      */
     public void b85clicked(MouseEvent mouseEvent) {
         if(!b85click){
-            b55.setOpacity(0.5);
+            b85.setOpacity(0.5);
             tiles.add("(8,5)");
             b85click = true;
         }else {
