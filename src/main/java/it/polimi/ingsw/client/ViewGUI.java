@@ -43,7 +43,6 @@ public class ViewGUI extends View {
         FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/NumberOfPlayers.fxml"));
         FXMLLoader joinLoader = new FXMLLoader(getClass().getResource("/JoinGame.fxml"));
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/Board.fxml"));
-        FXMLLoader networkErrorLoader = new FXMLLoader(getClass().getResource("/Network_error.fxml"));
 
         try {
             welcomeRoot = welcomeLoader.load();
@@ -53,7 +52,6 @@ public class ViewGUI extends View {
             numberOfPlayersRoot = numberOfPlayersLoader.load();
             joinRoot = joinLoader.load();
             gameRoot = gameLoader.load();
-            networkErrorRoot = networkErrorLoader.load();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -355,14 +353,13 @@ public class ViewGUI extends View {
     @Override
     void showError(String errorMessage) {
         //TODO: distinguere tipo di errore con display error diversi
-        if (errorMessage.equals("You entered a malformed IP:port combo. Retry.") || errorMessage.equals("The host does not exist. Retry.") || errorMessage.equals("Something went wrong.") || errorMessage.equals("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.")) {
-            Platform.runLater(() -> connectionController.displayError(errorMessage));
-        } else if (errorMessage.equals("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.")) {
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(networkErrorRoot)));
-        } else if (errorMessage.equals("The column you input is invalid. Retry.") || errorMessage.equals("You entered an invalid number of coordinates. Retry.") || errorMessage.equals("The tiles you chose are not valid")) {
-            Platform.runLater(()-> gameController.displayError(errorMessage));
-        } else if (errorMessage.equals("Username is already taken")){
-            Platform.runLater(()->nicknameController.displayErrorNick(errorMessage));
+        switch (errorMessage) {
+            case "You entered a malformed IP:port combo. Retry.", "The host does not exist. Retry.", "Something went wrong.", "Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu." ->
+                    Platform.runLater(() -> connectionController.displayError(errorMessage));
+            case "The column you input is invalid. Retry.", "You entered an invalid number of coordinates. Retry.", "The tiles you chose are not valid" ->
+                    Platform.runLater(() -> gameController.displayError(errorMessage));
+            case "Username is already taken" ->
+                    Platform.runLater(() -> nicknameController.displayErrorNick(errorMessage));
         }
     }
 }
