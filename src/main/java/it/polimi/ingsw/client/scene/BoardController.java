@@ -234,16 +234,16 @@ public class BoardController{
      * @param client
      */
     public void initializeShelves(Game game, Client client){
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 5; j++) {
-                    Image image;
-                    if (game.getPlayerByUsername(client.getUsername()).getShelf().getTile(i, j).getPath() == null) {
-                        continue;
-                    }
-                    image = new Image(game.getPlayerByUsername(client.getUsername()).getShelf().getTile(i, j).getPath());
-                    getImageViewForPositionShelf(i, j, shelfGrid).setImage(image);
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                Image image;
+                if (game.getPlayerByUsername(client.getUsername()).getShelf().getTile(i, j).getPath() == null) {
+                    continue;
                 }
+                image = new Image(game.getPlayerByUsername(client.getUsername()).getShelf().getTile(i, j).getPath());
+                getImageViewForPositionShelf(5-i, j, shelfGrid).setImage(image);
             }
+        }
         }
 
     private ImageView getImageViewForPositionShelf(int rowIndex, int colIndex, GridPane grid) {
