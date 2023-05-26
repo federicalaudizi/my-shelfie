@@ -15,7 +15,6 @@ import java.util.*;
  * @author Sara Massarelli
  */
 public class Game {
-    // TODO: there might be an error when sending/recreating to/from json of the point decks
     private final ArrayList<Player> players;
     private final Board board;
     private final CollectiveObjectiveCard collectiveObjectiveCard1;
