@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.scene;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ViewGUI;
 import it.polimi.ingsw.server.model.Game;
 import javafx.event.ActionEvent;
@@ -187,8 +188,6 @@ public class BoardController{
     @FXML
     public ImageView commonCard2;
     @FXML
-    private ImageView shelfImage2;
-    @FXML
     private ImageView shelfImage3;
     @FXML
     private ImageView shelfImage4;
@@ -223,41 +222,43 @@ public class BoardController{
                    continue;
                }
                image = new Image(game.getBoard().getTile(i,j).getPath());
-               getImageViewForPositionBoard(i,j).setImage(image);
+               getImageViewFromCoordinatesBoard(i,j,boardPane).setImage(image);
             }
         }
     }
 
     /**
      * Sets the shelves view
-     * @param game is the game model
-     * */
-    public void initializeShelves(Game game){
-        for(int k=0;k< game.getNumberOfPlayers();k++) {
+     *
+     * @param game  is the game model
+     * @param client
+     */
+    public void initializeShelves(Game game, Client client){
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < 5; j++) {
                     Image image;
-                    if (game.getPlayers().get(k).getShelf().getTile(i, j).getPath() == null) {
+                    if (game.getPlayerByUsername(client.getUsername()).getShelf().getTile(i, j).getPath() == null) {
                         continue;
                     }
-                    image = new Image(game.getPlayers().get(k).getShelf().getTile(i, j).getPath());
-                    getImageViewForPositionShelf(i, j).setImage(image);
+                    image = new Image(game.getPlayerByUsername(client.getUsername()).getShelf().getTile(i, j).getPath());
+                    getImageViewForPositionShelf(i, j, shelfGrid).setImage(image);
                 }
             }
         }
+
+    private ImageView getImageViewForPositionShelf(int rowIndex, int colIndex, GridPane grid) {
+        String imageViewId = "#s" + rowIndex + colIndex;
+        Node node = grid.lookup(imageViewId);
+
+        if (node instanceof ImageView) {
+            return (ImageView) node;
+        } else {
+            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
+        }
     }
 
-    /**
-     * Helper method to get the ImageView of the tile for the shelf
-     * @param i is the row
-     * @param  j is the column
-     * @return the ImageView of the tile in position i,j
-     * */
-    private ImageView getImageViewForPositionShelf(int i, int j) {
-        return getImageViewFromCoordinates(i, j, shelfGrid);
-    }
 
-    private ImageView getImageViewFromCoordinates(int rowIndex, int colIndex, GridPane grid) {
+    private ImageView getImageViewFromCoordinatesBoard(int rowIndex, int colIndex, GridPane grid) {
         String imageViewId = "#b" + rowIndex + colIndex;
         Node node = grid.lookup(imageViewId);
 
@@ -268,14 +269,6 @@ public class BoardController{
         }
     }
 
-    /**
-     * Helper method to get the ImageView of the tile for the board
-     *      * @param i is the row
-     *      * @param  j is the column
-     *      * @return the ImageView of the tile in position i,j*/
-    private ImageView getImageViewForPositionBoard(int row, int col) {
-        return getImageViewFromCoordinates(row, col, boardPane);
-    }
 
     /**
      * Method that decides what happens when cell (0,3) is clicked on the board
@@ -718,12 +711,18 @@ public class BoardController{
         boardPane.setDisable(true);
         column0.setDisable(true);
         column1.setDisable(true);
+        column2.setDisable(true);
+        column3.setDisable(true);
+        column4.setDisable(true);
     }
 
     public void ableView(){
         boardPane.setDisable(false);
         column0.setDisable(false);
         column1.setDisable(false);
+        column2.setDisable(false);
+        column3.setDisable(false);
+        column4.setDisable(false);
     }
 
     public void insertInColumn0(ActionEvent actionEvent) {
