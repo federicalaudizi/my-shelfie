@@ -281,7 +281,9 @@ public class ClientSocket extends Client {
      * @author Mario Merlo
      */
     Message getReply() throws IOException {
-        return new Message(bufferedReader.readLine());
+        Message reply = new Message(bufferedReader.readLine());
+        System.err.println(reply);
+        return reply;
     }
 
     /**

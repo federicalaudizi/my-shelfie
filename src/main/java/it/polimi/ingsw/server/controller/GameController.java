@@ -124,7 +124,7 @@ public class GameController implements Runnable {
      *
      * @param playerId of which ClientHandler needs to modify the status
      */
-    void notifyConnection(String playerId) {
+    public void notifyConnection(String playerId) {
         System.out.println(gameId+": "+playerId+" reconnected to this game");
         connectedPlayers.put(playerId, 1);
         playerToClientHandlerMap.put(playerId, ongoingGames.getClientHandlerById(playerId));
@@ -132,7 +132,11 @@ public class GameController implements Runnable {
             waitLock.notifyAll();
         }
 
-        Thread.currentThread().interrupt();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         getClientHandler(playerId).sendGameState(game);
     }
 

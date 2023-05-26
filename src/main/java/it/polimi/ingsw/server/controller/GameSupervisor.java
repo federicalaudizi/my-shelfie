@@ -95,10 +95,10 @@ public class GameSupervisor implements Runnable{
      * @param handler  the client handler of the player
      * @author Federico
      */
-    public void oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
+    public GameController oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
         if(!players.containsKey(playerId)) throw new PlayerDoesNotExistsException();
         players.put(playerId, handler);
-        notifyConnection(playerId);
+        return games.get(playersGames.get(playerId));
     }
 
     /**
@@ -149,18 +149,6 @@ public class GameSupervisor implements Runnable{
         GameController game = games.get(gameId);
         game.addPlayer(playerId, players.get(playerId));
         playersGames.put(playerId, gameId);
-    }
-
-    /**
-     * This method registers that a player is actually connected to the server
-     *
-     * @param playerId the username of the connected player
-     * @author Federico
-     */
-    private void notifyConnection(String playerId){
-        if (!playersGames.contains(playerId)) return;
-        GameController game = games.get(playersGames.get(playerId));
-        game.notifyConnection(playerId);
     }
 
     /**

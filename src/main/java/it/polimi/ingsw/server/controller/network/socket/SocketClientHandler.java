@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.network.socket;
 
+import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.ClientHandler;
 import it.polimi.ingsw.server.controller.network.Message;
@@ -238,10 +239,11 @@ public class SocketClientHandler extends ClientHandler {
                 JSONArray body = recievedMessage.getBody();
                 thisPlayerId = body.getJSONObject(0).getString("username");
 
-                ongoingGames.oldUser(thisPlayerId, this);
+                GameController game = ongoingGames.oldUser(thisPlayerId, this);
                 // Send the confirmation
                 System.out.println(thisPlayerId+": Successfully reconnected");
                 send(new Message(OK));
+                game.notifyConnection(thisPlayerId);
 
             } else {
                 // The response was not valid, ask again
@@ -356,7 +358,7 @@ public class SocketClientHandler extends ClientHandler {
      *
      * @param message the message to send
      */
-    private void send(Message message){
+    private synchronized void send(Message message){
         System.out.println(clientSocket.getInetAddress()+": Sending: "+message);
         dataOut.println(message);
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.network.rmi;
 
+import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.Message;
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
@@ -52,10 +53,11 @@ public class RMILogin implements RMILoginInterface{
         System.out.println(username + ": Wants to reconnect");
         RMIClientHandler thisUser = new RMIClientHandler(username, ongoingGames);
         try {
-            ongoingGames.oldUser(username, thisUser);
+            GameController game = ongoingGames.oldUser(username, thisUser);
             System.out.println(username + ": Successfully reconnected");
             new Thread(thisUser).start();
             return new Message(OK);
+            //TODO: here i have to call game.notifyConnection(username)
         } catch (PlayerDoesNotExistsException e) {
             return new Message(BAD_HEADER, new JSONObject().put("message", "Player does not exists"));
         }
