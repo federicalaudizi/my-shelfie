@@ -55,19 +55,6 @@ public class ConnectionController {
         }
     }
 
-    private void next(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Username.fxml"));
-        Parent thirdViewParent;
-        try {
-            thirdViewParent = loader.load();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        Scene thirdViewScene = new Scene(thirdViewParent);
-        Stage currentStage = (Stage) ok.getScene().getWindow();
-        currentStage.setScene(thirdViewScene);
-    }
-
     public void displayError(String errorMessage) {
         Stage popupStage = new Stage();
         popupStage.initStyle(StageStyle.UNDECORATED);

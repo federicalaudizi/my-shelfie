@@ -359,8 +359,10 @@ public class ViewGUI extends View {
             Platform.runLater(() -> connectionController.displayError(errorMessage));
         } else if (errorMessage.equals("Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu.")) {
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(networkErrorRoot)));
-        } else if (errorMessage.equals("Wrong number of coordinates input.") || errorMessage.equals("You entered an invalid number of coordinates. Retry.")) {
+        } else if (errorMessage.equals("The column you input is invalid. Retry.") || errorMessage.equals("You entered an invalid number of coordinates. Retry.") || errorMessage.equals("The tiles you chose are not valid")) {
             Platform.runLater(()-> gameController.displayError(errorMessage));
+        } else if (errorMessage.equals("Username is already taken")){
+            Platform.runLater(()->nicknameController.displayErrorNick(errorMessage));
         }
     }
 }
