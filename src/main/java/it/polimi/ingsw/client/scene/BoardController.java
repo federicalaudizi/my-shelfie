@@ -218,11 +218,16 @@ public class BoardController{
         for(int i=0; i< game.getBoard().getMAX_X(); i++){
             for(int j=0;j<game.getBoard().getMAX_Y();j++){
                Image image;
-               if(game.getBoard().getTile(i,j).getPath()==null){
-                   continue;
+               if(game.getBoard().getTile(i,j).getType().equals("Empty")){
+                   getImageViewFromCoordinatesBoard(i,j,boardPane).setImage(null);
                }
-               image = new Image(game.getBoard().getTile(i,j).getPath());
-               getImageViewFromCoordinatesBoard(i,j,boardPane).setImage(image);
+               else {
+                   if (game.getBoard().getTile(i, j).getPath() == null) {
+                       continue;
+                   }
+                   image = new Image(game.getBoard().getTile(i, j).getPath());
+                   getImageViewFromCoordinatesBoard(i, j, boardPane).setImage(image);
+               }
             }
         }
     }
