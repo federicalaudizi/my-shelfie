@@ -101,7 +101,7 @@ public class Shelf {
      * @return the tile present at the specified coordinates
      */
     public Tile getTile(int row, int column) {
-        return contents[row][column];
+        return contents[column][row];
     }
 
     /**
