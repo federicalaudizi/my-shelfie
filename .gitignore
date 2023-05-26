@@ -93,4 +93,4 @@ fabric.properties
 # macOS file system
 .DS_Store
 
-gamesaves
+gamesaves/*
