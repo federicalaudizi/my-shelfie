@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BoardController{
@@ -279,12 +280,12 @@ public class BoardController{
     }
 
     /**
-     * Sets the shelves view
+     * Sets the client shelf view
      *
      * @param game  is the game model
      * @param client
      */
-    public void initializeShelves(Game game, Client client){
+    public void initializeClientShelf(Game game, Client client){
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 Image image;
@@ -297,6 +298,31 @@ public class BoardController{
         }
         }
 
+        public void initializeOtherShelves(Game game, LinkedList<String> playerOrder){
+            int players = game.getNumberOfPlayers();
+            if(players == 2){
+                for (int i = 0; i < 6; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        Image image;
+                        if (game.getPlayerByUsername(playerOrder.get(1)).getShelf().getTile(i,j).getPath()==null) {
+                            continue;
+                        }
+                        image = new Image(game.getPlayerByUsername(playerOrder.get(1)).getShelf().getTile(i,j).getPath());
+                        getImageViewForPositionShelf2(5-i, j, shelfGrid2).setImage(image);
+                    }
+                }
+            }
+        }
+    private ImageView getImageViewForPositionShelf2(int rowIndex, int colIndex, GridPane grid) {
+        String imageViewId = "#s2" + rowIndex + colIndex;
+        Node node = grid.lookup(imageViewId);
+
+        if (node instanceof ImageView) {
+            return (ImageView) node;
+        } else {
+            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
+        }
+    }
     private ImageView getImageViewForPositionShelf(int rowIndex, int colIndex, GridPane grid) {
         String imageViewId = "#s" + rowIndex + colIndex;
         Node node = grid.lookup(imageViewId);
@@ -307,7 +333,6 @@ public class BoardController{
             throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
         }
     }
-
 
     private ImageView getImageViewFromCoordinatesBoard(int rowIndex, int colIndex, GridPane grid) {
         String imageViewId = "#b" + rowIndex + colIndex;
