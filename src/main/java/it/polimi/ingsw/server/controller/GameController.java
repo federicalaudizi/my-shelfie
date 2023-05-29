@@ -290,6 +290,8 @@ public class GameController implements Runnable {
         }
         System.out.println(gameId+": "+currentPlayerId+" has got the column right");
         getClientHandler(currentPlayerId).sendOk();
+
+        return false;
     }
 
     /**
@@ -327,13 +329,14 @@ public class GameController implements Runnable {
      */
     private void gameOver(){
         HashMap<String, Integer> leaderboard = game.getRankedPlayers();
-
+        // Prepare leaderboard
         for (String player : leaderboard.keySet()) {
             if (connectedPlayers.get(player) == 0) {
                 leaderboard.put(player, -1);
             }
         }
 
+        // Send Leaderboard
         for (String player : players) {
             if (connectedPlayers.get(player) == 1) {
                 getClientHandler(player).gameOver(leaderboard);
