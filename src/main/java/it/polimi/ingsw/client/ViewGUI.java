@@ -7,7 +7,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import org.json.JSONArray;
 
 import java.io.IOException;
@@ -26,6 +28,7 @@ public class ViewGUI extends View {
     private final GameOptionsController gameOptionsController;
     private final NumberOfPlayersController numberOfPlayersController;
     private final BoardController gameController;
+    private final CommonObjController commonObjController;
     public static Parent welcomeRoot;
     public static Parent networkErrorRoot;
     public static Parent joinRoot;
@@ -34,6 +37,7 @@ public class ViewGUI extends View {
     public static Parent nicknameRoot;
     public static Parent numberOfPlayersRoot;
     public static Parent gameRoot;
+    public static Parent commonObjRoot;
 
     public ViewGUI(Client client) {
         FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
@@ -43,6 +47,7 @@ public class ViewGUI extends View {
         FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/NumberOfPlayers.fxml"));
         FXMLLoader joinLoader = new FXMLLoader(getClass().getResource("/JoinGame.fxml"));
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/Board.fxml"));
+        FXMLLoader commonObjLoader = new FXMLLoader(getClass().getResource("/commonObj.fxml"));
 
         try {
             welcomeRoot = welcomeLoader.load();
@@ -52,6 +57,7 @@ public class ViewGUI extends View {
             numberOfPlayersRoot = numberOfPlayersLoader.load();
             joinRoot = joinLoader.load();
             gameRoot = gameLoader.load();
+            commonObjRoot = commonObjLoader.load();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,6 +70,7 @@ public class ViewGUI extends View {
         this.joinController = joinLoader.getController();
         this.gameController = gameLoader.getController();
         this.client = client;
+        this.commonObjController =  commonObjLoader.getController();
     }
 
 
@@ -348,7 +355,22 @@ public class ViewGUI extends View {
 
     @Override
     void showAchievement(String username, int objectiveNumber) {
+        Parent currentRoot = Gui.getStage().getScene().getRoot();
+        FXMLLoader commonObjLoader = new FXMLLoader(getClass().getResource("/scenes/commonObj.fxml"));
 
+        Parent commonObjRoot = null;
+        try {
+            commonObjRoot = commonObjLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Parent finalDisconnectionRoot = commonObjRoot;
+        Parent finalCommonObjRoot = commonObjRoot;
+        Platform.runLater(() -> {
+            currentRoot.setEffect(new GaussianBlur());
+            Gui.getStage().setScene(new Scene(finalCommonObjRoot));
+        });
     }
 
     @Override

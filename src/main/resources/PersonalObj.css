@@ -1,0 +1,12 @@
+@font-face {
+    -fx-font-family: 'Ink Blossoms';
+    src: url('../fonts/Ink-Blossoms.ttf');
+}
+
+
+.winner-is {
+    -fx-font-family: "Ink Blossoms";
+    -fx-font-size: 27;
+    -fx-font-color: white;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 2, 1);
+}
