@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@PersonalObj.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.CommonObjController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@CommonObj.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.CommonObjController">
     <children>
         <Text fx:id="winner" fill="WHITE" layoutX="380.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="winner-is" text="you won!" textAlignment="CENTER" wrappingWidth="281.12109375" />
       <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="625.0" layoutY="231.0">
