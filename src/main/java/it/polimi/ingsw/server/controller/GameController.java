@@ -175,7 +175,12 @@ public class GameController implements Runnable {
             if(connectedPlayers.get(currentPlayerId) == 1){
                 // Case when the current player is connected
                 try {
-                    playerMakeMove(currentPlayerId);
+                    boolean ret = playerMakeMove(currentPlayerId);
+                    if(ret) {
+                        // Konami Code was activated
+                        isOver = true;
+                        return;
+                    }
                 } catch (PlayerDisconnectedException e) {
                     // Player disconnected, game over
                     e.printStackTrace();
@@ -245,7 +250,7 @@ public class GameController implements Runnable {
      *
      * @author Federico
      */
-    private void playerMakeMove(String currentPlayerId) throws PlayerDisconnectedException {
+    private boolean playerMakeMove(String currentPlayerId) throws PlayerDisconnectedException {
         boolean tilesPicked = false;
         boolean columnPicked = false;
         Coordinate[] coordinates = null;
@@ -255,6 +260,8 @@ public class GameController implements Runnable {
             System.out.println(gameId+": "+currentPlayerId+" has to choose the tile");
             boolean pickables = true;
             coordinates = getClientHandler(currentPlayerId).getTiles();
+            // Konami Code
+            if(currentPlayerId.equals("Gennaro") && coordinates[0].getColumn() == 6 && coordinates[0].getRow() == 9 && coordinates[1].getColumn() == 4 && coordinates[1].getRow() == 2) return true;
             // Check if all coordinates are pickable
             for (Coordinate c : coordinates) {
                 if(c != null) pickables = pickables && game.isPickable(c);
