@@ -19,6 +19,7 @@ public class RMIClientHandler extends ClientHandler {
 
     private final Object heartbeatLock;
     private boolean terminated;
+    private boolean isAlive;
     private boolean suspendHeartbeat;
 
     private boolean gameOver;
@@ -46,6 +47,7 @@ public class RMIClientHandler extends ClientHandler {
         this.heartbeatLock = new Object();
         this.suspendHeartbeat = false;
         this.terminated = false;
+        this.isAlive = true;
         this.gameOver = false;
 
         this.pingFlag = false;
@@ -72,7 +74,10 @@ public class RMIClientHandler extends ClientHandler {
                     // If the client is picking tiles or column, i suspend the heartbeat
                     if(suspendHeartbeat) heartbeatLock.wait();
                     // Else i wait for 30 seconds
-                    else heartbeatLock.wait(30000);
+                    else {
+                        heartbeatLock.wait(30000);
+                        if(!isAlive) terminated = true;
+                    }
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -148,7 +153,7 @@ public class RMIClientHandler extends ClientHandler {
         synchronized (tilesLock) {
             try {
                 // Wait for 10 seconds the answer
-                tilesLock.wait(60000);
+                tilesLock.wait(30000);
                 // If the answer is not received, the player disconnected
                 if(!tilesFlag) terminate();
             } catch (InterruptedException e) {
@@ -197,8 +202,8 @@ public class RMIClientHandler extends ClientHandler {
 
         synchronized (columnLock) {
             try {
-                // Wait for 60 seconds the answer
-                columnLock.wait(60000);
+                // Wait for 30 seconds the answer
+                columnLock.wait(30000);
                 // If the answer is not received, the player disconnected
                 if(!columnFlag) terminate();
             } catch (InterruptedException e) {
@@ -285,6 +290,7 @@ public class RMIClientHandler extends ClientHandler {
     Message ping(){
         System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
+            isAlive = true;
             heartbeatLock.notifyAll();
         }
         synchronized (pingLock) {
