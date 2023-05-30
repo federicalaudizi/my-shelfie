@@ -2,7 +2,7 @@
   <configuration default="false" name="Server RMI" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.Main" />
     <module name="PSP002" />
-    <option name="PROGRAM_PARAMETERS" value="server rmi" />
+    <option name="PROGRAM_PARAMETERS" value="--server --rmi" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="it.polimi.ingsw.*" />

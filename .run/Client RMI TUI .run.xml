@@ -2,7 +2,7 @@
   <configuration default="false" name="Client RMI TUI " type="Application" factoryName="Application" singleton="false">
     <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.Main" />
     <module name="PSP002" />
-    <option name="PROGRAM_PARAMETERS" value="client rmi tui" />
+    <option name="PROGRAM_PARAMETERS" value="--client --rmi --tui" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="it.polimi.ingsw.*" />

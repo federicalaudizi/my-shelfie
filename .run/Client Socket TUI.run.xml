@@ -2,7 +2,7 @@
   <configuration default="false" name="Client Socket TUI" type="Application" factoryName="Application" singleton="false">
     <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.Main" />
     <module name="PSP002" />
-    <option name="PROGRAM_PARAMETERS" value="client socket tui" />
+    <option name="PROGRAM_PARAMETERS" value="--client --socket --tui" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="it.polimi.ingsw.*" />

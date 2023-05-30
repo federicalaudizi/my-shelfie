@@ -2,7 +2,7 @@
   <configuration default="false" name="Client RMI GUI" type="Application" factoryName="Application" singleton="false">
     <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.Main" />
     <module name="PSP002" />
-    <option name="PROGRAM_PARAMETERS" value="client rmi gui" />
+    <option name="PROGRAM_PARAMETERS" value="--client --rmi --gui" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="it.polimi.ingsw.*" />
