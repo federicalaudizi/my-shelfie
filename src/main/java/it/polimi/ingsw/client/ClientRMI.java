@@ -80,8 +80,19 @@ public class ClientRMI extends Client {
      */
     @Override
     void connect() throws RemoteException {
-        //TODO: This only works on local host
-        Registry registry = LocateRegistry.getRegistry();
+        boolean isValid = false;
+        String ip = null;
+        while(!isValid) {
+            ip = view.getIp();
+            try {
+                isValid = validateIp(ip);
+            } catch (IllegalArgumentException e) {
+                view.showError("You entered a malformed IP:port combo. Retry.");
+            }
+        }
+        String[] hostInfo = ip.split(":");
+
+        Registry registry = LocateRegistry.getRegistry(hostInfo[0], Integer.parseInt(hostInfo[1]));
 
         try {
             loginInterface = (RMILoginInterface) registry.lookup("RMILoginInterface");
