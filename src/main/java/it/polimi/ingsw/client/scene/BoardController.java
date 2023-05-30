@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BoardController{
+    public Label client2;
+    public Label client3;
+    public Label client4;
     private boolean b03click = false;
     private boolean b13click = false;
     private boolean b04click = false;
@@ -299,6 +303,7 @@ public class BoardController{
         }
 
         public void initializeOtherShelves(Game game, LinkedList<String> playerOrder){
+        client2.setText(playerOrder.get(1));
             int players = game.getNumberOfPlayers();
                 for (int i = 0; i < 6; i++) {
                     for (int j = 0; j < 5; j++) {
@@ -314,6 +319,7 @@ public class BoardController{
                 initializeShelf3(game, playerOrder);
             } else if(players == 4) {
                 initializeShelf3(game, playerOrder);
+                client4.setText(playerOrder.get(3));
                 for (int i = 0; i < 6; i++) {
                     for (int j = 0; j < 5; j++) {
                         Image image;
@@ -328,6 +334,7 @@ public class BoardController{
         }
 
     private void initializeShelf3(Game game, LinkedList<String> playerOrder) {
+        client3.setText(playerOrder.get(2));
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 Image image;
