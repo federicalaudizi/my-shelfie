@@ -30,6 +30,7 @@ class Main {
             new Thread(gameSupervisor).start();
         } else{
             switch (args[0]) {
+                // Client launch
                 case "--client", "-c" -> {
                     // Default client launch, socket and GUI
                     if (args.length == 1) new ClientSocket(false).start();
@@ -57,6 +58,7 @@ class Main {
                         }
                     }
                 }
+                // Server launch
                 case "--server", "-s" -> {
                     GameSupervisor gameSupervisor = new GameSupervisor();
                     int launchType = 3;
@@ -92,6 +94,7 @@ class Main {
                         }
                     }
                 }
+                // Help
                 case "--help", "-h" ->
                         System.out.println("Usage: java -jar <fileName.jar> [Launch Type] [Connection type] [args...]\n" +
                                 "Launch Type:\n" +
@@ -104,9 +107,8 @@ class Main {
                                 "\t --rmiPort(-rp)=<port>: only valid for server launch, if selected when launchin in socket mode only it will be ignored \n" +
                                 "\t --path(-p)=<path>: only valid for server launch, file must be included in gamesaves directory\n"
                         );
-                default -> {
-                    System.out.println("Invalid option " + args[0] + ", type --help/-h for more information");
-                }
+                // Invalid option
+                default -> System.out.println("Invalid option " + args[0] + ", type --help/-h for more information");
             }
         }
     }
