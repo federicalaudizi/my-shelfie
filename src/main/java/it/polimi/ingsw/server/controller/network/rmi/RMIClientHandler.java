@@ -18,9 +18,8 @@ public class RMIClientHandler extends ClientHandler {
     private final String thisPlayerId;
 
     private final Object heartbeatLock;
-    private boolean isAlive;
-    private boolean tempAlive;
     private boolean terminated;
+    private boolean suspendHeartbeat;
 
     private boolean gameOver;
 
@@ -45,8 +44,7 @@ public class RMIClientHandler extends ClientHandler {
         this.thisPlayerId = username;
         this.pingLock = new Object();
         this.heartbeatLock = new Object();
-        this.isAlive = true;
-        this.tempAlive = true;
+        this.suspendHeartbeat = false;
         this.terminated = false;
         this.gameOver = false;
 
@@ -68,14 +66,13 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public void run() {
         // Heartbeat
-        while(isAlive && !gameOver && !terminated){
+        while(!gameOver && !terminated){
             try {
                 synchronized (heartbeatLock) {
-                    // Here i "fake" the liveliness of the client when i'm in the process of retrieving a tile or a flag
-                    tempAlive = columnFlag || tilesFlag;
-
-                    heartbeatLock.wait(30000);
-                    isAlive = tempAlive;
+                    // If the client is picking tiles or column, i suspend the heartbeat
+                    if(suspendHeartbeat) heartbeatLock.wait();
+                    // Else i wait for 30 seconds
+                    else heartbeatLock.wait(30000);
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -95,7 +92,10 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-        sendPing(new Message(GAME_UPDATE, gameState.toJson()));
+        try {
+            sendPing(new Message(GAME_UPDATE, gameState.toJson()));
+        } catch (PlayerDisconnectedException ignored) {
+        }
     }
 
     /**
@@ -115,7 +115,10 @@ public class RMIClientHandler extends ClientHandler {
         JSONArray body = new JSONArray();
         body.put(gameState.toJson());
         body.put(objectiveWinner);
-        sendPing(new Message(GAME_UPDATE, body));
+        try {
+            sendPing(new Message(GAME_UPDATE, body));
+        } catch (PlayerDisconnectedException ignored) {
+        }
     }
 
     /**
@@ -136,7 +139,8 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public Coordinate[] getTiles() throws PlayerDisconnectedException {
-        if(!isAlive) terminate();
+        if(terminated) throw new PlayerDisconnectedException();
+        else suspendHeartbeat = true;
 
         // Sending the tiles request
         sendPing(new Message(GET_TILES));
@@ -154,12 +158,15 @@ public class RMIClientHandler extends ClientHandler {
 
         // GameController now knows that the player has selected the tiles
         tilesFlag = false;
-
+        // Resume the heartbeat
+        suspendHeartbeat = false;
+        synchronized (heartbeatLock) {
+            heartbeatLock.notifyAll();
+        }
         try {
             return parseTiles(tilesMessage);
-        } catch (ClientHandler.WrongHeaderException ignored) {
-            // TODO: This exception should never be thrown
-            throw new PlayerDisconnectedException();
+        } catch (ClientHandler.WrongHeaderException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -182,7 +189,8 @@ public class RMIClientHandler extends ClientHandler {
     @Override
     public int getColumn() throws PlayerDisconnectedException {
         // TODO: there is a bug, i signal this as not alive while i wait for the column or tile, must be fixed
-        if(!isAlive) terminate();
+        if(terminated) throw new PlayerDisconnectedException();
+        else suspendHeartbeat = true;
 
         // Sending the column request
         sendPing(new Message(GET_COLUMN));
@@ -200,6 +208,11 @@ public class RMIClientHandler extends ClientHandler {
 
         // GameController now knows that the player has selected the tiles
         columnFlag = false;
+        // Resume the heartbeat
+        suspendHeartbeat = false;
+        synchronized (heartbeatLock){
+            heartbeatLock.notifyAll();
+        }
         try {
             return parseColumn(columnMessage);
         } catch (WrongHeaderException ignored) {
@@ -226,21 +239,24 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void gameOver(HashMap<String, Integer> leaderboard) {
-        sendPing(new Message(GAME_OVER, parseLeaderboard(leaderboard)));
+        try {
+            sendPing(new Message(GAME_OVER, parseLeaderboard(leaderboard)));
+        } catch (PlayerDisconnectedException ignored) {
+        }
 
         gameOver = true;
     }
 
-    private void sendPing(Message message){
+    private void sendPing(Message message) throws PlayerDisconnectedException {
         synchronized (pingLock) {
-            while(pingFlag){
-                // If there still is a pending message, wait
-                // TODO: wait forever?
+            if(pingFlag){
+                // If there still is a pending message, wait for 30 seconds
                 try {
-                    pingLock.wait();
+                    pingLock.wait(30000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                if(pingFlag) terminate();
             }
             System.out.println(thisPlayerId + ": sending ping "+message.toString());
             pingFlag = true;
@@ -258,6 +274,7 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     private void terminate() throws PlayerDisconnectedException{
+        System.out.println(thisPlayerId + ": terminating");
         terminated = true;
         synchronized (heartbeatLock) {
             heartbeatLock.notifyAll();
@@ -268,7 +285,6 @@ public class RMIClientHandler extends ClientHandler {
     Message ping(){
         System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
-            tempAlive = true;
             heartbeatLock.notifyAll();
         }
         synchronized (pingLock) {
