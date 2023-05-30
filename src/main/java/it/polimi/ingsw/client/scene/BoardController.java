@@ -300,7 +300,6 @@ public class BoardController{
 
         public void initializeOtherShelves(Game game, LinkedList<String> playerOrder){
             int players = game.getNumberOfPlayers();
-            if(players == 2){
                 for (int i = 0; i < 6; i++) {
                     for (int j = 0; j < 5; j++) {
                         Image image;
@@ -311,10 +310,60 @@ public class BoardController{
                         getImageViewForPositionShelf2(5-i, j, shelfGrid2).setImage(image);
                     }
                 }
+            if(players==3){
+                initializeShelf3(game, playerOrder);
+            } else if(players == 4) {
+                initializeShelf3(game, playerOrder);
+                for (int i = 0; i < 6; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        Image image;
+                        if (game.getPlayerByUsername(playerOrder.get(3)).getShelf().getTile(i,j).getPath()==null) {
+                            continue;
+                        }
+                        image = new Image(game.getPlayerByUsername(playerOrder.get(3)).getShelf().getTile(i,j).getPath());
+                        getImageViewForPositionShelf4(5-i, j, shelfGrid4).setImage(image);
+                    }
+                }
             }
         }
+
+    private void initializeShelf3(Game game, LinkedList<String> playerOrder) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                Image image;
+                if (game.getPlayerByUsername(playerOrder.get(2)).getShelf().getTile(i,j).getPath()==null) {
+                    continue;
+                }
+                image = new Image(game.getPlayerByUsername(playerOrder.get(2)).getShelf().getTile(i,j).getPath());
+                getImageViewForPositionShelf3(5-i, j, shelfGrid3).setImage(image);
+            }
+        }
+    }
+
     private ImageView getImageViewForPositionShelf2(int rowIndex, int colIndex, GridPane grid) {
         String imageViewId = "#s2" + rowIndex + colIndex;
+        Node node = grid.lookup(imageViewId);
+
+        if (node instanceof ImageView) {
+            return (ImageView) node;
+        } else {
+            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
+        }
+    }
+
+    private ImageView getImageViewForPositionShelf3(int rowIndex, int colIndex, GridPane grid) {
+        String imageViewId = "#s3" + rowIndex + colIndex;
+        Node node = grid.lookup(imageViewId);
+
+        if (node instanceof ImageView) {
+            return (ImageView) node;
+        } else {
+            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
+        }
+    }
+
+    private ImageView getImageViewForPositionShelf4(int rowIndex, int colIndex, GridPane grid) {
+        String imageViewId = "#s4" + rowIndex + colIndex;
         Node node = grid.lookup(imageViewId);
 
         if (node instanceof ImageView) {
