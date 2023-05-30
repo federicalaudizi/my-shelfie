@@ -77,6 +77,7 @@ public class RMIClientHandler extends ClientHandler {
                     else {
                         heartbeatLock.wait(30000);
                         if(!isAlive) terminated = true;
+                        isAlive = false;
                     }
                 }
             } catch (InterruptedException e) {
