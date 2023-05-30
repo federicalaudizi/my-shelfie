@@ -6,11 +6,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" stylesheets="@CommonObj.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.CommonObjController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1000.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.CommonObjController">
     <children>
-        <Text fx:id="winner" fill="WHITE" layoutX="380.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="winner-is" text="you won!" textAlignment="CENTER" wrappingWidth="281.12109375" />
       <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="625.0" layoutY="231.0">
          <image>
             <Image url="@Images/endgame_victorytrumpets.png" />
@@ -29,11 +29,14 @@
             <Image url="@Images/openbook.png" />
          </image>
       </ImageView>
-        <Button fx:id="continueGame" alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="425.0" mnemonicParsing="false" onAction="#removeDisplay" prefHeight="48.0" prefWidth="198.0" text="EXIT" textFill="WHITE">
+        <Button fx:id="continueGame" alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="425.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="198.0" style="-fx-background-color: trasparent;" text="Continue" textFill="#865807">
             <padding>
                 <Insets bottom="10.0" />
             </padding>
+         <font>
+            <Font size="31.0" />
+         </font>
         </Button>
-        <Text fill="#5b3600" layoutX="416.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-win" text="Congratulations! You achieved a Personal Objective" textAlignment="CENTER" wrappingWidth="176.0000000000001" />
+        <Text fill="#5b3600" layoutX="391.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-win" text="Congratulations! You achieved a Personal Objective" textAlignment="CENTER" wrappingWidth="239.0000000000001" />
     </children>
 </AnchorPane>

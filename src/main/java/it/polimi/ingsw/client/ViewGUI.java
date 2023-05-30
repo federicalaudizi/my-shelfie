@@ -7,9 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import org.json.JSONArray;
 
 import java.io.IOException;
@@ -355,22 +353,11 @@ public class ViewGUI extends View {
 
     @Override
     void showAchievement(String username, int objectiveNumber) {
-        Parent currentRoot = Gui.getStage().getScene().getRoot();
-        FXMLLoader commonObjLoader = new FXMLLoader(getClass().getResource("/scenes/commonObj.fxml"));
-
-        Parent commonObjRoot = null;
         try {
-            commonObjRoot = commonObjLoader.load();
+            commonObjController.displayAchievement();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        Parent finalDisconnectionRoot = commonObjRoot;
-        Parent finalCommonObjRoot = commonObjRoot;
-        Platform.runLater(() -> {
-            currentRoot.setEffect(new GaussianBlur());
-            Gui.getStage().setScene(new Scene(finalCommonObjRoot));
-        });
     }
 
     @Override
