@@ -28,6 +28,8 @@ class Main {
             System.out.println("No arguments provided, launching default configuration: --server --both");
             GameSupervisor gameSupervisor = new GameSupervisor();
             new Thread(gameSupervisor).start();
+            new Thread(new SocketServer(8000, gameSupervisor)).start();
+            new Thread(new RMIServer(1099, gameSupervisor)).start();
         } else{
             switch (args[0]) {
                 // Client launch
