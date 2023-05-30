@@ -158,6 +158,7 @@ public class GameSupervisor implements Runnable{
      * @author Federico
      */
     public void notifyDisconnection(String playerId){
+        System.out.println("Supervisor: "+playerId+" disconnected");
         GameController game = games.get(playerId);
         if(game != null) game.notifyDisconnection(playerId);
     }
