@@ -29,6 +29,7 @@ public class BoardController{
     public Label client2;
     public Label client3;
     public Label client4;
+    public Label instruction;
     private boolean b03click = false;
     private boolean b13click = false;
     private boolean b04click = false;
@@ -266,18 +267,29 @@ public class BoardController{
     public void initializeBoard(Game game){
         this.tiles = new ArrayList<>();
         continueButton.setVisible(false);
+        ImageView[][] imageMatrix = new ImageView[game.getBoard().getMAX_X()][game.getBoard().getMAX_Y()];
+
+        for (Node node : boardPane.getChildren()) {
+            if (node instanceof ImageView) {
+                int row = GridPane.getRowIndex(node);
+                int column = GridPane.getColumnIndex(node);
+                imageMatrix[row][column] = (ImageView) node;
+            }
+        }
         for(int i=0; i< game.getBoard().getMAX_X(); i++){
             for(int j=0;j<game.getBoard().getMAX_Y();j++){
-               Image image;
+                ImageView imageView = imageMatrix[i][j];
+                Image image;
                if(game.getBoard().getTile(i,j).getType().equals("Empty")){
-                   getImageViewFromCoordinatesBoard(i,j,boardPane).setImage(null);
+                   imageView.setImage(null);
                }
                else {
                    if (game.getBoard().getTile(i, j).getPath() == null) {
                        continue;
                    }
                    image = new Image(game.getBoard().getTile(i, j).getPath());
-                   getImageViewFromCoordinatesBoard(i, j, boardPane).setImage(image);
+                   imageView.setImage(image);
+                   imageView.setOpacity(1);
                }
             }
         }
@@ -290,44 +302,74 @@ public class BoardController{
      * @param client
      */
     public void initializeClientShelf(Game game, Client client){
+        ImageView[][] imageMatrix = new ImageView[6][5];
+
+        for (Node node : shelfGrid.getChildren()) {
+            if (node instanceof ImageView) {
+                int row = GridPane.getRowIndex(node);
+                int column = GridPane.getColumnIndex(node);
+                imageMatrix[row][column] = (ImageView) node;
+            }
+        }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
+                ImageView imageView = imageMatrix[5-i][j];
                 Image image;
                 if (game.getPlayerByUsername(client.getUsername()).getShelf().getTile(i, j).getPath() == null) {
                     continue;
                 }
                 image = new Image(game.getPlayerByUsername(client.getUsername()).getShelf().getTile(i, j).getPath());
-                getImageViewForPositionShelf(5-i, j, shelfGrid).setImage(image);
+                imageView.setImage(image);
             }
         }
         }
 
         public void initializeOtherShelves(Game game, LinkedList<String> playerOrder){
         client2.setText(playerOrder.get(1));
-            int players = game.getNumberOfPlayers();
-                for (int i = 0; i < 6; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        Image image;
-                        if (game.getPlayerByUsername(playerOrder.get(1)).getShelf().getTile(i,j).getPath()==null) {
-                            continue;
-                        }
-                        image = new Image(game.getPlayerByUsername(playerOrder.get(1)).getShelf().getTile(i,j).getPath());
-                        getImageViewForPositionShelf2(5-i, j, shelfGrid2).setImage(image);
-                    }
+        int players = game.getNumberOfPlayers();
+            ImageView[][] imageMatrix = new ImageView[6][5];
+
+            for (Node node : shelfGrid2.getChildren()) {
+                if (node instanceof ImageView) {
+                    int row = GridPane.getRowIndex(node);
+                    int column = GridPane.getColumnIndex(node);
+                    imageMatrix[row][column] = (ImageView) node;
                 }
+            }
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 5; j++) {
+                    ImageView imageView = imageMatrix[5-i][j];
+                    Image image;
+                    if (game.getPlayerByUsername(playerOrder.get(1)).getShelf().getTile(i, j).getPath() == null) {
+                        continue;
+                    }
+                    image = new Image(game.getPlayerByUsername(playerOrder.get(1)).getShelf().getTile(i, j).getPath());
+                    imageView.setImage(image);
+                }
+            }
             if(players==3){
                 initializeShelf3(game, playerOrder);
             } else if(players == 4) {
                 initializeShelf3(game, playerOrder);
                 client4.setText(playerOrder.get(3));
+                ImageView[][] imageMatrix4 = new ImageView[6][5];
+
+                for (Node node : shelfGrid4.getChildren()) {
+                    if (node instanceof ImageView) {
+                        int row = GridPane.getRowIndex(node);
+                        int column = GridPane.getColumnIndex(node);
+                        imageMatrix4[row][column] = (ImageView) node;
+                    }
+                }
                 for (int i = 0; i < 6; i++) {
                     for (int j = 0; j < 5; j++) {
+                        ImageView imageView = imageMatrix4[5-i][j];
                         Image image;
-                        if (game.getPlayerByUsername(playerOrder.get(3)).getShelf().getTile(i,j).getPath()==null) {
+                        if (game.getPlayerByUsername(playerOrder.get(3)).getShelf().getTile(i, j).getPath() == null) {
                             continue;
                         }
-                        image = new Image(game.getPlayerByUsername(playerOrder.get(3)).getShelf().getTile(i,j).getPath());
-                        getImageViewForPositionShelf4(5-i, j, shelfGrid4).setImage(image);
+                        image = new Image(game.getPlayerByUsername(playerOrder.get(3)).getShelf().getTile(i, j).getPath());
+                        imageView.setImage(image);
                     }
                 }
             }
@@ -335,72 +377,27 @@ public class BoardController{
 
     private void initializeShelf3(Game game, LinkedList<String> playerOrder) {
         client3.setText(playerOrder.get(2));
+        ImageView[][] imageMatrix = new ImageView[6][5];
+
+        for (Node node : shelfGrid3.getChildren()) {
+            if (node instanceof ImageView) {
+                int row = GridPane.getRowIndex(node);
+                int column = GridPane.getColumnIndex(node);
+                imageMatrix[row][column] = (ImageView) node;
+            }
+        }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
+                ImageView imageView = imageMatrix[5-i][j];
                 Image image;
-                if (game.getPlayerByUsername(playerOrder.get(2)).getShelf().getTile(i,j).getPath()==null) {
+                if (game.getPlayerByUsername(playerOrder.get(2)).getShelf().getTile(i, j).getPath() == null) {
                     continue;
                 }
-                image = new Image(game.getPlayerByUsername(playerOrder.get(2)).getShelf().getTile(i,j).getPath());
-                getImageViewForPositionShelf3(5-i, j, shelfGrid3).setImage(image);
+                image = new Image(game.getPlayerByUsername(playerOrder.get(2)).getShelf().getTile(i, j).getPath());
+                imageView.setImage(image);
             }
         }
     }
-
-    private ImageView getImageViewForPositionShelf2(int rowIndex, int colIndex, GridPane grid) {
-        String imageViewId = "#s2" + rowIndex + colIndex;
-        Node node = grid.lookup(imageViewId);
-
-        if (node instanceof ImageView) {
-            return (ImageView) node;
-        } else {
-            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
-        }
-    }
-
-    private ImageView getImageViewForPositionShelf3(int rowIndex, int colIndex, GridPane grid) {
-        String imageViewId = "#s3" + rowIndex + colIndex;
-        Node node = grid.lookup(imageViewId);
-
-        if (node instanceof ImageView) {
-            return (ImageView) node;
-        } else {
-            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
-        }
-    }
-
-    private ImageView getImageViewForPositionShelf4(int rowIndex, int colIndex, GridPane grid) {
-        String imageViewId = "#s4" + rowIndex + colIndex;
-        Node node = grid.lookup(imageViewId);
-
-        if (node instanceof ImageView) {
-            return (ImageView) node;
-        } else {
-            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
-        }
-    }
-    private ImageView getImageViewForPositionShelf(int rowIndex, int colIndex, GridPane grid) {
-        String imageViewId = "#s" + rowIndex + colIndex;
-        Node node = grid.lookup(imageViewId);
-
-        if (node instanceof ImageView) {
-            return (ImageView) node;
-        } else {
-            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
-        }
-    }
-
-    private ImageView getImageViewFromCoordinatesBoard(int rowIndex, int colIndex, GridPane grid) {
-        String imageViewId = "#b" + rowIndex + colIndex;
-        Node node = grid.lookup(imageViewId);
-
-        if (node instanceof ImageView) {
-            return (ImageView) node;
-        } else {
-            throw new IllegalStateException("ImageView not found for coordinates: (" + rowIndex + ", " + colIndex + ")");
-        }
-    }
-
 
     /**
      * Method that decides what happens when cell (0,3) is clicked on the board
@@ -1158,6 +1155,11 @@ public class BoardController{
         column2.setDisable(true);
         column3.setDisable(true);
         column4.setDisable(true);
+        column0.setVisible(false);
+        column1.setVisible(false);
+        column2.setVisible(false);
+        column3.setVisible(false);
+        column4.setVisible(false);
     }
 
     public void ableView(){
@@ -1167,6 +1169,11 @@ public class BoardController{
         column2.setDisable(false);
         column3.setDisable(false);
         column4.setDisable(false);
+        column0.setVisible(true);
+        column1.setVisible(true);
+        column2.setVisible(true);
+        column3.setVisible(true);
+        column4.setVisible(true);
     }
 
     public void insertInColumn0(ActionEvent actionEvent) {

@@ -76,6 +76,9 @@ public class ViewGUI extends View {
     void update(Game game, LinkedList<String> playerOrder) {
         if (game.isLastTurn()) {
         }
+        Platform.runLater(() -> {
+            gameController.instruction.setText("It's "+ game.getCurrentPlayer().getUsername()+"'s turn!");
+        });
         setCommonObjectivesCards(game);
         setPersonalObjectiveCard(game);
         gameController.setShelves(game);
@@ -327,6 +330,9 @@ public class ViewGUI extends View {
 
     @Override
     String getTiles() {
+        Platform.runLater(() -> {
+            gameController.instruction.setText("Choose the tiles, then press continue.");
+        });
         gameController.ableView();
         String r = null;
         try {
@@ -340,6 +346,9 @@ public class ViewGUI extends View {
 
     @Override
     int getColumn() {
+        Platform.runLater(() -> {
+            gameController.instruction.setText("Good choice, now choose the column.");
+        });
         gameController.ableView();
         int column = 0;
         try {
