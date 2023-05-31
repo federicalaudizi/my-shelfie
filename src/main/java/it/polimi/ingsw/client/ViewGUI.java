@@ -362,11 +362,7 @@ public class ViewGUI extends View {
 
     @Override
     void showAchievement(String username, int objectiveNumber) {
-        try {
-            commonObjController.displayAchievement();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        gameController.displayAchievement();
     }
 
     @Override

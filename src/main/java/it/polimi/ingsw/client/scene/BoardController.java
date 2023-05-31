@@ -1,31 +1,40 @@
 package it.polimi.ingsw.client.scene;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.Gui;
 import it.polimi.ingsw.client.ViewGUI;
 import it.polimi.ingsw.server.model.Game;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image ;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class BoardController{
+    public AnchorPane board;
+    public AnchorPane commonObj;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;
@@ -388,6 +397,11 @@ public class BoardController{
 
         // Show the popup Stage
         popupStage.showAndWait();
+    }
+
+    public void displayAchievement() {
+        commonObj.setVisible(true);
+        board.setEffect(new GaussianBlur());
     }
 }
 
