@@ -26,7 +26,6 @@ public class ViewGUI extends View {
     private final GameOptionsController gameOptionsController;
     private final NumberOfPlayersController numberOfPlayersController;
     private final BoardController gameController;
-    private final CommonObjController commonObjController;
     public static Parent welcomeRoot;
     public static Parent networkErrorRoot;
     public static Parent joinRoot;
@@ -35,7 +34,6 @@ public class ViewGUI extends View {
     public static Parent nicknameRoot;
     public static Parent numberOfPlayersRoot;
     public static Parent gameRoot;
-    public static Parent commonObjRoot;
 
     public ViewGUI(Client client) {
         FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
@@ -45,7 +43,6 @@ public class ViewGUI extends View {
         FXMLLoader numberOfPlayersLoader = new FXMLLoader(getClass().getResource("/NumberOfPlayers.fxml"));
         FXMLLoader joinLoader = new FXMLLoader(getClass().getResource("/JoinGame.fxml"));
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/Board.fxml"));
-        FXMLLoader commonObjLoader = new FXMLLoader(getClass().getResource("/commonObj.fxml"));
 
         try {
             welcomeRoot = welcomeLoader.load();
@@ -55,7 +52,6 @@ public class ViewGUI extends View {
             numberOfPlayersRoot = numberOfPlayersLoader.load();
             joinRoot = joinLoader.load();
             gameRoot = gameLoader.load();
-            commonObjRoot = commonObjLoader.load();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,7 +64,6 @@ public class ViewGUI extends View {
         this.joinController = joinLoader.getController();
         this.gameController = gameLoader.getController();
         this.client = client;
-        this.commonObjController =  commonObjLoader.getController();
     }
 
 
