@@ -278,7 +278,7 @@ public class ViewGUI extends View {
 
     @Override
     void gameOverScreen(JSONArray leaderboard) {
-        // TODO Implement
+        gameController.showLeaderboard(leaderboard);
     }
 
     @Override
@@ -357,7 +357,8 @@ public class ViewGUI extends View {
 
     @Override
     void showAchievement(String username, int objectiveNumber) {
-        gameController.displayAchievement();
+        String nick = client.getUsername();
+        gameController.displayAchievement(nick, username, objectiveNumber);
     }
 
     @Override
