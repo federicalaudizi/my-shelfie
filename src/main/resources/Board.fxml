@@ -315,8 +315,8 @@
       </font>
    </Label>
     <Label fx:id="instruction" layoutX="31.0" layoutY="17.0" prefHeight="17.0" prefWidth="462.0" textAlignment="CENTER" />
-
-        <AnchorPane fx:id="commonObj" layoutX="5.0" layoutY="-68.0" maxHeight="-Infinity" maxWidth="-Infinity"
+    </AnchorPane>
+    <AnchorPane fx:id="commonObj" layoutX="5.0" layoutY="-68.0" maxHeight="-Infinity" maxWidth="-Infinity"
                     minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="955.0" visible="false">
             <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="625.0" layoutY="231.0">
                 <Image url="@Images/endgame_victorytrumpets.png"/>
@@ -346,5 +346,4 @@
                   text="Congratulations! You achieved a Personal Objective" textAlignment="CENTER"
                   wrappingWidth="239.0000000000001"/>
         </AnchorPane>
-    </AnchorPane>
 </AnchorPane>
