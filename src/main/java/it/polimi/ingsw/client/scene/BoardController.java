@@ -1,13 +1,10 @@
 package it.polimi.ingsw.client.scene;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.Gui;
 import it.polimi.ingsw.client.ViewGUI;
 import it.polimi.ingsw.server.model.Game;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -22,12 +19,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image ;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -132,7 +127,7 @@ public class BoardController{
                    imageView.setOpacity(1);
                    int finalI = i;
                    int finalJ = j;
-                   imageView.setOnMouseClicked(event -> handleCellClick(finalI, finalJ, event));
+                   imageView.setOnMouseClicked(event -> handleCellClick(finalI, finalJ));
                }
             }
         }
@@ -242,7 +237,7 @@ public class BoardController{
         }
     }
 
-    private void handleCellClick(int row, int col, MouseEvent event) {
+    private void handleCellClick(int row, int col) {
         ImageView imageView = imageViews[row][col];
         boolean isCellClicked = clickedCells[row][col];
 
@@ -276,7 +271,7 @@ public class BoardController{
     /**
      * Handles the confirmation Button when the player has chosen the tiles
      * */
-    public void handleConfirmation(ActionEvent actionEvent) {
+    public void handleConfirmation() {
         getTile();
     }
 
@@ -316,7 +311,7 @@ public class BoardController{
         column4.setVisible(true);
     }
 
-    public void insertInColumn0(ActionEvent actionEvent) {
+    public void insertInColumn0() {
         try {
             ViewGUI.queue.put(0);
 
@@ -326,7 +321,7 @@ public class BoardController{
         disableView();
     }
 
-    public void insertInColumn1(ActionEvent actionEvent) {
+    public void insertInColumn1() {
         try {
             ViewGUI.queue.put(1);
 
@@ -336,7 +331,7 @@ public class BoardController{
         disableView();
     }
 
-    public void insertInColumn2(ActionEvent actionEvent) {
+    public void insertInColumn2() {
         try {
             ViewGUI.queue.put(2);
 
@@ -346,7 +341,7 @@ public class BoardController{
         disableView();
     }
 
-    public void insertInColumn3(ActionEvent actionEvent) {
+    public void insertInColumn3() {
         try {
             ViewGUI.queue.put(3);
 
@@ -356,7 +351,7 @@ public class BoardController{
         disableView();
     }
 
-    public void insertInColumn4(ActionEvent actionEvent) {
+    public void insertInColumn4() {
         try {
             ViewGUI.queue.put(4);
 
@@ -402,6 +397,11 @@ public class BoardController{
     public void displayAchievement() {
         commonObj.setVisible(true);
         board.setEffect(new GaussianBlur());
+    }
+
+    public void close() {
+        commonObj.setVisible(false);
+        board.setEffect(null);
     }
 }
 

@@ -316,36 +316,34 @@
    </Label>
     <Label fx:id="instruction" layoutX="31.0" layoutY="17.0" prefHeight="17.0" prefWidth="462.0" textAlignment="CENTER" />
     </AnchorPane>
-
-    <AnchorPane fx:id="commonObj" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="1000.0" visible="false">
-        <children>
+    <AnchorPane fx:id="commonObj" layoutX="5.0" layoutY="-68.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                    minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="955.0" visible="false">
             <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="625.0" layoutY="231.0">
-                <image>
-                    <Image url="@Images/endgame_victorytrumpets.png" />
-                </image>
+                <Image url="@Images/endgame_victorytrumpets.png"/>
             </ImageView>
             <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="214.0" layoutY="227.0" rotate="180.0">
-                <image>
-                    <Image url="@Images/endgame_victorytrumpets.png" />
-                </image>
                 <rotationAxis>
-                    <Point3D y="1.0" />
+                    <Point3D y="1.0"/>
                 </rotationAxis>
+                <Image url="@Images/endgame_victorytrumpets.png"/>
             </ImageView>
             <ImageView fitHeight="240.0" fitWidth="361.0" layoutX="327.0" layoutY="283.0">
                 <image>
-                    <Image url="@Images/openbook.png" />
+                    <Image url="@Images/openbook.png"/>
                 </image>
             </ImageView>
-            <Button fx:id="continueGame" alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="425.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="198.0" style="-fx-background-color: trasparent;" text="Continue" textFill="#865807">
+            <Button fx:id="continueGame" alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="425.0"
+                    mnemonicParsing="false" onAction="#close" prefHeight="48.0" prefWidth="198.0"
+                    style="-fx-background-color: trasparent;" text="Continue" textFill="#865807">
                 <padding>
-                    <Insets bottom="10.0" />
+                    <Insets bottom="10.0"/>
                 </padding>
                 <font>
-                    <Font size="31.0" />
+                    <Font size="31.0"/>
                 </font>
             </Button>
-            <Text fill="#5b3600" layoutX="391.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-win" text="Congratulations! You achieved a Personal Objective" textAlignment="CENTER" wrappingWidth="239.0000000000001" />
-        </children>
-    </AnchorPane>
+            <Text fill="#5b3600" layoutX="391.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="Congratulations! You achieved a Personal Objective" textAlignment="CENTER"
+                  wrappingWidth="239.0000000000001"/>
+        </AnchorPane>
 </AnchorPane>
