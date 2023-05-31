@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -316,34 +317,68 @@
    </Label>
     <Label fx:id="instruction" layoutX="31.0" layoutY="17.0" prefHeight="17.0" prefWidth="462.0" textAlignment="CENTER" />
     </AnchorPane>
-    <AnchorPane fx:id="commonObj" layoutX="5.0" layoutY="-68.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                    minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="955.0" visible="false">
+    <AnchorPane fx:id="leaderboard" layoutX="197.0" layoutY="-7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+           <ImageView fitHeight="434.0" fitWidth="344.0" layoutX="143.0" layoutY="-20.0">
+               <Image url="@Images/leaderboard.png" />
+           </ImageView>
+        <Pane layoutX="207.0" layoutY="189.0" prefHeight="23.0" prefWidth="187.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
+            <Text fx:id="firstPlace" layoutX="8.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="182.58223841121753" />
+        </Pane>
+        <Pane layoutX="207.0" layoutY="219.0" prefHeight="23.0" prefWidth="187.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
+            <Text fx:id="secondPlace" layoutX="8.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="182.58223841121753" />
+        </Pane>
+        <Pane layoutX="207.0" layoutY="249.0" prefHeight="23.0" prefWidth="187.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
+            <Text fx:id="thirdPlace" layoutX="8.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="182.58223841121753" />
+        </Pane>
+        <Pane layoutX="207.0" layoutY="279.0" prefHeight="23.0" prefWidth="187.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
+            <Text fx:id="lastPlace" layoutX="8.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="182.58223841121753" />
+        </Pane>
+        <Pane layoutX="402.0" layoutY="189.0" prefHeight="23.0" prefWidth="40.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
+            <Text fx:id="firstPoints" layoutX="4.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="31.70589768817547" />
+        </Pane>
+        <Pane layoutX="402.0" layoutY="219.0" prefHeight="23.0" prefWidth="40.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
+            <Text fx:id="secondPoints" layoutX="4.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="31.70589768817547" />
+        </Pane>
+        <Pane layoutX="402.0" layoutY="249.0" prefHeight="23.0" prefWidth="40.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
+            <Text fx:id="thirdPoints" layoutX="4.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="31.70589768817547" />
+        </Pane>
+        <Pane layoutX="402.0" layoutY="279.0" prefHeight="23.0" prefWidth="40.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
+            <Text fx:id="fourthPoints" layoutX="4.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="31.70589768817547" />
+        </Pane>
+           <Text fill="#6b3400" layoutX="235.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LEADERBOARD">
+               <font>
+                   <Font name="Kefa Regular" size="23.0" />
+               </font>
+           </Text>
+      <ImageView fitHeight="43.0" fitWidth="46.0" layoutX="187.0" layoutY="162.0">
+         <image>
+            <Image url="@Images/medal.png" />
+         </image>
+      </ImageView>
+       </AnchorPane>
+    <AnchorPane fx:id="commonObj" layoutX="5.0" layoutY="-68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="955.0" visible="false">
             <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="625.0" layoutY="231.0">
-                <Image url="@Images/endgame_victorytrumpets.png"/>
+                <Image url="@Images/endgame_victorytrumpets.png" />
             </ImageView>
             <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="214.0" layoutY="227.0" rotate="180.0">
                 <rotationAxis>
-                    <Point3D y="1.0"/>
+                    <Point3D y="1.0" />
                 </rotationAxis>
-                <Image url="@Images/endgame_victorytrumpets.png"/>
+                <Image url="@Images/endgame_victorytrumpets.png" />
             </ImageView>
             <ImageView fitHeight="240.0" fitWidth="361.0" layoutX="327.0" layoutY="283.0">
                 <image>
-                    <Image url="@Images/openbook.png"/>
+                    <Image url="@Images/openbook.png" />
                 </image>
             </ImageView>
-            <Button fx:id="continueGame" alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="425.0"
-                    mnemonicParsing="false" onAction="#close" prefHeight="48.0" prefWidth="198.0"
-                    style="-fx-background-color: trasparent;" text="Continue" textFill="#865807">
+            <Button fx:id="continueGame" alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="425.0" mnemonicParsing="false" onAction="#close" prefHeight="48.0" prefWidth="198.0" style="-fx-background-color: trasparent;" text="Continue" textFill="#865807">
                 <padding>
-                    <Insets bottom="10.0"/>
+                    <Insets bottom="10.0" />
                 </padding>
                 <font>
-                    <Font size="31.0"/>
+                    <Font size="31.0" />
                 </font>
             </Button>
-            <Text fill="#5b3600" layoutX="391.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="Congratulations! You achieved a Personal Objective" textAlignment="CENTER"
-                  wrappingWidth="239.0000000000001"/>
+            <Text fx:id="who" fill="#5b3600" layoutX="391.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="239.0000000000001" />
         </AnchorPane>
 </AnchorPane>

@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
@@ -22,21 +23,33 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class BoardController{
     public AnchorPane board;
     public AnchorPane commonObj;
+    public Text who;
+    public AnchorPane leaderboard;
+    public Text firstPlace;
+    public Text secondPlace;
+    public Text thirdPlace;
+    public Text lastPlace;
+    public Text firstPoints;
+    public Text secondPoints;
+    public Text thirdPoints;
+    public Text fourthPoints;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;
     public Label client3;
     public Label client4;
     public Label instruction;
-
     public Button continueButton;
     public Button column0;
     public Button column1;
@@ -394,7 +407,20 @@ public class BoardController{
         popupStage.showAndWait();
     }
 
-    public void displayAchievement() {
+    public void displayAchievement(String nick,String username, int objectiveNumber) {
+        if (nick.equals(username)){
+            if (objectiveNumber == 1){
+                who.setText("Congratulations! You achieved the first common goal");
+            }else {
+                who.setText("Congratulations! You achieved second the common goal");
+            }
+        }else {
+            if (objectiveNumber == 1){
+                who.setText("Congratulations! " + username + " achieved the first common goal");
+            }else{
+                who.setText("Congratulations! " + username + " achieved the second common goal");
+            }
+        }
         commonObj.setVisible(true);
         board.setEffect(new GaussianBlur());
     }
@@ -402,6 +428,69 @@ public class BoardController{
     public void close() {
         commonObj.setVisible(false);
         board.setEffect(null);
+    }
+
+    public void showLeaderboard(JSONArray rank){
+        JSONObject rank_first, rank_second, rank_third, rank_fourth;
+        String username_first, username_second, username_third, username_fourth;
+        int points_first, points_second, points_third, points_fourth;
+        if(rank.length() == 1){
+            rank_first = rank.getJSONObject(0);
+            username_first = rank_first.getString("username");
+            points_first = rank_first.getInt("points");
+            firstPlace.setText(username_first);
+            firstPoints.setText(Integer.toString(points_first));
+        } else if (rank.length() == 2) {
+            rank_first = rank.getJSONObject(0);
+            username_first = rank_first.getString("username");
+            points_first = rank_first.getInt("points");
+            rank_second = rank.getJSONObject(1);
+            username_second = rank_second.getString("username");
+            points_second = rank_second.getInt("points");
+            firstPlace.setText(username_first);
+            firstPoints.setText(Integer.toString(points_first));
+            secondPlace.setText(username_second);
+            secondPoints.setText(Integer.toString(points_second));
+        } else if (rank.length() == 3){
+            rank_first = rank.getJSONObject(0);
+            username_first = rank_first.getString("username");
+            points_first = rank_first.getInt("points");
+            rank_second = rank.getJSONObject(1);
+            username_second = rank_second.getString("username");
+            points_second = rank_second.getInt("points");
+            rank_third = rank.getJSONObject(2);
+            username_third = rank_third.getString("username");
+            points_third = rank_third.getInt("points");
+            firstPlace.setText(username_first);
+            firstPoints.setText(Integer.toString(points_first));
+            secondPlace.setText(username_second);
+            secondPoints.setText(Integer.toString(points_second));
+            thirdPlace.setText(username_third);
+            thirdPoints.setText(Integer.toString(points_third));
+        }else {
+            rank_first = rank.getJSONObject(0);
+            username_first = rank_first.getString("username");
+            points_first = rank_first.getInt("points");
+            rank_second = rank.getJSONObject(1);
+            username_second = rank_second.getString("username");
+            points_second = rank_second.getInt("points");
+            rank_third = rank.getJSONObject(2);
+            username_third = rank_third.getString("username");
+            points_third = rank_third.getInt("points");
+            rank_fourth = rank.getJSONObject(3);
+            username_fourth = rank_fourth.getString("username");
+            points_fourth = rank_fourth.getInt("points");
+            firstPlace.setText(username_first);
+            firstPoints.setText(Integer.toString(points_first));
+            secondPlace.setText(username_second);
+            secondPoints.setText(Integer.toString(points_second));
+            thirdPlace.setText(username_third);
+            thirdPoints.setText(Integer.toString(points_third));
+            lastPlace.setText(username_fourth);
+            fourthPoints.setText(Integer.toString(points_fourth));
+        }
+        board.setEffect(new GaussianBlur());
+        leaderboard.setVisible(true);
     }
 }
 
