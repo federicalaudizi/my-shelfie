@@ -173,4 +173,42 @@ public class GameTest {
 
         //System.out.println("\n\n\n FINAL BOARD: \n" + board);
     }
+
+    @Test
+    public void getCurrentPlayerTest(){
+        Game g2 = new Game(2);
+        Game g3 = new Game(3);
+        Game g4 = new Game(4);
+
+        ArrayList<String> usernames = new ArrayList<>();
+        usernames.add("Mario");
+        usernames.add("Federico");
+
+        g2.setUsernames(usernames);
+
+        assertEquals(g2.getFirst(), g2.getCurrentPlayerIndex());
+        System.out.println("g2: " + g2.getCurrentPlayerIndex());
+        assertEquals(g3.getFirst(), g3.getCurrentPlayerIndex());
+        System.out.println("g3: " + g3.getCurrentPlayerIndex());
+        assertEquals(g4.getFirst(), g4.getCurrentPlayerIndex());
+        System.out.println("g4: " + g4.getCurrentPlayerIndex());
+
+        g2.nextTurn();
+        g3.nextTurn();
+        g4.nextTurn();
+
+        System.out.println("g2: " + g2.getCurrentPlayerIndex());
+        System.out.println("g3: " + g3.getCurrentPlayerIndex());
+        System.out.println("g4: " + g4.getCurrentPlayerIndex());
+        System.out.println(g2.getCurrentPlayer().getUsername());
+
+        g2.nextTurn();
+        g3.nextTurn();
+        g4.nextTurn();
+
+        System.out.println("g2: " + g2.getCurrentPlayerIndex());
+        System.out.println("g3: " + g3.getCurrentPlayerIndex());
+        System.out.println("g4: " + g4.getCurrentPlayerIndex());
+        System.out.println(g2.getCurrentPlayer().getUsername());
+    }
 }
