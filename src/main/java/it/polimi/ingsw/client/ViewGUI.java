@@ -76,6 +76,7 @@ public class ViewGUI extends View {
         });
         setCommonObjectivesCards(game);
         setPersonalObjectiveCard(game);
+        gameController.disableView();
         gameController.setShelves(game);
         gameController.initializeBoard(game);
         gameController.initializeClientShelf(game, this.client);
