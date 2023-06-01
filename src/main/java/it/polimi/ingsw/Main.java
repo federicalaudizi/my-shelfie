@@ -38,7 +38,7 @@ class Main {
                     if (args.length == 1) new ClientSocket(false).start();
                     else if (args.length == 2) {
                         // Client launch with socket or rmi, GUI as default
-                        if (args[1].equals("--socket") || args[1].equals("-s")) new ClientSocket(false).start();
+                        if (args[1].equals("--socket") || args[1].equals("-k")) new ClientSocket(false).start();
                         else if (args[1].equals("--rmi") || args[1].equals("-r")) new ClientRMI(false).start();
                         else
                             System.out.println("invalid option " + args[1] + "\n" + "To be provided: '--socket/-s' or '--rmi/-r'");
@@ -102,7 +102,7 @@ class Main {
                                 "Launch Type:\n" +
                                 "\t --client(-c)/--server(-s)\n" +
                                 "Connection type:\n" +
-                                "\t --socket(-s)/--rmi(-r)/--both(-b): --both is only valid for server launch\n" +
+                                "\t --socket(-k)/--rmi(-r)/--both(-b): --both is only valid for server launch\n" +
                                 "Arguments:\n" +
                                 "\t --gui(-g)/--tui(-t): only valid for client launch\n" +
                                 "\t --socketPort(-sp)=<port>: only valid for server launch, if selected when launching in rmi mode only it will be ignored\n" +
