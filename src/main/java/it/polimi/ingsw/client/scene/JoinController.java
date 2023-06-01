@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 
 
 import java.net.URL;
@@ -16,6 +17,7 @@ public class JoinController implements Initializable {
     @FXML
     public ListView<String> listView;
     public Button button;
+    public ProgressIndicator progress;
 
     /***
      * ListView initializer
@@ -39,7 +41,8 @@ public class JoinController implements Initializable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            });
+            progress.setVisible(true);
+        });
     }
 
     /**

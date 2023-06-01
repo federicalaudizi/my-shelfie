@@ -258,14 +258,15 @@ public class GameController implements Runnable {
 
         while(!tilesPicked){
             System.out.println(gameId+": "+currentPlayerId+" has to choose the tile");
-            boolean pickables = true;
+            boolean pickables;
             coordinates = getClientHandler(currentPlayerId).getTiles();
             // Konami Code
             if(currentPlayerId.equals("Gennaro") && coordinates[0].getColumn() == 6 && coordinates[0].getRow() == 9 && coordinates[1].getColumn() == 4 && coordinates[1].getRow() == 2) return true;
             // Check if all coordinates are pickable
-            for (Coordinate c : coordinates) {
-                if(c != null) pickables = pickables && game.isPickable(c);
-            }
+            if (coordinates.length == 1) pickables = game.arePickable(coordinates[0], null, null);
+            else if (coordinates.length == 2) pickables = game.arePickable(coordinates[0], coordinates[1], null);
+            else if (coordinates.length == 3) pickables = game.arePickable(coordinates[0], coordinates[1], coordinates[2]);
+            else pickables = false;
             tilesPicked = pickables;
             if(!tilesPicked) getClientHandler(currentPlayerId).badTile();
         }

@@ -283,8 +283,13 @@ public class ViewGUI extends View {
 
     @Override
     boolean continueScreen() {
-        // TODO Implement
-        return false;
+        boolean wantsNewGame;
+        try {
+            wantsNewGame = (boolean) queue.take();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return wantsNewGame;
     }
 
     @Override
