@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.scene;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.Gui;
 import it.polimi.ingsw.client.ViewGUI;
 import it.polimi.ingsw.server.model.Game;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -23,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -44,6 +47,8 @@ public class BoardController{
     public Text secondPoints;
     public Text thirdPoints;
     public Text fourthPoints;
+    public Button exit;
+    public Button newGame;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;
@@ -491,6 +496,21 @@ public class BoardController{
         }
         board.setEffect(new GaussianBlur());
         leaderboard.setVisible(true);
+    }
+
+    public void exitButton (){
+        Gui.getStage().setOnCloseRequest((WindowEvent t) -> {
+            Platform.exit();
+            System.exit(0);
+        });
+    }
+
+    public void startNewGame(){
+        try {
+            ViewGUI.queue.put(true);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

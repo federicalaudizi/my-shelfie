@@ -318,6 +318,16 @@
     <Label fx:id="instruction" layoutX="31.0" layoutY="17.0" prefHeight="17.0" prefWidth="462.0" textAlignment="CENTER" />
     </AnchorPane>
     <AnchorPane fx:id="leaderboard" layoutX="197.0" layoutY="-7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
+      <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="341.0" layoutY="307.0">
+         <image>
+            <Image url="@Images/leaderboard.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="173.0" layoutY="307.0">
+         <image>
+            <Image url="@Images/leaderboard.png" />
+         </image>
+      </ImageView>
            <ImageView fitHeight="434.0" fitWidth="344.0" layoutX="143.0" layoutY="-20.0">
                <Image url="@Images/leaderboard.png" />
            </ImageView>
@@ -355,6 +365,16 @@
             <Image url="@Images/medal.png" />
          </image>
       </ImageView>
+      <Button fx:id="exit" alignment="CENTER" layoutX="198.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="20.0" prefWidth="62.0" style="-fx-background-color: trasparent;" text="Exit" textFill="#613900">
+         <font>
+            <Font name="Kefa Regular" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="newGame" layoutX="347.0" layoutY="353.0" mnemonicParsing="false" onAction="#startNewGame" style="-fx-background-color: trasparent;" text="New Game" textFill="#613900">
+         <font>
+            <Font name="Kefa Regular" size="16.0" />
+         </font>
+      </Button>
        </AnchorPane>
     <AnchorPane fx:id="commonObj" layoutX="5.0" layoutY="-68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="955.0" visible="false">
             <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="625.0" layoutY="231.0">
