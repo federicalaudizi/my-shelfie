@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.Server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -35,7 +36,7 @@ public class SocketServer extends Server {
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Socket server started: "+ serverSocket.getInetAddress() +":"+ port);
+            System.out.println("Socket server started at " + InetAddress.getLocalHost().getHostAddress() + ":"+port);
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
