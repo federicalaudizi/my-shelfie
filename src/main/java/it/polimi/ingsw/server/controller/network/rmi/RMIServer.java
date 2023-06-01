@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller.network.rmi;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.Server;
 
+import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -39,12 +40,14 @@ public class RMIServer extends Server {
             RMILoginInterface loginSkeleton = (RMILoginInterface) UnicastRemoteObject.exportObject(login, 0);
             RMIGameInterface gameSkeleton = (RMIGameInterface) UnicastRemoteObject.exportObject(game, 0);
 
+            System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
+
             Registry registry = LocateRegistry.createRegistry(port);
 
-            registry.bind("RMILoginInterface", loginSkeleton);
-            registry.bind("RMIGameInterface", gameSkeleton);
+            registry.rebind("RMILoginInterface", loginSkeleton);
+            registry.rebind("RMIGameInterface", gameSkeleton);
 
-            System.out.println("RMI server started on port " + port);
+            System.out.println("RMI server started at " + InetAddress.getLocalHost().getHostAddress() + ":"+port);
         } catch (Exception e) {
             System.err.println("Server exception: " + e);
             e.printStackTrace();

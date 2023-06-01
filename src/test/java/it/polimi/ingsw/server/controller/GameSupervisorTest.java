@@ -38,10 +38,12 @@ class GameSupervisorTest {
     }
 
     @Test
-    void oldUser() throws PlayerIdTakenException, PlayerDoesNotExistsException {
+    void oldUser() throws PlayerIdTakenException, PlayerDoesNotExistsException, ReachedMaxNumberOfPlayers, NonExistentGameException {
         assertThrows(PlayerDoesNotExistsException.class, () -> gameSupervisor.oldUser("testId", new FakeClientHandler()));
         ClientHandler clientHandler2 = new FakeClientHandler();
         gameSupervisor.newUser("testId", clientHandler);
+        gameId = gameSupervisor.newGame(2);
+        gameSupervisor.joinGame("testId", gameId);
         gameSupervisor.oldUser("testId", clientHandler2);
         assertEquals(clientHandler2, gameSupervisor.getClientHandlerById("testId"));
         assertNotEquals(clientHandler, gameSupervisor.getClientHandlerById("testId"));
