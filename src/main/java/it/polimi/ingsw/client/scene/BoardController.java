@@ -5,18 +5,15 @@ import it.polimi.ingsw.client.Gui;
 import it.polimi.ingsw.client.ViewGUI;
 import it.polimi.ingsw.server.model.Game;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image ;
@@ -32,7 +29,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class BoardController{
     public AnchorPane board;
@@ -49,6 +45,9 @@ public class BoardController{
     public Text fourthPoints;
     public Button exit;
     public Button newGame;
+    public ImageView tile1;
+    public ImageView tile2;
+    public ImageView tile3;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;
@@ -62,6 +61,7 @@ public class BoardController{
     public Button column3;
     public Button column4;
     private List<String> tiles;
+    private int count;
 
     @FXML
     private GridPane boardPane;
@@ -111,7 +111,9 @@ public class BoardController{
      * @param game is the model game
      * */
     public void initializeBoard(Game game){
-
+        tile1.setImage(null);
+        tile2.setImage(null);
+        tile3.setImage(null);
         this.tiles = new ArrayList<>();
         continueButton.setVisible(false);
         imageViews = new ImageView[game.getBoard().getMAX_X()][game.getBoard().getMAX_Y()];
@@ -145,7 +147,7 @@ public class BoardController{
                    imageView.setOpacity(1);
                    int finalI = i;
                    int finalJ = j;
-                   imageView.setOnMouseClicked(event -> handleCellClick(finalI, finalJ));
+                   imageView.setOnMouseClicked(event -> handleCellClick(finalI, finalJ, game));
                }
             }
         }
@@ -255,22 +257,46 @@ public class BoardController{
         }
     }
 
-    private void handleCellClick(int row, int col) {
+    private void handleCellClick(int row, int col, Game game) {
         ImageView imageView = imageViews[row][col];
         boolean isCellClicked = clickedCells[row][col];
 
-        if (!isCellClicked) {
+        if (!isCellClicked && imageViews[row][col].getImage() != null) {
             imageView.setOpacity(0.5);
-            tiles.add("(" + row + "," + col + ")");
             clickedCells[row][col] = true;
+            tiles.add("(" + row + "," + col + ")");
+            count++;
+            if (count <= 3) {
+                String imagePath = game.getBoard().getTile(row, col).getPath();
+                switch (count) {
+                    case 1 -> tile1.setImage(new Image(imagePath));
+                    case 2 -> tile2.setImage(new Image(imagePath));
+                    case 3 -> tile3.setImage(new Image(imagePath));
+                }
+            }
         } else {
             imageView.setOpacity(1);
-            tiles.remove("(" + row + "," + col + ")");
             clickedCells[row][col] = false;
-        }
+            tiles.remove("(" + row + "," + col + ")");
+            count--;
 
+            switch (count) {
+                case 0 -> {
+                    tile1.setImage(null);
+                    tile2.setImage(null);
+                    tile3.setImage(null);
+                }
+                case 1 -> {
+                    tile2.setImage(null);
+                    tile3.setImage(null);
+                }
+                case 2 -> tile3.setImage(null);
+            }
+        }
         updateContinueButtonVisibility();
     }
+
+
 
     /**
      * Method used to set the tiles in the correct format and give them to the manager thread
@@ -399,9 +425,7 @@ public class BoardController{
         errorPopup.setContent(layout);
 
         popupStage.setResizable(false);
-        tryAgainButton.setOnAction(event -> {
-            popupStage.hide();
-        });
+        tryAgainButton.setOnAction(event -> popupStage.hide());
 
         // Set the TitledPane as the content of the popup Stage
         StackPane container = new StackPane(errorPopup);
