@@ -164,9 +164,9 @@ public class Board {
 
     public boolean arePickables(Coordinate c1, Coordinate c2, Coordinate c3){
         if(c1 == null) return false;
-        if(!isPickable(c1)) return false;
-        if(c2 != null && !isPickable(c2)) return false;
-        if(c3 != null && !isPickable(c3)) return false;
+        if (!isPickable(c1)) return false;
+        if (c2 != null && !isPickable(c2)) return false;
+        if (c3 != null && !isPickable(c3)) return false;
 
         if(c2 != null) {
             if (!(c1.getRow() == c2.getRow() || c1.getColumn() == c2.getColumn())) return false;
@@ -183,43 +183,24 @@ public class Board {
      * Returns whether a tile has a free side and is thus pickable from the board.
      * @param coord Specifies the coordinate of the tile on the board.
      * @return true if the tile has at least a side with no other tiles attached, false if not.
-     * @throws IllegalArgumentException If the coordinate that is passed to the method identifies a tile that is either
-     *                                  empty or outside the game board, this exception is thrown.
      * @author Mario Merlo
      */
-    private boolean isPickable(Coordinate coord) throws IllegalArgumentException {
+    private boolean isPickable(Coordinate coord) {
         // Saving coordinate to make code more readable and avoid subsequent method calls.
         int row = coord.getRow();
         int column = coord.getColumn();
 
+        // Checking for out of bounds coordinates
+        if(row < 0 || row > 8 || column < 0 || column > 8) return false;
+
         // The check only makes sense when called upon a playable tile.
-        // If this condition is not met, then the method throws an exception.
+        // If this condition is not met, then return false
         if (board[row][column] != Tile.EMPTY && board[row][column] != Tile.OUTSIDE_GAME_BOARD) {
-            // Checking for specific limit cases
-            // TODO: the error for false wrong tile when 4 players are in game is here, i have to get off the train now :(
-            if (row == 0) {
-                if (column == 3)
-                    return board[1][3] == Tile.EMPTY || board[0][4] == Tile.EMPTY || board[0][4] == Tile.OUTSIDE_GAME_BOARD;
-                if (column == 4)
-                    return board[0][3] == Tile.EMPTY || board[1][4] == Tile.EMPTY;
-            } else if (row == 3) {
-                if (column == 8)
-                    return board[3][7] == Tile.EMPTY || board[4][8] == Tile.EMPTY || board[4][8] == Tile.OUTSIDE_GAME_BOARD;
-            } else if (row == 4) {
-                if (column == 0)
-                    return board[5][0] == Tile.EMPTY || board[4][1] == Tile.EMPTY;
-                if (column == 8)
-                    return board[3][8] == Tile.EMPTY || board[4][7] == Tile.EMPTY;
-            } else if (row == 5) {
-                if (column == 0)
-                    return board[4][0] == Tile.EMPTY || board[4][0] == Tile.OUTSIDE_GAME_BOARD || board[5][1] == Tile.EMPTY;
-            } else if (row == 8) {
-                if (column == 4)
-                    return board[7][4] == Tile.EMPTY || board[8][5] == Tile.EMPTY;
-                if (column == 5)
-                    return board[7][5] == Tile.EMPTY || board[8][4] == Tile.EMPTY || board[8][4] == Tile.OUTSIDE_GAME_BOARD;
+            // Checking for specific limit cases, at the borders it is sufficient for the tiles not to be empty or outside the board
+            if (row == 0 || row == 8 || column == 0 || column == 8) {
+                return board[row][column] != Tile.EMPTY && board[row][column] != Tile.OUTSIDE_GAME_BOARD;
             }
-        } else throw new IllegalArgumentException("Selected tile is empty or outside of the board.");
+        } else return false;
 
         // Default checking case
         return board[row + 1][column] == Tile.EMPTY ||
