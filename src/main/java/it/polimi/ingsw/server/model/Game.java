@@ -183,13 +183,13 @@ public class Game {
 
     /**
      * Ensures that a tile is a pickable
-     * @param c the coordinate of the tile
+     *
      * @return true if pickable, false otherwise
      * @author Federico
      */
-    public boolean isPickable(Coordinate c){
+    public boolean arePickable(Coordinate c1, Coordinate c2, Coordinate c3){
         try{
-            return board.isPickable(c);
+            return board.arePickables(c1, c2, c3);
         } catch (IllegalArgumentException e){
             return false;
         }
@@ -223,6 +223,7 @@ public class Game {
             Tile[] tiles = board.pickTile(c1, c2, c3);
             players.get(currentPlayerIndex).addPlayerTiles(column, tiles);
         } catch (TileUnpickableException ignored) {
+            // Pickability is always checked before these methods
         }
 
         if (players.get(currentPlayerIndex).getShelf().isFull()) {
