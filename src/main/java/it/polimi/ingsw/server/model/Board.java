@@ -173,7 +173,7 @@ public class Board {
         }
 
         if(c3 != null) {
-            if(!(c1.getRow() == c3.getRow() || c1.getColumn() == c3.getColumn())) return false;
+            return c1.getRow() == c3.getRow() || c1.getColumn() == c3.getColumn();
         }
 
         return true;
@@ -196,6 +196,7 @@ public class Board {
         // If this condition is not met, then the method throws an exception.
         if (board[row][column] != Tile.EMPTY && board[row][column] != Tile.OUTSIDE_GAME_BOARD) {
             // Checking for specific limit cases
+            // TODO: the error for false wrong tile when 4 players are in game is here, i have to get off the train now :(
             if (row == 0) {
                 if (column == 3)
                     return board[1][3] == Tile.EMPTY || board[0][4] == Tile.EMPTY || board[0][4] == Tile.OUTSIDE_GAME_BOARD;
