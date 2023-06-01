@@ -162,6 +162,23 @@ public class Board {
         }
     }
 
+    public boolean arePickables(Coordinate c1, Coordinate c2, Coordinate c3){
+        if(c1 == null) return false;
+        if(!isPickable(c1)) return false;
+        if(c2 != null && !isPickable(c2)) return false;
+        if(c3 != null && !isPickable(c3)) return false;
+
+        if(c2 != null) {
+            if (!(c1.getRow() == c2.getRow() || c1.getColumn() == c2.getColumn())) return false;
+        }
+
+        if(c3 != null) {
+            if(!(c1.getRow() == c3.getRow() || c1.getColumn() == c3.getColumn())) return false;
+        }
+
+        return true;
+    }
+
     /**
      * Returns whether a tile has a free side and is thus pickable from the board.
      * @param coord Specifies the coordinate of the tile on the board.
@@ -170,7 +187,7 @@ public class Board {
      *                                  empty or outside the game board, this exception is thrown.
      * @author Mario Merlo
      */
-    public boolean isPickable(Coordinate coord) throws IllegalArgumentException {
+    private boolean isPickable(Coordinate coord) throws IllegalArgumentException {
         // Saving coordinate to make code more readable and avoid subsequent method calls.
         int row = coord.getRow();
         int column = coord.getColumn();
