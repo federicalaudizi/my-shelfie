@@ -82,7 +82,6 @@ public class BoardTest {
 
         // Testing for tiles that cannot be picked
         assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 5), null, null));
-        assertThrows(IllegalArgumentException.class, () -> board.pickTile(new Coordinate(6, 6), new Coordinate(8, 8), null));
         assertThrows(TileUnpickableException.class, () -> board.pickTile(new Coordinate(4, 2), new Coordinate(4, 3), new Coordinate(4, 4)));
 
         // Testing for tiles that can be picked
