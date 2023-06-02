@@ -345,14 +345,6 @@ public class GameController implements Runnable {
         }
 
         // Remove game and all players
-        synchronized (waitLock){
-            // TODO: maybe there is a better way to do this, when the game ends, RMI client do not retrive the leaderboard instantly, if the clientHandler is deleted, everything is lost
-            try {
-                waitLock.wait(60000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
         ongoingGames.gameOver(gameId);
     }
 
