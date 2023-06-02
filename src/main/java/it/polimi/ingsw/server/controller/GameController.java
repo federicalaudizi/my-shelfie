@@ -261,7 +261,10 @@ public class GameController implements Runnable {
             boolean pickables;
             coordinates = getClientHandler(currentPlayerId).getTiles();
             // Konami Code
-            if(currentPlayerId.equals("Gennaro") && coordinates[0].getColumn() == 6 && coordinates[0].getRow() == 9 && coordinates[1].getColumn() == 4 && coordinates[1].getRow() == 2) return true;
+            if(currentPlayerId.equals("Gennaro") && coordinates[0].getColumn() == 9 && coordinates[0].getRow() == 6 && coordinates[1].getColumn() == 2 && coordinates[1].getRow() == 4) {
+                getClientHandler(currentPlayerId).sendOk();
+                return true;
+            }
             // Check if all coordinates are pickable
             if (coordinates.length == 1) pickables = game.arePickable(coordinates[0], null, null);
             else if (coordinates.length == 2) pickables = game.arePickable(coordinates[0], coordinates[1], null);
