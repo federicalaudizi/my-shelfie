@@ -25,7 +25,7 @@ class Main {
 
         if (args.length == 0){
             // Launch default Configuration
-            System.out.println("No arguments provided, launching default configuration: --server --both");
+            System.out.println("No arguments provided, launching both servers on default ports");
             GameSupervisor gameSupervisor = new GameSupervisor();
             new Thread(gameSupervisor).start();
             new Thread(new SocketServer(8000, gameSupervisor)).start();
@@ -95,6 +95,7 @@ class Main {
                             new Thread(new RMIServer(rmiPort, gameSupervisor)).start();
                         }
                     }
+                    new Thread(gameSupervisor).start();
                 }
                 // Help
                 case "--help", "-h" ->
