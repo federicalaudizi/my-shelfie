@@ -91,8 +91,8 @@ public class BoardController{
 
 
     /**
-     * Sets the number of shelves in the view
-     * @param game is the model game
+     * Sets the view of the correct number of shelves in the board
+     * @param game The Game object representing the current game.
      * */
     public void setShelves(Game game){
         if(game.getNumberOfPlayers() == 2){
@@ -107,10 +107,13 @@ public class BoardController{
     }
 
     /**
-     * Initialize the board view
-     * @param game is the model game
-     * */
+     * Initializes the game board by updating the ImageView nodes in the boardPane with the corresponding
+     * tiles from the game's board. Also sets up event handling for mouse clicks on the ImageView nodes.
+     *
+     * @param game The Game object representing the current game.
+     */
     public void initializeBoard(Game game){
+        //initialize local variables
         count =0;
         tile1.setImage(null);
         tile2.setImage(null);
@@ -125,24 +128,33 @@ public class BoardController{
                 clickedCells[i][j] = false;
             }
         }
+
+
         for (Node node : boardPane.getChildren()) {
+            // Check if the node is an instance of ImageView
             if (node instanceof ImageView) {
+                // Get the row and column indices of the node in the GridPane
                 int row = GridPane.getRowIndex(node);
                 int column = GridPane.getColumnIndex(node);
+                // Assign the ImageView node to the corresponding position in the imageViews array
                 imageViews[row][column] = (ImageView) node;
             }
         }
+
         for(int i=0; i< game.getBoard().getMAX_X(); i++){
             for(int j=0;j<game.getBoard().getMAX_Y();j++){
                 ImageView imageView = imageViews[i][j];
                 Image image;
+                //if the image is empty it sets the imageview to null
                if(game.getBoard().getTile(i,j).getType().equals("Empty")){
                    imageView.setImage(null);
                }
                else {
+                   //if there is no imageview continue
                    if (game.getBoard().getTile(i, j).getPath() == null) {
                        continue;
                    }
+                   //sets the right imageView
                    image = new Image(game.getBoard().getTile(i, j).getPath());
                    imageView.setImage(image);
                    imageView.setOpacity(1);
@@ -155,16 +167,19 @@ public class BoardController{
     }
 
     /**
-     * Sets the client shelf view
+     * Initializes the client's shelf in the game by updating the ImageView nodes in the shelfGrid
+     * with the corresponding tiles from the client's shelf.
      *
-     * @param game  is the game model
-     * @param client
+     * @param game    The Game object representing the current game.
+     * @param client  The Client object representing the client whose shelf is being initialized.
      */
     public void initializeClientShelf(Game game, Client client){
         ImageView[][] imageMatrix = new ImageView[6][5];
 
+        // Check if the node is an instance of ImageView
         for (Node node : shelfGrid.getChildren()) {
             if (node instanceof ImageView) {
+                // Get the row and column indices of the node in the GridPane
                 int row = GridPane.getRowIndex(node);
                 int column = GridPane.getColumnIndex(node);
                 imageMatrix[row][column] = (ImageView) node;
@@ -183,6 +198,14 @@ public class BoardController{
         }
         }
 
+    /**
+     * Initializes the shelves of the other players in the game by updating the ImageView nodes in the
+     * respective shelfGrids with the corresponding tiles from each player's shelf. It also sets the names
+     * of the other players on UI elements.
+     *
+     * @param game         The Game object representing the current game.
+     * @param playerOrder  A LinkedList containing the players in the game.
+     */
         public void initializeOtherShelves(Game game, LinkedList<String> playerOrder){
         client2.setText(playerOrder.get(1));
         int players = game.getNumberOfPlayers();
@@ -234,6 +257,14 @@ public class BoardController{
             }
         }
 
+    /**
+     * Initializes the shelf for the third player in the game by updating the ImageView nodes in the
+     * shelfGrid3 with the corresponding tiles from the player's shelf. It also sets the name of the
+     * third player on the client3 UI element.
+     *
+     * @param game         The Game object representing the current game.
+     * @param playerOrder  A LinkedList containing the order of the players in the game.
+     */
     private void initializeShelf3(Game game, LinkedList<String> playerOrder) {
         client3.setText(playerOrder.get(2));
         ImageView[][] imageMatrix = new ImageView[6][5];
@@ -258,6 +289,15 @@ public class BoardController{
         }
     }
 
+    /**
+     * Handles the click event on a cell in the game board. Updates the visual state of the clicked cell
+     * and manages the selection of tiles. Also updates the visibility of the continueButton based on
+     * the current selection state.
+     *
+     * @param row   The row index of the clicked cell.
+     * @param col   The column index of the clicked cell.
+     * @param game  The Game object representing the current game.
+     */
     private void handleCellClick(int row, int col, Game game) {
         ImageView imageView = imageViews[row][col];
         boolean isCellClicked = clickedCells[row][col];
@@ -328,6 +368,10 @@ public class BoardController{
         continueButton.setVisible(tiles.size() > 0);
     }
 
+    /**
+     * Disables and hides the columns in the view.
+     * This method sets the disable and visible properties of each column in the view to false.
+     */
     public void disableView(){
         column0.setDisable(true);
         column1.setDisable(true);
@@ -341,6 +385,10 @@ public class BoardController{
         column4.setVisible(false);
     }
 
+    /**
+     * Enables and shows the columns in the view.
+     * This method sets the disable and visible properties of each column in the view to true.
+     */
     public void ableView(){
         column0.setDisable(false);
         column1.setDisable(false);
@@ -354,50 +402,70 @@ public class BoardController{
         column4.setVisible(true);
     }
 
+    /**
+     * Inserts a value into column 0 of the view.
+     * This method puts the value 0 into the queue for further processing.
+     * It also disables and hides the columns in the view.
+     */
     public void insertInColumn0() {
         try {
             ViewGUI.queue.put(0);
-
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         disableView();
     }
 
+    /**
+     * Inserts a value into column 1 of the view.
+     * This method puts the value 1 into the queue for further processing.
+     * It also disables and hides the columns in the view.
+     */
     public void insertInColumn1() {
         try {
             ViewGUI.queue.put(1);
-
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         disableView();
     }
 
+    /**
+     * Inserts a value into column 2 of the view.
+     * This method puts the value 2 into the queue for further processing.
+     * It also disables and hides the columns in the view.
+     */
     public void insertInColumn2() {
         try {
             ViewGUI.queue.put(2);
-
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         disableView();
     }
 
+    /**
+     * Inserts a value into column 3 of the view.
+     * This method puts the value 3 into the queue for further processing.
+     * It also disables and hides the columns in the view.
+     */
     public void insertInColumn3() {
         try {
             ViewGUI.queue.put(3);
-
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         disableView();
     }
 
+    /**
+     * Inserts a value into column 4 of the view.
+     * This method puts the value 4 into the queue for further processing.
+     * It also disables and hides the columns in the view.
+     */
     public void insertInColumn4() {
         try {
             ViewGUI.queue.put(4);
-
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
