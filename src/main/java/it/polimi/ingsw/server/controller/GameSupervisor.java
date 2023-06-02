@@ -93,7 +93,8 @@ public class GameSupervisor implements Runnable{
      * @author Federico
      */
     public void newUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
-        if(players.containsKey(playerId)) throw new PlayerIdTakenException();
+        // If a player is in game, we don't want him to be able to login as a new user
+        if(playersGames.containsKey(playerId)) throw new PlayerIdTakenException();
         players.put(playerId, handler);
     }
 
@@ -105,7 +106,7 @@ public class GameSupervisor implements Runnable{
      * @author Federico
      */
     public GameController oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
-        if(!players.containsKey(playerId)) throw new PlayerDoesNotExistsException();
+        if(!players.containsKey(playerId) || !playersGames.containsKey(playerId)) throw new PlayerDoesNotExistsException();
         players.put(playerId, handler);
         return games.get(playersGames.get(playerId));
     }
@@ -228,8 +229,6 @@ public class GameSupervisor implements Runnable{
             if(playersGames.get(playerId).equals(gameId)) {
                 //Remove player from game
                 playersGames.remove(playerId);
-                // Kill players
-                players.remove(playerId);
             }
         }
         //Remove record of the game
