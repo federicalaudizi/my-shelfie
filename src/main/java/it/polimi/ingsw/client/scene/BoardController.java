@@ -64,7 +64,7 @@ public class BoardController{
     private int count;
 
     @FXML
-    private GridPane boardPane;
+    public GridPane boardPane;
 
     @FXML
     public ImageView personalCard;
@@ -329,7 +329,6 @@ public class BoardController{
     }
 
     public void disableView(){
-        boardPane.setDisable(true);
         column0.setDisable(true);
         column1.setDisable(true);
         column2.setDisable(true);
@@ -343,7 +342,6 @@ public class BoardController{
     }
 
     public void ableView(){
-        boardPane.setDisable(false);
         column0.setDisable(false);
         column1.setDisable(false);
         column2.setDisable(false);

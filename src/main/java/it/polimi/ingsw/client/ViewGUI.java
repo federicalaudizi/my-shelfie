@@ -70,10 +70,8 @@ public class ViewGUI extends View {
     @Override
     void update(Game game, LinkedList<String> playerOrder) {
         if (game.isLastTurn()) {
+            Platform.runLater(() -> gameController.instruction.setText("It's the last turn! Make your last move."));
         }
-        Platform.runLater(() -> {
-            gameController.instruction.setText("It's "+ game.getCurrentPlayer().getUsername()+"'s turn!");
-        });
         setCommonObjectivesCards(game);
         setPersonalObjectiveCard(game);
         gameController.disableView();
@@ -331,10 +329,8 @@ public class ViewGUI extends View {
 
     @Override
     String getTiles() {
-        Platform.runLater(() -> {
-            gameController.instruction.setText("Choose the tiles, then press continue.");
-        });
-        gameController.ableView();
+        Platform.runLater(() -> gameController.instruction.setText("Choose the tiles, then press continue."));
+        gameController.boardPane.setDisable(false);
         String r = null;
         try {
             r = (String) queue.take();
