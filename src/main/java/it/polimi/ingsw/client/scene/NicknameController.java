@@ -31,8 +31,9 @@ public class NicknameController {
     }
 
     /**
-     * When the okNick button is clicked sends the nickname chosen to the manager thread
-     * */
+     * Handles the mouse click event for the nickname.
+     * Retrieves the nickname entered in the nicknameText field and puts it into the queue for further processing.
+     */
     @FXML
     private void handleMouseClickForNickname() {
         String nickname = nicknameText.getCharacters().toString();
@@ -47,6 +48,13 @@ public class NicknameController {
 
     }
 
+    /**
+     * Displays an error popup with the given message.
+     * The popup contains a text message and a "Try again" button.
+     * Clicking the "Try again" button hides the popup.
+     *
+     * @param message The error message to be displayed.
+     */
     public void displayErrorNick(String message) {
 
         Stage popupStage = new Stage();
@@ -68,9 +76,7 @@ public class NicknameController {
         errorPopup.setContent(layout);
 
         popupStage.setResizable(false);
-        tryAgainButton.setOnAction(event -> {
-            popupStage.hide();
-        });
+        tryAgainButton.setOnAction(event -> popupStage.hide());
 
         // Set the TitledPane as the content of the popup Stage
         StackPane container = new StackPane(errorPopup);

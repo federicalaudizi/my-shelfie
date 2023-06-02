@@ -24,7 +24,6 @@ public class GameOptionsController {
             switch (selectedOption) {
                 case "Create a new game" -> {
                     try {
-                        //give nick to manager thread
                         ViewGUI.queue.put(1);
 
                     } catch (InterruptedException ex) {
@@ -33,7 +32,6 @@ public class GameOptionsController {
                 }
                 case "Join an existing game" -> {
                     try {
-                        //give nick to manager thread
                         ViewGUI.queue.put(2);
 
                     } catch (InterruptedException ex) {
@@ -42,7 +40,6 @@ public class GameOptionsController {
                 }
                 case "Reconnect to an ongoing game" -> {
                     try {
-                        //give nick to manager thread
                         ViewGUI.queue.put(3);
 
                     } catch (InterruptedException ex) {

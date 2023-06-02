@@ -40,9 +40,4 @@ public class WelcomeController {
         currentStage.setScene(secondViewScene);
     }
 
-
-
-    //public void displayGenericError(){genericError.setVisible(true);}
-    //public void removeGenericError(){genericError.setVisible(false);}
-
 }

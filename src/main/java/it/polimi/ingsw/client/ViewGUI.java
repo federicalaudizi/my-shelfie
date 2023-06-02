@@ -365,7 +365,6 @@ public class ViewGUI extends View {
 
     @Override
     void showError(String errorMessage) {
-        //TODO: distinguere tipo di errore con display error diversi
         switch (errorMessage) {
             case "You entered a malformed IP:port combo. Retry.", "The host does not exist. Retry.", "Something went wrong.", "Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu." ->
                     Platform.runLater(() -> connectionController.displayError(errorMessage));

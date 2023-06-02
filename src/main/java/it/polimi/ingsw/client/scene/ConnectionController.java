@@ -1,30 +1,19 @@
 package it.polimi.ingsw.client.scene;
 
-import it.polimi.ingsw.client.Gui;
 import it.polimi.ingsw.client.ViewGUI;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.IOException;
 
 
 
@@ -39,13 +28,9 @@ public class ConnectionController {
     @FXML
     private Button ok;
 
-    /*
-     * if(startGame) ==> changes scene asking nickname
-     * */
     @FXML
     public void handleMouseClickForIp() {
         String IPAddress = ipAddress.getCharacters().toString();
-        //next();
         try {
             //give ip address to manager thread
             ViewGUI.queue.put(IPAddress);
@@ -75,9 +60,7 @@ public class ConnectionController {
         errorPopup.setContent(layout);
 
         popupStage.setResizable(false);
-        tryAgainButton.setOnAction(event -> {
-            popupStage.hide();
-        });
+        tryAgainButton.setOnAction(event -> popupStage.hide());
 
         // Set the TitledPane as the content of the popup Stage
         StackPane container = new StackPane(errorPopup);

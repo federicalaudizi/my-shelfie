@@ -29,8 +29,11 @@ public class JoinController implements Initializable {
     }
 
     /**
-     * When the player choses the game to join it sends it to the manager thread
-     * */
+     * Handles the item click event in the ListView.
+     * Retrieves the selected item from the ListView and shows the button.
+     * When the button is clicked, the selected item is put into the queue for further processing.
+     * The progress indicator is also made visible.
+     */
     @FXML
     public void handleItemClick() {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
@@ -46,7 +49,9 @@ public class JoinController implements Initializable {
     }
 
     /**
-     * Manages the selection of the GameID
+     * Initializes the controller.
+     * Sets up a listener on the ListView's selectedItemProperty to handle item selection events.
+     * When an item is selected, the handleItemClick method is called.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
