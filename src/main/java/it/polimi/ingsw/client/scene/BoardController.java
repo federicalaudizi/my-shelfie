@@ -111,6 +111,7 @@ public class BoardController{
      * @param game is the model game
      * */
     public void initializeBoard(Game game){
+        count =0;
         tile1.setImage(null);
         tile2.setImage(null);
         tile3.setImage(null);
