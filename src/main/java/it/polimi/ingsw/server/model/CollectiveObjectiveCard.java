@@ -381,7 +381,7 @@ public abstract class CollectiveObjectiveCard {
             Coordinate bottomLeft = new Coordinate(4, 0);
             Coordinate bottomRight = new Coordinate(4, 5);
 
-            return shelf.getTile(upperLeft) == shelf.getTile(upperRight) && shelf.getTile(bottomLeft) == shelf.getTile(bottomRight)
+            return shelf.getTile(upperLeft) != EMPTY && shelf.getTile(upperLeft) == shelf.getTile(upperRight) && shelf.getTile(bottomLeft) == shelf.getTile(bottomRight)
                     && shelf.getTile(upperLeft) == shelf.getTile(bottomRight) && shelf.getTile(upperRight) == shelf.getTile(bottomRight)
                     && shelf.getTile(upperLeft) == shelf.getTile(bottomLeft) && shelf.getTile(bottomLeft) == shelf.getTile(upperRight);
 
