@@ -118,8 +118,12 @@ class Main {
 
     private static JSONObject readGameSave(String path) throws IOException {
         // Read a file from path and create a JSONObject with its content
-        FileReader fileReader = new FileReader("gameSaves/"+path);
+        FileReader fileReader = new FileReader("gamesaves/"+path);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
-        return new JSONObject(bufferedReader.readLine());
+        StringBuilder text = new StringBuilder();
+        while(bufferedReader.ready()){
+            text.append((char) bufferedReader.read());
+        }
+        return new JSONObject(text.toString());
     }
 }
