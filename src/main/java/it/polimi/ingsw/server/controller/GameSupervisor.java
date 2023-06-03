@@ -55,6 +55,10 @@ public class GameSupervisor implements Runnable{
             JSONObject playerGame = playersGames.getJSONObject(i);
             this.playersGames.put(playerGame.getString("playerId"), playerGame.getString("gameId"));
         }
+
+        for(GameController game : this.games.values()){
+            new Thread(game).start();
+        }
     }
 
     @Override
