@@ -31,7 +31,7 @@ public class ClientRMI extends Client {
      * @author Mario Merlo
      */
     @Override
-    public void start(){
+    public void start() throws RemoteException {
         boolean exit = false;
         while(!exit) {
             try {
@@ -81,7 +81,7 @@ public class ClientRMI extends Client {
     @Override
     void connect() throws RemoteException {
         boolean isValid = false;
-        String ip = null;
+        String ip;
         Registry registry = null;
 
         while(!isValid) {
