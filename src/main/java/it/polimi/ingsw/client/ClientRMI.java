@@ -31,7 +31,7 @@ public class ClientRMI extends Client {
      * @author Mario Merlo
      */
     @Override
-    public void start() throws RemoteException {
+    public void start(){
         boolean exit = false;
         while(!exit) {
             try {
@@ -82,17 +82,31 @@ public class ClientRMI extends Client {
     void connect() throws RemoteException {
         boolean isValid = false;
         String ip = null;
+        Registry registry = null;
+
         while(!isValid) {
             ip = view.getIp();
             try {
                 isValid = validateIp(ip);
             } catch (IllegalArgumentException e) {
                 view.showError("You entered a malformed IP:port combo. Retry.");
+                continue;
+            }
+
+            if(!isValid) {
+                view.showError("You entered an invalid IP:port combo. Retry.");
+                continue;
+            }
+
+            String[] hostInfo = ip.split(":");
+
+            try {
+                registry = LocateRegistry.getRegistry(hostInfo[0], Integer.parseInt(hostInfo[1]));
+            } catch (RemoteException e) {
+                view.showError("Unable to connect to the server. Retry.");
+                isValid = false;
             }
         }
-        String[] hostInfo = ip.split(":");
-
-        Registry registry = LocateRegistry.getRegistry(hostInfo[0], Integer.parseInt(hostInfo[1]));
 
         try {
             loginInterface = (RMILoginInterface) registry.lookup("RMILoginInterface");
