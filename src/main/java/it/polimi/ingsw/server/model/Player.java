@@ -272,4 +272,8 @@ public class Player {
     private void updateEndGameCard(boolean endGameCard) {
         this.endGameCard =  endGameCard;
     }
+
+    public PointCard[] getPointCards(){
+        return pointCards;
+    }
 }

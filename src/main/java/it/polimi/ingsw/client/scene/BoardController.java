@@ -48,6 +48,13 @@ public class BoardController{
     public ImageView tile1;
     public ImageView tile2;
     public ImageView tile3;
+    public ImageView scoreFirst;
+    public ImageView scoreSecond;
+    public ImageView scoreFirst1;
+    public ImageView scoreSecond1;
+    public ImageView scoreFirst2;
+    public ImageView scoreSecond2;
+    public ImageView scoreSecond3;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;

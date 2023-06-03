@@ -74,7 +74,6 @@ public class Game {
         this.collectiveObjectiveCard2 = CollectiveObjectiveCard.fromJson(objectivesArray.getJSONObject(1));
 
         this.lastTurn = jsonObject.getBoolean("lastTurn");
-
     }
 
     /**

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.scene.*;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.PersonalObjectiveCard;
+import it.polimi.ingsw.server.model.PointCard;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -79,6 +80,7 @@ public class ViewGUI extends View {
         gameController.initializeBoard(game);
         gameController.initializeClientShelf(game, this.client);
         gameController.initializeOtherShelves(game, playerOrder);
+        setCommonObjectivesScores(game);
         Platform.runLater(() -> {
             Gui.getStage().setTitle(client.getUsername());
             Scene currentScene = Gui.getStage().getScene();
@@ -87,6 +89,41 @@ public class ViewGUI extends View {
                 Gui.getStage().setScene(newScene);
             }
         });
+    }
+
+    private void setCommonObjectivesScores(Game game) {
+            PointCard[] pointcards = game.getPlayerByUsername(client.getUsername()).getPointCards();
+            setPointCard(pointcards[0]);
+            setPointCard(pointcards[1]);
+    }
+
+    private void setCommonObjectiveScoresOtherPlayer(Game game, LinkedList<String> playerOrder){
+        int players = game.getNumberOfPlayers();
+
+    }
+
+    private void setPointCard(PointCard card) {
+        String stream;
+        Image image;
+        if (card.getValue() == 0){
+            return;
+        } else if (card.getValue() == 8) {
+            stream = "file:src/main/resources/Images/scoring_8.jpg";
+            image = new Image(stream);
+            gameController.scoreFirst.setImage(image);
+        } else if (card.getValue() == 6) {
+            stream = "file:src/main/resources/Images/scoring_6.jpg";
+            image = new Image(stream);
+            gameController.scoreFirst.setImage(image);
+        } else if (card.getValue() == 4){
+            stream = "file:src/main/resources/Images/scoring_4.jpg";
+            image = new Image(stream);
+            gameController.scoreFirst.setImage(image);
+        } else {
+            stream = "file:src/main/resources/Images/scoring_2.jpg";
+            image = new Image(stream);
+            gameController.scoreFirst.setImage(image);
+        }
     }
 
 

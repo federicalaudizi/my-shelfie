@@ -307,7 +307,7 @@
       <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="45.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="80.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
       <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="116.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-      <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="152.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+      <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="152.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="0" />
       <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="152.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="0" />
       <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="116.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" />
       <ImageView fitHeight="33.0" fitWidth="34.0" layoutX="80.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -319,14 +319,26 @@
       <ImageView fx:id="tile1" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="tile2" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="tile3" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="scoreFirst" fitHeight="69.0" fitWidth="69.0" layoutX="909.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="scoreSecond" fitHeight="69.0" fitWidth="69.0" layoutX="909.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="scoreFirst1" fitHeight="30.0" fitWidth="30.0" layoutX="27.0" layoutY="481.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="scoreSecond1" fitHeight="30.0" fitWidth="30.0" layoutX="27.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="scoreFirst2" fitHeight="30.0" fitWidth="30.0" layoutX="176.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="scoreSecond2" fitHeight="30.0" fitWidth="30.0" layoutX="175.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="scoreFirst3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="scoreSecond3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
     </AnchorPane>
     <AnchorPane fx:id="leaderboard" layoutX="197.0" layoutY="-7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
-        <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="341.0" layoutY="307.0">
-            <Image url="@Images/leaderboard.png"/>
-        </ImageView>
-        <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="173.0" layoutY="307.0">
-            <Image url="@Images/leaderboard.png"/>
-        </ImageView>
+      <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="341.0" layoutY="307.0">
+         <image>
+            <Image url="@Images/leaderboard.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="173.0" layoutY="307.0">
+         <image>
+            <Image url="@Images/leaderboard.png" />
+         </image>
+      </ImageView>
            <ImageView fitHeight="434.0" fitWidth="344.0" layoutX="143.0" layoutY="-20.0">
                <Image url="@Images/leaderboard.png" />
            </ImageView>
@@ -359,15 +371,18 @@
                    <Font name="Kefa Regular" size="23.0" />
                </font>
            </Text>
-        <ImageView fitHeight="43.0" fitWidth="46.0" layoutX="187.0" layoutY="162.0">
-            <Image url="@Images/medal.png"/>
-        </ImageView>
-      <Button fx:id="exit" alignment="CENTER" layoutX="198.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="20.0" prefWidth="62.0" style="-fx-background-color: trasparent;" text="Exit" textFill="#613900">
+      <ImageView fitHeight="43.0" fitWidth="46.0" layoutX="187.0" layoutY="162.0">
+         <image>
+            <Image url="@Images/medal.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="exit" alignment="CENTER" layoutX="198.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="20.0" prefWidth="62.0" style="-fx-background-color: transparent
+      ;" text="Exit" textFill="#613900">
          <font>
             <Font name="Kefa Regular" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="newGame" layoutX="347.0" layoutY="353.0" mnemonicParsing="false" onAction="#startNewGame" style="-fx-background-color: trasparent;" text="New Game" textFill="#613900">
+      <Button fx:id="newGame" layoutX="347.0" layoutY="353.0" mnemonicParsing="false" onAction="#startNewGame" style="-fx-background-color: transparent;" text="New Game" textFill="#613900">
          <font>
             <Font name="Kefa Regular" size="16.0" />
          </font>
@@ -383,10 +398,12 @@
                 </rotationAxis>
                 <Image url="@Images/endgame_victorytrumpets.png" />
             </ImageView>
-        <ImageView fitHeight="240.0" fitWidth="361.0" layoutX="327.0" layoutY="283.0">
-            <Image url="@Images/openbook.png"/>
-        </ImageView>
-            <Button fx:id="continueGame" alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="425.0" mnemonicParsing="false" onAction="#close" prefHeight="48.0" prefWidth="198.0" style="-fx-background-color: trasparent;" text="Continue" textFill="#865807">
+            <ImageView fitHeight="240.0" fitWidth="361.0" layoutX="327.0" layoutY="283.0">
+                <image>
+                    <Image url="@Images/openbook.png" />
+                </image>
+            </ImageView>
+            <Button fx:id="continueGame" alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="425.0" mnemonicParsing="false" onAction="#close" prefHeight="48.0" prefWidth="198.0" style="-fx-background-color: transparent;" text="Continue" textFill="#865807">
                 <padding>
                     <Insets bottom="10.0" />
                 </padding>

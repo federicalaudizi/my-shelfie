@@ -25,7 +25,7 @@ public class PointCard {
         this.value = pointCardJSON.getInt("value");
     }
 
-    int getValue() {
+    public int getValue() {
         return value;
     }
 
