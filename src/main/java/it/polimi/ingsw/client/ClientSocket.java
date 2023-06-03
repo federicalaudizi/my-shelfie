@@ -94,7 +94,8 @@ public class ClientSocket extends Client {
     @Override
     void connect() throws IOException {
         boolean isValid = false;
-        String ip = null;
+        String ip;
+
         while(!isValid) {
             ip = view.getIp();
             try {
@@ -102,10 +103,18 @@ public class ClientSocket extends Client {
             } catch (IllegalArgumentException e) {
                 view.showError("You entered a malformed IP:port combo. Retry.");
             }
+
+            String[] hostInfo = ip.split(":");
+
+            try{
+                socket = new Socket(hostInfo[0], Integer.parseInt(hostInfo[1]));
+            } catch (UnknownHostException e) {
+                view.showError("The host does not exist. Retry.");
+                isValid = false;
+            }
         }
-        String[] hostInfo = ip.split(":");
+
         try {
-            socket = new Socket(hostInfo[0], Integer.parseInt(hostInfo[1]));
             writer = new PrintWriter(socket.getOutputStream());
             InputStreamReader reader = new InputStreamReader(socket.getInputStream());
             bufferedReader = new BufferedReader(reader);
