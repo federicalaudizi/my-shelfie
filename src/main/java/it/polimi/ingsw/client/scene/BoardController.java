@@ -55,6 +55,7 @@ public class BoardController{
     public ImageView scoreFirst2;
     public ImageView scoreSecond2;
     public ImageView scoreSecond3;
+    public ImageView scoreFirst3;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;

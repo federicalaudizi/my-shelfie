@@ -81,6 +81,7 @@ public class ViewGUI extends View {
         gameController.initializeClientShelf(game, this.client);
         gameController.initializeOtherShelves(game, playerOrder);
         setCommonObjectivesScores(game);
+        setCommonObjectiveScoresOtherPlayer(game, playerOrder);
         Platform.runLater(() -> {
             Gui.getStage().setTitle(client.getUsername());
             Scene currentScene = Gui.getStage().getScene();
@@ -92,40 +93,198 @@ public class ViewGUI extends View {
     }
 
     private void setCommonObjectivesScores(Game game) {
-            PointCard[] pointcards = game.getPlayerByUsername(client.getUsername()).getPointCards();
-            setPointCard(pointcards[0]);
-            setPointCard(pointcards[1]);
+        PointCard[] pointcards = game.getPlayerByUsername(client.getUsername()).getPointCards();
+        setPointCard(pointcards[0], 1);
+        setPointCard(pointcards[1], 2);
     }
 
-    private void setCommonObjectiveScoresOtherPlayer(Game game, LinkedList<String> playerOrder){
-        int players = game.getNumberOfPlayers();
+    private void setCommonObjectiveScoresOtherPlayer(Game game, LinkedList<String> playerOrder) {
+        PointCard[] pointcards = game.getPlayerByUsername(playerOrder.get(1)).getPointCards();
+        PointCard card = pointcards[0];
+        PointCard card2 = pointcards[1];
 
-    }
-
-    private void setPointCard(PointCard card) {
         String stream;
         Image image;
-        if (card.getValue() == 0){
+        if (card.getValue() == 0) {
             return;
         } else if (card.getValue() == 8) {
             stream = "file:src/main/resources/Images/scoring_8.jpg";
             image = new Image(stream);
-            gameController.scoreFirst.setImage(image);
+            gameController.scoreFirst1.setImage(image);
         } else if (card.getValue() == 6) {
             stream = "file:src/main/resources/Images/scoring_6.jpg";
             image = new Image(stream);
-            gameController.scoreFirst.setImage(image);
-        } else if (card.getValue() == 4){
+            gameController.scoreFirst1.setImage(image);
+        } else if (card.getValue() == 4) {
             stream = "file:src/main/resources/Images/scoring_4.jpg";
             image = new Image(stream);
-            gameController.scoreFirst.setImage(image);
+            gameController.scoreFirst1.setImage(image);
         } else {
             stream = "file:src/main/resources/Images/scoring_2.jpg";
             image = new Image(stream);
-            gameController.scoreFirst.setImage(image);
+            gameController.scoreFirst1.setImage(image);
         }
+
+
+        if (card2.getValue() == 0) {
+            return;
+        } else if (card2.getValue() == 8) {
+            stream = "file:src/main/resources/Images/scoring_8.jpg";
+            image = new Image(stream);
+            gameController.scoreSecond1.setImage(image);
+        } else if (card2.getValue() == 6) {
+            stream = "file:src/main/resources/Images/scoring_6.jpg";
+            image = new Image(stream);
+            gameController.scoreSecond1.setImage(image);
+        } else if (card2.getValue() == 4) {
+            stream = "file:src/main/resources/Images/scoring_4.jpg";
+            image = new Image(stream);
+            gameController.scoreSecond1.setImage(image);
+        } else {
+            stream = "file:src/main/resources/Images/scoring_2.jpg";
+            image = new Image(stream);
+            gameController.scoreSecond1.setImage(image);
+        }
+
+        if (game.getNumberOfPlayers() == 3) {
+            pointcards = game.getPlayerByUsername(playerOrder.get(2)).getPointCards();
+            card = pointcards[0];
+            card2 = pointcards[1];
+
+            if (card.getValue() == 0) {
+                return;
+            } else if (card.getValue() == 8) {
+                stream = "file:src/main/resources/Images/scoring_8.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst2.setImage(image);
+            } else if (card.getValue() == 6) {
+                stream = "file:src/main/resources/Images/scoring_6.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst2.setImage(image);
+            } else if (card.getValue() == 4) {
+                stream = "file:src/main/resources/Images/scoring_4.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst2.setImage(image);
+            } else {
+                stream = "file:src/main/resources/Images/scoring_2.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst2.setImage(image);
+            }
+
+
+            if (card2.getValue() == 0) {
+                return;
+            } else if (card2.getValue() == 8) {
+                stream = "file:src/main/resources/Images/scoring_8.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond2.setImage(image);
+            } else if (card2.getValue() == 6) {
+                stream = "file:src/main/resources/Images/scoring_6.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond2.setImage(image);
+            } else if (card2.getValue() == 4) {
+                stream = "file:src/main/resources/Images/scoring_4.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond2.setImage(image);
+            } else {
+                stream = "file:src/main/resources/Images/scoring_2.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond2.setImage(image);
+            }
+        } else if (game.getNumberOfPlayers() == 3) {
+            pointcards = game.getPlayerByUsername(playerOrder.get(3)).getPointCards();
+            card = pointcards[0];
+            card2 = pointcards[1];
+
+            if (card.getValue() == 0) {
+                return;
+            } else if (card.getValue() == 8) {
+                stream = "file:src/main/resources/Images/scoring_8.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst3.setImage(image);
+            } else if (card.getValue() == 6) {
+                stream = "file:src/main/resources/Images/scoring_6.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst3.setImage(image);
+            } else if (card.getValue() == 4) {
+                stream = "file:src/main/resources/Images/scoring_4.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst3.setImage(image);
+            } else {
+                stream = "file:src/main/resources/Images/scoring_2.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst3.setImage(image);
+            }
+
+
+            if (card2.getValue() == 0) {
+                return;
+            } else if (card2.getValue() == 8) {
+                stream = "file:src/main/resources/Images/scoring_8.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond3.setImage(image);
+            } else if (card2.getValue() == 6) {
+                stream = "file:src/main/resources/Images/scoring_6.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond3.setImage(image);
+            } else if (card2.getValue() == 4) {
+                stream = "file:src/main/resources/Images/scoring_4.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond3.setImage(image);
+            } else {
+                stream = "file:src/main/resources/Images/scoring_2.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond3.setImage(image);
+            }
+        }
+
     }
 
+    private void setPointCard(PointCard card, int i) {
+        String stream;
+        Image image;
+        if (i == 1) {
+            if (card.getValue() == 0) {
+                return;
+            } else if (card.getValue() == 8) {
+                stream = "file:src/main/resources/Images/scoring_8.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst.setImage(image);
+            } else if (card.getValue() == 6) {
+                stream = "file:src/main/resources/Images/scoring_6.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst.setImage(image);
+            } else if (card.getValue() == 4) {
+                stream = "file:src/main/resources/Images/scoring_4.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst.setImage(image);
+            } else {
+                stream = "file:src/main/resources/Images/scoring_2.jpg";
+                image = new Image(stream);
+                gameController.scoreFirst.setImage(image);
+            }
+        } else {
+            if (card.getValue() == 0) {
+                return;
+            } else if (card.getValue() == 8) {
+                stream = "file:src/main/resources/Images/scoring_8.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond.setImage(image);
+            } else if (card.getValue() == 6) {
+                stream = "file:src/main/resources/Images/scoring_6.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond.setImage(image);
+            } else if (card.getValue() == 4) {
+                stream = "file:src/main/resources/Images/scoring_4.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond.setImage(image);
+            } else {
+                stream = "file:src/main/resources/Images/scoring_2.jpg";
+                image = new Image(stream);
+                gameController.scoreSecond.setImage(image);
+            }
+        }
+    }
 
     public void setPersonalObjectiveCard(Game game) {
         String stream;
