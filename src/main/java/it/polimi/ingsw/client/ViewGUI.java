@@ -73,6 +73,8 @@ public class ViewGUI extends View {
         if (game.isLastTurn()) {
             Platform.runLater(() -> gameController.instruction.setText("It's the last turn! Make your last move."));
         }
+        Platform.runLater(() -> gameController.instruction.setText(""));
+        gameController.boardPane.setDisable(true);
         setCommonObjectivesCards(game);
         setPersonalObjectiveCard(game);
         gameController.disableView();
@@ -525,6 +527,8 @@ public class ViewGUI extends View {
 
     @Override
     String getTiles() {
+        gameController.boardPane.setDisable(false);
+        gameController.continueButton.setDisable(false);
         Platform.runLater(() -> gameController.instruction.setText("Choose the tiles, then press continue."));
         gameController.boardPane.setDisable(false);
         String r = null;
@@ -534,11 +538,13 @@ public class ViewGUI extends View {
             e.printStackTrace();
         }
         gameController.disableView();
+        gameController.boardPane.setDisable(true);
         return r;
     }
 
     @Override
     int getColumn() {
+        gameController.continueButton.setDisable(true);
         Platform.runLater(() -> {
             gameController.instruction.setText("Good choice, now choose the column.");
         });
