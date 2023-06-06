@@ -36,7 +36,13 @@ public class ViewGUI extends View {
     public static Parent numberOfPlayersRoot;
     public static Parent gameRoot;
 
+    /**
+     * Constructs a new instance of the ViewGUI class.
+     *
+     * @param client the client object associated with the GUI
+     */
     public ViewGUI(Client client) {
+        // Load the FXML files for different GUI components
         FXMLLoader welcomeLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));
         FXMLLoader connectLoader = new FXMLLoader(getClass().getResource("/Connection.fxml"));
         FXMLLoader nicknameLoader = new FXMLLoader(getClass().getResource("/Username.fxml"));
@@ -46,6 +52,7 @@ public class ViewGUI extends View {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/Board.fxml"));
 
         try {
+            // Load the root elements of the FXML files
             welcomeRoot = welcomeLoader.load();
             connectRoot = connectLoader.load();
             nicknameRoot = nicknameLoader.load();
@@ -57,6 +64,8 @@ public class ViewGUI extends View {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Get the controllers for each GUI component
         this.welcomeController = welcomeLoader.getController();
         this.connectionController = connectLoader.getController();
         this.nicknameController = nicknameLoader.getController();
@@ -68,6 +77,12 @@ public class ViewGUI extends View {
     }
 
 
+    /**
+     * Updates the game state and UI based on the provided game object and player order.
+     *
+     * @param game        The game object representing the current state of the game.
+     * @param playerOrder The order of players in the game.
+     */
     @Override
     void update(Game game, LinkedList<String> playerOrder) {
         if (game.isLastTurn()) {
@@ -94,12 +109,24 @@ public class ViewGUI extends View {
         });
     }
 
+    /**
+     * Sets the common objectives scores in the UI based on the provided game object.
+     *
+     * @param game The game object representing the current state of the game.
+     */
     private void setCommonObjectivesScores(Game game) {
         PointCard[] pointcards = game.getPlayerByUsername(client.getUsername()).getPointCards();
         setPointCard(pointcards[0], 1);
         setPointCard(pointcards[1], 2);
     }
 
+    /**
+     * Sets the common objective scores for other players in the UI based on the provided
+     * game and player order.
+     *
+     * @param game        The game object representing the current state of the game.
+     * @param playerOrder The order of players in the game.
+     */
     private void setCommonObjectiveScoresOtherPlayer(Game game, LinkedList<String> playerOrder) {
         PointCard[] pointcards = game.getPlayerByUsername(playerOrder.get(1)).getPointCards();
         PointCard card = pointcards[0];
@@ -239,7 +266,6 @@ public class ViewGUI extends View {
                 gameController.scoreSecond3.setImage(image);
             }
         }
-
     }
 
     private void setPointCard(PointCard card, int i) {
@@ -288,6 +314,11 @@ public class ViewGUI extends View {
         }
     }
 
+    /**
+     * Sets the personal objective card image for the current player in the game controller.
+     *
+     * @param game The current game instance.
+     */
     public void setPersonalObjectiveCard(Game game) {
         String stream;
         Image image;
@@ -343,6 +374,11 @@ public class ViewGUI extends View {
         }
     }
 
+    /**
+     * Sets the images for common objective cards in the game.
+     *
+     * @param game The Game object representing the current game.
+     */
     public void setCommonObjectivesCards(Game game) {
         String stream;
         Image image;
@@ -449,6 +485,11 @@ public class ViewGUI extends View {
         }
     }
 
+    /**
+     * Retrieves the IP address from the blocking queue.
+     *
+     * @return The IP address as a String, or null if no IP address is available.
+     */
     @Override
     String getIp() {
         String IP = null;
@@ -460,6 +501,13 @@ public class ViewGUI extends View {
         return IP;
     }
 
+    /**
+     * Allows the user to select a game ID from a list of available game IDs.
+     * Displays a GUI scene for game ID selection.
+     *
+     * @param gameIds The list of available game IDs as ArrayList of Strings.
+     * @return The selected game ID as a String, or null if no game ID is selected.
+     */
     @Override
     String gameIdSelection(ArrayList<String> gameIds) {
         String selectedGame = null;
@@ -473,11 +521,24 @@ public class ViewGUI extends View {
         return selectedGame;
     }
 
+    /**
+     * Displays the game over screen with the provided leaderboard data.
+     *
+     * @param leaderboard The leaderboard data as a JSONArray.
+     */
     @Override
     void gameOverScreen(JSONArray leaderboard) {
         gameController.showLeaderboard(leaderboard);
     }
 
+    /**
+     * Displays the continue screen and waits for user input regarding starting a new game.
+     *
+     * @return A boolean value indicating whether the user wants to start a new game.
+     * - `true` if the user wants to start a new game.
+     * - `false` if the user does not want to start a new game.
+     * @throws RuntimeException if the thread is interrupted while waiting for user input.
+     */
     @Override
     boolean continueScreen() {
         boolean wantsNewGame;
@@ -489,6 +550,12 @@ public class ViewGUI extends View {
         return wantsNewGame;
     }
 
+    /**
+     * Displays the nickname screen and waits for the user to enter their username.
+     *
+     * @return The username entered by the user.
+     * @throws RuntimeException if the thread is interrupted while waiting for user input.
+     */
     @Override
     public String getUsername() {
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
@@ -501,6 +568,12 @@ public class ViewGUI extends View {
         return username;
     }
 
+    /**
+     * Displays the game options screen and waits for the user to select an option.
+     *
+     * @return The selected game option as an integer.
+     * @throws RuntimeException if the thread is interrupted while waiting for user input.
+     */
     @Override
     int getGameOptions() {
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameOptionsRoot)));
@@ -513,6 +586,11 @@ public class ViewGUI extends View {
         return choice;
     }
 
+    /**
+     * Displays the number of players screen and returns the selected number of players.
+     *
+     * @return The selected number of players.
+     */
     @Override
     int getPlayerNumber() {
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
@@ -526,6 +604,11 @@ public class ViewGUI extends View {
         return numOfPlayers;
     }
 
+    /**
+     * Enables the board and continue button, displays instructions, waits for the player to choose tiles, and returns the selected tiles.
+     *
+     * @return The selected tiles.
+     */
     @Override
     String getTiles() {
         gameController.boardPane.setDisable(false);
@@ -543,6 +626,11 @@ public class ViewGUI extends View {
         return r;
     }
 
+    /**
+     * Disables the continue button, updates the instruction text, enables the board for column selection, waits for the player to choose a column, and returns the selected column.
+     *
+     * @return The selected column.
+     */
     @Override
     int getColumn() {
         gameController.continueButton.setDisable(true);
@@ -560,12 +648,24 @@ public class ViewGUI extends View {
         return column;
     }
 
+
+    /**
+     * Displays an achievement for a player.
+     *
+     * @param username        The username of the player who achieved the objective.
+     * @param objectiveNumber The number of the objective achieved.
+     */
     @Override
     void showAchievement(String username, int objectiveNumber) {
         String nick = client.getUsername();
         gameController.displayAchievement(nick, username, objectiveNumber);
     }
 
+    /**
+     * Displays an error message in the game interface based on the given error message.
+     *
+     * @param errorMessage The error message to be displayed.
+     */
     @Override
     void showError(String errorMessage) {
         switch (errorMessage) {

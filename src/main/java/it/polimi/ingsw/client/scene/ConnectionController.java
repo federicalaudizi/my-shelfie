@@ -28,6 +28,12 @@ public class ConnectionController {
     @FXML
     private Button ok;
 
+    /**
+     * Handles the mouse click event for the IP address input field.
+     * Retrieves the IP address entered by the user and adds it to the queue for further processing.
+     *
+     * @throws InterruptedException If the thread is interrupted while adding the IP address to the queue.
+     */
     @FXML
     public void handleMouseClickForIp() {
         String IPAddress = ipAddress.getCharacters().toString();
@@ -40,6 +46,11 @@ public class ConnectionController {
         }
     }
 
+    /**
+     * Displays an error popup with the given error message.
+     *
+     * @param errorMessage The error message to be displayed.
+     */
     public void displayError(String errorMessage) {
         Stage popupStage = new Stage();
         popupStage.initStyle(StageStyle.UNDECORATED);

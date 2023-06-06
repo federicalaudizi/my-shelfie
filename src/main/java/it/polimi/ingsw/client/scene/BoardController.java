@@ -502,6 +502,11 @@ public class BoardController{
         disableView();
     }
 
+    /**
+     * Displays an error popup with the given error message.
+     *
+     * @param errorMessage The error message to be displayed.
+     */
     public void displayError(String errorMessage) {
         Stage popupStage = new Stage();
         popupStage.initStyle(StageStyle.UNDECORATED);
@@ -533,6 +538,13 @@ public class BoardController{
         popupStage.showAndWait();
     }
 
+    /**
+     * Displays an achievement message for a specific user and objective number.
+     *
+     * @param nick The nickname of the current user.
+     * @param username The username of the user who achieved the objective.
+     * @param objectiveNumber The number of the objective achieved.
+     */
     public void displayAchievement(String nick,String username, int objectiveNumber) {
         if (nick.equals(username)){
             if (objectiveNumber == 1){
@@ -551,11 +563,19 @@ public class BoardController{
         board.setEffect(new GaussianBlur());
     }
 
+    /**
+     * Closes the current view or dialog, hiding the common object and removing any visual effects.
+     */
     public void close() {
         commonObj.setVisible(false);
         board.setEffect(null);
     }
 
+    /**
+     * Displays the leaderboard with the given rank data.
+     *
+     * @param rank The JSONArray containing the rank data.
+     */
     public void showLeaderboard(JSONArray rank){
         JSONObject rank_first, rank_second, rank_third, rank_fourth;
         String username_first, username_second, username_third, username_fourth;
@@ -619,6 +639,10 @@ public class BoardController{
         leaderboard.setVisible(true);
     }
 
+    /**
+     * Sets up the exit button functionality.
+     * When the exit button is clicked or the window is closed, the application will be terminated.
+     */
     public void exitButton (){
         Gui.getStage().setOnCloseRequest((WindowEvent t) -> {
             Platform.exit();
@@ -626,6 +650,11 @@ public class BoardController{
         });
     }
 
+    /**
+     * Starts a new game by adding a "true" value to the queue.
+     *
+     * @throws RuntimeException If the thread is interrupted while adding the value to the queue.
+     */
     public void startNewGame(){
         try {
             ViewGUI.queue.put(true);
