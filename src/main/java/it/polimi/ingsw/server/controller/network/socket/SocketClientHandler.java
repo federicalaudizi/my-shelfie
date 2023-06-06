@@ -344,7 +344,7 @@ public class SocketClientHandler extends ClientHandler {
     private void closeSocket(){
         System.out.println(thisPlayerId+": Closing.");
 
-        ongoingGames.notifyDisconnection(thisPlayerId);
+        if(thisPlayerId != null) ongoingGames.notifyDisconnection(thisPlayerId);
 
         try {
             clientSocket.close();
