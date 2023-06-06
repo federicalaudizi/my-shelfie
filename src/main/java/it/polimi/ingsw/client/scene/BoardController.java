@@ -316,11 +316,11 @@ public class BoardController{
         if (!isCellClicked && imageView.getImage() != null) {
             // Cerca il primo posto libero tra tile1, tile2 e tile3
             int firstEmptyTileIndex = -1;
-            if (tile1.getImage() == null) {
+            if (tile3.getImage() == null) {
                 firstEmptyTileIndex = 1;
             } else if (tile2.getImage() == null) {
                 firstEmptyTileIndex = 2;
-            } else if (tile3.getImage() == null) {
+            } else if (tile1.getImage() == null) {
                 firstEmptyTileIndex = 3;
             }
 
@@ -328,9 +328,9 @@ public class BoardController{
                 String imagePath = game.getBoard().getTile(row, col).getPath();
                 // Inserisci l'imageView nel primo posto libero
                 switch (firstEmptyTileIndex) {
-                    case 1 -> tile1.setImage(new Image(imagePath));
+                    case 1 -> tile3.setImage(new Image(imagePath));
                     case 2 -> tile2.setImage(new Image(imagePath));
-                    case 3 -> tile3.setImage(new Image(imagePath));
+                    case 3 -> tile1.setImage(new Image(imagePath));
                 }
 
                 imageView.setOpacity(0.5);
@@ -346,21 +346,21 @@ public class BoardController{
 
             int s = temp.size();
             if(s >= 3){
-                tile1.setImage(new Image(temp.get(0).getPath()));
+                tile3.setImage(new Image(temp.get(0).getPath()));
                 tile2.setImage(new Image(temp.get(1).getPath()));
-                tile3.setImage(new Image(temp.get(2).getPath()));
+                tile1.setImage(new Image(temp.get(2).getPath()));
             } else if (s == 2) {
-                tile1.setImage(new Image(temp.get(0).getPath()));
+                tile3.setImage(new Image(temp.get(0).getPath()));
                 tile2.setImage(new Image(temp.get(1).getPath()));
-                tile3.setImage(null);
-            } else if (s==1) {
-                tile1.setImage(new Image(temp.get(0).getPath()));
-                tile2.setImage(null);
-                tile3.setImage(null);
-            }else if(s == 0){
                 tile1.setImage(null);
+            } else if (s==1) {
+                tile3.setImage(new Image(temp.get(0).getPath()));
                 tile2.setImage(null);
+                tile1.setImage(null);
+            }else if(s == 0){
                 tile3.setImage(null);
+                tile2.setImage(null);
+                tile1.setImage(null);
             }
         }
 
