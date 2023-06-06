@@ -9,55 +9,50 @@ import javafx.scene.text.Text;
 
 public class NumberOfPlayersController {
     @FXML
-    public ChoiceBox<Integer> choiceSelector;
-    @FXML
-    public Button button;
-    @FXML
     public ProgressIndicator progress;
     @FXML
     public Text text;
+    @FXML
+    public Button threePlayers;
+    @FXML
+    public Button fourPlayers;
+    @FXML
+    public Button twoPlayers;
 
     /**
      * Manages the number of player selection
      * */
     public void chooseOption(){
-        Integer selectedOption = choiceSelector.getValue();
-        button.setVisible(true);
+        twoPlayers.setOnAction(event -> {
+            progress.setVisible(true);
+            text.setVisible(true);
+            try {
+                ViewGUI.queue.put(2);
 
-        button.setOnAction(event -> {
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-            switch (selectedOption) {
+        threePlayers.setOnAction(event ->{
+            progress.setVisible(true);
+            text.setVisible(true);
+            try {
+                ViewGUI.queue.put(3);
 
-                case 2 -> {
-                    progress.setVisible(true);
-                    text.setVisible(true);
-                    try {
-                        ViewGUI.queue.put(2);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                case 3 -> {
-                    progress.setVisible(true);
-                    text.setVisible(true);
-                    try {
-                        ViewGUI.queue.put(3);
+        fourPlayers.setOnAction(event ->{
+            progress.setVisible(true);
+            text.setVisible(true);
+            try {
+                ViewGUI.queue.put(4);
 
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                case 4 -> {
-                    progress.setVisible(true);
-                    text.setVisible(true);
-                    try {
-                        ViewGUI.queue.put(4);
-
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
         });
     }

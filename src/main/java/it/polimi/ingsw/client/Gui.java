@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -32,6 +33,7 @@ public class Gui extends Application {
             Platform.exit();
             System.exit(0);
         });
+        //stage.getIcons().add(new Image(Gui.class.getResourceAsStream("/Images/Icon.png")));
 
         stage.show();
     }

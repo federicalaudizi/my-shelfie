@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.NumberOfPlayersController">
-    <ImageView fitHeight="406.0" fitWidth="607.0">
+    <ImageView fitHeight="406.0" fitWidth="607.0" layoutY="-3.0">
         <Image url="@Images/blurred_Welcome.jpg" />
     </ImageView>
     <Label layoutX="214.0" layoutY="186.0" prefHeight="18.0" prefWidth="181.0" text="Enter the number of players:">
@@ -21,17 +21,14 @@
             <Font name="System Bold Italic" size="14.0" />
         </font>
     </Label>
-    <ChoiceBox fx:id="choiceSelector" layoutX="214.0" layoutY="204.0" onAction="#chooseOption" prefWidth="150.0">
-        <Integer fx:value="2" />
-        <Integer fx:value="3" />
-        <Integer fx:value="4" />
-    </ChoiceBox>
-    <Button fx:id="button" alignment="CENTER" layoutX="252.0" layoutY="235.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="74.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-color: #25171c; -fx-border-width: 1px; -fx-border-radius: 15px;" text="Next → " visible="false" />
-   <ProgressIndicator fx:id="progress" layoutX="262.0" layoutY="330.0" prefHeight="80.0" prefWidth="80.0" visible="false">
+    <ProgressIndicator fx:id="progress" layoutX="262.0" layoutY="330.0" prefHeight="80.0" prefWidth="80.0" visible="false">
       <effect>
          <Reflection />
       </effect>
    </ProgressIndicator>
    <Text fx:id="text" layoutX="204.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for other players to connect" visible="false" />
+   <Button fx:id="threePlayers" alignment="CENTER" layoutX="276.0" layoutY="221.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="3" />
+   <Button fx:id="fourPlayers" alignment="CENTER" layoutX="372.0" layoutY="221.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="4" />
+   <Button fx:id="twoPlayers" alignment="CENTER" layoutX="180.0" layoutY="221.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="2" />
 
 </AnchorPane>

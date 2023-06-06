@@ -85,7 +85,7 @@ public class ViewGUI extends View {
         setCommonObjectivesScores(game);
         setCommonObjectiveScoresOtherPlayer(game, playerOrder);
         Platform.runLater(() -> {
-            Gui.getStage().setTitle(client.getUsername());
+            Gui.getStage().setTitle("My Shelfie");
             Scene currentScene = Gui.getStage().getScene();
             if (currentScene == null || currentScene.getRoot() != gameRoot) {
                 Scene newScene = new Scene(gameRoot);
@@ -517,6 +517,7 @@ public class ViewGUI extends View {
     int getPlayerNumber() {
         Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
         int numOfPlayers;
+        numberOfPlayersController.chooseOption();
         try {
             numOfPlayers = (int) queue.take();
         } catch (InterruptedException e) {
@@ -570,7 +571,7 @@ public class ViewGUI extends View {
         switch (errorMessage) {
             case "You entered a malformed IP:port combo. Retry.", "The host does not exist. Retry.", "Something went wrong.", "Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu." ->
                     Platform.runLater(() -> connectionController.displayError(errorMessage));
-            case "The column you input is invalid. Retry.", "You entered an invalid number of coordinates. Retry.", "The tiles you chose are not valid" ->
+            case "The column you chose is not valid", "You entered an invalid number of coordinates. Retry.", "The tiles you chose are not valid" ->
                     Platform.runLater(() -> gameController.displayError(errorMessage));
             case "Username is already taken" ->
                     Platform.runLater(() -> nicknameController.displayErrorNick(errorMessage));

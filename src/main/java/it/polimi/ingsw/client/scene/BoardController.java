@@ -57,6 +57,7 @@ public class BoardController{
     public ImageView scoreSecond2;
     public ImageView scoreSecond3;
     public ImageView scoreFirst3;
+    public Text ClientName;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;
@@ -184,6 +185,7 @@ public class BoardController{
      */
     public void initializeClientShelf(Game game, Client client){
         ImageView[][] imageMatrix = new ImageView[6][5];
+        ClientName.setText(client.getUsername());
 
         // Check if the node is an instance of ImageView
         for (Node node : shelfGrid.getChildren()) {
