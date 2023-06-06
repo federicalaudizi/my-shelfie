@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
@@ -87,8 +86,6 @@ public class ClientSocket extends Client {
 
     /**
      * Connects to the specified IP and port through the client's socket
-     * @throws IOException If the connection is compromised and the client disconnects inadvertently, this exception
-     *                     is thrown.
      * @author Mario Merlo
      */
     @Override
