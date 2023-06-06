@@ -59,7 +59,7 @@ public class RMILogin implements RMILoginInterface{
             game.notifyConnection(username);
             return new Message(OK);
         } catch (PlayerDoesNotExistsException e) {
-            return new Message(BAD_HEADER, new JSONObject().put("message", "Player does not exists"));
+            return new Message(PLAYER_NOT_FOUND, new JSONObject().put("message", "Player does not exists"));
         }
     }
 
