@@ -76,11 +76,10 @@ public class ClientRMI extends Client {
 
     /**
      * Locates the RMI registry containing login and game methods.
-     * @throws RemoteException If something goes wrong while locating the method registries, this exception is thrown
      * @author Mario Merlo
      */
     @Override
-    void connect() throws RemoteException {
+    void connect(){
         boolean isValid = false;
         String ip;
         Registry registry = null;
@@ -107,18 +106,22 @@ public class ClientRMI extends Client {
                 view.showError("Unable to connect to the server. Retry.");
                 isValid = false;
             }
-        }
 
-        try {
-            loginInterface = (RMILoginInterface) registry.lookup("RMILoginInterface");
-        } catch (NotBoundException e) {
-            throw new RemoteException(e.getMessage());
-        }
+            // TODO: if the ip goes to nowhere the client still asks for the name
 
-        try {
-            gameInterface = (RMIGameInterface) registry.lookup("RMIGameInterface");
-        } catch (NotBoundException e) {
-            throw new RemoteException(e.getMessage());
+            if (registry == null) {
+                view.showError("Unable to connect to the server. Retry.");
+                isValid = false;
+                continue;
+            }
+
+            try {
+                loginInterface = (RMILoginInterface) registry.lookup("RMILoginInterface");
+                gameInterface = (RMIGameInterface) registry.lookup("RMIGameInterface");
+            } catch (NotBoundException | RemoteException e) {
+                view.showError("Unable to connect to the server. Retry.");
+                isValid = false;
+            }
         }
     }
 
