@@ -92,38 +92,31 @@ public class ClientSocket extends Client {
      * @author Mario Merlo
      */
     @Override
-    void connect() throws IOException {
+    void connect() {
         boolean isValid = false;
         String ip;
 
         while(!isValid) {
             ip = view.getIp();
-            try {
-                isValid = validateIp(ip);
-            } catch (IllegalArgumentException e) {
+
+            isValid = validateIp(ip);
+
+            if (!isValid){
                 view.showError("You entered a malformed IP:port combo. Retry.");
+                continue;
             }
 
             String[] hostInfo = ip.split(":");
 
-            try{
+            try {
                 socket = new Socket(hostInfo[0], Integer.parseInt(hostInfo[1]));
-            } catch (UnknownHostException e) {
+                writer = new PrintWriter(socket.getOutputStream());
+                InputStreamReader reader = new InputStreamReader(socket.getInputStream());
+                bufferedReader = new BufferedReader(reader);
+            } catch (IOException e) {
                 view.showError("The host does not exist. Retry.");
                 isValid = false;
             }
-        }
-
-        try {
-            writer = new PrintWriter(socket.getOutputStream());
-            InputStreamReader reader = new InputStreamReader(socket.getInputStream());
-            bufferedReader = new BufferedReader(reader);
-        } catch (UnknownHostException e) {
-            view.showError("The host does not exist. Retry.");
-            throw new UnknownHostException(e.getMessage());
-        } catch (IOException e) {
-            view.showError("Something went wrong.");
-            throw new IOException(e.getMessage());
         }
     }
 
