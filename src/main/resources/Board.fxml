@@ -227,7 +227,7 @@
         <ImageView fx:id="scoreSecond2" fitHeight="30.0" fitWidth="30.0" layoutX="175.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="scoreFirst3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="scoreSecond3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
-        <Text fx:id="ClientName" layoutX="762.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="47.999999999999915" />
+        <Text fx:id="ClientName" layoutX="762.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="47.999999999999915" />
         <Text layoutX="530.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First common objective:" />
         <Text layoutX="530.0" layoutY="485.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Second common objective:" />
         <GridPane fx:id="shelfGrid" layoutX="697.0" layoutY="49.0" prefHeight="203.0" prefWidth="178.0">
@@ -343,6 +343,9 @@
         </ImageView>
         <Pane layoutX="207.0" layoutY="189.0" prefHeight="23.0" prefWidth="187.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
             <Text fx:id="firstPlace" layoutX="8.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="182.58223841121753" />
+           <ImageView fitHeight="43.0" fitWidth="46.0" layoutX="145.0" layoutY="-14.0">
+               <Image url="@Images/medal.png" />
+           </ImageView>
         </Pane>
         <Pane layoutX="207.0" layoutY="219.0" prefHeight="23.0" prefWidth="187.0" style="-fx-background-color: #954c00; -fx-background-radius: 4px;">
             <Text fx:id="secondPlace" layoutX="8.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="182.58223841121753" />
@@ -370,9 +373,6 @@
                 <Font name="Kefa Regular" size="23.0" />
             </font>
         </Text>
-        <ImageView fitHeight="43.0" fitWidth="46.0" layoutX="187.0" layoutY="162.0">
-            <Image url="@Images/medal.png" />
-        </ImageView>
         <Button fx:id="exit" alignment="CENTER" layoutX="198.0" layoutY="353.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="20.0" prefWidth="62.0" style="-fx-background-color: transparent       ;" text="Exit" textFill="#613900">
             <font>
                 <Font name="Kefa Regular" size="16.0" />

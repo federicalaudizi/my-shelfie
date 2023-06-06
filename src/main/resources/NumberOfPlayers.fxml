@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.Integer?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,19 +13,30 @@
     <ImageView fitHeight="406.0" fitWidth="607.0" layoutY="-3.0">
         <Image url="@Images/blurred_Welcome.jpg" />
     </ImageView>
-    <Label layoutX="214.0" layoutY="186.0" prefHeight="18.0" prefWidth="181.0" text="Enter the number of players:">
-        <font>
-            <Font name="System Bold Italic" size="14.0" />
-        </font>
-    </Label>
-    <ProgressIndicator fx:id="progress" layoutX="262.0" layoutY="330.0" prefHeight="80.0" prefWidth="80.0" visible="false">
+    <ProgressIndicator fx:id="progress" layoutX="268.0" layoutY="330.0" prefHeight="80.0" prefWidth="80.0" visible="false">
       <effect>
-         <Reflection />
+         <Glow />
       </effect>
    </ProgressIndicator>
-   <Text fx:id="text" layoutX="204.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waiting for other players to connect" visible="false" />
-   <Button fx:id="threePlayers" alignment="CENTER" layoutX="276.0" layoutY="221.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="3" />
-   <Button fx:id="fourPlayers" alignment="CENTER" layoutX="372.0" layoutY="221.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="4" />
-   <Button fx:id="twoPlayers" alignment="CENTER" layoutX="180.0" layoutY="221.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="2" />
-
+   <Text fx:id="text" fill="#8c3300" layoutX="186.0" layoutY="302.0" stroke="#722800" strokeType="OUTSIDE" strokeWidth="0.4" text="Waiting for other players to connect" textAlignment="CENTER">
+      <font>
+         <Font name="PT Serif Caption" size="13.0" />
+      </font></Text>
+    <Button fx:id="threePlayers" alignment="CENTER" contentDisplay="CENTER" layoutX="276.0" layoutY="198.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="3" textFill="#8d3800">
+        <font>
+            <Font name="PT Serif Caption" size="22.0" />
+        </font></Button>
+   <Button fx:id="fourPlayers" alignment="CENTER" contentDisplay="CENTER" layoutX="373.0" layoutY="198.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="4" textFill="#8d3800">
+      <font>
+         <Font name="PT Serif Caption" size="22.0" />
+      </font></Button>
+   <Button fx:id="twoPlayers" alignment="CENTER" contentDisplay="CENTER" layoutX="180.0" layoutY="198.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="2" textFill="#8d3800">
+      <font>
+         <Font name="PT Serif" size="22.0" />
+      </font></Button>
+   <Text fill="#b04600" layoutX="187.0" layoutY="179.0" stroke="#570000" strokeType="OUTSIDE" strokeWidth="0.8" text="Pick the number of players:">
+      <font>
+         <Font name="PT Serif Caption" size="17.0" />
+      </font>
+   </Text>
 </AnchorPane>
