@@ -20,7 +20,7 @@
          <SepiaTone />
       </effect>
       <cursor>
-         <Cursor fx:constant="NW_RESIZE" />
+         <Cursor fx:constant="DEFAULT" />
       </cursor></ListView>
     <Button fx:id="button" alignment="CENTER" layoutX="253.0" layoutY="280.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="74.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-color: #25171c; -fx-border-width: 1px; -fx-border-radius: 15px;" text="Join → " visible="false" />
     <ProgressIndicator fx:id="progress" layoutX="262.0" layoutY="330.0" prefHeight="0.0" prefWidth="0.0" visible="false">

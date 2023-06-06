@@ -18,7 +18,7 @@
          <Glow />
       </effect>
    </ProgressIndicator>
-   <Text fx:id="text" fill="#8c3300" layoutX="186.0" layoutY="302.0" stroke="#722800" strokeType="OUTSIDE" strokeWidth="0.4" text="Waiting for other players to connect" textAlignment="CENTER">
+   <Text fx:id="text" fill="#8c3300" layoutX="186.0" layoutY="302.0" stroke="#722800" strokeType="OUTSIDE" strokeWidth="0.4" text="Waiting for other players to connect" textAlignment="CENTER" visible="false">
       <font>
          <Font name="PT Serif Caption" size="13.0" />
       </font></Text>
