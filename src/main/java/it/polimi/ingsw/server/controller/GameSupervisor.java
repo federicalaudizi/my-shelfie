@@ -98,7 +98,7 @@ public class GameSupervisor implements Runnable{
      */
     public void newUser(String playerId, ClientHandler handler) throws PlayerIdTakenException {
         // If a player is in game, we don't want him to be able to login as a new user
-        if(playersGames.containsKey(playerId)) throw new PlayerIdTakenException();
+        if(players.containsKey(playerId)) throw new PlayerIdTakenException();
         players.put(playerId, handler);
     }
 
