@@ -109,10 +109,9 @@ public class GameSupervisor implements Runnable{
      * @param handler  the client handler of the player
      * @author Federico
      */
-    public GameController oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
+    public void oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
         if(!players.containsKey(playerId) || !playersGames.containsKey(playerId)) throw new PlayerDoesNotExistsException();
         players.put(playerId, handler);
-        return games.get(playersGames.get(playerId));
     }
 
     /**
