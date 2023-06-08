@@ -235,7 +235,7 @@ public class SocketClientHandler extends ClientHandler {
                 JSONArray body = recievedMessage.getBody();
                 thisPlayerId = body.getJSONObject(0).getString("username");
 
-                GameController game = ongoingGames.oldUser(thisPlayerId, this);
+                ongoingGames.oldUser(thisPlayerId, this);
                 // Send the confirmation
                 System.out.println(thisPlayerId+": Successfully reconnected");
                 send(new Message(OK));

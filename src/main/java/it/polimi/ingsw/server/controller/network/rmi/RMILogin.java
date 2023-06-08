@@ -53,7 +53,7 @@ public class RMILogin implements RMILoginInterface{
         System.out.println(username + ": Wants to reconnect");
         RMIClientHandler thisUser = new RMIClientHandler(username, ongoingGames);
         try {
-            GameController game = ongoingGames.oldUser(username, thisUser);
+            ongoingGames.oldUser(username, thisUser);
             System.out.println(username + ": Successfully reconnected");
             new Thread(thisUser).start();
             ongoingGames.notifyConnection(username);
