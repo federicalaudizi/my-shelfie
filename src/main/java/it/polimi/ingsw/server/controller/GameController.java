@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -23,8 +24,8 @@ public class GameController implements Runnable {
     private boolean started;
     private final Game game;
     private final GameSupervisor ongoingGames;
-    private final HashMap<String, ClientHandler> playerToClientHandlerMap;
-    private final HashMap<String, Integer> connectedPlayers;
+    private final ConcurrentHashMap<String, ClientHandler> playerToClientHandlerMap;
+    private final ConcurrentHashMap<String, Integer> connectedPlayers;
     private final ArrayList<String> players;
     private final String gameId;
     private boolean isOver;
@@ -40,12 +41,12 @@ public class GameController implements Runnable {
      *
      * */
     public GameController(int playerNumber, String gameId, GameSupervisor ongoingGames) {
-        this.playerToClientHandlerMap = new HashMap<>();
+        this.playerToClientHandlerMap = new ConcurrentHashMap<>();
         this.gameId = gameId;
         this.game = new Game(playerNumber);
         this.isOver = false;
         this.players = new ArrayList<>();
-        this.connectedPlayers = new HashMap<>();
+        this.connectedPlayers = new ConcurrentHashMap<>();
         this.ongoingGames = ongoingGames;
         this.waitLock = new Object();
         this.stateLock = new Object();
@@ -66,8 +67,8 @@ public class GameController implements Runnable {
         this.isOver = toCopy.getBoolean("isOver");
 
         this.players = new ArrayList<>();
-        this.playerToClientHandlerMap = new HashMap<>();
-        this.connectedPlayers = new HashMap<>();
+        this.playerToClientHandlerMap = new ConcurrentHashMap<>();
+        this.connectedPlayers = new ConcurrentHashMap<>();
 
         JSONArray jsonPlayers = toCopy.getJSONArray("players");
         for (int i = 0; i < jsonPlayers.length(); i++) {
