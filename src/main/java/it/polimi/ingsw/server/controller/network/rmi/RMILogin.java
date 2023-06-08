@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.network.rmi;
 
-import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.Message;
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
