@@ -26,8 +26,8 @@ class GameControllerTest {
     @Test
     void notifyDisconnection() throws ReachedMaxNumberOfPlayers {
         gameController1 = new GameController(2, "gameId", gameSupervisor);
-        FakeClientHandler player1 = new FakeClientHandler();
-        FakeClientHandler player2 = new FakeClientHandler();
+        player1 = new FakeClientHandler();
+        player2 = new FakeClientHandler();
         gameController1.addPlayer("pippo", player1);
         gameController1.addPlayer("pluto", player2);
         assertSame(player1, gameController1.getPlayerToClientHandlerMap().get("pippo"));
@@ -55,8 +55,8 @@ class GameControllerTest {
         FakeClientHandler player2 = new FakeClientHandler();
         gameController1.addPlayer("pippo", player1);
         gameController1.addPlayer("pluto", player2);
-        assertTrue(player1 == gameController1.getPlayerToClientHandlerMap().get("pippo"));
-        assertTrue(player2 == gameController1.getPlayerToClientHandlerMap().get("pluto"));
+        assertSame(player1, gameController1.getPlayerToClientHandlerMap().get("pippo"));
+        assertSame(player2, gameController1.getPlayerToClientHandlerMap().get("pluto"));
         assertThrows(ReachedMaxNumberOfPlayers.class, () -> gameController1.addPlayer("paperino", new FakeClientHandler()));
     }
 
