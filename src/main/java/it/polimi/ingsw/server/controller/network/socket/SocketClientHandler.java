@@ -239,7 +239,7 @@ public class SocketClientHandler extends ClientHandler {
                 // Send the confirmation
                 System.out.println(thisPlayerId+": Successfully reconnected");
                 send(new Message(OK));
-                game.notifyConnection(thisPlayerId);
+                ongoingGames.notifyConnection(thisPlayerId);
 
             } else {
                 // The response was not valid, ask again

@@ -173,8 +173,25 @@ public class GameSupervisor implements Runnable{
      */
     public void notifyDisconnection(String playerId){
         System.out.println("Supervisor: "+playerId+" disconnected");
-        GameController game = games.get(playerId);
-        if(game != null) game.notifyDisconnection(playerId);
+        String gameId = playersGames.get(playerId);
+        if(gameId != null) {
+            GameController game = games.get(gameId);
+            if (game != null) game.notifyDisconnection(playerId);
+        }
+    }
+
+    /**
+     * This method registers that a player is connected to the server
+     *
+     * @param playerId the username of the just connected player
+     */
+    public void notifyConnection(String playerId){
+        System.out.println("Supervisor: "+playerId+" connected");
+        String gameId = playersGames.get(playerId);
+        if(gameId != null) {
+            GameController game = games.get(gameId);
+            if (game != null) game.notifyConnection(playerId);
+        }
     }
 
     /**

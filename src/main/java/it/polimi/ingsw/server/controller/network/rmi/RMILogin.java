@@ -56,7 +56,7 @@ public class RMILogin implements RMILoginInterface{
             GameController game = ongoingGames.oldUser(username, thisUser);
             System.out.println(username + ": Successfully reconnected");
             new Thread(thisUser).start();
-            game.notifyConnection(username);
+            ongoingGames.notifyConnection(username);
             return new Message(OK);
         } catch (PlayerDoesNotExistsException e) {
             return new Message(PLAYER_NOT_FOUND, new JSONObject().put("message", "Player does not exists"));

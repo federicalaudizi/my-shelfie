@@ -124,7 +124,7 @@ public class GameController implements Runnable {
      *
      * @param playerId of which ClientHandler needs to modify the status
      */
-    public void notifyConnection(String playerId) {
+    void notifyConnection(String playerId) {
         System.out.println(gameId+": "+playerId+" reconnected to this game");
         connectedPlayers.put(playerId, 1);
         playerToClientHandlerMap.put(playerId, ongoingGames.getClientHandlerById(playerId));
