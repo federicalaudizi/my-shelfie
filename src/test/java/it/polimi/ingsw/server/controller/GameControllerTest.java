@@ -37,12 +37,14 @@ class GameControllerTest {
     }
 
     @Test
-    void notifyConnection() throws ReachedMaxNumberOfPlayers {
+    void notifyConnection() throws ReachedMaxNumberOfPlayers, PlayerIdTakenException {
         gameController1 = new GameController(2, "gameId", gameSupervisor);
         FakeClientHandler player1 = new FakeClientHandler();
         FakeClientHandler player2 = new FakeClientHandler();
         gameController1.addPlayer("pippo", player1);
         gameController1.addPlayer("pluto", player2);
+        gameSupervisor.newUser("pippo", player1);
+        gameSupervisor.newUser("pluto", player2);
         gameController1.notifyDisconnection("pippo");
         gameController1.notifyConnection("pippo");
         assertEquals(1, (int) gameController1.getConnectedPlayers().get("pippo"));
