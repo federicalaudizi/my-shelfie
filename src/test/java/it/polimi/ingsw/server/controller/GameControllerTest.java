@@ -24,15 +24,40 @@ class GameControllerTest {
     }
 
     @Test
-    void notifyDisconnection() {
+    void notifyDisconnection() throws ReachedMaxNumberOfPlayers {
+        gameController1 = new GameController(2, "gameId", gameSupervisor);
+        FakeClientHandler player1 = new FakeClientHandler();
+        FakeClientHandler player2 = new FakeClientHandler();
+        gameController1.addPlayer("pippo", player1);
+        gameController1.addPlayer("pluto", player2);
+        assertSame(player1, gameController1.getPlayerToClientHandlerMap().get("pippo"));
+        assertSame(player2, gameController1.getPlayerToClientHandlerMap().get("pluto"));
+        gameController1.notifyDisconnection("pippo");
+        assertEquals(0, (int) gameController1.getConnectedPlayers().get("pippo"));
     }
 
     @Test
-    void notifyConnection() {
+    void notifyConnection() throws ReachedMaxNumberOfPlayers {
+        gameController1 = new GameController(2, "gameId", gameSupervisor);
+        FakeClientHandler player1 = new FakeClientHandler();
+        FakeClientHandler player2 = new FakeClientHandler();
+        gameController1.addPlayer("pippo", player1);
+        gameController1.addPlayer("pluto", player2);
+        gameController1.notifyDisconnection("pippo");
+        gameController1.notifyConnection("pippo");
+        assertEquals(1, (int) gameController1.getConnectedPlayers().get("pippo"));
     }
 
     @Test
-    void addPlayer() {
+    void addPlayer() throws ReachedMaxNumberOfPlayers {
+        gameController1 = new GameController(2, "gameId", gameSupervisor);
+        FakeClientHandler player1 = new FakeClientHandler();
+        FakeClientHandler player2 = new FakeClientHandler();
+        gameController1.addPlayer("pippo", player1);
+        gameController1.addPlayer("pluto", player2);
+        assertTrue(player1 == gameController1.getPlayerToClientHandlerMap().get("pippo"));
+        assertTrue(player2 == gameController1.getPlayerToClientHandlerMap().get("pluto"));
+        assertThrows(ReachedMaxNumberOfPlayers.class, () -> gameController1.addPlayer("paperino", new FakeClientHandler()));
     }
 
     @Test
@@ -59,13 +84,5 @@ class GameControllerTest {
         assertEquals(gameController1.toJson().toString(), gameController2.toJson().toString());
 
         assertTrue(gameController1.equals(gameController2));
-    }
-
-    @Test
-    void getPlayerToClientHandlerMap() {
-    }
-
-    @Test
-    void getConnectedPlayers() {
     }
 }
