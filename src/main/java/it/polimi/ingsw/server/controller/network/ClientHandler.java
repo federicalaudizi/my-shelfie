@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller.network;
 
+import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.exceptions.PlayerDisconnectedException;
 import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.*;
@@ -19,6 +20,15 @@ import static it.polimi.ingsw.server.controller.network.Message.Header.*;
  * @author Federico
  */
 public abstract class ClientHandler implements Runnable{
+    protected final GameSupervisor ongoingGames;
+    protected String thisPlayerId;
+    protected boolean gameOver;
+
+    protected ClientHandler(GameSupervisor ongoingGames){
+        this.ongoingGames = ongoingGames;
+        this.gameOver = false;
+    }
+
     /**
      * This method starts the thread and executes all the logic of the client handler
      *

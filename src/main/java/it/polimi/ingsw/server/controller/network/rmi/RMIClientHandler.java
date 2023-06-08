@@ -14,15 +14,10 @@ import java.util.HashMap;
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
 
 public class RMIClientHandler extends ClientHandler {
-    private final GameSupervisor ongoingGames;
-    private final String thisPlayerId;
-
     private final Object heartbeatLock;
     private boolean terminated;
     private boolean isAlive;
     private boolean suspendHeartbeat;
-
-    private boolean gameOver;
 
     private final Object pingLock;
     private boolean pingFlag;
@@ -41,14 +36,13 @@ public class RMIClientHandler extends ClientHandler {
     private Message responseMessage;
 
     RMIClientHandler(String username, GameSupervisor ongoingGames) {
-        this.ongoingGames = ongoingGames;
+        super(ongoingGames);
         this.thisPlayerId = username;
         this.pingLock = new Object();
         this.heartbeatLock = new Object();
         this.suspendHeartbeat = false;
         this.terminated = false;
         this.isAlive = true;
-        this.gameOver = false;
 
         this.pingFlag = false;
 

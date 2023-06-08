@@ -12,6 +12,11 @@ import java.util.Random;
  * @author Sara
  * */
 public class FakeClientHandler extends ClientHandler {
+
+    public FakeClientHandler() {
+        super(null);
+    }
+
     /**
      * This method starts the thread and executes all the logic of the client handler
      *

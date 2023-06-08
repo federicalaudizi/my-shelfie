@@ -28,16 +28,12 @@ public class SocketClientHandler extends ClientHandler {
     private final Socket clientSocket;
     private PrintWriter dataOut;
     private BufferedReader dataIn;
-    private final GameSupervisor ongoingGames;
-    private String thisPlayerId;
     private boolean disconnectedPlayer;
-    private boolean gameOver;
 
     public SocketClientHandler(Socket clientSocket, GameSupervisor ongoingGames) {
+        super(ongoingGames);
         this.clientSocket = clientSocket;
-        this.ongoingGames = ongoingGames;
         this.disconnectedPlayer = false;
-        this.gameOver = false;
 
         try {
             // Get the input and output streams of the socket
