@@ -389,7 +389,7 @@ public class GameController implements Runnable {
      *
      * */
     public HashMap<String, ClientHandler> getPlayerToClientHandlerMap(){
-        return playerToClientHandlerMap;
+        return new HashMap<>(playerToClientHandlerMap);
     }
 
     /**
@@ -399,7 +399,7 @@ public class GameController implements Runnable {
      *
      * */
     public HashMap<String, Integer> getConnectedPlayers(){
-        return connectedPlayers;
+        return new HashMap<>(connectedPlayers);
     }
 
     /**
