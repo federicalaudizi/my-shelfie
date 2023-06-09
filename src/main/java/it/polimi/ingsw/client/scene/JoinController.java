@@ -3,9 +3,17 @@ package it.polimi.ingsw.client.scene;
 import it.polimi.ingsw.client.ViewGUI;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 import java.net.URL;
@@ -57,5 +65,37 @@ public class JoinController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleItemClick());
 
+    }
+
+    public void displayError(String message) {
+
+        Stage popupStage = new Stage();
+        popupStage.initStyle(StageStyle.UNDECORATED);
+        Text text = new Text(message);
+        Button tryAgainButton = new Button("Try again");
+        VBox.setMargin(tryAgainButton, new Insets(40, 0, 0, 182)); // Add margin to the button
+        // Create the AnchorPane and add the content nodes
+        VBox layout= new VBox(3);
+        layout.getChildren().addAll(text, tryAgainButton);
+
+        TitledPane errorPopup = new TitledPane();
+        errorPopup.setAnimated(false);
+        errorPopup.setLayoutX(197);
+        errorPopup.setLayoutY(61);
+        errorPopup.setPrefHeight(130);
+        errorPopup.setPrefWidth(280);
+        errorPopup.setText("Error");
+        errorPopup.setContent(layout);
+
+        popupStage.setResizable(false);
+        tryAgainButton.setOnAction(event -> popupStage.hide());
+
+        // Set the TitledPane as the content of the popup Stage
+        StackPane container = new StackPane(errorPopup);
+        Scene popupScene = new Scene(container);
+        popupStage.setScene(popupScene);
+
+        // Show the popup Stage
+        popupStage.showAndWait();
     }
 }

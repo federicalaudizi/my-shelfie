@@ -109,6 +109,9 @@ public class ViewGUI extends View {
         });
     }
 
+    private void showDisconnection(String username){
+        //TODO notify palyers when somebody disconnected
+    }
     /**
      * Sets the common objectives scores in the UI based on the provided game object.
      *
@@ -675,6 +678,8 @@ public class ViewGUI extends View {
                     Platform.runLater(() -> gameController.displayError(errorMessage));
             case "Username is already taken" ->
                     Platform.runLater(() -> nicknameController.displayErrorNick(errorMessage));
+            case "No games to join" ->
+                    Platform.runLater(()->joinController.displayError(errorMessage));
         }
     }
 }
