@@ -188,7 +188,11 @@ public class Game {
      */
     public boolean arePickable(Coordinate c1, Coordinate c2, Coordinate c3){
         try{
-            return board.arePickables(c1, c2, c3);
+            int numOfTiles = 0;
+            if (c1 != null) numOfTiles++;
+            if (c2 != null) numOfTiles++;
+            if (c3 != null) numOfTiles++;
+            return board.arePickables(c1, c2, c3) && players.get(currentPlayerIndex).getShelf().availableSlots() >= numOfTiles;
         } catch (IllegalArgumentException e){
             return false;
         }

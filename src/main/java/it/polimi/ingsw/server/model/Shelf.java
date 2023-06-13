@@ -158,7 +158,7 @@ public class Shelf {
      * @param column number of the column
      * @return number of available slots
      */
-    public int availableSlots(int column){
+    int availableSlots(int column){
         int takenSlots = 0;
 
         for (Tile checkedTile : contents[column]) {
@@ -168,6 +168,19 @@ public class Shelf {
         }
 
         return 6 - takenSlots;
+    }
+
+    /**
+     * Helper method that returns the column with the most empty slots
+     *
+     * @return number of available slots
+     */
+    int availableSlots(){
+        int max = 0;
+        for (int i = 0; i < 5; i++) {
+            if(availableSlots(i) > max) max = i;
+        }
+        return max;
     }
 
     /**
