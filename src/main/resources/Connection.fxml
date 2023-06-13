@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.ConnectionController">
    <ImageView fitHeight="406.0" fitWidth="607.0">
       <Image url="@Images/blurred_Welcome.jpg" />
    </ImageView>
-   <TextField fx:id="ipAddress" layoutX="197.0" layoutY="203.0" prefHeight="25.0" prefWidth="225.0" />
-   <Label layoutX="203.0" layoutY="173.0" text="Enter the server's IP (syntax: ip:port):">
-      <font>
-         <Font size="14.0" />
-      </font>
-   </Label>
+   <TextField fx:id="ipAddress" layoutX="199.0" layoutY="203.0" prefHeight="26.0" prefWidth="209.0" text="127.0.0.1:8000">
+      <opaqueInsets>
+         <Insets />
+      </opaqueInsets></TextField>
    <Button fx:id="ok" layoutX="283.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleMouseClickForIp" text="ok" />
+   <ImageView fitHeight="39.0" fitWidth="393.0" layoutX="113.0" layoutY="155.0">
+      <image>
+         <Image url="@Images/enterServerIp.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

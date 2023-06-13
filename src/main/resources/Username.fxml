@@ -9,48 +9,46 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="it.polimi.ingsw.client.scene.NicknameController">
-   <Text fx:id="errorNick" fill="RED" layoutX="212.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0"
-         text="nickname not available" textAlignment="CENTER" visible="false" wrappingWidth="208.64202880859375">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.NicknameController">
+   <Text fx:id="errorNick" fill="RED" layoutX="212.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nickname not available" textAlignment="CENTER" visible="false" wrappingWidth="208.64202880859375">
       <font>
-         <Font name="Negotiate Free" size="13.0"/>
+         <Font name="Negotiate Free" size="13.0" />
       </font>
    </Text>
-   <Text fx:id="waitingOther" fill="#2a1b75" layoutX="192.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0"
-         text="WAIT: Someone is choosing his nickname..." textAlignment="CENTER" visible="false">
+   <Text fx:id="waitingOther" fill="#2a1b75" layoutX="192.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WAIT: Someone is choosing his nickname..." textAlignment="CENTER" visible="false">
       <font>
-         <Font name="Negotiate Free" size="14.0"/>
+         <Font name="Negotiate Free" size="14.0" />
       </font>
    </Text>
    <ImageView fitHeight="406.0" fitWidth="607.0" layoutY="-6.0">
-      <Image url="@Images/blurred_Welcome.jpg"/>
+      <Image url="@Images/blurred_Welcome.jpg" />
    </ImageView>
-   <TextField fx:id="nicknameText" alignment="CENTER" layoutX="203.0" layoutY="198.0" minWidth="9.0"
-              pickOnBounds="false" prefHeight="35.0" prefWidth="179.0" promptText="type nick here">
+   <TextField fx:id="nicknameText" alignment="CENTER" layoutX="203.0" layoutY="198.0" minWidth="9.0" pickOnBounds="false" prefHeight="35.0" prefWidth="179.0" promptText="type nick here">
       <font>
-         <Font name="System Font" size="18.0"/>
+         <Font name="System Font" size="18.0" />
       </font>
 
       <opaqueInsets>
-         <Insets/>
+         <Insets />
       </opaqueInsets>
       <padding>
-         <Insets bottom="5.0"/>
+         <Insets bottom="5.0" />
       </padding>
    </TextField>
-   <Text fx:id="genericError" fill="RED" layoutX="223.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0"
-         text="An unknown error occured" textAlignment="CENTER" visible="false">
+   <Text fx:id="genericError" fill="RED" layoutX="223.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="An unknown error occured" textAlignment="CENTER" visible="false">
       <font>
-         <Font name="Negotiate Free" size="14.0"/>
+         <Font name="Negotiate Free" size="14.0" />
       </font>
    </Text>
-   <Text fill="#2f2f2f" layoutX="218.0" layoutY="176.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="OUTSIDE"
-         strokeWidth="0.0" style="-fx-font-weight: bold;" text="Insert your nickname:" wrappingWidth="165.046875">
+   <Text fill="#2f2f2f" layoutX="218.0" layoutY="176.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" wrappingWidth="165.046875">
       <font>
-         <Font size="14.0"/>
+         <Font size="14.0" />
       </font>
    </Text>
-   <Button fx:id="okNick" layoutX="278.0" layoutY="259.0" mnemonicParsing="false"
-           onAction="#handleMouseClickForNickname" text="ok"/>
+   <Button fx:id="okNick" layoutX="278.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleMouseClickForNickname" text="ok" />
+   <ImageView fitHeight="49.0" fitWidth="248.0" layoutX="177.0" layoutY="149.0">
+      <image>
+         <Image url="@Images/insertNickname.png" />
+      </image>
+   </ImageView>
 </AnchorPane>
