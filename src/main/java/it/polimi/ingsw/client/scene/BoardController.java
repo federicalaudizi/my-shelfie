@@ -550,7 +550,7 @@ public class BoardController{
             if (objectiveNumber == 1){
                 who.setText("Congratulations! You achieved the first common goal");
             }else {
-                who.setText("Congratulations! You achieved second the common goal");
+                who.setText("Congratulations! You achieved the second common goal");
             }
         }else {
             if (objectiveNumber == 1){
