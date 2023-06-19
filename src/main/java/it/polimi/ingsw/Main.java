@@ -47,7 +47,7 @@ class Main {
                         if ((args[1].equals("--socket") || args[1].equals("-s")) && (args[2].equals("--gui") || args[2].equals("-g")))
                             new ClientSocket(false).start();
                             // Socket and TUI
-                        else if ((args[1].equals("--socket") || args[1].equals("-s")) && (args[2].equals("--tui") || args[2].equals("-t")))
+                        else if ((args[1].equals("--socket") || args[1].equals("-k")) && (args[2].equals("--tui") || args[2].equals("-t")))
                             new ClientSocket(true).start();
                             // RMI and GUI
                         else if ((args[1].equals("--rmi") || args[1].equals("-r")) && (args[2].equals("--gui") || args[2].equals("-g")))
