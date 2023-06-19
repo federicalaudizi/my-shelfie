@@ -44,7 +44,7 @@ class Main {
                             System.out.println("invalid option " + args[1] + "\n" + "To be provided: '--socket/-s' or '--rmi/-r'");
                     } else if (args.length == 3) {
                         // Socket and GUI
-                        if ((args[1].equals("--socket") || args[1].equals("-s")) && (args[2].equals("--gui") || args[2].equals("-g")))
+                        if ((args[1].equals("--socket") || args[1].equals("-k")) && (args[2].equals("--gui") || args[2].equals("-g")))
                             new ClientSocket(false).start();
                             // Socket and TUI
                         else if ((args[1].equals("--socket") || args[1].equals("-k")) && (args[2].equals("--tui") || args[2].equals("-t")))
