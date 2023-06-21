@@ -95,7 +95,6 @@ public class SocketClientHandler extends ClientHandler {
     @Override
     public void sendGameState(Game gameState) {
         send(new Message(GAME_UPDATE, gameState.toJson()));
-        // TODO: Wait for ok?
     }
 
     /**
@@ -114,7 +113,6 @@ public class SocketClientHandler extends ClientHandler {
         body.put(gameState.toJson());
         body.put(objectiveWinner);
         send(new Message(GAME_UPDATE, body));
-        // TODO: Wait for ok?
     }
 
     /**
@@ -266,7 +264,6 @@ public class SocketClientHandler extends ClientHandler {
      * @author Federico
      */
     private void joinGamePhase() throws PlayerDisconnectedException {
-        //TODO: Fix recursion
         Message recievedMessage;
         JSONObject response;
         try {
