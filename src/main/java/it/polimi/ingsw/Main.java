@@ -25,11 +25,7 @@ class Main {
 
         if (args.length == 0){
             // Launch default Configuration
-            System.out.println("No arguments provided, launching both servers on default ports");
-            GameSupervisor gameSupervisor = new GameSupervisor();
-            new Thread(gameSupervisor).start();
-            new Thread(new SocketServer(8000, gameSupervisor)).start();
-            new Thread(new RMIServer(1099, gameSupervisor)).start();
+            new ClientSocket(false).start();
         } else{
             switch (args[0]) {
                 // Client launch
