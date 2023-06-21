@@ -78,6 +78,14 @@ public class GameSupervisor implements Runnable{
                 throw new RuntimeException(e);
             }
 
+            // TODO: check if this is the right way to do it
+            for(String player : playersGames.keySet()){
+                if(playersGames.get(player).equals("TERMINATED")){
+                    playersGames.remove(player);
+                    players.remove(player);
+                }
+            }
+
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String filePath = "gamesaves/"+timeStamp + ".txt";
 
@@ -238,7 +246,8 @@ public class GameSupervisor implements Runnable{
     }
 
     /**
-     * This method ends a game, the game controller should call this method right before it stops its thread
+     * This method ends a game, the game controller should call this method right before it stops its thread.
+     * It deletes the record of the game and sets the association of the players to the game to "TERMINATED" so that it can be later removed at next startup
      *
      * @param gameId the id of the game
      * @author Federico
@@ -248,7 +257,9 @@ public class GameSupervisor implements Runnable{
         for(String playerId : players.keySet()){
             if(playersGames.get(playerId).equals(gameId)) {
                 //Remove player from game
+                //TODO: test if this is the right way to do it
                 playersGames.remove(playerId);
+                playersGames.put(playerId, "TERMINATED");
             }
         }
         //Remove record of the game
