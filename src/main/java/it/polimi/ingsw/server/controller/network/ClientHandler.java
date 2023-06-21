@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
@@ -149,10 +150,23 @@ public abstract class ClientHandler implements Runnable{
      * @return a JSON array containing the leaderboard
      */
     protected JSONArray parseLeaderboard(HashMap<String, Integer> leaderboard){
-        // TODO: Leaderboard has to be sent ordered
         JSONArray leaderboardJson = new JSONArray();
 
-        for(String player : leaderboard.keySet()){
+        ArrayList<String> orderedPlayers = new ArrayList<>();
+
+        while(orderedPlayers.size() < leaderboard.keySet().size()){
+            int max = -2;
+            String maxPlayer = null;
+            for(String player : leaderboard.keySet()){
+                if(!orderedPlayers.contains(player) && leaderboard.get(player) > max){
+                    max = leaderboard.get(player);
+                    maxPlayer = player;
+                }
+            }
+            orderedPlayers.add(maxPlayer);
+        }
+
+        for(String player : orderedPlayers){
             JSONObject playerScore = new JSONObject();
             playerScore.put("username", player);
             playerScore.put("points", leaderboard.get(player));
