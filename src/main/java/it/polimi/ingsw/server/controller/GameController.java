@@ -87,6 +87,7 @@ public class GameController implements Runnable {
     @Override
     public void run() {
         //waiting for all the players to be connected
+        //TODO: bug if player disconnects before the game starts
         waitAllPlayers();
 
         //players added to the map
@@ -226,7 +227,11 @@ public class GameController implements Runnable {
     }
 
     /**
-     * Helper method to update the game state of all players after the game started
+     * Helper method to update the game state of all players
+     *
+     * @param playerWinner the player that won the objective
+     * @param winStatus the status of the objective
+     * @author Federico, Sara
      */
     private void updateAllPlayers(String playerWinner, int winStatus){
         // Send game state to all players after the move
@@ -244,6 +249,8 @@ public class GameController implements Runnable {
     /**
      * Helper method used to make a player play
      *
+     * @param currentPlayerId the player that has to play
+     * @return true if the Konami Code was activated, false otherwise
      * @author Federico
      */
     private boolean playerMakeMove(String currentPlayerId) throws PlayerDisconnectedException {
