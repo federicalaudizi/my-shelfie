@@ -551,7 +551,7 @@ public class ViewGUI extends View {
             throw new RuntimeException(e);
         }
         if (wantsNewGame){
-            Gui.getStage().close();
+            Platform.runLater(() -> Gui.getStage().close());
         }
         return wantsNewGame;
     }
