@@ -197,7 +197,6 @@ public class SocketClientHandler extends ClientHandler {
     @Override
     public void gameOver(HashMap<String, Integer> leaderboard) {
         send(new Message(GAME_OVER, parseLeaderboard(leaderboard)));
-        // TODO: Wait for ok?
         gameOver = true;
         synchronized (clientSocket) {
             clientSocket.notifyAll();
