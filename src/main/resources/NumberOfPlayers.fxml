@@ -30,7 +30,7 @@
       <font>
          <Font name="PT Serif Caption" size="22.0" />
       </font></Button>
-   <Button fx:id="twoPlayers" alignment="CENTER" contentDisplay="CENTER" layoutX="180.0" layoutY="198.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="2" textFill="#8d3800">
+   <Button fx:id="twoPlayers" alignment="CENTER" contentDisplay="CENTER" layoutX="180.0" layoutY="198.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="48.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 7px; -fx-border-color: #b04800; -fx-border-radius: 7px; -fx-border-width: 1.8;" text="2" textFill="#b55418">
       <font>
          <Font name="PT Serif" size="22.0" />
       </font></Button>

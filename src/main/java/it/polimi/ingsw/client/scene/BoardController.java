@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -134,9 +135,7 @@ public class BoardController{
         clickedCells = new boolean[9][9];
 
         for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                clickedCells[i][j] = false;
-            }
+            Arrays.fill(clickedCells[i], false);
         }
 
 
@@ -554,9 +553,9 @@ public class BoardController{
             }
         }else {
             if (objectiveNumber == 1){
-                who.setText("Congratulations! " + username + " achieved the first common goal");
+                who.setText(username + " achieved the first common goal");
             }else{
-                who.setText("Congratulations! " + username + " achieved the second common goal");
+                who.setText(username + " achieved the second common goal");
             }
         }
         commonObj.setVisible(true);
@@ -648,6 +647,11 @@ public class BoardController{
             Platform.exit();
             System.exit(0);
         });
+        try {
+            ViewGUI.queue.put(true);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -657,7 +661,7 @@ public class BoardController{
      */
     public void startNewGame(){
         try {
-            ViewGUI.queue.put(true);
+            ViewGUI.queue.put(false);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

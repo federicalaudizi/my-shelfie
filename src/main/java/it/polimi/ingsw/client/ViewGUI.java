@@ -550,6 +550,9 @@ public class ViewGUI extends View {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        if (wantsNewGame){
+            Gui.getStage().close();
+        }
         return wantsNewGame;
     }
 
