@@ -65,11 +65,11 @@ public class BoardController{
     public Label client4;
     public Label instruction;
     public Button continueButton;
-    public Button column0;
-    public Button column1;
-    public Button column2;
-    public Button column3;
-    public Button column4;
+    public ImageView column0;
+    public ImageView column1;
+    public ImageView column2;
+    public ImageView column3;
+    public ImageView column4;
     private List<String> tiles;
     private List<Tile> temp;
 
