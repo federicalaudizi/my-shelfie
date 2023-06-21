@@ -72,7 +72,7 @@ public class GameSupervisor implements Runnable{
         while(true){
             try {
                 synchronized (this) {
-                    this.wait(60000);
+                    this.wait(5*60000);
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
