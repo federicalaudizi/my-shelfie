@@ -28,7 +28,6 @@ public class ViewGUI extends View {
     private final NumberOfPlayersController numberOfPlayersController;
     private final BoardController gameController;
     public static Parent welcomeRoot;
-    public static Parent networkErrorRoot;
     public static Parent joinRoot;
     public static Parent gameOptionsRoot;
     public static Parent connectRoot;
@@ -564,7 +563,11 @@ public class ViewGUI extends View {
      */
     @Override
     public String getUsername() {
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(nicknameRoot)));
+        Scene currentScene = nicknameRoot.getScene();
+        if (currentScene == null) {
+            Scene scene = new Scene(nicknameRoot);
+            Platform.runLater(() -> Gui.getStage().setScene(scene));
+        }
         String username = null;
         try {
             username = (String) queue.take();
@@ -582,7 +585,11 @@ public class ViewGUI extends View {
      */
     @Override
     int getGameOptions() {
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(gameOptionsRoot)));
+        Scene currentScene = gameOptionsRoot.getScene();
+        if (currentScene == null) {
+            Scene scene = new Scene(gameOptionsRoot);
+            Platform.runLater(() -> Gui.getStage().setScene(scene));
+        }
         int choice;
         try {
             choice = (int) queue.take();
