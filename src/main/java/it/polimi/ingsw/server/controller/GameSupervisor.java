@@ -78,7 +78,6 @@ public class GameSupervisor implements Runnable{
                 throw new RuntimeException(e);
             }
 
-            // TODO: check if this is the right way to do it
             for(String player : playersGames.keySet()){
                 if(playersGames.get(player).equals("TERMINATED")){
                     playersGames.remove(player);
@@ -257,7 +256,6 @@ public class GameSupervisor implements Runnable{
         for(String playerId : players.keySet()){
             if(playersGames.get(playerId).equals(gameId)) {
                 //Remove player from game
-                //TODO: test if this is the right way to do it
                 playersGames.remove(playerId);
                 playersGames.put(playerId, "TERMINATED");
             }

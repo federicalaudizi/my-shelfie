@@ -81,8 +81,6 @@ public class RMIClientHandler extends ClientHandler {
 
         // Exited while before game is over, i must notify the disconnection;
         if (!gameOver) ongoingGames.notifyDisconnection(thisPlayerId);
-
-        // TODO: Game over
     }
 
     /**
@@ -188,7 +186,6 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public int getColumn() throws PlayerDisconnectedException {
-        // TODO: there is a bug, i signal this as not alive while i wait for the column or tile, must be fixed
         if(terminated) throw new PlayerDisconnectedException();
         else suspendHeartbeat = true;
 
@@ -216,7 +213,6 @@ public class RMIClientHandler extends ClientHandler {
         try {
             return parseColumn(columnMessage);
         } catch (WrongHeaderException ignored) {
-            // TODO: This exception should never be thrown
             return 0;
         }
     }
