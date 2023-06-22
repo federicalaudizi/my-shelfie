@@ -18,11 +18,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
-
 import java.io.IOException;
-
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -31,10 +28,6 @@ import java.util.Objects;
 public class ViewGUI extends View {
     Client client;
     private final JoinController joinController;
-    private final NicknameController nicknameController;
-    private final WelcomeController welcomeController;
-    private final ConnectionController connectionController;
-    private final GameOptionsController gameOptionsController;
     private final NumberOfPlayersController numberOfPlayersController;
     private final BoardController gameController;
     public static Parent welcomeRoot;
@@ -75,10 +68,10 @@ public class ViewGUI extends View {
         }
 
         // Get the controllers for each GUI component
-        this.welcomeController = welcomeLoader.getController();
-        this.connectionController = connectLoader.getController();
-        this.nicknameController = nicknameLoader.getController();
-        this.gameOptionsController = gameOptionsLoader.getController();
+        WelcomeController welcomeController = welcomeLoader.getController();
+        ConnectionController connectionController = connectLoader.getController();
+        NicknameController nicknameController = nicknameLoader.getController();
+        GameOptionsController gameOptionsController = gameOptionsLoader.getController();
         this.numberOfPlayersController = numberOfPlayersLoader.getController();
         this.joinController = joinLoader.getController();
         this.gameController = gameLoader.getController();
@@ -149,42 +142,90 @@ public class ViewGUI extends View {
         if (card.getValue() == 0) {
             return;
         } else if (card.getValue() == 8) {
-            stream = "file:src/main/resources/Images/scoring_8.jpg";
-            image = new Image(stream);
-            gameController.scoreFirst1.setImage(image);
+            stream = "/Images/scoring_8.jpg";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.scoreFirst1.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (card.getValue() == 6) {
-            stream = "file:src/main/resources/Images/scoring_6.jpg";
-            image = new Image(stream);
-            gameController.scoreFirst1.setImage(image);
+            stream = "/Images/scoring_6.jpg";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.scoreFirst1.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (card.getValue() == 4) {
-            stream = "file:src/main/resources/Images/scoring_4.jpg";
-            image = new Image(stream);
-            gameController.scoreFirst1.setImage(image);
+            stream = "/Images/scoring_4.jpg";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.scoreFirst1.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
-            stream = "file:src/main/resources/Images/scoring_2.jpg";
-            image = new Image(stream);
-            gameController.scoreFirst1.setImage(image);
+            stream = "/Images/scoring_2.jpg";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.scoreFirst1.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 
         if (card2.getValue() == 0) {
             return;
         } else if (card2.getValue() == 8) {
-            stream = "file:src/main/resources/Images/scoring_8.jpg";
-            image = new Image(stream);
-            gameController.scoreSecond1.setImage(image);
+            stream = "/Images/scoring_8.jpg";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.scoreSecond1.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (card2.getValue() == 6) {
-            stream = "file:src/main/resources/Images/scoring_6.jpg";
-            image = new Image(stream);
-            gameController.scoreSecond1.setImage(image);
+            stream = "/Images/scoring_6.jpg";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.scoreSecond1.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (card2.getValue() == 4) {
-            stream = "file:src/main/resources/Images/scoring_4.jpg";
-            image = new Image(stream);
-            gameController.scoreSecond1.setImage(image);
+            stream = "/Images/scoring_4.jpg";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.scoreSecond1.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
-            stream = "file:src/main/resources/Images/scoring_2.jpg";
-            image = new Image(stream);
-            gameController.scoreSecond1.setImage(image);
+            stream = "/Images/scoring_2.jpg";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.scoreSecond1.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         if (game.getNumberOfPlayers() == 3) {
@@ -195,41 +236,89 @@ public class ViewGUI extends View {
             if (card.getValue() == 0) {
                 return;
             } else if (card.getValue() == 8) {
-                stream = "file:src/main/resources/Images/scoring_8.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst2.setImage(image);
+                stream = "/Images/scoring_8.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst2.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card.getValue() == 6) {
-                stream = "file:src/main/resources/Images/scoring_6.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst2.setImage(image);
+                stream = "/Images/scoring_6.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst2.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card.getValue() == 4) {
-                stream = "file:src/main/resources/Images/scoring_4.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst2.setImage(image);
+                stream = "/Images/scoring_4.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst2.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                stream = "file:src/main/resources/Images/scoring_2.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst2.setImage(image);
+                stream = "/Images/scoring_2.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst2.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
 
             if (card2.getValue() == 0) {
             } else if (card2.getValue() == 8) {
-                stream = "file:src/main/resources/Images/scoring_8.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond2.setImage(image);
+                stream = "/Images/scoring_8.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond2.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card2.getValue() == 6) {
-                stream = "file:src/main/resources/Images/scoring_6.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond2.setImage(image);
+                stream = "/Images/scoring_6.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond2.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card2.getValue() == 4) {
-                stream = "file:src/main/resources/Images/scoring_4.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond2.setImage(image);
+                stream = "/Images/scoring_4.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond2.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                stream = "file:src/main/resources/Images/scoring_2.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond2.setImage(image);
+                stream = "/Images/scoring_2.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond2.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else if (game.getNumberOfPlayers() == 3) {
             pointcards = game.getPlayerByUsername(playerOrder.get(3)).getPointCards();
@@ -239,41 +328,89 @@ public class ViewGUI extends View {
             if (card.getValue() == 0) {
                 return;
             } else if (card.getValue() == 8) {
-                stream = "file:src/main/resources/Images/scoring_8.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst3.setImage(image);
+                stream = "/Images/scoring_8.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst3.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card.getValue() == 6) {
-                stream = "file:src/main/resources/Images/scoring_6.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst3.setImage(image);
+                stream = "/Images/scoring_6.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst3.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card.getValue() == 4) {
-                stream = "file:src/main/resources/Images/scoring_4.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst3.setImage(image);
+                stream = "/Images/scoring_4.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst3.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                stream = "file:src/main/resources/Images/scoring_2.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst3.setImage(image);
+                stream = "/Images/scoring_2.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst3.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
 
             if (card2.getValue() == 0) {
             } else if (card2.getValue() == 8) {
-                stream = "file:src/main/resources/Images/scoring_8.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond3.setImage(image);
+                stream = "/Images/scoring_8.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond3.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card2.getValue() == 6) {
-                stream = "file:src/main/resources/Images/scoring_6.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond3.setImage(image);
+                stream = "/Images/scoring_6.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond3.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card2.getValue() == 4) {
-                stream = "file:src/main/resources/Images/scoring_4.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond3.setImage(image);
+                stream = "/Images/scoring_4.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond3.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                stream = "file:src/main/resources/Images/scoring_2.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond3.setImage(image);
+                stream = "/Images/scoring_2.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond3.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -284,40 +421,88 @@ public class ViewGUI extends View {
         if (i == 1) {
             if (card.getValue() == 0) {
             } else if (card.getValue() == 8) {
-                stream = "file:src/main/resources/Images/scoring_8.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst.setImage(image);
+                stream = "/Images/scoring_8.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card.getValue() == 6) {
-                stream = "file:src/main/resources/Images/scoring_6.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst.setImage(image);
+                stream = "/Images/scoring_6.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card.getValue() == 4) {
-                stream = "file:src/main/resources/Images/scoring_4.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst.setImage(image);
+                stream = "/Images/scoring_4.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                stream = "file:src/main/resources/Images/scoring_2.jpg";
-                image = new Image(stream);
-                gameController.scoreFirst.setImage(image);
+                stream = "/Images/scoring_2.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreFirst.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             if (card.getValue() == 0) {
             } else if (card.getValue() == 8) {
-                stream = "file:src/main/resources/Images/scoring_8.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond.setImage(image);
+                stream = "/Images/scoring_8.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card.getValue() == 6) {
-                stream = "file:src/main/resources/Images/scoring_6.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond.setImage(image);
+                stream = "/Images/scoring_6.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (card.getValue() == 4) {
-                stream = "file:src/main/resources/Images/scoring_4.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond.setImage(image);
+                stream = "/Images/scoring_4.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                stream = "file:src/main/resources/Images/scoring_2.jpg";
-                image = new Image(stream);
-                gameController.scoreSecond.setImage(image);
+                stream = "/Images/scoring_2.jpg";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        image = new Image(inputStream);
+                        gameController.scoreSecond.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -583,7 +768,9 @@ public class ViewGUI extends View {
         if (currentScene == null) {
             Scene scene = new Scene(gameOptionsRoot);
             Platform.runLater(() -> Gui.getStage().setScene(scene));
-        }
+        }else {
+            Platform.runLater(() -> Gui.getStage().setScene(currentScene));
+    }
         int choice;
         try {
             choice = (int) queue.take();
