@@ -682,6 +682,7 @@ public class ViewGUI extends View {
     @Override
     void showError(String errorMessage) {
         switch (errorMessage) {
+            // TODO: The error should be shown independently by its content, switching on the string doesn't seem to be a good solution
             case "You entered a malformed IP:port combo. Retry.", "The host does not exist. Retry.", "Something went wrong.", "Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu." ->
                     Platform.runLater(() -> connectionController.displayError(errorMessage));
             case "The column you chose is not valid", "You entered an invalid number of coordinates. Retry.", "The tiles you chose are not valid" ->
