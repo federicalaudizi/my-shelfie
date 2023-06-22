@@ -6,9 +6,17 @@ import it.polimi.ingsw.server.model.PersonalObjectiveCard;
 import it.polimi.ingsw.server.model.PointCard;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.json.JSONArray;
 
 import java.io.IOException;
@@ -204,7 +212,6 @@ public class ViewGUI extends View {
 
 
             if (card2.getValue() == 0) {
-                return;
             } else if (card2.getValue() == 8) {
                 stream = "file:src/main/resources/Images/scoring_8.jpg";
                 image = new Image(stream);
@@ -249,7 +256,6 @@ public class ViewGUI extends View {
 
 
             if (card2.getValue() == 0) {
-                return;
             } else if (card2.getValue() == 8) {
                 stream = "file:src/main/resources/Images/scoring_8.jpg";
                 image = new Image(stream);
@@ -275,7 +281,6 @@ public class ViewGUI extends View {
         Image image;
         if (i == 1) {
             if (card.getValue() == 0) {
-                return;
             } else if (card.getValue() == 8) {
                 stream = "file:src/main/resources/Images/scoring_8.jpg";
                 image = new Image(stream);
@@ -295,7 +300,6 @@ public class ViewGUI extends View {
             }
         } else {
             if (card.getValue() == 0) {
-                return;
             } else if (card.getValue() == 8) {
                 stream = "file:src/main/resources/Images/scoring_8.jpg";
                 image = new Image(stream);
@@ -647,9 +651,7 @@ public class ViewGUI extends View {
     @Override
     int getColumn() {
         gameController.continueButton.setDisable(true);
-        Platform.runLater(() -> {
-            gameController.instruction.setText("Good choice, now choose the column.");
-        });
+        Platform.runLater(() -> gameController.instruction.setText("Good choice, now choose the column."));
         gameController.ableView();
         int column = 0;
         try {
@@ -681,16 +683,44 @@ public class ViewGUI extends View {
      */
     @Override
     void showError(String errorMessage) {
-        switch (errorMessage) {
-            // TODO: The error should be shown independently by its content, switching on the string doesn't seem to be a good solution
-            case "You entered a malformed IP:port combo. Retry.", "The host does not exist. Retry.", "Something went wrong.", "Network error: you were disconnected from the server. Try selecting the reconnect option in the main menu." ->
-                    Platform.runLater(() -> connectionController.displayError(errorMessage));
-            case "The column you chose is not valid", "You entered an invalid number of coordinates. Retry.", "The tiles you chose are not valid" ->
-                    Platform.runLater(() -> gameController.displayError(errorMessage));
-            case "Username is already taken" ->
-                    Platform.runLater(() -> nicknameController.displayErrorNick(errorMessage));
-            case "No games to join" ->
-                    Platform.runLater(()->joinController.displayError(errorMessage));
-        }
+       Platform.runLater(() -> displayError(errorMessage));
+    }
+
+    /**
+     * Displays an error popup with the given message.
+     * The popup contains a text message and a "Try again" button.
+     * Clicking the "Try again" button hides the popup.
+     *
+     * @param message The error message to be displayed.
+     */
+    public void displayError(String message) {
+        Stage popupStage = new Stage();
+        popupStage.initStyle(StageStyle.UNDECORATED);
+        Text text = new Text(message);
+        Button tryAgainButton = new Button("Try again");
+        VBox.setMargin(tryAgainButton, new Insets(40, 0, 0, 182)); // Add margin to the button
+        // Create the AnchorPane and add the content nodes
+        VBox layout= new VBox(3);
+        layout.getChildren().addAll(text, tryAgainButton);
+
+        TitledPane errorPopup = new TitledPane();
+        errorPopup.setAnimated(false);
+        errorPopup.setLayoutX(197);
+        errorPopup.setLayoutY(61);
+        errorPopup.setPrefHeight(130);
+        errorPopup.setPrefWidth(280);
+        errorPopup.setText("Error");
+        errorPopup.setContent(layout);
+
+        popupStage.setResizable(false);
+        tryAgainButton.setOnAction(event -> popupStage.hide());
+
+        // Set the TitledPane as the content of the popup Stage
+        StackPane container = new StackPane(errorPopup);
+        Scene popupScene = new Scene(container);
+        popupStage.setScene(popupScene);
+
+        // Show the popup Stage
+        popupStage.showAndWait();
     }
 }

@@ -7,22 +7,15 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.image.Image ;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -501,41 +494,6 @@ public class BoardController{
         disableView();
     }
 
-    /**
-     * Displays an error popup with the given error message.
-     *
-     * @param errorMessage The error message to be displayed.
-     */
-    public void displayError(String errorMessage) {
-        Stage popupStage = new Stage();
-        popupStage.initStyle(StageStyle.UNDECORATED);
-        Text text = new Text(errorMessage);
-        Button tryAgainButton = new Button("Try again");
-        VBox.setMargin(tryAgainButton, new Insets(40, 0, 0, 182)); // Add margin to the button
-        // Create the AnchorPane and add the content nodes
-        VBox layout= new VBox(3);
-        layout.getChildren().addAll(text, tryAgainButton);
-
-        TitledPane errorPopup = new TitledPane();
-        errorPopup.setAnimated(false);
-        errorPopup.setLayoutX(197);
-        errorPopup.setLayoutY(61);
-        errorPopup.setPrefHeight(130);
-        errorPopup.setPrefWidth(213);
-        errorPopup.setText("Error");
-        errorPopup.setContent(layout);
-
-        popupStage.setResizable(false);
-        tryAgainButton.setOnAction(event -> popupStage.hide());
-
-        // Set the TitledPane as the content of the popup Stage
-        StackPane container = new StackPane(errorPopup);
-        Scene popupScene = new Scene(container);
-        popupStage.setScene(popupScene);
-
-        // Show the popup Stage
-        popupStage.showAndWait();
-    }
 
     /**
      * Displays an achievement message for a specific user and objective number.
