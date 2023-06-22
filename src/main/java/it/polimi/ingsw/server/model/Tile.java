@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import java.io.InputStream;
+
 /**
  * This class describes the tiles in the game.
  * Every game contains 132 cards, divided equally in 6 groups.
@@ -75,16 +77,15 @@ public enum Tile {
         return symbol;
     }
 
-    public String getPath() {
-        String path = switch (this.type) {
-            case "Cats" -> "file:src/main/resources/Images/Gatti1.1.png";
-            case "Games" -> "file:src/main/resources/Images/Giochi1.1.png";
-            case "Books" -> "file:src/main/resources/Images/Libri1.1.png";
-            case "Frames" -> "file:src/main/resources/Images/Cornici1.1.png";
-            case "Trophies" -> "file:src/main/resources/Images/Trofei1.1.png";
-            case "Plants" -> "file:src/main/resources/Images/Piante1.1.png";
+    public InputStream getPath() {
+        return switch (this.type) {
+            case "Cats" -> getClass().getResourceAsStream("/Images/Gatti1.1.png");
+            case "Games" -> getClass().getResourceAsStream("/Images/Giochi1.1.png");
+            case "Books" -> getClass().getResourceAsStream("/Images/Libri1.1.png");
+            case "Frames" -> getClass().getResourceAsStream("/Images/Cornici1.1.png");
+            case "Trophies" -> getClass().getResourceAsStream("/Images/Trofei1.1.png");
+            case "Plants" -> getClass().getResourceAsStream("/Images/Piante1.1.png");
             default -> null;
         };
-        return path;
     }
 }

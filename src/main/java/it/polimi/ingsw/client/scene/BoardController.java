@@ -20,6 +20,7 @@ import javafx.stage.WindowEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -317,7 +318,7 @@ public class BoardController{
             }
 
             if (firstEmptyTileIndex != -1) {
-                String imagePath = game.getBoard().getTile(row, col).getPath();
+                InputStream imagePath = game.getBoard().getTile(row, col).getPath();
                 // Inserisci l'imageView nel primo posto libero
                 switch (firstEmptyTileIndex) {
                     case 1 -> tile3.setImage(new Image(imagePath));
