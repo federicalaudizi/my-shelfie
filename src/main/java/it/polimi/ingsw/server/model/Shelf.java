@@ -191,68 +191,57 @@ public class Shelf {
      * @return amount of points that the clusters are worth
      */
     int getTileClusterPoints(){
-        //TODO: its possible that this method has errors
         int points = 0;
         boolean[][] exploredSlots = new boolean[5][6];
+        int rows = 6;
+        int cols = 5;
 
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 6; j++) {
-                if(!exploredSlots[i][j] && contents[i][j] != Tile.EMPTY){
-                    int count = 1;
-                    int curColumn = i;
-                    int curRow = j;
-
-                    //Explore upwards
-                    if(curRow<4) {
-                        while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 4) {
-                            count++;
-                            curRow++;
-                            exploredSlots[curColumn][curRow] = true;
-
-                            //Explore to the right
-                            if(curColumn < 3) {
-                                while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 2) {
-                                    count++;
-                                    curColumn++;
-                                    exploredSlots[curColumn][curRow] = true;
-                                }
-                            }
-                            curColumn = i;
-                        }
-                    }
-
-                    curRow = j;
-
-                    //Explore to the right
-                    if(curColumn < 3) {
-                        while (contents[curColumn + 1][curRow] == contents[curColumn][curRow] && !exploredSlots[curColumn + 1][curRow] && curColumn < 2) {
-                            count++;
-                            curColumn++;
-                            exploredSlots[curColumn][curRow] = true;
-
-                            //Explore upwards
-                            if (curRow < 4) {
-                                while (contents[curColumn][curRow + 1] == contents[curColumn][curRow] && !exploredSlots[curColumn][curRow + 1] && curRow < 4) {
-                                    count++;
-                                    curRow++;
-                                    exploredSlots[curColumn][curRow] = true;
-                                }
-                            }
-                            curRow = j;
-                        }
-                    }
-
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
+                if (!exploredSlots[i][j] && contents[i][j] != Tile.EMPTY) {
+                    int clusterSize = exploreCluster(exploredSlots, i, j, contents[i][j], 0);
                     //Assign points
-                    if(count == 3) points += 2;
-                    else if(count == 4) points += 3;
-                    else if(count == 5) points += 5;
-                    else if(count >= 6) points += 8;
+                    if(clusterSize == 3) points += 2;
+                    else if(clusterSize == 4) points += 3;
+                    else if(clusterSize == 5) points += 5;
+                    else if(clusterSize >= 6) points += 8;
                 }
             }
+        }
+        return points;
+    }
 
+    /**
+     * Helper method that recorsively explores the cluster of tiles
+     *
+     * @param exploredSlots the grid with already explored slots
+     * @param row current row
+     * @param col current column
+     * @param toExplore the tile i'm looking for
+     * @param size the previous size of the cluster
+     * @return the size of the cluster
+     */
+    private int exploreCluster(boolean[][] exploredSlots, int row, int col, Tile toExplore, int size) {
+        int rows = 6;
+        int cols = 5;
+
+        if (row < 0 || row >= rows || col < 0 || col >= cols) {
+            return size;
         }
 
-        return points;
+        if (exploredSlots[col][row] || contents[col][row] != toExplore) {
+            return size;
+        }
+
+        exploredSlots[col][row] = true;
+        size++;
+
+        size = exploreCluster(exploredSlots, row - 1, col, toExplore, size); // Explore top cell
+        size = exploreCluster(exploredSlots, row + 1, col, toExplore, size); // Explore bottom cell
+        size = exploreCluster(exploredSlots, row, col - 1, toExplore, size); // Explore left cell
+        size = exploreCluster(exploredSlots, row, col + 1, toExplore, size); // Explore right cell
+
+        return size;
     }
 
     /**
@@ -320,6 +309,26 @@ public class Shelf {
             for (int i = 0; i < 5; i++) {
                 result.append(contents[i][j].getSymbol());
             }
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Method that generates a string that represents the shelf
+     *
+     * @author Federico,Sara
+     *
+     * @return the shelf formatted as a viewable string
+     */
+    public String prettyString() {
+        StringBuilder result = new StringBuilder();
+
+        for (int j = 5; j >= 0; j--) {
+            for (int i = 0; i < 5; i++) {
+                result.append(contents[i][j].getSymbol()).append(" ");
+            }
+            result.append("\n");
         }
 
         return result.toString();

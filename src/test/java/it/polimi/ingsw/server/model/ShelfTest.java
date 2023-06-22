@@ -77,9 +77,19 @@ public class ShelfTest extends TestCase {
         testingPoints = testingShelf.getTileClusterPoints();
         assertEquals(2, testingPoints);
 
-        testingShelf.addTiles(2, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(1, new Tile[]{Tile.CATS});
         testingPoints = testingShelf.getTileClusterPoints();
-        assertEquals(4, testingPoints);
+        assertEquals(3, testingPoints);
+
+        testingShelf.addTiles(2, new Tile[]{Tile.PLANTS, Tile.PLANTS, Tile.PLANTS});
+        testingPoints = testingShelf.getTileClusterPoints();
+        assertEquals(5, testingPoints);
+
+        testingShelf.addTiles(0, new Tile[]{Tile.PLANTS, Tile.PLANTS, Tile.PLANTS});
+        testingShelf.addTiles(1, new Tile[]{Tile.PLANTS, Tile.PLANTS, Tile.PLANTS});
+        System.out.println(testingShelf.prettyString());
+        testingPoints = testingShelf.getTileClusterPoints();
+        assertEquals(11, testingPoints);
     }
 
     public void testTestToString() throws Exception{
