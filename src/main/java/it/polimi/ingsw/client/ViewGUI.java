@@ -21,6 +21,8 @@ import org.json.JSONArray;
 
 import java.io.IOException;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -326,58 +328,46 @@ public class ViewGUI extends View {
      * @param game The current game instance.
      */
     public void setPersonalObjectiveCard(Game game) {
-        String stream;
+        String stream = null;
         Image image;
         PersonalObjectiveCard card = game.getPlayerByUsername(client.getUsername()).getObjective();
         if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FIRST_PATTERN) {
-            stream = "file:src/main/resources/Images/one_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/one_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SECOND_PATTERN) {
-            stream = "file:src/main/resources/Images/two_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/two_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.THIRD_PATTERN) {
-            stream = "file:src/main/resources/Images/three_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/three_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FOURTH_PATTERN) {
-            stream = "file:src/main/resources/Images/four_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/four_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.FIFTH_PATTERN) {
-            stream = "file:src/main/resources/Images/five_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/five_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SIXTH_PATTERN) {
-            stream = "file:src/main/resources/Images/six_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/six_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.SEVENTH_PATTERN) {
-            stream = "file:src/main/resources/Images/seven_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/seven_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.EIGHTH_PATTERN) {
-            stream = "file:src/main/resources/Images/eight_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/eight_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.NINTH_PATTERN) {
-            stream = "file:src/main/resources/Images/nine_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/nine_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.TENTH_PATTERN) {
-            stream = "file:src/main/resources/Images/ten_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/ten_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.ELEVENTH_PATTERN) {
-            stream = "file:src/main/resources/Images/eleven_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/eleven_po.png";
         } else if (card.getPattern() == PersonalObjectiveCard.PersonalObjectivePattern.TWELFTH_PATTERN) {
-            stream = "file:src/main/resources/Images/twelve_po.png";
-            image = new Image(stream);
-            gameController.personalCard.setImage(image);
+            stream = "/Images/twelve_po.png";
         }
+
+        if (stream != null) {
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    gameController.personalCard.setImage(image);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**
@@ -386,106 +376,106 @@ public class ViewGUI extends View {
      * @param game The Game object representing the current game.
      */
     public void setCommonObjectivesCards(Game game) {
-        String stream;
+        InputStream stream;
         Image image;
 
         String[] string = game.getObjectives();
         if (Objects.equals(string[0], "PatternOne")) {
-            stream = "file:src/main/resources/Images/one.jpg";
+            stream = getClass().getResourceAsStream("/Images/one.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternTwo")) {
-            stream = "file:src/main/resources/Images/two.jpg";
+            stream = getClass().getResourceAsStream("/Images/two.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternThree")) {
-            stream = "file:src/main/resources/Images/three.jpg";
+            stream = getClass().getResourceAsStream("/Images/three.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternFour")) {
-            stream = "file:src/main/resources/Images/four.jpg";
+            stream = getClass().getResourceAsStream("/Images/four.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternFive")) {
-            stream = "file:src/main/resources/Images/five.jpg";
+            stream = getClass().getResourceAsStream("/Images/five.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternSix")) {
-            stream = "file:src/main/resources/Images/six.jpg";
+            stream = getClass().getResourceAsStream("/Images/six.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternSeven")) {
-            stream = "file:src/main/resources/Images/seven.jpg";
+            stream = getClass().getResourceAsStream("/Images/seven.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternEight")) {
-            stream = "file:src/main/resources/Images/eight.jpg";
+            stream = getClass().getResourceAsStream("/Images/eight.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternNine")) {
-            stream = "file:src/main/resources/Images/nine.jpg";
+            stream = getClass().getResourceAsStream("/Images/nine.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternTen")) {
-            stream = "file:src/main/resources/Images/ten.jpg";
+            stream = getClass().getResourceAsStream("/Images/ten.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternEleven")) {
-            stream = "file:src/main/resources/Images/eleven.jpg";
+            stream = getClass().getResourceAsStream("/Images/eleven.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternTwelve")) {
-            stream = "file:src/main/resources/Images/twelve.jpg";
+            stream = getClass().getResourceAsStream("/Images/twelve.jpg");
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         }
 
         if (Objects.equals(string[1], "PatternOne")) {
-            stream = "file:src/main/resources/Images/one.jpg";
+            stream = getClass().getResourceAsStream("/Images/one.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternTwo")) {
-            stream = "file:src/main/resources/Images/two.jpg";
+            stream = getClass().getResourceAsStream("/Images/two.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternThree")) {
-            stream = "file:src/main/resources/Images/three.jpg";
+            stream = getClass().getResourceAsStream("/Images/three.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternFour")) {
-            stream = "file:src/main/resources/Images/four.jpg";
+            stream = getClass().getResourceAsStream("/Images/four.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternFive")) {
-            stream = "file:src/main/resources/Images/five.jpg";
+            stream = getClass().getResourceAsStream("/Images/five.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternSix")) {
-            stream = "file:src/main/resources/Images/six.jpg";
+            stream = getClass().getResourceAsStream("/Images/six.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternSeven")) {
-            stream = "file:src/main/resources/Images/seven.jpg";
+            stream = getClass().getResourceAsStream("/Images/seven.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternEight")) {
-            stream = "file:src/main/resources/Images/eight.jpg";
+            stream = getClass().getResourceAsStream("/Images/eight.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternNine")) {
-            stream = "file:src/main/resources/Images/nine.jpg";
+            stream = getClass().getResourceAsStream("/Images/nine.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternTen")) {
-            stream = "file:src/main/resources/Images/ten.jpg";
+            stream = getClass().getResourceAsStream("/Images/ten.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternEleven")) {
-            stream = "file:src/main/resources/Images/eleven.jpg";
+            stream = getClass().getResourceAsStream("/Images/eleven.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternTwelve")) {
-            stream = "file:src/main/resources/Images/twelve.jpg";
+            stream = getClass().getResourceAsStream("/Images/twelve.jpg");
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         }
