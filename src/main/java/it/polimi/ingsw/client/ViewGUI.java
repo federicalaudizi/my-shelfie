@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -111,9 +112,10 @@ public class ViewGUI extends View {
         });
     }
 
-    private void showDisconnection(String username){
+    private void showDisconnection(String username) {
         //TODO notify palyers when somebody disconnected
     }
+
     /**
      * Sets the common objectives scores in the UI based on the provided game object.
      *
@@ -728,7 +730,7 @@ public class ViewGUI extends View {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if (wantsNewGame){
+        if (wantsNewGame) {
             Platform.runLater(() -> Gui.getStage().close());
         }
         return wantsNewGame;
@@ -768,9 +770,9 @@ public class ViewGUI extends View {
         if (currentScene == null) {
             Scene scene = new Scene(gameOptionsRoot);
             Platform.runLater(() -> Gui.getStage().setScene(scene));
-        }else {
+        } else {
             Platform.runLater(() -> Gui.getStage().setScene(currentScene));
-    }
+        }
         int choice;
         try {
             choice = (int) queue.take();
@@ -860,7 +862,7 @@ public class ViewGUI extends View {
      */
     @Override
     void showError(String errorMessage) {
-       Platform.runLater(() -> displayError(errorMessage));
+        Platform.runLater(() -> displayError(errorMessage));
     }
 
     /**
@@ -877,7 +879,7 @@ public class ViewGUI extends View {
         Button tryAgainButton = new Button("Try again");
         VBox.setMargin(tryAgainButton, new Insets(40, 0, 0, 182)); // Add margin to the button
         // Create the AnchorPane and add the content nodes
-        VBox layout= new VBox(3);
+        VBox layout = new VBox(3);
         layout.getChildren().addAll(text, tryAgainButton);
 
         TitledPane errorPopup = new TitledPane();

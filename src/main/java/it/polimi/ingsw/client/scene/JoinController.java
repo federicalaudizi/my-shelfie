@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,7 +17,10 @@ public class JoinController implements Initializable {
     @FXML
     public ListView<String> listView;
     public Button button;
+    @FXML
     public ProgressIndicator progress;
+    @FXML
+    public Text progressText;
 
     /***
      * ListView initializer
@@ -37,13 +41,15 @@ public class JoinController implements Initializable {
     public void handleItemClick() {
         String selectedItem = listView.getSelectionModel().getSelectedItem();
         button.setVisible(true);
+
         button.setOnAction(event -> {
+            progress.setVisible(true);
+            progressText.setVisible(true);
             try {
                 ViewGUI.queue.put(selectedItem);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            progress.setVisible(true);
         });
     }
 

@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.scene;
 import it.polimi.ingsw.client.ViewGUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.text.Text;
 
@@ -28,7 +27,6 @@ public class NumberOfPlayersController {
             text.setVisible(true);
             try {
                 ViewGUI.queue.put(2);
-
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
