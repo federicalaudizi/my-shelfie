@@ -28,5 +28,5 @@
             <Glow />
         </effect>
     </ProgressIndicator>
-    <Text fx:id="progressText" fill="#8c3300" layoutX="201.0" layoutY="331.0" stroke="#722800" strokeType="OUTSIDE" strokeWidth="0.4" text="Waiting for other players to connect" textAlignment="CENTER" />
+    <Text fx:id="progressText" fill="#8c3300" layoutX="201.0" layoutY="331.0" stroke="#722800" strokeType="OUTSIDE" strokeWidth="0.4" text="Waiting for other players to connect" textAlignment="CENTER" visible="false" />
 </AnchorPane>
