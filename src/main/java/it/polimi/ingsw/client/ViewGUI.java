@@ -732,6 +732,8 @@ public class ViewGUI extends View {
         }
         if (wantsNewGame) {
             Platform.runLater(() -> Gui.getStage().close());
+        } else {
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(connectRoot)));
         }
         return wantsNewGame;
     }
