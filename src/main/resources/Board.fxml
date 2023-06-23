@@ -195,17 +195,17 @@
         <ImageView fx:id="shelfImage4" fitHeight="124.0" fitWidth="107.0" layoutX="345.0" layoutY="476.0">
             <Image url="@Images/bookshelf.png" />
         </ImageView>
-        <Label fx:id="client2" layoutX="71.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client2" layoutX="64.0" layoutY="605.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="client3" layoutX="223.0" layoutY="609.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client3" layoutX="211.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="client4" layoutX="362.0" layoutY="609.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client4" layoutX="347.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -275,19 +275,19 @@
         <ImageView fitHeight="249.0" fitWidth="231.0" layoutX="670.0" layoutY="36.0">
             <Image url="@Images/bookshelf.png" />
         </ImageView>
-        <ImageView id="column0" fx:id="column0" fitHeight="34.0" fitWidth="32.0" layoutX="690.0" layoutY="-2.0" onMouseClicked="#insertInColumn0" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="column0" fx:id="column0" fitHeight="34.0" fitWidth="32.0" layoutX="692.0" layoutY="-2.0" onMouseClicked="#insertInColumn0" pickOnBounds="true" preserveRatio="true">
             <Image url="@Images/arrow.png" />
         </ImageView>
-        <ImageView fx:id="column1" fitHeight="33.0" fitWidth="32.0" layoutX="730.0" layoutY="-2.0" onMouseClicked="#insertInColumn1" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="column1" fitHeight="33.0" fitWidth="32.0" layoutX="732.0" layoutY="-2.0" onMouseClicked="#insertInColumn1" pickOnBounds="true" preserveRatio="true">
             <Image url="@Images/arrow.png" />
         </ImageView>
         <ImageView fx:id="column2" fitHeight="33.0" fitWidth="32.0" layoutX="770.0" layoutY="-2.0" onMouseClicked="#insertInColumn2" pickOnBounds="true" preserveRatio="true">
             <Image url="@Images/arrow.png" />
         </ImageView>
-        <ImageView fx:id="column3" fitHeight="33.0" fitWidth="32.0" layoutX="810.0" layoutY="-2.0" onMouseClicked="#insertInColumn3" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="column3" fitHeight="33.0" fitWidth="32.0" layoutX="808.0" layoutY="-2.0" onMouseClicked="#insertInColumn3" pickOnBounds="true" preserveRatio="true">
             <Image url="@Images/arrow.png" />
         </ImageView>
-        <ImageView fx:id="column4" fitHeight="33.0" fitWidth="32.0" layoutX="842.0" layoutY="-2.0" onMouseClicked="#insertInColumn4" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="column4" fitHeight="33.0" fitWidth="32.0" layoutX="845.0" layoutY="-2.0" onMouseClicked="#insertInColumn4" pickOnBounds="true" preserveRatio="true">
             <Image url="@Images/arrow.png" />
         </ImageView>
         <GridPane fx:id="shelfGrid2" layoutX="74.0" layoutY="483.0" prefHeight="99.0" prefWidth="82.0">
