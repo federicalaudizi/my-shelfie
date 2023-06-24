@@ -169,6 +169,10 @@ public class BoardController{
         }
     }
 
+    /**
+     * Resets the clickedCells array to false and restores the opacity of all ImageViews in the boardPane.
+     * This method is typically used to reset the state of the game board.
+     */
     public void resetFalse(){
         for (int i = 0; i < 9; i++) {
             Arrays.fill(clickedCells[i], false);
