@@ -169,6 +169,17 @@ public class BoardController{
         }
     }
 
+    public void resetFalse(){
+        for (int i = 0; i < 9; i++) {
+            Arrays.fill(clickedCells[i], false);
+        }
+        for (Node node : boardPane.getChildren()) {
+            if (node instanceof ImageView imageView) {
+                imageView.setOpacity(1);
+            }
+        }
+    }
+
     /**
      * Initializes the client's shelf in the game by updating the ImageView nodes in the shelfGrid
      * with the corresponding tiles from the client's shelf.
@@ -307,7 +318,6 @@ public class BoardController{
         boolean isCellClicked = clickedCells[row][col];
 
         if (!isCellClicked && imageView.getImage() != null) {
-            // Cerca il primo posto libero tra tile1, tile2 e tile3
             int firstEmptyTileIndex = -1;
             if (tile3.getImage() == null) {
                 firstEmptyTileIndex = 1;
@@ -319,23 +329,25 @@ public class BoardController{
 
             if (firstEmptyTileIndex != -1) {
                 InputStream imagePath = game.getBoard().getTile(row, col).getPath();
-                // Inserisci l'imageView nel primo posto libero
                 switch (firstEmptyTileIndex) {
                     case 1 -> tile3.setImage(new Image(imagePath));
                     case 2 -> tile2.setImage(new Image(imagePath));
                     case 3 -> tile1.setImage(new Image(imagePath));
                 }
-
-                imageView.setOpacity(0.5);
-                clickedCells[row][col] = true;
-                tiles.add("(" + row + "," + col + ")");
-                temp.add(game.getBoard().getTile(row,col));
+                if(!clickedCells[row][col]){
+                    imageView.setOpacity(0.5);
+                    clickedCells[row][col] = true;
+                    tiles.add("(" + row + "," + col + ")");
+                    temp.add(game.getBoard().getTile(row,col));
+                }
             }
         } else {
-            imageView.setOpacity(1);
-            clickedCells[row][col] = false;
-            tiles.remove("(" + row + "," + col + ")");
-            temp.remove(game.getBoard().getTile(row,col));
+            if(clickedCells[row][col]){
+                imageView.setOpacity(1);
+                clickedCells[row][col] = false;
+                tiles.remove("(" + row + "," + col + ")");
+                temp.remove(game.getBoard().getTile(row,col));
+            }
 
             int s = temp.size();
             if(s >= 3){
@@ -360,8 +372,6 @@ public class BoardController{
         updateContinueButtonVisibility();
     }
 
-
-
     /**
      * Method used to set the tiles in the correct format and give them to the manager thread
      */
@@ -374,6 +384,10 @@ public class BoardController{
             ex.printStackTrace();
         }
         tiles.clear();
+        temp.clear();
+        tile1.setImage(null);
+        tile2.setImage(null);
+        tile3.setImage(null);
     }
 
     /**

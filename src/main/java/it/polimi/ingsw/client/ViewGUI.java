@@ -569,100 +569,124 @@ public class ViewGUI extends View {
         String[] string = game.getObjectives();
         if (Objects.equals(string[0], "PatternOne")) {
             stream = getClass().getResourceAsStream("/Images/one.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternTwo")) {
             stream = getClass().getResourceAsStream("/Images/two.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternThree")) {
             stream = getClass().getResourceAsStream("/Images/three.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternFour")) {
             stream = getClass().getResourceAsStream("/Images/four.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternFive")) {
             stream = getClass().getResourceAsStream("/Images/five.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternSix")) {
             stream = getClass().getResourceAsStream("/Images/six.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternSeven")) {
             stream = getClass().getResourceAsStream("/Images/seven.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternEight")) {
             stream = getClass().getResourceAsStream("/Images/eight.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternNine")) {
             stream = getClass().getResourceAsStream("/Images/nine.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternTen")) {
             stream = getClass().getResourceAsStream("/Images/ten.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternEleven")) {
             stream = getClass().getResourceAsStream("/Images/eleven.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         } else if (Objects.equals(string[0], "PatternTwelve")) {
             stream = getClass().getResourceAsStream("/Images/twelve.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard1.setImage(image);
         }
 
         if (Objects.equals(string[1], "PatternOne")) {
             stream = getClass().getResourceAsStream("/Images/one.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternTwo")) {
             stream = getClass().getResourceAsStream("/Images/two.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternThree")) {
             stream = getClass().getResourceAsStream("/Images/three.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternFour")) {
             stream = getClass().getResourceAsStream("/Images/four.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternFive")) {
             stream = getClass().getResourceAsStream("/Images/five.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternSix")) {
             stream = getClass().getResourceAsStream("/Images/six.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternSeven")) {
             stream = getClass().getResourceAsStream("/Images/seven.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternEight")) {
             stream = getClass().getResourceAsStream("/Images/eight.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternNine")) {
             stream = getClass().getResourceAsStream("/Images/nine.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternTen")) {
             stream = getClass().getResourceAsStream("/Images/ten.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternEleven")) {
             stream = getClass().getResourceAsStream("/Images/eleven.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         } else if (Objects.equals(string[1], "PatternTwelve")) {
             stream = getClass().getResourceAsStream("/Images/twelve.jpg");
+            assert stream != null;
             image = new Image(stream);
             gameController.commonCard2.setImage(image);
         }
@@ -809,10 +833,10 @@ public class ViewGUI extends View {
      */
     @Override
     String getTiles() {
+        gameController.resetFalse();
         gameController.boardPane.setDisable(false);
         gameController.continueButton.setDisable(false);
         Platform.runLater(() -> gameController.instruction.setText("Choose the tiles, then press continue."));
-        gameController.boardPane.setDisable(false);
         String r = null;
         try {
             r = (String) queue.take();
