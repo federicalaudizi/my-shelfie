@@ -7,6 +7,8 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -271,6 +273,8 @@ public class BoardController{
                         }
                         image = new Image(game.getPlayerByUsername(playerOrder.get(3)).getShelf().getTile(i, j).getPath());
                         imageView.setImage(image);
+                        GridPane.setHalignment(imageView, HPos.CENTER);
+                        GridPane.setValignment(imageView, VPos.CENTER);
                     }
                 }
             }
@@ -304,6 +308,8 @@ public class BoardController{
                 }
                 image = new Image(game.getPlayerByUsername(playerOrder.get(2)).getShelf().getTile(i, j).getPath());
                 imageView.setImage(image);
+                GridPane.setHalignment(imageView, HPos.CENTER);
+                GridPane.setValignment(imageView, VPos.CENTER);
             }
         }
     }
@@ -366,7 +372,7 @@ public class BoardController{
                 tile3.setImage(new Image(temp.get(0).getPath()));
                 tile2.setImage(null);
                 tile1.setImage(null);
-            }else if(s == 0){
+            }else {
                 tile3.setImage(null);
                 tile2.setImage(null);
                 tile1.setImage(null);
@@ -411,7 +417,7 @@ public class BoardController{
 
     /**
      * Disables and hides the columns in the view.
-     * This method sets the disable and visible properties of each column in the view to false.
+     * This method sets disable and visible properties of each column in the view to false.
      */
     public void disableView(){
         column0.setDisable(true);
@@ -428,7 +434,7 @@ public class BoardController{
 
     /**
      * Enables and shows the columns in the view.
-     * This method sets the disable and visible properties of each column in the view to true.
+     * This method sets disable and visible properties of each column in the view to true.
      */
     public void ableView(){
         column0.setDisable(false);
