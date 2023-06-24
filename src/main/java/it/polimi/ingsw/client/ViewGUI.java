@@ -844,6 +844,7 @@ public class ViewGUI extends View {
             e.printStackTrace();
         }
         gameController.disableView();
+        gameController.continueButton.setVisible(false);
         gameController.boardPane.setDisable(true);
         return r;
     }
