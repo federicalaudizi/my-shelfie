@@ -68,6 +68,10 @@ public class ClientRMI extends Client {
                     } else if(headerCode == PLAYER_TERMINATED.getCode()) {
                         view.showError(reply.getBody().getJSONObject(0).getString("message"));
                         exit = view.continueScreen();
+                        //TODO: here i should exit the game
+                    } else if(headerCode == PLAYER_DISCONNECTED.getCode()) {
+                        // TODO: Maybe handle this differently
+                        view.showError(reply.getBody().getJSONObject(0).getString("username") + " disconnected from the game.");
                     }
                 }
             } catch (RemoteException e) {
