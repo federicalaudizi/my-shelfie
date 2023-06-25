@@ -61,10 +61,13 @@ public class ClientRMI extends Client {
                         exit = view.continueScreen();
                     } else if(headerCode == PING.getCode()) {
                         try {
-                            Thread.sleep(3000);
+                            Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
+                    } else if(headerCode == PLAYER_TERMINATED.getCode()) {
+                        view.showError(reply.getBody().getJSONObject(0).getString("message"));
+                        exit = view.continueScreen();
                     }
                 }
             } catch (RemoteException e) {

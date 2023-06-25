@@ -279,7 +279,9 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     Message ping(){
-        System.out.println(thisPlayerId + ": retrieved ping message");
+        if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
+
+        //System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
             isAlive = true;
             heartbeatLock.notifyAll();
@@ -296,6 +298,7 @@ public class RMIClientHandler extends ClientHandler {
 
     // This is crazy, but it's the only way I can think of to make the client wait for the response
     Message submitTiles(Message tiles){
+        if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
         System.out.println(thisPlayerId + ": posted tiles message");
         // Notifying the gameController that the tiles arrived
         synchronized (tilesLock) {
@@ -320,6 +323,7 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     Message submitColumn(Message column){
+        if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
         // Notifying the gameController that the column arrived
         System.out.println(thisPlayerId + ": posted column message");
         synchronized (columnLock) {
