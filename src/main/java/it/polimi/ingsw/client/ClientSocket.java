@@ -73,6 +73,9 @@ public class ClientSocket extends Client {
                         gameOver(reply.getBody());
                         cleanUp();
                         exit = view.continueScreen();
+                    } else if(headerCode == PLAYER_DISCONNECTED.getCode()){
+                        // TODO: Maybe handle this differently
+                        view.showError(reply.getBody().getJSONObject(0).getString("username") + " disconnected from the game.");
                     }
                 }
             } catch (IOException e) {

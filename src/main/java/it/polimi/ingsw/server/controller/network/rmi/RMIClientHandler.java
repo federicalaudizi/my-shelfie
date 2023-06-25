@@ -130,6 +130,19 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     /**
+     * This method signal the client that a player disconnected
+     *
+     * @param disconnectedPlayer the player that disconnected
+     */
+    @Override
+    public void sendDisconnectedPlayer(String disconnectedPlayer) {
+        try {
+            sendPing(new Message(PLAYER_DISCONNECTED, new JSONObject().put("username", disconnectedPlayer)));
+        } catch (PlayerDisconnectedException ignored) {
+        }
+    }
+
+    /**
      * This method asks the client to select a set of tiles
      *
      * @return an array of tiles
@@ -279,6 +292,7 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     Message ping(){
+        //TODO: There is a bug, sometimes the client gets terminated at gameover
         if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
 
         //System.out.println(thisPlayerId + ": retrieved ping message");

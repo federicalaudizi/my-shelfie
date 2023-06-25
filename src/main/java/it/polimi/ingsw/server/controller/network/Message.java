@@ -78,8 +78,6 @@ public class Message implements Serializable {
     public enum Header {
         /** Ping message */
         PING(101),
-        /** Sent by the server when a player disconnects, the argument should be the player id */
-        PLAYER_DISCONNECTED(102),
 
         /** Sent by the server when the game ends, the argument should be the leaderboard */
         GAME_OVER(121),
@@ -134,7 +132,9 @@ public class Message implements Serializable {
         /** Sent by the server when a user tries to reconnect but had never logged in before */
         PLAYER_NOT_FOUND(424),
         /** Sent by the rmi server when the player connection was terminated */
-        PLAYER_TERMINATED(425);
+        PLAYER_TERMINATED(425),
+        /** Sent by the server when a player disconnects, the argument should be the player id */
+        PLAYER_DISCONNECTED(426);
 
         private final int code;
 

@@ -16,7 +16,6 @@ public class Board {
     private final Tile[][] board;
     private final Bag bag = new Bag();
 
-    // TODO This constructor must be removed once the test phase is over
     Board() {
         board = new Tile[MAX_X][MAX_Y];
         nonPlayableTileInit(2);

@@ -92,7 +92,6 @@ public class BoardTest {
             System.out.println("Second move:\n" + board);
             board.pickTile(new Coordinate(1, 3), null, null);
             System.out.println("Third move:\n" + board);
-            // TODO Add testing for limit cases
         } catch (TileUnpickableException e) {
             fail();
         }

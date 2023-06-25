@@ -53,14 +53,19 @@ public abstract class ClientHandler implements Runnable{
      */
     public abstract void sendGameState(Game gameState, String player, int gainedObjective);
 
-    //TODO: Implement method to warn users that a player has disconnected
-
     /**
      * This method signals the client that a response was accepted
      *
      * @author Federico
      */
     public abstract void sendOk();
+
+    /**
+     * This method signal the client that a player disconnected
+     *
+     * @param disconnectedPlayer the player that disconnected
+     */
+    public abstract void sendDisconnectedPlayer(String disconnectedPlayer);
 
     /**
      * This method asks the client to select a set of tiles
