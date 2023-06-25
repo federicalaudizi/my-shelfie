@@ -60,6 +60,16 @@ public class FakeClientHandler extends ClientHandler {
     }
 
     /**
+     * This method signal the client that a player disconnected
+     *
+     * @param disconnectedPlayer the player that disconnected
+     */
+    @Override
+    public void sendDisconnectedPlayer(String disconnectedPlayer) {
+        System.out.println(disconnectedPlayer+" disconnected");
+    }
+
+    /**
      * This method asks the client to select a set of tiles
      *
      * @return an array of tiles
