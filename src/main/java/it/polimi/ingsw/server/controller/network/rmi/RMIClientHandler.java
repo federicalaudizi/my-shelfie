@@ -139,7 +139,6 @@ public class RMIClientHandler extends ClientHandler {
         try {
             sendPing(new Message(PLAYER_DISCONNECTED, new JSONObject().put("username", disconnectedPlayer)));
         } catch (PlayerDisconnectedException ignored) {
-            // TODO: it is not a great idea to ignore this exception
         }
     }
 
@@ -293,6 +292,7 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     Message ping(){
+        //TODO: There is a bug, sometimes the client gets terminated at gameover
         if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
 
         //System.out.println(thisPlayerId + ": retrieved ping message");
