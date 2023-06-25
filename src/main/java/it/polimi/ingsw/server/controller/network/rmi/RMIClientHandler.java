@@ -145,8 +145,8 @@ public class RMIClientHandler extends ClientHandler {
 
         synchronized (tilesLock) {
             try {
-                // Wait for 60 seconds the answer
-                tilesLock.wait(60000);
+                // Wait for 120 seconds the answer
+                tilesLock.wait(120000);
                 // If the answer is not received, the player disconnected
                 if(!tilesFlag) terminate();
             } catch (InterruptedException e) {
@@ -194,8 +194,8 @@ public class RMIClientHandler extends ClientHandler {
 
         synchronized (columnLock) {
             try {
-                // Wait for 60 seconds the answer
-                columnLock.wait(60000);
+                // Wait for 120 seconds the answer
+                columnLock.wait(120000);
                 // If the answer is not received, the player disconnected
                 if(!columnFlag) terminate();
             } catch (InterruptedException e) {
