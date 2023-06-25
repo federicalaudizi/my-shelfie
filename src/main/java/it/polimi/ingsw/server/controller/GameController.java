@@ -87,7 +87,7 @@ public class GameController implements Runnable {
     @Override
     public void run() {
         //waiting for all the players to be connected
-        //TODO: bug if player disconnects before the game starts
+        //TODO: bug if player disconnects before the game starts, usernames are not set and json bugs hard
         waitAllPlayers();
 
         //players added to the map
