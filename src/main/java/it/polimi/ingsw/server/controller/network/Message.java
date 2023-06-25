@@ -132,7 +132,9 @@ public class Message implements Serializable {
         /** Sent by the server when a player tries to reconnect to a game but that game is over. */
         GAME_UNAVAILABLE(423),
         /** Sent by the server when a user tries to reconnect but had never logged in before */
-        PLAYER_NOT_FOUND(424);
+        PLAYER_NOT_FOUND(424),
+        /** Sent by the rmi server when the player connection was terminated */
+        PLAYER_TERMINATED(425);
 
         private final int code;
 
