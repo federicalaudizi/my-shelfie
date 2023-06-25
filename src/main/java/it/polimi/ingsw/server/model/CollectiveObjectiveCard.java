@@ -80,23 +80,21 @@ public abstract class CollectiveObjectiveCard {
     static class PatternEight extends CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
             int count = 0;
-
-            for (int i = 0; i < 6; i++) {
-                Set<Tile> squareValues = new HashSet<>();
-                for (int j = 0; j < 5; j++) {
-                    Coordinate tileCoordinate = new Coordinate(j, i);
+            for (int row = 0; row < 6; row++) {
+                Set<Tile> distinctValues = new HashSet<>();
+                int emptyCount = 0;
+                for (int col = 0; col < 5; col++) {
+                    Coordinate tileCoordinate = new Coordinate(col, row);
                     if (shelf.getTile(tileCoordinate) != EMPTY) {
-                        squareValues.add(shelf.getTile(tileCoordinate));
-                        if (squareValues.size() <= 3 & j == 4) {
-                            count++;
-                            if (count == 4) {
-                                return true;
-                            }
-                        }
-                    }
+                        distinctValues.add(shelf.getTile(tileCoordinate));
+                    } else emptyCount++;
+                }
+                if (distinctValues.size() <= 3 & emptyCount == 0) {
+                    count++;
                 }
             }
-            return false;
+
+            return count >= 4;
         }
     }
 
@@ -143,12 +141,10 @@ public abstract class CollectiveObjectiveCard {
                 }
                 if (distinctValues.size() <= 3 & emptyCount == 0) {
                     count++;
-                    if (count == 3) {
-                        return true;
-                    }
+
                 }
             }
-            return false;
+            return count >= 3;
         }
     }
 
@@ -445,12 +441,7 @@ public abstract class CollectiveObjectiveCard {
         private boolean hasFourAdjacentTilesStartingAt(int row, int col, Shelf shelf, int[][] visited) {
             Tile tileType = shelf.getTile(new Coordinate(row, col));
             int count = dfs(row, col, tileType, visited, shelf);
-            if (count >= 4) {
-                count = 0;
-                return true;
-            }
-            count = 0;
-            return false;
+            return count >= 4;
         }
 
         private int dfs(int row, int col, Tile tileType, int[][] visited, Shelf shelf) {
@@ -491,7 +482,7 @@ public abstract class CollectiveObjectiveCard {
      *
      * @author Federica
      * @return CollectiveObjectiveCard
-     * @param json
+     * @param json object to copy
      *
      */
     public static CollectiveObjectiveCard fromJson(JSONObject json) {
