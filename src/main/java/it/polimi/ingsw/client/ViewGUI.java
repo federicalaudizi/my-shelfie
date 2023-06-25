@@ -496,9 +496,15 @@ public class ViewGUI extends View {
      */
     @Override
     String gameIdSelection(ArrayList<String> gameIds) {
+        Scene currentScene = joinRoot.getScene();
+        if (currentScene == null) {
+            Scene scene = new Scene(joinRoot);
+            Platform.runLater(() -> Gui.getStage().setScene(scene));
+        }else {
+            Platform.runLater(() -> Gui.getStage().setScene(new Scene(joinRoot)));
+        }
         //TODO: anchorpane error
         String selectedGame = null;
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(joinRoot)));
         joinController.addGameIds(gameIds);
         try {
             selectedGame = (String) queue.take();

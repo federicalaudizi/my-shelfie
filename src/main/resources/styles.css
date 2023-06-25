@@ -1,0 +1,9 @@
+ho.glowing-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-background-radius: 0;
+}
+
+.glowing-button:hover {
+    -fx-effect: innershadow(gaussian, rgba(124, 71, 50, 0.5), 10, 1, 0, 0);
+}
