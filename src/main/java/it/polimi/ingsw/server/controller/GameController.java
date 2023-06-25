@@ -76,7 +76,7 @@ public class GameController implements Runnable {
             this.players.add(playerId);
         }
         this.resumed = true;
-        this.started = true;
+        this.started = false;
     }
 
     /**
@@ -87,7 +87,6 @@ public class GameController implements Runnable {
     @Override
     public void run() {
         //waiting for all the players to be connected
-        //TODO: bug if player disconnects before the game starts, usernames are not set and json bugs hard
         waitAllPlayers();
 
         //players added to the map
@@ -100,10 +99,12 @@ public class GameController implements Runnable {
 
         if(resumed) System.out.println(gameId+": Let's resume the game!");
         else System.out.println(gameId+": Let's start playing!");
+
+        started = true;
+
         //let's start playing
         while (!isOver) {
             synchronized (stateLock) {
-                started = true;
                 playTurn();
             }
         }
@@ -139,7 +140,7 @@ public class GameController implements Runnable {
         synchronized (waitLock){
             waitLock.notifyAll();
         }
-        getClientHandler(playerId).sendGameState(game);
+        if(started) getClientHandler(playerId).sendGameState(game);
     }
 
     /**
