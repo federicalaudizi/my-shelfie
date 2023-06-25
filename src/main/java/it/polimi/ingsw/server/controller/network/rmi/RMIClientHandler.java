@@ -130,6 +130,20 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     /**
+     * This method signal the client that a player disconnected
+     *
+     * @param disconnectedPlayer the player that disconnected
+     */
+    @Override
+    public void sendDisconnectedPlayer(String disconnectedPlayer) {
+        try {
+            sendPing(new Message(PLAYER_DISCONNECTED, new JSONObject().put("username", disconnectedPlayer)));
+        } catch (PlayerDisconnectedException ignored) {
+            // TODO: it is not a great idea to ignore this exception
+        }
+    }
+
+    /**
      * This method asks the client to select a set of tiles
      *
      * @return an array of tiles

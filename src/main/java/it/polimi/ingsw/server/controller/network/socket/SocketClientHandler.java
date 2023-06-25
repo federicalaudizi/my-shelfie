@@ -126,6 +126,16 @@ public class SocketClientHandler extends ClientHandler {
     }
 
     /**
+     * This method signal the client that a player disconnected
+     *
+     * @param disconnectedPlayer the player that disconnected
+     */
+    @Override
+    public void sendDisconnectedPlayer(String disconnectedPlayer) {
+        send(new Message(PLAYER_DISCONNECTED, new JSONObject().put("username", disconnectedPlayer)));
+    }
+
+    /**
      * This method asks the client to select a set of tiles
      *
      * @return an array of tiles
