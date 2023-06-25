@@ -119,6 +119,11 @@ public class GameController implements Runnable {
     void notifyDisconnection(String playerId) {
         System.out.println(gameId+": "+playerId+" disconnected from this game");
         connectedPlayers.put(playerId, 0);
+        for(String player : players){
+            if(connectedPlayers.get(player) == 1){
+                getClientHandler(player).sendDisconnectedPlayer(playerId);
+            }
+        }
     }
 
     /**
