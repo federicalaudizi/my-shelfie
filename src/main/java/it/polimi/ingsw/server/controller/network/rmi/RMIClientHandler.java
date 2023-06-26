@@ -257,6 +257,12 @@ public class RMIClientHandler extends ClientHandler {
         gameOver = true;
     }
 
+    /**
+     * Helper method to send a ping message to the client
+     *
+     * @param message the message to send
+     * @throws PlayerDisconnectedException if the player disconnected
+     */
     private void sendPing(Message message) throws PlayerDisconnectedException {
         synchronized (pingLock) {
             if(pingFlag){
@@ -279,6 +285,11 @@ public class RMIClientHandler extends ClientHandler {
         }
     }
 
+    /**
+     * Helper method to send a response to the client
+     *
+     * @param message the message to send
+     */
     private void sendResponse(Message message){
         synchronized (responseLock) {
             System.out.println(thisPlayerId + ": sending response "+message.toString());
@@ -288,6 +299,11 @@ public class RMIClientHandler extends ClientHandler {
         }
     }
 
+    /**
+     * Helper method to terminate the connection
+     *
+     * @throws PlayerDisconnectedException to signal the disconnection
+     */
     private void terminate() throws PlayerDisconnectedException{
         System.out.println(thisPlayerId + ": terminating");
         terminated = true;
@@ -297,6 +313,11 @@ public class RMIClientHandler extends ClientHandler {
         throw new PlayerDisconnectedException();
     }
 
+    /**
+     * This method retrieves the ping message
+     *
+     * @return the ping message
+     */
     Message ping(){
         //System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
@@ -318,7 +339,12 @@ public class RMIClientHandler extends ClientHandler {
         }
     }
 
-    // This is crazy, but it's the only way I can think of to make the client wait for the response
+    /**
+     * This method submits the tiles selected by the client
+     *
+     * @param tiles the tiles selected by the client
+     * @return a message containing the result of the operation
+     */
     Message submitTiles(Message tiles){
         if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
         System.out.println(thisPlayerId + ": posted tiles message");
@@ -344,6 +370,12 @@ public class RMIClientHandler extends ClientHandler {
         return responseMessage;
     }
 
+    /**
+     * This method submits the column selected by the client
+     *
+     * @param column the column selected by the client
+     * @return a message containing the result of the operation
+     */
     Message submitColumn(Message column){
         if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
         // Notifying the gameController that the column arrived
