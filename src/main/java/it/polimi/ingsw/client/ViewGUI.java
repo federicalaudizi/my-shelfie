@@ -560,6 +560,8 @@ public class ViewGUI extends View {
         if (currentScene == null) {
             Scene scene = new Scene(nicknameRoot);
             Platform.runLater(() -> Gui.getStage().setScene(scene));
+        } else {
+            Platform.runLater(() -> Gui.getStage().setScene(currentScene));
         }
         String username = null;
         try {
