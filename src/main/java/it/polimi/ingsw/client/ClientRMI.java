@@ -70,8 +70,7 @@ public class ClientRMI extends Client {
                         exit = view.continueScreen();
                         //TODO: here i should exit the game
                     } else if(headerCode == PLAYER_DISCONNECTED.getCode()) {
-                        // TODO: Maybe handle this differently
-                        view.showError(reply.getBody().getJSONObject(0).getString("username") + " disconnected from the game.");
+                        view.showDisconnection(reply.getBody().getJSONObject(0).getString("username"));
                     }
                 }
             } catch (RemoteException e) {
