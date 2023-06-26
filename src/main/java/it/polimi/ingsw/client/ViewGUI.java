@@ -196,7 +196,12 @@ public class ViewGUI extends View {
         }
     }
 
-
+    /**
+     * Sets the point card image for a specific position for the client.
+     *
+     * @param card The PointCard object representing the card.
+     * @param i The position index (1 for the first position, 2 for the second position).
+     */
     private void setPointCard(PointCard card, int i) {
         String stream;
         Image image;
@@ -681,6 +686,11 @@ public class ViewGUI extends View {
         Platform.runLater(() -> displayError(errorMessage));
     }
 
+    /**
+     * Displays a disconnection message in a popup window.
+     *
+     * @param message The message to be displayed indicating the disconnected player.
+     */
     public void displayDisconnection(String message) {
         Stage popupStage = new Stage();
         popupStage.initStyle(StageStyle.UNDECORATED);
