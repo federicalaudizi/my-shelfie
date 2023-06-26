@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -16,6 +17,8 @@ import java.io.IOException;
 public class WelcomeController {
     @FXML
     public Text genericError;
+    @FXML
+    public Button button1;
     @FXML
     private Button mainPane;
 
@@ -36,7 +39,7 @@ public class WelcomeController {
             throw new RuntimeException(ex);
         }
         Scene secondViewScene = new Scene(secondViewParent);
-        Stage currentStage = (javafx.stage.Stage) mainPane.getScene().getWindow();
+        Stage currentStage = (javafx.stage.Stage) button1.getScene().getWindow();
         currentStage.setScene(secondViewScene);
     }
 

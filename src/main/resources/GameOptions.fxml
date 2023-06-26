@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.GameOptionsController">
    <ImageView fitHeight="406.0" fitWidth="609.0">
@@ -13,26 +14,35 @@
    <ImageView fitHeight="54.0" fitWidth="339.0" layoutX="134.0" layoutY="149.0">
       <Image url="@Images/whatDoyouWant.png" />
    </ImageView>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="202.0" onMouseClicked="#handleJoin" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Join an existing game" textAlignment="CENTER" AnchorPane.topAnchor="202.0">
+      <Button fx:id="buttonJoin" alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="202.0" onMouseClicked="#handleJoin" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Join an existing game" textAlignment="CENTER" AnchorPane.topAnchor="202.0">
          <graphic>
             <ImageView fitHeight="44.0" fitWidth="164.0">
                <Image url="@Images/buttons_disegno.png" />
             </ImageView>
          </graphic>
+      <font>
+         <Font name="Arial Bold" size="12.0" />
+      </font>
       </Button>
-      <Button contentDisplay="CENTER" layoutX="208.0" layoutY="203.0" onMouseClicked="#handleCreate" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Create a new game" textAlignment="CENTER">
+      <Button fx:id="buttonCreate" contentDisplay="CENTER" layoutX="208.0" layoutY="203.0" onMouseClicked="#handleCreate" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Create a new game" textAlignment="CENTER">
          <graphic>
             <ImageView fitHeight="44.0" fitWidth="155.0">
                <Image url="@Images/buttons_disegno.png" />
             </ImageView>
          </graphic>
+      <font>
+         <Font name="Arial Bold" size="12.0" />
+      </font>
       </Button>
-      <Button contentDisplay="CENTER" layoutX="377.0" layoutY="203.0" onMouseClicked="#handleReconnect" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Reconnect to an ongoing game" textAlignment="CENTER" textOverrun="CLIP">
+      <Button fx:id="buttonReconnect" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="377.0" layoutY="203.0" onMouseClicked="#handleReconnect" prefHeight="44.0" prefWidth="127.0" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Reconnect to an ongoing game" textAlignment="CENTER" textOverrun="CLIP">
          <graphic>
-            <ImageView fitHeight="44.0" fitWidth="215.0">
+            <ImageView fitHeight="44.0" fitWidth="223.0">
                <Image url="@Images/buttons_disegno.png" />
             </ImageView>
          </graphic>
+      <font>
+         <Font name="Arial Bold" size="12.0" />
+      </font>
       </Button>
    <stylesheets>
       <URL value="@styles.css" />

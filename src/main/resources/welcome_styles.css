@@ -1,0 +1,7 @@
+.glowing-button:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(124, 71, 50, 0.5); /* Glowing text color */
+    -fx-effect: innershadow(gaussian, rgba(124, 71, 50, 0.5), 20, 1, 0, 0); /* Glowing effect */
+    -fx-transition: text-fill 0.3s, effect 0.3s; /* Apply transition to text color and effect */
+    -fx-opacity: 0.8; /* Lighter opacity when hovered */
+}
