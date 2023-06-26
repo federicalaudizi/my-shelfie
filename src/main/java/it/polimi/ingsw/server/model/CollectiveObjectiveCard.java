@@ -190,16 +190,13 @@ public abstract class CollectiveObjectiveCard {
                         column.add(shelf.getTile(tileCoordinate));
                         if (column.size() == 6) {
                             count++;
-                            if (count == 2) {
-                                return true;
-                            }
                         }
                     }
                 }
 
             }
 
-            return false;
+            return count >= 2;
         }
     }
 
@@ -417,25 +414,30 @@ public abstract class CollectiveObjectiveCard {
     }
 
     /**
-     * Concrete class for pattern two: Four groups each containing al least 4 tiles of the same type.
+     * Concrete class for pattern two: Four columns each containing al least 4 adjacent tiles of the same type.
      *
      * @author Federica
      */
     static class PatternTwo extends CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
-            int outerCount = 0;
-            int[][] visited = new int[5][6];
+            int count = 0;
             for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 6; j++) {
-                    if (hasFourAdjacentTilesStartingAt(i, j, shelf, visited)) {
-                        outerCount++;
-                        if (outerCount == 4) {
-                            return true;
-                        }
+                int equalTiles = 0;
+                // Get the bottom tile of the column
+                Tile comparingTile = shelf.getTile(new Coordinate(i, 0));
+
+                if(comparingTile != EMPTY){
+                    for (int j = 0; j < 6; j++) {
+                        Coordinate tileCoordinate = new Coordinate(i, j);
+                        if(shelf.getTile(tileCoordinate) != comparingTile && shelf.getTile(tileCoordinate) != EMPTY){
+                            comparingTile = shelf.getTile(tileCoordinate);
+                        } else equalTiles++;
                     }
                 }
+
+                if(equalTiles >= 4) count++;
             }
-            return false;
+            return count >= 4;
         }
 
         private boolean hasFourAdjacentTilesStartingAt(int row, int col, Shelf shelf, int[][] visited) {
