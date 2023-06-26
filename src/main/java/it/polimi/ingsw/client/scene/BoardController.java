@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.Gui;
 import it.polimi.ingsw.client.ViewGUI;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -19,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -648,6 +650,35 @@ public class BoardController{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Sets the translation transition for the columns.
+     * Each column will be animated using a translate transition.
+     * Call this method to start the animation for the columns.
+     */
+    public void setTransition() {
+        animateColumn(column0);
+        animateColumn(column1);
+        animateColumn(column2);
+        animateColumn(column3);
+        animateColumn(column4);
+    }
+
+    /**
+     * Animates the specified column using a translate transition.
+     * The column will move vertically in a continuous animation loop.
+     *
+     * @param column The ImageView representing the column to animate.
+     */
+    private void animateColumn(ImageView column) {
+        double initialY = column.getY();
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.75), column);
+        translateTransition.setFromY(initialY);
+        translateTransition.setToY(initialY - 10);
+        translateTransition.setAutoReverse(true);
+        translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+        translateTransition.play();
     }
 }
 
