@@ -647,6 +647,7 @@ public class ViewGUI extends View {
         gameController.continueButton.setDisable(true);
         Platform.runLater(() -> gameController.instruction.setText("Good choice, now choose the column."));
         gameController.ableView();
+        gameController.setTransition();
         int column = 0;
         try {
             column = (int) queue.take();

@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="605.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.BoardController">
+<AnchorPane prefHeight="635.0" prefWidth="996.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.BoardController">
     <AnchorPane fx:id="board" layoutX="13.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="987.0">
         <ImageView fitHeight="689.0" fitWidth="1036.0" layoutX="-14.0" layoutY="-26.0">
             <Image url="@Images/Parquet.jpg" />
@@ -145,17 +145,17 @@
         <ImageView fx:id="shelfImage4" fitHeight="124.0" fitWidth="107.0" layoutX="345.0" layoutY="476.0">
             <Image url="@Images/bookshelf.png" />
         </ImageView>
-        <Label fx:id="client2" layoutX="64.0" layoutY="605.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client2" layoutX="79.0" layoutY="604.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="client3" layoutX="211.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client3" layoutX="222.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="client4" layoutX="347.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client4" layoutX="364.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
