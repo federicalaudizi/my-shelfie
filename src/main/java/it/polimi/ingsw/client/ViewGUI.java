@@ -114,7 +114,7 @@ public class ViewGUI extends View {
     }
 
     private void showDisconnection(String username) {
-        //TODO notify palyers when somebody disconnected
+        Platform.runLater(() -> displayDisconnection(username));
     }
 
     /**
@@ -678,6 +678,39 @@ public class ViewGUI extends View {
     void showError(String errorMessage) {
         Platform.runLater(() -> displayError(errorMessage));
     }
+
+    public void displayDisconnection(String message) {
+        Stage popupStage = new Stage();
+        popupStage.initStyle(StageStyle.UNDECORATED);
+        Text text = new Text(message + " disconnected from the game");
+        Button tryAgainButton = new Button("Okay");
+        VBox.setMargin(tryAgainButton, new Insets(40, 0, 0, 182)); // Add margin to the button
+        // Create the AnchorPane and add the content nodes
+        VBox layout = new VBox(3);
+        layout.getChildren().addAll(text, tryAgainButton);
+
+        TitledPane errorPopup = new TitledPane();
+        errorPopup.setAnimated(false);
+        errorPopup.setLayoutX(197);
+        errorPopup.setLayoutY(61);
+        errorPopup.setPrefHeight(130);
+        errorPopup.setPrefWidth(280);
+        errorPopup.setText("Warning");
+
+        errorPopup.setContent(layout);
+
+        popupStage.setResizable(false);
+        tryAgainButton.setOnAction(event -> popupStage.hide());
+
+        // Set the TitledPane as the content of the popup Stage
+        StackPane container = new StackPane(errorPopup);
+        Scene popupScene = new Scene(container);
+        popupStage.setScene(popupScene);
+
+        // Show the popup Stage
+        popupStage.showAndWait();
+    }
+
 
     /**
      * Displays an error popup with the given message.
