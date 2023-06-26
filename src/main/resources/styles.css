@@ -2,8 +2,21 @@ ho.glowing-button {
     -fx-background-color: transparent;
     -fx-padding: 0;
     -fx-background-radius: 0;
+    -fx-stroke: rgba(124, 71, 50, 1); /* Stroke color */
+    -fx-stroke-width: 2px; /* Stroke width */
 }
 
 .glowing-button:hover {
-    -fx-effect: innershadow(gaussian, rgba(124, 71, 50, 0.5), 10, 1, 0, 0);
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(124, 71, 50, 0.5); /* Glowing text color */
+    -fx-effect: innershadow(gaussian, rgba(124, 71, 50, 0.5), 20, 1, 0, 0); /* Glowing effect */
+    -fx-transition: text-fill 0.3s, effect 0.3s; /* Apply transition to text color and effect */
 }
+
+
+
+
+/*.glowing-button:hover .text{
+    -fx-effect: innershadow(gaussian, rgba(124, 71, 50, 0.5), 10, 1, 0, 0);
+    -fx-text-fill: rgba(124, 71, 50, 0.5);
+}*/
