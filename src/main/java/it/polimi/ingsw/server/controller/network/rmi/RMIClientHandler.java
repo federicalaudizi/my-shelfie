@@ -35,6 +35,9 @@ public class RMIClientHandler extends ClientHandler {
     private boolean responseFlag;
     private Message responseMessage;
 
+    private boolean notificationFlag;
+    private Message notificationMessage;
+
     RMIClientHandler(String username, GameSupervisor ongoingGames) {
         super(ongoingGames);
         this.thisPlayerId = username;
@@ -136,10 +139,8 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendDisconnectedPlayer(String disconnectedPlayer) {
-        try {
-            sendPing(new Message(PLAYER_DISCONNECTED, new JSONObject().put("username", disconnectedPlayer)));
-        } catch (PlayerDisconnectedException ignored) {
-        }
+        notificationFlag = true;
+        notificationMessage = new Message(PLAYER_DISCONNECTED, new JSONObject().put("username", disconnectedPlayer));
     }
 
     /**
@@ -261,11 +262,16 @@ public class RMIClientHandler extends ClientHandler {
             if(pingFlag){
                 // If there still is a pending message, wait for 30 seconds
                 try {
-                    pingLock.wait(30000);
+                    System.err.println(thisPlayerId + ": waiting for ping to be received");
+                    pingLock.wait(300000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                if(pingFlag) terminate();
+                // If the message is still pending, the player disconnected
+                if(pingFlag) {
+                    System.err.println(thisPlayerId + ": ping time out");
+                    terminate();
+                }
             }
             System.out.println(thisPlayerId + ": sending ping "+message.toString());
             pingFlag = true;
@@ -292,15 +298,17 @@ public class RMIClientHandler extends ClientHandler {
     }
 
     Message ping(){
-        //TODO: There is a bug, sometimes the client gets terminated at gameover
-        if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
-
         //System.out.println(thisPlayerId + ": retrieved ping message");
         synchronized (heartbeatLock) {
             isAlive = true;
             heartbeatLock.notifyAll();
         }
+        if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
         synchronized (pingLock) {
+            if(notificationFlag){
+                notificationFlag = false;
+                return notificationMessage;
+            }
             if(!pingFlag) return new Message(PING);
             else {
                 pingFlag = false;
