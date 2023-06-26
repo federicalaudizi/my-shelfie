@@ -17,9 +17,10 @@ public class ConnectionController {
     @FXML
     public TitledPane errorPopup;
     @FXML
-    private TextField ipAddress;
+    public Button buttonJoin;
     @FXML
-    private Button ok;
+    private TextField ipAddress;
+
 
     /**
      * Handles the mouse click event for the IP address input field.

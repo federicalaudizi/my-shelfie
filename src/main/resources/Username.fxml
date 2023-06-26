@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
@@ -23,7 +24,7 @@
    <ImageView fitHeight="406.0" fitWidth="607.0" layoutY="-6.0">
       <Image url="@Images/blurred_Welcome.jpg" />
    </ImageView>
-   <TextField fx:id="nicknameText" alignment="CENTER" layoutX="203.0" layoutY="198.0" minWidth="9.0" pickOnBounds="false" prefHeight="35.0" prefWidth="179.0" promptText="type nick here">
+   <TextField fx:id="nicknameText" alignment="CENTER" layoutX="212.0" layoutY="201.0" minWidth="9.0" pickOnBounds="false" prefHeight="35.0" prefWidth="179.0" promptText="type nick here">
       <font>
          <Font name="System Font" size="18.0" />
       </font>
@@ -45,10 +46,23 @@
          <Font size="14.0" />
       </font>
    </Text>
-   <Button fx:id="okNick" layoutX="278.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleMouseClickForNickname" text="ok" />
+
+   <Button fx:id="okNick" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="223.0" layoutY="238.0" onMouseClicked="#handleMouseClickForNickname" prefHeight="43.0" prefWidth="166.0" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Okay" textAlignment="CENTER" textOverrun="CLIP">
+      <graphic>
+         <ImageView fitHeight="44.0" fitWidth="127.0" layoutX="278.0" layoutY="259.0">
+            <Image url="@Images/buttons_disegno.png" />
+         </ImageView>
+      </graphic>
+      <font>
+         <Font name="Arial Bold" size="12.0" />
+      </font>
+   </Button>
    <ImageView fitHeight="49.0" fitWidth="248.0" layoutX="177.0" layoutY="149.0">
       <image>
          <Image url="@Images/insertNickname.png" />
       </image>
    </ImageView>
+   <stylesheets>
+      <URL value="@styles.css" />
+   </stylesheets>
 </AnchorPane>

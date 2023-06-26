@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
@@ -9,6 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.JoinController">
@@ -22,11 +24,23 @@
         <cursor>
             <Cursor fx:constant="DEFAULT" />
         </cursor></ListView>
-    <Button fx:id="button" alignment="CENTER" layoutX="253.0" layoutY="280.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="74.0" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-color: #25171c; -fx-border-width: 1px; -fx-border-radius: 15px;" text="Join → " visible="false" />
+    <Button fx:id="button" alignment="CENTER" contentDisplay="CENTER" layoutX="242.0" layoutY="274.0" prefHeight="29.0" prefWidth="74.0" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Join → " textAlignment="CENTER" visible="false" AnchorPane.topAnchor="274.0">
+        <graphic>
+            <ImageView fitHeight="44.0" fitWidth="107.0">
+                <Image url="@Images/buttons_disegno.png" />
+            </ImageView>
+        </graphic>
+        <font>
+            <Font name="Arial Bold" size="12.0" />
+        </font>
+    </Button>
     <ProgressIndicator fx:id="progress" layoutX="272.0" layoutY="345.0" prefHeight="50.0" prefWidth="50.0" visible="false">
         <effect>
             <Glow />
         </effect>
     </ProgressIndicator>
     <Text fx:id="progressText" fill="#8c3300" layoutX="201.0" layoutY="331.0" stroke="#722800" strokeType="OUTSIDE" strokeWidth="0.4" text="Waiting for other players to connect" textAlignment="CENTER" visible="false" />
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
 </AnchorPane>
