@@ -503,7 +503,6 @@ public class ViewGUI extends View {
         }else {
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(joinRoot)));
         }
-        //TODO: anchorpane error
         String selectedGame = null;
         joinController.addGameIds(gameIds);
         try {
