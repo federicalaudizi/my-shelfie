@@ -15,8 +15,8 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="605.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.scene.BoardController">
-    <AnchorPane fx:id="board" layoutY="28.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="1000.0">
-        <ImageView fitHeight="752.0" fitWidth="1051.0" layoutX="-41.0" layoutY="-89.0">
+    <AnchorPane fx:id="board" layoutX="13.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="987.0">
+        <ImageView fitHeight="689.0" fitWidth="1036.0" layoutX="-14.0" layoutY="-26.0">
             <Image url="@Images/Parquet.jpg" />
         </ImageView>
         <ImageView fitHeight="417.0" fitWidth="462.0" layoutX="35.0" layoutY="39.0">
@@ -92,7 +92,7 @@
             <ImageView fitHeight="45.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="8" />
             <ImageView fitHeight="45.0" fitWidth="48.0" layoutX="244.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
         </GridPane>
-        <ImageView fx:id="commonCard1" fitHeight="124.0" fitWidth="167.0" layoutX="530.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="commonCard1" fitHeight="124.0" fitWidth="167.0" layoutX="530.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="commonCard2" fitHeight="124.0" fitWidth="167.0" layoutX="530.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true" />
         <Button fx:id="continueButton" layoutX="541.0" layoutY="248.0" mnemonicParsing="false" onAction="#handleConfirmation" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-width: 1px; -fx-border-color: #25171c; -fx-border-radius: 15px;" text="Continue" />
         <GridPane fx:id="shelfGrid4" layoutX="359.0" layoutY="483.0" prefHeight="99.0" prefWidth="82.0">
@@ -160,7 +160,10 @@
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="instruction" layoutX="31.0" layoutY="17.0" prefHeight="17.0" prefWidth="462.0" textAlignment="CENTER" />
+        <Label fx:id="instruction" layoutX="35.0" prefHeight="17.0" prefWidth="462.0" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="21.0" />
+         </font></Label>
         <ImageView fx:id="tile1" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="tile2" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="tile3" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" />
@@ -172,7 +175,10 @@
         <ImageView fx:id="scoreSecond2" fitHeight="30.0" fitWidth="30.0" layoutX="175.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="scoreFirst3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="scoreSecond3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
-        <Text fx:id="ClientName" layoutX="762.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="47.999999999999915" />
+        <Text fx:id="ClientName" layoutX="740.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="92.66668701171875">
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font></Text>
         <Text layoutX="530.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First common objective:" />
         <Text layoutX="530.0" layoutY="485.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Second common objective:" />
         <GridPane fx:id="shelfGrid" layoutX="697.0" layoutY="49.0" prefHeight="203.0" prefWidth="178.0">
