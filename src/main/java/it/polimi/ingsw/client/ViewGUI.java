@@ -114,7 +114,7 @@ public class ViewGUI extends View {
         });
     }
 
-    private void showDisconnection(String username) {
+    public void showDisconnection(String username) {
         Platform.runLater(() -> displayDisconnection(username));
     }
 

@@ -29,4 +29,6 @@ public abstract class View {
     abstract void gameOverScreen(JSONArray leaderboard);
 
     abstract boolean continueScreen();
+
+    abstract void showDisconnection(String username);
 }
