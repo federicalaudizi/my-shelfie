@@ -307,6 +307,14 @@ public class ViewCLI extends View {
         String selection = scanner.nextLine();
         return selection.equals("y");
     }
+
+    /**
+     * @param username
+     */
+    @Override
+    void showDisconnection(String username) {
+        System.out.println(username + " disconnected from the game.");
+    }
 }
 
 /**
