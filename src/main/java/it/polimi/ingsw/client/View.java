@@ -22,7 +22,6 @@ public abstract class View {
     abstract int getColumn();
     abstract void showAchievement(String username, int objectiveNumber);
     abstract void showError(String errorMessage);
-    // TODO: Implement abstract and concrete showDisconnection() method
 
     abstract String gameIdSelection(ArrayList<String> gameIds);
 
