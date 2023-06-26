@@ -91,8 +91,9 @@ public class ViewGUI extends View {
     void update(Game game, LinkedList<String> playerOrder) {
         if (game.isLastTurn()) {
             Platform.runLater(() -> gameController.instruction.setText("It's the last turn! Make your last move."));
-        }
+        }else{
         Platform.runLater(() -> gameController.instruction.setText(""));
+        }
         gameController.boardPane.setDisable(true);
         setCommonObjectivesCards(game);
         setPersonalObjectiveCard(game);
