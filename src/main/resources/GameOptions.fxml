@@ -36,7 +36,7 @@
       </Button>
       <Button fx:id="buttonReconnect" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="377.0" layoutY="203.0" onMouseClicked="#handleReconnect" prefHeight="44.0" prefWidth="127.0" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Reconnect to an ongoing game" textAlignment="CENTER" textOverrun="CLIP">
          <graphic>
-            <ImageView fitHeight="44.0" fitWidth="223.0">
+            <ImageView fitHeight="44.0" fitWidth="211.0">
                <Image url="@Images/buttons_disegno.png" />
             </ImageView>
          </graphic>
