@@ -342,6 +342,9 @@ public class SocketClientHandler extends ClientHandler {
         }
     }
 
+    /**
+     * helper method to close the socket
+     */
     private void closeSocket(){
         System.out.println(thisPlayerId+": Closing.");
 
@@ -364,6 +367,12 @@ public class SocketClientHandler extends ClientHandler {
         dataOut.println(message);
     }
 
+    /**
+     * Helper method to receive a message from the client
+     *
+     * @return the message received
+     * @throws PlayerDisconnectedException if the player disconnected
+     */
     private Message receive() throws PlayerDisconnectedException{
         try {
             String recievedMessage = dataIn.readLine();
