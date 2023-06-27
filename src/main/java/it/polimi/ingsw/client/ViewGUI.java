@@ -608,7 +608,13 @@ public class ViewGUI extends View {
      */
     @Override
     int getPlayerNumber() {
-        Platform.runLater(() -> Gui.getStage().setScene(new Scene(numberOfPlayersRoot)));
+        Scene currentScene = numberOfPlayersRoot.getScene();
+        if (currentScene == null) {
+            Scene scene = new Scene(numberOfPlayersRoot);
+            Platform.runLater(() -> Gui.getStage().setScene(scene));
+        } else {
+            Platform.runLater(() -> Gui.getStage().setScene(currentScene));
+        }
         int numOfPlayers;
         numberOfPlayersController.chooseOption();
         try {
