@@ -159,26 +159,26 @@ public class Shelf {
      * @return number of available slots
      */
     int availableSlots(int column){
-        int takenSlots = 0;
+        int availableSlots = 0;
 
         for (Tile checkedTile : contents[column]) {
-            if(checkedTile != Tile.EMPTY) {
-                takenSlots += 1;
+            if(checkedTile == Tile.EMPTY) {
+                availableSlots++;
             }
         }
 
-        return 6 - takenSlots;
+        return availableSlots;
     }
 
     /**
-     * Helper method that returns the column with the most empty slots
+     * Helper method that returns the number of available slots in the column with the most empty slots
      *
      * @return number of available slots
      */
     int availableSlots(){
         int max = 0;
         for (int i = 0; i < 5; i++) {
-            if(availableSlots(i) > max) max = i;
+            if(availableSlots(i) > max) max = availableSlots(i);
         }
         return max;
     }
