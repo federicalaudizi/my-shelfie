@@ -1,7 +1,11 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.exceptions.fullColumnException;
+import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
+import it.polimi.ingsw.server.exceptions.tooManyTilesException;
 import junit.framework.TestCase;
 import org.json.JSONArray;
+import org.junit.jupiter.api.Test;
 
 public class ShelfTest extends TestCase {
 
@@ -119,5 +123,21 @@ public class ShelfTest extends TestCase {
             }
             System.out.println();
         }
+
+        Shelf comparingShelf = new Shelf(testingShelf.toJson());
+        assertTrue(testingShelf.equals(comparingShelf));
+
+        comparingShelf = new Shelf(testingShelf);
+        assertTrue(testingShelf.equals(comparingShelf));
     }
+
+
+    public void testAvailableSlots() throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+        Shelf testingShelf = new Shelf();
+        assertEquals(6, testingShelf.availableSlots());
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        assertEquals(6, testingShelf.availableSlots());
+        assertEquals(3, testingShelf.availableSlots(0));
+    }
+
 }
