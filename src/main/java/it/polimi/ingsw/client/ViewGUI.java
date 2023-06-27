@@ -90,9 +90,31 @@ public class ViewGUI extends View {
     @Override
     void update(Game game, LinkedList<String> playerOrder) {
         if (game.isLastTurn()) {
-            Platform.runLater(() -> gameController.instruction.setText("It's the last turn! Make your last move."));
+            Platform.runLater(() -> {
+               gameController.instruction.setText("It's the last turn! Make your move.");
+                String stream = "/Images/livingroom.png";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        Image image = new Image(inputStream);
+                        gameController.living_room_image.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         }else{
-        Platform.runLater(() -> gameController.instruction.setText(""));
+            Platform.runLater(() -> {
+                gameController.instruction.setText("");
+                String stream = "/Images/new_livingroom.png";
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        Image image = new Image(inputStream);
+                        gameController.living_room_image.setImage(image);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         }
         gameController.boardPane.setDisable(true);
         setCommonObjectivesCards(game);
