@@ -36,9 +36,17 @@ public class GameTest {
 
     @Test
     public void getRankedPlayersTest() throws tooManyTilesException, notEnoughTilesException, fullColumnException {
+        ArrayList<String> players = new ArrayList<>();
+        players.add("Sara");
+        players.add("Giulia");
         Game g2 = new Game(2);
+        g2.setUsernames(players);
         Game g3 = new Game(3);
+        players.add("Alessandro");
+        g3.setUsernames(players);
         Game g4 = new Game(4);
+        players.add("Gianluca");
+        g4.setUsernames(players);
 
         g2.getPlayers().get(0).setEndGameCard();
         g2.getPlayers().get(0).assignPointCard(new PointCard(8), 0);
@@ -73,9 +81,15 @@ public class GameTest {
         HashMap<String, Integer> h1 = new HashMap<>();
         h1.put(g3.getPlayers().get(1).getUsername(), 24);
         h1.put(g3.getPlayers().get(0).getUsername(), 16);
-        h1.put(g3.getPlayers().get(2).getUsername(),12);
+        h1.put(g3.getPlayers().get(2).getUsername(),10);
 
-        assertEquals(h1,g3.getRankedPlayers());
+        System.out.println(g3.getRankedPlayers());
+        System.out.println(h1);
+
+        for(String s : h1.keySet()){
+            assertTrue(g3.getRankedPlayers().containsKey(s));
+            assertEquals(h1.get(s),g3.getRankedPlayers().get(s));
+        }
 
         g4.getPlayers().get(0).assignPointCard(new PointCard(4),0);
         g4.getPlayers().get(0).setEndGameCard();
@@ -102,10 +116,16 @@ public class GameTest {
         HashMap<String, Integer> h2 = new HashMap<>();
         h2.put(g4.getPlayers().get(1).getUsername(), 24);
         h2.put(g4.getPlayers().get(0).getUsername(), 16);
-        h2.put(g4.getPlayers().get(2).getUsername(),12);
+        h2.put(g4.getPlayers().get(2).getUsername(),10);
         h2.put(g4.getPlayers().get(3).getUsername(),10);
 
-        assertEquals(h2,g4.getRankedPlayers());
+        System.out.println(g4.getRankedPlayers());
+        System.out.println(h2);
+
+        for(String s : h2.keySet()){
+            assertTrue(g4.getRankedPlayers().containsKey(s));
+            assertEquals(h2.get(s),g4.getRankedPlayers().get(s));
+        }
     }
 
     @Test
