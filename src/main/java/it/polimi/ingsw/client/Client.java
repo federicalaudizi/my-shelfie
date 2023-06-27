@@ -36,7 +36,6 @@ public abstract class Client {
         }
     }
 
-    // TODO This is a test constructor and should be removed
     public Client(boolean cli, String username) {
         if (cli)
             view = new ViewCLI(this);
@@ -134,10 +133,6 @@ public abstract class Client {
 
         // Send updates to view
         view.update(game, playerOrder);
-
-        // TODO Fix OK response to game update
-        // Respond to update message
-        // send(new Message(Message.Header.OK));
     }
 
     /**
@@ -348,7 +343,6 @@ public abstract class Client {
         this.username = username;
     }
 
-    // TODO This might change visibility later on
     /**
      * This method returns the view associated to this client.
      * @return the view associated to this client
