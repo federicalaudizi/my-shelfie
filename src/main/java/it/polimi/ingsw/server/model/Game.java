@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.exceptions.TileUnpickableException;
-import it.polimi.ingsw.server.exceptions.fullColumnException;
-import it.polimi.ingsw.server.exceptions.notEnoughTilesException;
-import it.polimi.ingsw.server.exceptions.tooManyTilesException;
+import it.polimi.ingsw.server.exceptions.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
