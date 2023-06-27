@@ -183,16 +183,13 @@ public class Game {
      * @return true if pickable, false otherwise
      * @author Federico
      */
-    public boolean arePickable(Coordinate c1, Coordinate c2, Coordinate c3){
-        try{
-            int numOfTiles = 0;
-            if (c1 != null) numOfTiles++;
-            if (c2 != null) numOfTiles++;
-            if (c3 != null) numOfTiles++;
-            return board.arePickables(c1, c2, c3) && players.get(currentPlayerIndex).getShelf().availableSlots() >= numOfTiles;
-        } catch (IllegalArgumentException e){
-            return false;
-        }
+    public boolean arePickable(Coordinate c1, Coordinate c2, Coordinate c3) throws tooManyTilesException {
+        int numOfTiles = 0;
+        if (c1 != null) numOfTiles++;
+        if (c2 != null) numOfTiles++;
+        if (c3 != null) numOfTiles++;
+        if(!(players.get(currentPlayerIndex).getShelf().availableSlots() >= numOfTiles)) throw new tooManyTilesException();
+        return board.arePickables(c1, c2, c3) && players.get(currentPlayerIndex).getShelf().availableSlots() >= numOfTiles;
     }
 
     /**
