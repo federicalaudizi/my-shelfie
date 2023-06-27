@@ -268,19 +268,33 @@ public class GameController implements Runnable {
         while(!tilesPicked){
             System.out.println(gameId+": "+currentPlayerId+" has to choose the tile");
             boolean pickables;
+            String info = "Selected tiles cant be picked";
             coordinates = getClientHandler(currentPlayerId).getTiles();
+
             // Konami Code
             if(currentPlayerId.equals("Gennaro") && coordinates[0].getColumn() == 1 && coordinates[0].getRow() == 5 && coordinates[1].getColumn() == 2 && coordinates[1].getRow() == 4) {
                 getClientHandler(currentPlayerId).sendOk();
                 return true;
             }
+
             // Check if all coordinates are pickable
-            if (coordinates.length == 1) pickables = game.arePickable(coordinates[0], null, null);
-            else if (coordinates.length == 2) pickables = game.arePickable(coordinates[0], coordinates[1], null);
-            else if (coordinates.length == 3) pickables = game.arePickable(coordinates[0], coordinates[1], coordinates[2]);
-            else pickables = false;
-            tilesPicked = pickables;
-            if(!tilesPicked) getClientHandler(currentPlayerId).badTile();
+            try {
+                if (coordinates.length == 1) pickables = game.arePickable(coordinates[0], null, null);
+                else if (coordinates.length == 2) pickables = game.arePickable(coordinates[0], coordinates[1], null);
+                else if (coordinates.length == 3) pickables = game.arePickable(coordinates[0], coordinates[1], coordinates[2]);
+                else if (coordinates.length == 0) {
+                    pickables = false;
+                    info = "Not enough tiles selected";
+                } else {
+                    pickables = false;
+                    info = "Too many tiles selected";
+                }
+                tilesPicked = pickables;
+            } catch (tooManyTilesException e) {
+                info = "There are not enough spaces to place all the tiles";
+            }
+            // Notify the player if the tiles are not pickable
+            if(!tilesPicked) getClientHandler(currentPlayerId).badTile(info);
         }
         System.out.println(gameId+": "+currentPlayerId+" got the tiles right");
         getClientHandler(currentPlayerId).sendOk();
