@@ -163,8 +163,8 @@ public class SocketClientHandler extends ClientHandler {
      * @author Federico
      */
     @Override
-    public void badTile() {
-        send(new Message(BAD_TILES, new JSONObject().put("message", "The tiles you chose are not valid")));
+    public void badTile(String info) {
+        send(new Message(BAD_TILES, new JSONObject().put("message", info)));
     }
 
     /**

@@ -188,8 +188,8 @@ public class RMIClientHandler extends ClientHandler {
      * @author Federico
      */
     @Override
-    public void badTile() {
-        sendResponse(new Message(BAD_TILES, new JSONObject().put("message", "The selected tiles are not valid")));
+    public void badTile(String info) {
+        sendResponse(new Message(BAD_TILES, new JSONObject().put("message", info)));
     }
 
     /**

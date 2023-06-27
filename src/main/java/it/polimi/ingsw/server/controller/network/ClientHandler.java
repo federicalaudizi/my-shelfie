@@ -80,7 +80,7 @@ public abstract class ClientHandler implements Runnable{
      *
      * @author Federico
      */
-    public abstract void badTile();
+    public abstract void badTile(String info);
 
     /**
      * This method asks the client to select a column

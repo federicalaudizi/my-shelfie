@@ -92,7 +92,7 @@ public class FakeClientHandler extends ClientHandler {
      * @author Sara
      */
     @Override
-    public void badTile() {
+    public void badTile(String info) {
         // System.out.println("Wrong tile, try again");
     }
 
