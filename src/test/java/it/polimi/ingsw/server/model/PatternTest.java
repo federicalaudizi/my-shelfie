@@ -72,9 +72,7 @@ public class PatternTest {
         Shelf testingShelf = new Shelf();
         CollectiveObjectiveCard.PatternTwo pattern = new CollectiveObjectiveCard.PatternTwo();
 
-        System.out.println(testingShelf.prettyString());
-        assertFalse(pattern.checkObjective(testingShelf));
-        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS, Tile.CATS});
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS, Tile.CATS});
         System.out.println(testingShelf.prettyString());
         assertFalse(pattern.checkObjective(testingShelf));
         testingShelf.addTiles(0, new Tile[]{Tile.CATS});
@@ -89,6 +87,8 @@ public class PatternTest {
         testingShelf.addTiles(1, new Tile[]{Tile.GAMES, Tile.GAMES, Tile.GAMES});
 
         System.out.println(testingShelf.prettyString());
+        assertFalse(pattern.checkObjective(testingShelf));
+        testingShelf.addTiles(0, new Tile[]{Tile.CATS});
         assertTrue(pattern.checkObjective(testingShelf));
     }
 

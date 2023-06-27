@@ -422,20 +422,26 @@ public abstract class CollectiveObjectiveCard {
         public boolean checkObjective(Shelf shelf) {
             int count = 0;
             for (int i = 0; i < 5; i++) {
-                int equalTiles = 0;
-                // Get the bottom tile of the column
-                Tile comparingTile = shelf.getTile(new Coordinate(i, 0));
+                int sameTiles = 0;
+                Tile compareTile = shelf.getTile(new Coordinate(i, 0));
+                for(int j = 0; j < 6; j++){
 
-                if(comparingTile != EMPTY){
-                    for (int j = 0; j < 6; j++) {
-                        Coordinate tileCoordinate = new Coordinate(i, j);
-                        if(shelf.getTile(tileCoordinate) != comparingTile && shelf.getTile(tileCoordinate) != EMPTY){
-                            comparingTile = shelf.getTile(tileCoordinate);
-                        } else equalTiles++;
+                    if(shelf.getTile(new Coordinate(i, j)) == EMPTY) {
+                        break;
+                    }
+
+                    if(shelf.getTile(new Coordinate(i, j)) == compareTile){
+                        sameTiles++;
+                    }else {
+                        compareTile = shelf.getTile(new Coordinate(i, j));
+                        sameTiles = 0;
+                    }
+
+                    if(sameTiles >= 4) {
+                        count++;
+                        break;
                     }
                 }
-
-                if(equalTiles >= 4) count++;
             }
             return count >= 4;
         }
