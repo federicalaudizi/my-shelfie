@@ -1,0 +1,12 @@
+.glowing-text {
+    -fx-fill: #865807; /* Text fill color */
+    -fx-stroke: #865807; /* Stroke color */
+    -fx-stroke-type: outside; /* Stroke type */
+    -fx-stroke-width: 0.5; /* Stroke width */
+    -fx-effect: null; /* Disable initial effect */
+    -fx-transition: -fx-effect 0.3s; /* Apply transition to effect property */
+}
+
+.glowing-text:hover {
+    -fx-effect: dropshadow(gaussian, #865807, 20, 1, 0, 0); /* Glowing effect */
+}
