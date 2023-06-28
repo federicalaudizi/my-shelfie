@@ -160,7 +160,7 @@ public class RMIClientHandler extends ClientHandler {
         synchronized (tilesLock) {
             try {
                 // Wait for 120 seconds the answer
-                tilesLock.wait(30000);
+                tilesLock.wait(120000);
                 // If the answer is not received, the player disconnected
                 if(!tilesFlag) terminate();
             } catch (InterruptedException e) {
