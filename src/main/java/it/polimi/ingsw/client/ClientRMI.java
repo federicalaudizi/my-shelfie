@@ -46,7 +46,7 @@ public class ClientRMI extends Client {
                     int headerCode;
 
                     reply = gameInterface.ping(getUsername());
-                    System.err.println(reply);
+                    // System.err.println(reply);
                     headerCode = reply.getHeaderCode();
 
                     if(headerCode == GET_TILES.getCode())
@@ -66,9 +66,9 @@ public class ClientRMI extends Client {
                             throw new RuntimeException(e);
                         }
                     } else if(headerCode == PLAYER_TERMINATED.getCode()) {
-                        view.showError(reply.getBody().getJSONObject(0).getString("message"));
+                        view.showServerDisconnection();
+                        gameOver = true;
                         exit = view.continueScreen();
-                        //TODO: here i should exit the game
                     } else if(headerCode == PLAYER_DISCONNECTED.getCode()) {
                         view.showDisconnection(reply.getBody().getJSONObject(0).getString("username"));
                     }
