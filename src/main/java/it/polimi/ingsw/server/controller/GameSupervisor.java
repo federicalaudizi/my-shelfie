@@ -69,10 +69,13 @@ public class GameSupervisor implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        int delays = 0;
+
         while(true){
             try {
                 synchronized (this) {
-                    this.wait(5*60000);
+                    this.wait(5000);
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -85,14 +88,19 @@ public class GameSupervisor implements Runnable{
                 }
             }
 
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String filePath = "gamesaves/"+timeStamp + ".txt";
+            delays++;
 
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-                System.out.println("Supervisor: saving state on "+filePath);
-                writer.write(this.toJson().toString(1));
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(delays > 60){
+                delays = 0;
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String filePath = "gamesaves/" + timeStamp + ".txt";
+
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                    System.out.println("Supervisor: saving state on " + filePath);
+                    writer.write(this.toJson().toString(1));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
