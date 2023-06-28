@@ -161,18 +161,26 @@ public class Board {
         }
     }
 
+    /**
+     * Checks that those tiles can be picked
+     *
+     * @param c1 coordinate of the first tile
+     * @param c2 coordinate of the second tile
+     * @param c3 coordinate of the third tile
+     * @return true or false
+     */
     public boolean arePickables(Coordinate c1, Coordinate c2, Coordinate c3){
         if(c1 == null) return false;
         if (!isPickable(c1)) return false;
         if (c2 != null && !isPickable(c2)) return false;
         if (c3 != null && !isPickable(c3)) return false;
 
-        if(c2 != null) {
-            if (!(c1.getRow() == c2.getRow() || c1.getColumn() == c2.getColumn())) return false;
+        if(c2 != null && c3 == null) {
+            return line(c1, c2);
         }
 
-        if(c3 != null) {
-            return c1.getRow() == c3.getRow() || c1.getColumn() == c3.getColumn();
+        if(c2 != null) {
+            return line(c1, c2, c3);
         }
 
         return true;
@@ -211,6 +219,52 @@ public class Board {
                 board[row][column + 1] == Tile.OUTSIDE_GAME_BOARD ||
                 board[row][column - 1] == Tile.OUTSIDE_GAME_BOARD;
     }
+
+    /**
+     * Checks wether the tiles are on the same line or not
+     * @param c1 first coordinate
+     * @param c2 second coordinate
+     * @return true if are on the same line, false otherwise
+     */
+    private boolean line(Coordinate c1, Coordinate c2){
+        return (c1.getRow() == c2.getRow() && (c1.getColumn() == c2.getColumn()-1 || c1.getColumn() == c2.getColumn()+1)) || (c1.getColumn() == c2.getColumn() && (c1.getRow() == c2.getRow()-1 || c1.getRow() == c2.getRow()+1));
+    }
+
+    /**
+     * Checks wether the tiles are on the same line or not
+     * @param c1 first coordinate
+     * @param c2 second coordinate
+     * @return true if are on the same line, false otherwise
+     */
+    private boolean line(Coordinate c1, Coordinate c2, Coordinate c3){
+        boolean sameColumn = c1.getColumn() == c2.getColumn() && c2.getColumn() == c3.getColumn();
+        boolean sameRow = c1.getRow() == c2.getRow() && c2.getRow() == c3.getRow();
+
+        if(sameColumn){
+            int min = c1.getRow();
+            int max = c1.getRow();
+            if(c2.getRow() < min) min = c2.getRow();
+            if(c3.getRow() < min) min = c3.getRow();
+            if(c2.getRow() > max) max = c2.getRow();
+            if(c3.getRow() > max) max = c3.getRow();
+
+            return max-min < 3;
+        }
+
+        if(sameRow){
+            int min = c1.getColumn();
+            int max = c1.getColumn();
+            if(c2.getColumn() < min) min = c2.getColumn();
+            if(c3.getColumn() < min) min = c3.getColumn();
+            if(c2.getColumn() > max) max = c2.getColumn();
+            if(c3.getColumn() > max) max = c3.getColumn();
+
+            return max-min < 3;
+        }
+
+        return false;
+    }
+
 
     /**
      * Returns an array of tiles selected from the board through their coordinates. The method also checks if a tile
