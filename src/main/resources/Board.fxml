@@ -412,7 +412,7 @@
             </rotationAxis>
             <Image url="@Images/endgame_victorytrumpets.png" />
         </ImageView>
-        <ImageView fitHeight="240.0" fitWidth="361.0" layoutX="327.0" layoutY="283.0">
+        <ImageView fitHeight="240.0" fitWidth="361.0" layoutX="327.0" layoutY="283.0" visible="false">
             <Image url="@Images/parchment.png" />
         </ImageView>
         <Text fx:id="who" fill="#865807" layoutX="405.0" layoutY="375.0" stroke="#5b3600" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.5" textAlignment="CENTER" wrappingWidth="207.0">
