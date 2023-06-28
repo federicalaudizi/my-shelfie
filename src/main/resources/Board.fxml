@@ -143,17 +143,17 @@
         <ImageView fx:id="shelfImage4" fitHeight="124.0" fitWidth="107.0" layoutX="345.0" layoutY="476.0">
             <Image url="@Images/bookshelf.png" />
         </ImageView>
-        <Label fx:id="client2" layoutX="79.0" layoutY="604.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client2" alignment="CENTER_RIGHT" layoutX="61.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="client3" layoutX="222.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client3" alignment="CENTER_RIGHT" layoutX="204.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="client4" layoutX="364.0" layoutY="608.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client4" alignment="CENTER_RIGHT" layoutX="345.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -173,7 +173,7 @@
         <ImageView fx:id="scoreSecond2" fitHeight="30.0" fitWidth="30.0" layoutX="175.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="scoreFirst3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="scoreSecond3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
-        <Text fx:id="ClientName" layoutX="740.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="92.66668701171875">
+        <Text fx:id="ClientName" layoutX="729.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="92.66668701171875">
          <font>
             <Font name="System Bold Italic" size="16.0" />
          </font></Text>
@@ -344,6 +344,10 @@
         <ImageView fx:id="shelfImage3" fitHeight="124.0" fitWidth="107.0" layoutX="204.0" layoutY="476.0">
             <Image url="@Images/bookshelf.png" />
         </ImageView>
+      <ImageView fx:id="winner_first" fitHeight="30.0" fitWidth="30.0" layoutX="141.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="winner_second" fitHeight="30.0" fitWidth="30.0" layoutX="284.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="winner_third" fitHeight="30.0" fitWidth="30.0" layoutX="426.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="winner" fitHeight="30.0" fitWidth="30.0" layoutX="834.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
     </AnchorPane>
     <AnchorPane fx:id="leaderboard" layoutX="197.0" layoutY="-7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
         <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="341.0" layoutY="307.0">
@@ -419,6 +423,6 @@
                 <Font size="31.0" />
             </font>
         </Button>
-        <Text fx:id="who" fill="#5b3600" layoutX="398.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="219.0000000000001" />
+        <Text fx:id="who" fill="#5b3600" layoutX="398.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: 'Ink Blossom';" textAlignment="CENTER" wrappingWidth="219.0000000000001" />
     </AnchorPane>
 </AnchorPane>

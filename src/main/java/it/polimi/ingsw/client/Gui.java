@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -23,6 +24,7 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Gui.stage = stage;
+        Font.loadFont(getClass().getResourceAsStream("Ink-Blossoms.ttf"), 12);
 
         // Load the FXML file with the FXMLLoader
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Welcome.fxml"));

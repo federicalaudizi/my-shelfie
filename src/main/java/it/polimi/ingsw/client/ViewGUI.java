@@ -91,7 +91,7 @@ public class ViewGUI extends View {
     void update(Game game, LinkedList<String> playerOrder) {
         if (game.isLastTurn()) {
             Platform.runLater(() -> {
-               gameController.instruction.setText("It's the last turn! Make your move.");
+                gameController.instruction.setText("It's the last turn! Make your move.");
                 String stream = "/Images/livingroom.png";
                 try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
                     if (inputStream != null) {
@@ -102,7 +102,7 @@ public class ViewGUI extends View {
                     e.printStackTrace();
                 }
             });
-        }else{
+        } else {
             Platform.runLater(() -> {
                 gameController.instruction.setText("");
                 String stream = "/Images/new_livingroom.png";
@@ -134,6 +134,45 @@ public class ViewGUI extends View {
                 Gui.getStage().setScene(newScene);
             }
         });
+
+        if (game.isLastTurn()) {
+            setWinnerCard(game);
+            setWinnerCardOtherPlayers(game,playerOrder);
+        }
+    }
+
+    public void setWinnerCard(Game game) {
+        InputStream stream;
+        Image image;
+        stream = getClass().getResourceAsStream("/Images/end_game_card.png");
+        assert stream != null;
+        image = new Image(stream);
+        if (game.getPlayerByUsername(client.getUsername()).getShelf().isFull()){
+            gameController.winner.setImage(image);
+        }
+    }
+
+    public void setWinnerCardOtherPlayers(Game game, LinkedList<String> playerOrder){
+        int numPlayers = game.getNumberOfPlayers();
+        for (int i = 1; i < numPlayers; i++) {
+            String stream;
+            Image image;
+        if (game.getPlayerByUsername(playerOrder.get(i)).getShelf().isFull()) {
+            stream = "/Images/end_game_card.png";
+            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                if (inputStream != null) {
+                    image = new Image(inputStream);
+                    switch (i) {
+                        case 1 -> gameController.winner_first.setImage(image);
+                        case 2 -> gameController.winner_second.setImage(image);
+                        case 3 -> gameController.winner_third.setImage(image);
+                    }
+                }
+            } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     public void showDisconnection(String username) {
@@ -222,7 +261,7 @@ public class ViewGUI extends View {
      * Sets the point card image for a specific position for the client.
      *
      * @param card The PointCard object representing the card.
-     * @param i The position index (1 for the first position, 2 for the second position).
+     * @param i    The position index (1 for the first position, 2 for the second position).
      */
     private void setPointCard(PointCard card, int i) {
         String stream;
@@ -528,7 +567,7 @@ public class ViewGUI extends View {
         if (currentScene == null) {
             Scene scene = new Scene(joinRoot);
             Platform.runLater(() -> Gui.getStage().setScene(scene));
-        }else {
+        } else {
             Platform.runLater(() -> Gui.getStage().setScene(new Scene(joinRoot)));
         }
         String selectedGame = null;
