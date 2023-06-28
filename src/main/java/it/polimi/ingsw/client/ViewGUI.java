@@ -758,7 +758,7 @@ public class ViewGUI extends View {
      * Displays a popup notification to the client indicating that they have been disconnected by the server.
      * When the "Okay" button is pressed, the client application is closed.
      */
-    public void displayServerDisconnection(){
+    public void showServerDisconnection(){
         Stage popupStage = new Stage();
         popupStage.initStyle(StageStyle.UNDECORATED);
         Text text = new Text( "You have been disconnected by the Server. Reconnect to the game.");

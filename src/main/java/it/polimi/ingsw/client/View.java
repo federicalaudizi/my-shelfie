@@ -30,4 +30,6 @@ public abstract class View {
     abstract boolean continueScreen();
 
     abstract void showDisconnection(String username);
+
+    abstract void showServerDisconnection();
 }

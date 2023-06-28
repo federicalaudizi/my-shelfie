@@ -315,6 +315,14 @@ public class ViewCLI extends View {
     void showDisconnection(String username) {
         System.out.println(username + " disconnected from the game.");
     }
+
+    /**
+     *
+     */
+    @Override
+    void showServerDisconnection() {
+        System.out.println("The server disconnected.");
+    }
 }
 
 /**
