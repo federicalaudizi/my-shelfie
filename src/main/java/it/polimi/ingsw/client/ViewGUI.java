@@ -131,6 +131,10 @@ public class ViewGUI extends View {
             Gui.getStage().setTitle("My Shelfie");
             Scene currentScene = Gui.getStage().getScene();
             if (currentScene == null || currentScene.getRoot() != gameRoot) {
+                numberOfPlayersController.progress.setVisible(false);
+                numberOfPlayersController.text.setVisible(false);
+                joinController.progress.setVisible(false);
+                joinController.progressText.setVisible(false);
                 Scene newScene = new Scene(gameRoot);
                 Gui.getStage().setScene(newScene);
             }
