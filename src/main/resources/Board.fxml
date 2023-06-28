@@ -402,7 +402,7 @@
             </font>
         </Button>
     </AnchorPane>
-    <AnchorPane fx:id="commonObj" layoutX="5.0" layoutY="-68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="955.0">
+    <AnchorPane fx:id="commonObj" layoutX="5.0" layoutY="-68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="955.0" visible="false">
         <ImageView fitHeight="200.0" fitWidth="177.0" layoutX="613.0" layoutY="227.0">
             <Image url="@Images/endgame_victorytrumpets.png" />
         </ImageView>

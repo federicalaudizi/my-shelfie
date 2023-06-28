@@ -91,7 +91,7 @@ public class ViewGUI extends View {
     void update(Game game, LinkedList<String> playerOrder) {
         if (game.isLastTurn()) {
             Platform.runLater(() -> {
-                gameController.instruction.setText("It's the last turn! Make your move.");
+                gameController.instruction.setText("It's the last turn!");
                 String stream = "/Images/livingroom.png";
                 try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
                     if (inputStream != null) {
