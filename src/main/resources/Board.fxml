@@ -348,6 +348,27 @@
       <ImageView fx:id="winner_second" fitHeight="30.0" fitWidth="30.0" layoutX="284.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="winner_third" fitHeight="30.0" fitWidth="30.0" layoutX="426.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="winner" fitHeight="30.0" fitWidth="30.0" layoutX="834.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <AnchorPane fx:id="serverError" layoutX="262.0" layoutY="-18.0" prefHeight="409.0" prefWidth="535.0" visible="false">
+         <children>
+            <ImageView fitHeight="434.0" fitWidth="447.0" layoutX="36.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/leaderboard.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="115.0" layoutY="160.0" prefHeight="45.0" prefWidth="335.0" text="You have been disconnected by the Server." textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="166.0" layoutY="194.0" prefHeight="45.0" prefWidth="187.0" text="What do you want to do?" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+            <Button fx:id="exitbtn" layoutX="140.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#exitButton" text="Exit" />
+            <Button fx:id="reconnectbtn" layoutX="328.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#startNewGame" text="Reconnect" />
+         </children>
+      </AnchorPane>
     </AnchorPane>
     <AnchorPane fx:id="leaderboard" layoutX="197.0" layoutY="-7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
         <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="341.0" layoutY="307.0">

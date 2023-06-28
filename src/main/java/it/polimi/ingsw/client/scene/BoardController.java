@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.scene;
 
+import com.sun.glass.ui.Cursor;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.Gui;
 import it.polimi.ingsw.client.ViewGUI;
@@ -64,6 +65,7 @@ public class BoardController{
     public ImageView winner_third;
     public ImageView winner;
     public ImageView living_room_image;
+    public AnchorPane serverError;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;

@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -759,37 +760,9 @@ public class ViewGUI extends View {
      * When the "Okay" button is pressed, the client application is closed.
      */
     public void showServerDisconnection(){
-        Stage popupStage = new Stage();
-        popupStage.initStyle(StageStyle.UNDECORATED);
-        Text text = new Text( "You have been disconnected by the Server. Reconnect to the game.");
-        Button tryAgainButton = new Button("Okay");
-        VBox.setMargin(tryAgainButton, new Insets(40, 0, 0, 182)); // Add margin to the button
-        // Create the AnchorPane and add the content nodes
-        VBox layout = new VBox(3);
-        layout.getChildren().addAll(text, tryAgainButton);
-
-        TitledPane errorPopup = new TitledPane();
-        errorPopup.setAnimated(false);
-        errorPopup.setLayoutX(197);
-        errorPopup.setLayoutY(61);
-        errorPopup.setPrefHeight(130);
-        errorPopup.setPrefWidth(280);
-        errorPopup.setText("Warning");
-
-        errorPopup.setContent(layout);
-
-        popupStage.setResizable(false);
-        tryAgainButton.setOnAction(event -> {
-            Platform.runLater(() -> Gui.getStage().setScene(new Scene(connectRoot)));
-        });
-
-        // Set the TitledPane as the content of the popup Stage
-        StackPane container = new StackPane(errorPopup);
-        Scene popupScene = new Scene(container);
-        popupStage.setScene(popupScene);
-
-        // Show the popup Stage
-        popupStage.showAndWait();
+        System.out.println("sono qui");
+        gameController.board.setEffect(new GaussianBlur());
+        gameController.serverError.setVisible(true);
     }
 
     /**
