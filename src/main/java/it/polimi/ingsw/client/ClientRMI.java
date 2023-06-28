@@ -113,8 +113,6 @@ public class ClientRMI extends Client {
                 isValid = false;
             }
 
-            // TODO: if the ip goes to nowhere the client still asks for the name
-
             if (registry == null) {
                 view.showError("Unable to connect to the server. Retry.");
                 isValid = false;
