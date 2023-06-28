@@ -760,8 +760,6 @@ public class ViewGUI extends View {
      * When the "Okay" button is pressed, the client application is closed.
      */
     public void showServerDisconnection(){
-        System.out.println("sono qui");
-        gameController.board.setEffect(new GaussianBlur());
         gameController.serverError.setVisible(true);
     }
 
