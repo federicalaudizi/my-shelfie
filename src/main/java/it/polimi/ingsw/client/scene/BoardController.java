@@ -66,6 +66,8 @@ public class BoardController{
     public ImageView winner;
     public ImageView living_room_image;
     public AnchorPane serverError;
+    public Button exitbtn;
+    public Button reconnectbtn;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;
