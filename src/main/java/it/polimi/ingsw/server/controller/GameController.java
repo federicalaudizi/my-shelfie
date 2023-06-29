@@ -148,12 +148,12 @@ public class GameController implements Runnable {
      *
      * @param playerId the nickname of each player
      * @param handler  the ClientHandler connected to that playerId
-     * @throws ReachedMaxNumberOfPlayers when the number of players reaches the number chosen at
+     * @throws ReachedMaxNumberOfPlayersException when the number of players reaches the number chosen at
      *                                   the beginning of the play
      */
-    public void addPlayer(String playerId, ClientHandler handler) throws ReachedMaxNumberOfPlayers {
+    public void addPlayer(String playerId, ClientHandler handler) throws ReachedMaxNumberOfPlayersException {
         if (playerToClientHandlerMap.size() >= game.getNumberOfPlayers()) {
-            throw new ReachedMaxNumberOfPlayers();
+            throw new ReachedMaxNumberOfPlayersException();
         }
         connectedPlayers.put(playerId, 1);
         playerToClientHandlerMap.put(playerId, handler);

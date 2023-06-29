@@ -327,7 +327,7 @@ public class SocketClientHandler extends ClientHandler {
             System.out.println(thisPlayerId+": Game does not exist");
             send(new Message(BAD_GAME_ID, new JSONObject().put("message", "Game does not exists")));
             joinGamePhase();
-        } catch (ReachedMaxNumberOfPlayers e) {
+        } catch (ReachedMaxNumberOfPlayersException e) {
             // An FullGameException occurred, send the error and restart the login phase
             System.out.println(thisPlayerId+": Game is full");
             send(new Message(BAD_GAME_ID, new JSONObject().put("message", "Game is full")));

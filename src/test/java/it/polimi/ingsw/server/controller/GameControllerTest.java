@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.server.controller.network.FakeClientHandler;
 import it.polimi.ingsw.server.exceptions.NonExistentGameException;
 import it.polimi.ingsw.server.exceptions.PlayerIdTakenException;
-import it.polimi.ingsw.server.exceptions.ReachedMaxNumberOfPlayers;
+import it.polimi.ingsw.server.exceptions.ReachedMaxNumberOfPlayersException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ class GameControllerTest {
     }
 
     @Test
-    void notifyDisconnection() throws ReachedMaxNumberOfPlayers {
+    void notifyDisconnection() throws ReachedMaxNumberOfPlayersException {
         gameController1 = new GameController(2, "gameId", gameSupervisor);
         player1 = new FakeClientHandler();
         player2 = new FakeClientHandler();
@@ -37,7 +37,7 @@ class GameControllerTest {
     }
 
     @Test
-    void notifyConnection() throws ReachedMaxNumberOfPlayers, PlayerIdTakenException {
+    void notifyConnection() throws ReachedMaxNumberOfPlayersException, PlayerIdTakenException {
         gameController1 = new GameController(2, "gameId", gameSupervisor);
         FakeClientHandler player1 = new FakeClientHandler();
         FakeClientHandler player2 = new FakeClientHandler();
@@ -51,7 +51,7 @@ class GameControllerTest {
     }
 
     @Test
-    void addPlayer() throws ReachedMaxNumberOfPlayers {
+    void addPlayer() throws ReachedMaxNumberOfPlayersException {
         gameController1 = new GameController(2, "gameId", gameSupervisor);
         FakeClientHandler player1 = new FakeClientHandler();
         FakeClientHandler player2 = new FakeClientHandler();
@@ -59,11 +59,11 @@ class GameControllerTest {
         gameController1.addPlayer("pluto", player2);
         assertSame(player1, gameController1.getPlayerToClientHandlerMap().get("pippo"));
         assertSame(player2, gameController1.getPlayerToClientHandlerMap().get("pluto"));
-        assertThrows(ReachedMaxNumberOfPlayers.class, () -> gameController1.addPlayer("paperino", new FakeClientHandler()));
+        assertThrows(ReachedMaxNumberOfPlayersException.class, () -> gameController1.addPlayer("paperino", new FakeClientHandler()));
     }
 
     @Test
-    void toJson() throws ReachedMaxNumberOfPlayers, NonExistentGameException, PlayerIdTakenException, InterruptedException {
+    void toJson() throws ReachedMaxNumberOfPlayersException, NonExistentGameException, PlayerIdTakenException, InterruptedException {
         gameId = gameSupervisor.newGameTest(2);
         gameController1 = gameSupervisor.getGameControllerById(gameId);
 
