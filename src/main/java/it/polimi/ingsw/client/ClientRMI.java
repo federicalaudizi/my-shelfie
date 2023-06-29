@@ -48,7 +48,6 @@ public class ClientRMI extends Client {
                     int headerCode;
 
                     reply = gameInterface.ping(getUsername());
-                    // System.err.println(reply);
                     headerCode = reply.getHeaderCode();
 
                     if(headerCode == GET_TILES.getCode())
@@ -169,7 +168,6 @@ public class ClientRMI extends Client {
                     }
 
                     reply = loginInterface.createGame(getUsername(), playerNumber);
-                    System.err.println(reply);
                     headerCode = reply.getHeaderCode();
                     if(headerCode == OK.getCode())
                         operationCompleted = true;
@@ -178,7 +176,6 @@ public class ClientRMI extends Client {
                 case 2 -> {
                     // Join a new game option
                     reply = loginInterface.getGameList(getUsername());
-                    System.err.println(reply);
                     headerCode = reply.getHeaderCode();
 
                     if(headerCode == GAME_LIST_RESPONSE.getCode()) {
@@ -190,7 +187,6 @@ public class ClientRMI extends Client {
 
                         // Choose and send the game ID to the server
                         reply = loginInterface.joinGame(getUsername(), view.gameIdSelection(gameList));
-                        System.err.println(reply);
                         headerCode = reply.getHeaderCode();
 
                         if(headerCode == OK.getCode())
@@ -242,7 +238,6 @@ public class ClientRMI extends Client {
             setUsername(view.getUsername());
 
             reply = loginInterface.reconnect(getUsername());
-            System.err.println(reply);
             int headerCode = reply.getHeaderCode();
 
             if(headerCode == OK.getCode())
