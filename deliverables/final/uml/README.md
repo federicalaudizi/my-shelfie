@@ -19,7 +19,7 @@ This document is provided with the UML class diagrams and interaction diagrams i
 ### Client UML
 ![clientUML](./SpecificClientUML.png)
 
-## Interacion Diagrams
+## Interaction Diagrams
 
 ### Player Connection
 
@@ -43,7 +43,7 @@ When joining an existing game, the client asks the client handler what games are
 ![playerreconnection](./PlayerReconnection.jpg)
 
 
-When attempting to reconnect to the former game, the player first reconnects to the server. The server hands over the connection to a new instance of `ClientHandler`. The new client handler will ask the client if it wants to log in as a new player or an exsisting player; if the client chooses to be connected as an exsisting player, it will then be brought back to its original game. The original game is retrieved by the `GameSupervisor` using the old `userId`.
+When attempting to reconnect to the former game, the player first reconnects to the server. The server hands over the connection to a new instance of `ClientHandler`. The new client handler will ask the client if it wants to log in as a new player or an existing player; if the client chooses to be connected as an existing player, it will then be brought back to its original game. The original game is retrieved by the `GameSupervisor` using the old `userId`.
 
 ### Objective completion
 
