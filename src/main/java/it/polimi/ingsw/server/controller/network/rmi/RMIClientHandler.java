@@ -96,8 +96,10 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-        stateFlag = true;
-        stateMessage = new Message(GAME_UPDATE, gameState.toJson());
+        synchronized(pingLock) {
+            stateFlag = true;
+            stateMessage = new Message(GAME_UPDATE, gameState.toJson());
+        }
     }
 
     /**
@@ -118,8 +120,10 @@ public class RMIClientHandler extends ClientHandler {
         body.put(gameState.toJson());
         body.put(objectiveWinner);
 
-        stateFlag = true;
-        stateMessage = new Message(GAME_UPDATE, body);
+        synchronized (pingLock) {
+            stateFlag = true;
+            stateMessage = new Message(GAME_UPDATE, body);
+        }
     }
 
     /**
@@ -160,7 +164,7 @@ public class RMIClientHandler extends ClientHandler {
         synchronized (tilesLock) {
             try {
                 // Wait for 120 seconds the answer
-                tilesLock.wait(10000);
+                tilesLock.wait(120000);
                 // If the answer is not received, the player disconnected
                 if(!tilesFlag) terminate();
             } catch (InterruptedException e) {

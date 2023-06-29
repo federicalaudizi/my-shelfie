@@ -1,0 +1,9 @@
+it.polimi.ingsw
+it.polimi.ingsw.client
+it.polimi.ingsw.client.scene
+it.polimi.ingsw.server.controller
+it.polimi.ingsw.server.controller.network
+it.polimi.ingsw.server.controller.network.rmi
+it.polimi.ingsw.server.controller.network.socket
+it.polimi.ingsw.server.exceptions
+it.polimi.ingsw.server.model
