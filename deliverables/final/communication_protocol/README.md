@@ -40,7 +40,7 @@ Every header is identified by a *three-digit number*:
 - The first digit denotes the *nature of the header*:
 
 | Digit | Description           |
-| ----- | --------------------- |
+|-------|-----------------------|
 | 1     | Informational message |
 | 2     | Confirmation message  |
 | 3     | Request message       |
@@ -49,7 +49,7 @@ Every header is identified by a *three-digit number*:
 - The second digit indicates the *scope of the header*:
 
 | Digit | Description          |
-| ----- | -------------------- |
+|-------|----------------------|
 | 1     | Login-related header |
 | 2     | Game-related header  | 
 
@@ -58,7 +58,7 @@ Every header is identified by a *three-digit number*:
 A comprehensive list of headers can be found below:
 
 | Command               | Code | Sender        | Body                                    | Description                                                                                                                    |
-| --------------------- | ---- | ------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+|-----------------------|------|---------------|-----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
 | `PING`                | 101  | Server        |                                         | This message is used to verify that the connection between client and server is still alive.                                   |
 | `GAME_OVER`           | 121  | Server        | `leaderboard: HashMap<String, Integer>` | This message contains a hash map with the leaderboard of the players to display to every user.                                 |
 | `GAME_UPDATE`         | 122  | Server        | `gameStatus: JSONObject`                | Sent at the end of every turn in order to let the client update the player's view.                                             |
@@ -90,7 +90,7 @@ The body of the message will be formatted differently according to what the mess
 
 #### `GAME_OVER`
 
-```json
+```
 {
 	"header": GAME_OVER,
 	"body": [
@@ -110,7 +110,7 @@ Note that since the game is for 2-4 players, the number of `JSONObjects` inside 
 
 #### `GAME_UPDATE`
 
-```json
+```
 {
 	"header": GAME_UPDATE,
 	"body": [
@@ -202,7 +202,7 @@ Note that since the game is for 2-4 players, the number of `JSONObjects` inside 
 
 #### `GAME_LIST_RESPONSE`
 
-```json
+```
 {
 	"header": GAME_LIST_RESPONSE,
 	"body": [
@@ -215,7 +215,7 @@ Note that since the game is for 2-4 players, the number of `JSONObjects` inside 
 
 #### `JOIN_GAME_RESPONSE`
 
-```json
+```
 {
 	"header": JOIN_GAME_RESPONSE,
 	"body" :[
@@ -228,7 +228,7 @@ Note that since the game is for 2-4 players, the number of `JSONObjects` inside 
 
 #### `SEND_TILES`
 
-```json
+```
 {
 	"header": SEND_TILES,
 	"body": [
@@ -252,7 +252,7 @@ The message body does not need to contain exactly three tiles, but can contain b
 
 #### `SEND_COLUMN`
 
-```json
+```
 {
 	"header": SEND_COLUMN,
 	"body": [
@@ -265,7 +265,7 @@ The message body does not need to contain exactly three tiles, but can contain b
 
 #### `LOGIN_REQUEST`
 
-```json
+```
 {
 	"header": LOGIN_REQUEST,
 	"body": [
@@ -278,7 +278,7 @@ The message body does not need to contain exactly three tiles, but can contain b
 
 #### `NEW_GAME_REQUEST`
 
-```json
+```
 {
 	"header": NEW_GAME_REQUEST,
 	"body": [
@@ -291,7 +291,7 @@ The message body does not need to contain exactly three tiles, but can contain b
 
 #### `JOIN_GAME_REQUEST`
 
-```json
+```
 {
 	"header": JOIN_GAME_REQUEST,
 	"body": [
@@ -304,7 +304,7 @@ The message body does not need to contain exactly three tiles, but can contain b
 
 #### `RECONNECT`
 
-```json
+```
 {
 	"header": RECONNECT,
 	"body": [
@@ -317,7 +317,7 @@ The message body does not need to contain exactly three tiles, but can contain b
 
 #### `PLAYER_DISCONNECTED`
 
-```json
+```
 {
 	"header": PLAYER_DISCONNECTED,
 	"body": [
