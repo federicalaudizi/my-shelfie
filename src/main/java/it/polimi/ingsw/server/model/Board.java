@@ -174,7 +174,7 @@ public class Board {
      * @param c3 coordinate of the third tile
      * @return true or false
      */
-    public boolean arePickables(Coordinate c1, Coordinate c2, Coordinate c3){
+    public boolean arePickable(Coordinate c1, Coordinate c2, Coordinate c3){
         if(c1 == null) return false;
         if (!isPickable(c1)) return false;
         if (c2 != null && !isPickable(c2)) return false;
@@ -226,7 +226,7 @@ public class Board {
     }
 
     /**
-     * Checks wether the tiles are on the same line or not
+     * Checks whether the tiles are on the same line or not
      * @param c1 first coordinate
      * @param c2 second coordinate
      * @return true if are on the same line, false otherwise
@@ -236,7 +236,7 @@ public class Board {
     }
 
     /**
-     * Checks wether the tiles are on the same line or not
+     * Checks whether the tiles are on the same line or not
      * @param c1 first coordinate
      * @param c2 second coordinate
      * @return true if are on the same line, false otherwise
