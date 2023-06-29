@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -108,7 +109,8 @@ public class ClientSocket extends Client {
             String[] hostInfo = ip.split(":");
 
             try {
-                socket = new Socket(hostInfo[0], Integer.parseInt(hostInfo[1]));
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(hostInfo[0], Integer.parseInt(hostInfo[1])), 5000);
                 writer = new PrintWriter(socket.getOutputStream());
                 InputStreamReader reader = new InputStreamReader(socket.getInputStream());
                 bufferedReader = new BufferedReader(reader);
