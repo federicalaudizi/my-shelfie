@@ -90,7 +90,7 @@ public class GameSupervisor implements Runnable{
 
             delays++;
 
-            if(delays > 5){
+            if(delays > 60){
                 delays = 0;
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String filePath = "gamesaves/" + timeStamp + ".txt";
