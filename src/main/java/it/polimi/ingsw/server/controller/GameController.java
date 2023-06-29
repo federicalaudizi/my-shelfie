@@ -186,7 +186,6 @@ public class GameController implements Runnable {
                     }
                 } catch (PlayerDisconnectedException e) {
                     // Player disconnected, game over
-                    e.printStackTrace();
                     notifyDisconnection(currentPlayerId);
                 }
 
@@ -311,7 +310,6 @@ public class GameController implements Runnable {
                 }
                 columnPicked = true;
             } catch (tooManyTilesException | notEnoughTilesException | fullColumnException e){
-                e.printStackTrace();
                 getClientHandler(currentPlayerId).badColumn();
             }
         }
