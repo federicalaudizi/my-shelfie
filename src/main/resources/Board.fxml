@@ -92,7 +92,7 @@
         </GridPane>
         <ImageView fx:id="commonCard1" fitHeight="124.0" fitWidth="167.0" layoutX="530.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="commonCard2" fitHeight="124.0" fitWidth="167.0" layoutX="530.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true" />
-        <Button fx:id="continueButton" layoutX="541.0" layoutY="248.0" mnemonicParsing="false" onAction="#handleConfirmation" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-width: 1px; -fx-border-color: #25171c; -fx-border-radius: 15px;" text="Continue" />
+        <Button fx:id="continueButton" layoutX="541.0" layoutY="248.0" mnemonicParsing="false" onAction="#handleConfirmation" style="-fx-background-color: #f2dfa7; -fx-background-radius: 15px; -fx-border-width: 1px; -fx-border-color: #25171c; -fx-border-radius: 15px;" styleClass="glowing-button" text="Continue" textOverrun="CLIP" />
         <GridPane fx:id="shelfGrid4" layoutX="356.0" layoutY="482.0" prefHeight="100.0" prefWidth="85.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="98.0" />
@@ -143,17 +143,17 @@
         <ImageView fx:id="shelfImage4" fitHeight="124.0" fitWidth="107.0" layoutX="345.0" layoutY="476.0">
             <Image url="@Images/bookshelf.png" />
         </ImageView>
-        <Label fx:id="client2" alignment="CENTER_RIGHT" layoutX="61.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client2" layoutX="61.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="client3" alignment="CENTER_RIGHT" layoutX="204.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client3" layoutX="204.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label fx:id="client4" alignment="CENTER_RIGHT" layoutX="345.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
+        <Label fx:id="client4" layoutX="345.0" layoutY="606.0" prefHeight="17.0" prefWidth="72.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -173,7 +173,7 @@
         <ImageView fx:id="scoreSecond2" fitHeight="30.0" fitWidth="30.0" layoutX="175.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="scoreFirst3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="scoreSecond3" fitHeight="30.0" fitWidth="30.0" layoutX="319.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
-        <Text fx:id="ClientName" layoutX="729.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="92.66668701171875">
+        <Text fx:id="ClientName" layoutX="729.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="92.66668701171875">
          <font>
             <Font name="System Bold Italic" size="16.0" />
          </font></Text>
@@ -344,31 +344,42 @@
         <ImageView fx:id="shelfImage3" fitHeight="124.0" fitWidth="107.0" layoutX="204.0" layoutY="476.0">
             <Image url="@Images/bookshelf.png" />
         </ImageView>
-      <ImageView fx:id="winner_first" fitHeight="30.0" fitWidth="30.0" layoutX="141.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="winner_second" fitHeight="30.0" fitWidth="30.0" layoutX="284.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="winner_third" fitHeight="30.0" fitWidth="30.0" layoutX="426.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="winner" fitHeight="30.0" fitWidth="30.0" layoutX="834.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
-      <AnchorPane fx:id="serverError" layoutX="262.0" layoutY="-18.0" prefHeight="409.0" prefWidth="535.0" visible="false">
-         <children>
-            <ImageView fitHeight="434.0" fitWidth="447.0" layoutX="36.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/leaderboard.png" />
-               </image>
+      <ImageView fx:id="winner_first" fitHeight="23.0" fitWidth="23.0" layoutX="141.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="winner_second" fitHeight="23.0" fitWidth="23.0" layoutX="284.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="winner_third" fitHeight="23.0" fitWidth="23.0" layoutX="426.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="winner" fitHeight="23.0" fitWidth="23.0" layoutX="834.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+        <AnchorPane fx:id="serverError" layoutX="262.0" layoutY="-18.0" prefHeight="409.0" prefWidth="535.0">
+            <ImageView fitHeight="434.0" fitWidth="447.0" layoutX="36.0" layoutY="-23.0" pickOnBounds="true"
+                       preserveRatio="true">
+                <Image url="@Images/leaderboard.png"/>
             </ImageView>
-            <Label layoutX="115.0" layoutY="160.0" prefHeight="45.0" prefWidth="335.0" text="You have been disconnected by the Server." textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
+            <Label layoutX="115.0" layoutY="160.0" prefHeight="45.0" prefWidth="335.0"
+                   text="You have been disconnected by the Server." textAlignment="CENTER" textFill="#542400">
+                <font>
+                    <Font name="System Bold Italic" size="15.0"/>
+                </font>
             </Label>
-            <Label layoutX="166.0" layoutY="194.0" prefHeight="45.0" prefWidth="187.0" text="What do you want to do?" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
+            <Label layoutX="156.0" layoutY="205.0" prefHeight="45.0" prefWidth="207.0" text="What do you want to do?"
+                   textAlignment="CENTER" textFill="#542400">
+                <font>
+                    <Font name="Arial Bold" size="17.0"/>
+                </font>
             </Label>
-            <Button fx:id="exitbtn" layoutX="140.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#exitButton" text="Exit" />
-            <Button fx:id="reconnectbtn" layoutX="328.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#startNewGame" text="Reconnect" />
-         </children>
-      </AnchorPane>
+            <Button fx:id="exitbtn" layoutX="134.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#exitButton"
+                    style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button"
+                    text="Exit" textFill="#542400" textOverrun="CLIP">
+                <font>
+                    <Font name="Arial Bold" size="24.0"/>
+                </font>
+            </Button>
+            <Button fx:id="reconnectbtn" layoutX="283.0" layoutY="255.0" mnemonicParsing="false"
+                    onMouseClicked="#startNewGame" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;"
+                    styleClass="glowing-button" text="Reconnect" textFill="#542400" textOverrun="CLIP">
+                <font>
+                    <Font name="Arial Bold" size="24.0"/>
+                </font>
+            </Button>
+        </AnchorPane>
     </AnchorPane>
     <AnchorPane fx:id="leaderboard" layoutX="197.0" layoutY="-7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
         <ImageView fitHeight="111.0" fitWidth="111.0" layoutX="341.0" layoutY="307.0">
@@ -450,4 +461,7 @@
             <URL value="@glowText.css" />
         </stylesheets>
     </AnchorPane>
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
 </AnchorPane>

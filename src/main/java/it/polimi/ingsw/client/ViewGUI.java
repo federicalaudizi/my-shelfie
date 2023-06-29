@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -142,44 +141,73 @@ public class ViewGUI extends View {
 
         if (game.isLastTurn()) {
             setWinnerCard(game);
-            setWinnerCardOtherPlayers(game,playerOrder);
+            setWinnerCardOtherPlayers(game, playerOrder);
         }
     }
 
+    /**
+     * Sets the winner card image for the current player in the game.
+     *
+     * @param game The current game object.
+     */
     public void setWinnerCard(Game game) {
         InputStream stream;
         Image image;
+
+        // Retrieve the input stream for the winner card image
         stream = getClass().getResourceAsStream("/Images/end_game_card.png");
-        assert stream != null;
+        assert stream != null; // Ensure that the input stream is not null
+
+        // Create a new Image object from the input stream
         image = new Image(stream);
-        if (game.getPlayerByUsername(client.getUsername()).getShelf().isFull()){
+
+        // Check if the current player's shelf is full
+        if (game.getPlayerByUsername(client.getUsername()).getShelf().isFull()) {
+            // Set the winner card image in the game controller
             gameController.winner.setImage(image);
         }
     }
 
-    public void setWinnerCardOtherPlayers(Game game, LinkedList<String> playerOrder){
+    /**
+     * Sets the winner card image for other players in the game.
+     *
+     * @param game        The current game object.
+     * @param playerOrder The ordered list of player usernames.
+     */
+    public void setWinnerCardOtherPlayers(Game game, LinkedList<String> playerOrder) {
         int numPlayers = game.getNumberOfPlayers();
+
+        // Iterate through all players starting from the second player (index 1)
         for (int i = 1; i < numPlayers; i++) {
             String stream;
             Image image;
-        if (game.getPlayerByUsername(playerOrder.get(i)).getShelf().isFull()) {
-            stream = "/Images/end_game_card.png";
-            try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
-                if (inputStream != null) {
-                    image = new Image(inputStream);
-                    switch (i) {
-                        case 1 -> gameController.winner_first.setImage(image);
-                        case 2 -> gameController.winner_second.setImage(image);
-                        case 3 -> gameController.winner_third.setImage(image);
+            // Check if the player's shelf is full
+            if (game.getPlayerByUsername(playerOrder.get(i)).getShelf().isFull()) {
+                stream = "/Images/end_game_card.png";
+
+                try (InputStream inputStream = getClass().getResourceAsStream(stream)) {
+                    if (inputStream != null) {
+                        // Create a new Image object from the input stream
+                        image = new Image(inputStream);
+
+                        // Set the winner card image based on the player's index
+                        switch (i) {
+                            case 1 -> gameController.winner_first.setImage(image);
+                            case 2 -> gameController.winner_second.setImage(image);
+                            case 3 -> gameController.winner_third.setImage(image);
+                        }
                     }
-                }
-            } catch (IOException e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
         }
     }
 
+    /**
+     Shows a disconnection notification for a specific user.
+     @param username The username of the disconnected user.
+     */
     public void showDisconnection(String username) {
         Platform.runLater(() -> displayDisconnection(username));
     }
@@ -763,7 +791,7 @@ public class ViewGUI extends View {
      * Displays a popup notification to the client indicating that they have been disconnected by the server.
      * When the "Okay" button is pressed, the client application is closed.
      */
-    public void showServerDisconnection(){
+    public void showServerDisconnection() {
         gameController.serverError.setVisible(true);
     }
 
