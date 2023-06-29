@@ -358,6 +358,7 @@ public class Board {
                     toRepopulate = ((board[i + 1][j] == Tile.EMPTY || board[i + 1][j] == Tile.OUTSIDE_GAME_BOARD) && (board[i][j + 1] == Tile.EMPTY) || board[i][j + 1] == Tile.OUTSIDE_GAME_BOARD);
                 if(!toRepopulate) break;
             }
+            if(!toRepopulate) break;
         }
 
         // Outliers check: in three and four player modes, these tiles must be checked as well, but it is not necessary
