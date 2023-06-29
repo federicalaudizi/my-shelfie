@@ -69,6 +69,7 @@ public class ClientRMI extends Client {
                         }
                     } else if(headerCode == PLAYER_TERMINATED.getCode()) {
                         gameOver = true;
+                        view.showServerDisconnection();
                         gameOver(reply.getBody());
                         exit = view.continueScreen();
                     } else if(headerCode == PLAYER_DISCONNECTED.getCode()) {
