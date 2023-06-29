@@ -198,11 +198,11 @@ public class ViewCLI extends View {
         StringBuilder achievementMessage = new StringBuilder();
 
         if(username.equals(client.getUsername()))
-            achievementMessage.append(client.getUsername());
-        else
+            achievementMessage.append("You have won");
+        else {
             achievementMessage.append(username);
-
-        achievementMessage.append(" has won");
+            achievementMessage.append(" has won");
+        }
 
         switch(objectiveNumber) {
             case 1 -> achievementMessage.append(" objective I!");
