@@ -338,6 +338,11 @@ public class Game {
         return new String[]{collectiveObjectiveCard1.getClass().getSimpleName(), collectiveObjectiveCard2.getClass().getSimpleName()};
     }
 
+    /**
+     * Retrieves the current player.
+     *
+     * @return A new Player object representing the current player.
+     */
     public Player getCurrentPlayer() {
         return new Player(players.get(getCurrentPlayerIndex()));
     }
