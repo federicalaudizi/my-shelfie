@@ -77,6 +77,11 @@ public enum Tile {
         return symbol;
     }
 
+    /**
+     * Returns an InputStream corresponding to the path of an image based on the type.
+     *
+     * @return The InputStream representing the image path, or null if the type is not recognized.
+     */
     public InputStream getPath() {
         return switch (this.type) {
             case "Cats" -> getClass().getResourceAsStream("/Images/Gatti1.1.png");

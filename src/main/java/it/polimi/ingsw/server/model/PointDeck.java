@@ -64,6 +64,12 @@ public class PointDeck {
         }
     }
 
+    /**
+     * Checks if the current deck is equal to another deck by comparing their sizes and card values.
+     *
+     * @param otherDeck The PointDeck object to compare against.
+     * @return true if the decks are equal, false otherwise.
+     */
     public boolean isEqualTo(PointDeck otherDeck) {
         if (this.size != otherDeck.size) {
             return false;
