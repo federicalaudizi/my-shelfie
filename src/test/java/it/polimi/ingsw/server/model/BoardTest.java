@@ -52,18 +52,6 @@ public class BoardTest {
     public void repopulateTest() {
         Board board = new Board();
         System.out.println(board);
-        String boardCheck = """
-        x x x x x x x x x\s
-        x x x e e x x x x\s
-        x x x e e e x x x\s
-        x x e e e g e e x\s
-        x g e e e e e e x\s
-        x e e e e e e x x\s
-        x x x e e e x x x\s
-        x x x x e e x x x\s
-        x x x x x x x x x\s
-        """;
-        //assertEquals(board.toString(), boardCheck);
 
         board.checkBoard();
 
