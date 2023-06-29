@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.controller.network.rmi.RMIGameInterface;
 import it.polimi.ingsw.server.controller.network.rmi.RMILoginInterface;
 import org.json.JSONArray;
 
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -107,7 +109,11 @@ public class ClientRMI extends Client {
             String[] hostInfo = ip.split(":");
 
             try {
-                registry = LocateRegistry.getRegistry(hostInfo[0], Integer.parseInt(hostInfo[1]));
+                registry = LocateRegistry.getRegistry(hostInfo[0], Integer.parseInt(hostInfo[1]), (host, port) -> {
+                    Socket socket = new Socket();
+                    socket.connect(new InetSocketAddress(host, port), 5000);
+                    return socket;
+                });
             } catch (RemoteException e) {
                 view.showError("Unable to connect to the server. Retry.");
                 isValid = false;
