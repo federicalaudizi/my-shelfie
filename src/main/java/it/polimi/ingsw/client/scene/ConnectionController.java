@@ -26,7 +26,6 @@ public class ConnectionController {
      * Handles the mouse click event for the IP address input field.
      * Retrieves the IP address entered by the user and adds it to the queue for further processing.
      *
-     * @throws InterruptedException If the thread is interrupted while adding the IP address to the queue.
      */
     @FXML
     public void handleMouseClickForIp() {

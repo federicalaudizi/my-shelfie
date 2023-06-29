@@ -3,7 +3,11 @@ package it.polimi.ingsw.server.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * Represents the bag containing the tiles
+ *
+ * @author Mario Merlo
+ */
 public class Bag {
     private final ArrayList<Tile> tiles;
     private int remainingTiles;
@@ -37,7 +41,7 @@ public class Bag {
 
     /**
      * Copy constructor
-     * @param other
+     * @param other the bag to copy
      * */
     public Bag(Bag other){
         this.remainingTiles = other.remainingTiles;

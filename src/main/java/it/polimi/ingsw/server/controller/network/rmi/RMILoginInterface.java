@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller.network.rmi;
 
-import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.controller.network.Message;
 
 import java.rmi.Remote;
@@ -12,7 +11,7 @@ public interface RMILoginInterface extends Remote {
      *
      * @param username the username of the player
      * @return a message with an error or confirmation, confirmation consist in OK, errors can be USERNAME_TAKEN or GENERIC_ERROR
-     * @throws RemoteException
+     * @throws RemoteException when a connection error occurs
      * @author Federico
      */
     Message login(String username) throws RemoteException;
@@ -22,7 +21,7 @@ public interface RMILoginInterface extends Remote {
      *
      * @param username the username of the player
      * @return a message with an error or confirmation, confirmation consist in OK, error could be GENERIC_ERROR
-     * @throws RemoteException
+     * @throws RemoteException when a connection error occurs
      * @author Federico
      */
     Message reconnect(String username) throws RemoteException;
@@ -33,7 +32,7 @@ public interface RMILoginInterface extends Remote {
      * @param me the username of the player
      * @param numberOfPlayers the number of players
      * @return a message with an error or confirmation, confirmation consist in OK, error can be GENERIC_ERROR
-     * @throws RemoteException
+     * @throws RemoteException when a connection error occurs
      * @author Federico
      */
     Message createGame(String me, int numberOfPlayers) throws RemoteException;
@@ -43,7 +42,7 @@ public interface RMILoginInterface extends Remote {
      *
      * @param me the username of the player
      * @return a message with the list of all games
-     * @throws RemoteException
+     * @throws RemoteException when a connection error occurs
      * @author Federico
      */
     Message getGameList(String me) throws RemoteException;
@@ -54,7 +53,7 @@ public interface RMILoginInterface extends Remote {
      * @param me the username of the player
      * @param gameID the id of the game
      * @return a message with an error or confirmation, confirmation consist in OK, error can be GENERIC_ERROR
-     * @throws RemoteException
+     * @throws RemoteException when a connection error occurs
      */
     Message joinGame(String me, String gameID) throws RemoteException;
 }
