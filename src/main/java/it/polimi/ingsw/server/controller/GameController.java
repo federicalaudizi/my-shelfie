@@ -106,6 +106,11 @@ public class GameController implements Runnable {
         while (!isOver) {
             synchronized (stateLock) {
                 playTurn();
+                try {
+                    stateLock.wait(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
@@ -186,8 +191,7 @@ public class GameController implements Runnable {
                     }
                 } catch (PlayerDisconnectedException e) {
                     // Player disconnected, game over
-                    e.printStackTrace();
-                    notifyDisconnection(currentPlayerId);
+                    // notifyDisconnection(currentPlayerId);
                 }
 
             }
@@ -311,7 +315,6 @@ public class GameController implements Runnable {
                 }
                 columnPicked = true;
             } catch (tooManyTilesException | notEnoughTilesException | fullColumnException e){
-                e.printStackTrace();
                 getClientHandler(currentPlayerId).badColumn();
             }
         }
@@ -405,6 +408,7 @@ public class GameController implements Runnable {
             ret.put("game", game.toJson());
             ret.put("players", new JSONArray(players));
             ret.put("isOver", isOver);
+            stateLock.notifyAll();
         }
 
         return ret;

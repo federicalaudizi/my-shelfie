@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.scene;
 
-import com.sun.glass.ui.Cursor;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.Gui;
 import it.polimi.ingsw.client.ViewGUI;
@@ -19,8 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -66,6 +63,8 @@ public class BoardController{
     public ImageView winner;
     public ImageView living_room_image;
     public AnchorPane serverError;
+    public Button exitbtn;
+    public Button reconnectbtn;
     private boolean[][] clickedCells;
     private ImageView[][] imageViews;
     public Label client2;

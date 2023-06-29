@@ -90,14 +90,15 @@ public class GameSupervisor implements Runnable{
 
             delays++;
 
-            if(delays > 60){
+            if(delays > 5){
                 delays = 0;
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String filePath = "gamesaves/" + timeStamp + ".txt";
 
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-                    System.out.println("Supervisor: saving state on " + filePath);
+                    System.out.println("Supervisor: trying to save gamestate");
                     writer.write(this.toJson().toString(1));
+                    System.out.println("Supervisor: saving state on " + filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
