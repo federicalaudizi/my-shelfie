@@ -107,7 +107,7 @@ public class GameController implements Runnable {
             synchronized (stateLock) {
                 playTurn();
                 try {
-                    stateLock.wait(500);
+                    stateLock.wait(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
