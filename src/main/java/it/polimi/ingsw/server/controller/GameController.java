@@ -268,7 +268,7 @@ public class GameController implements Runnable {
         while(!tilesPicked){
             System.out.println(gameId+": "+currentPlayerId+" has to choose the tile");
             boolean pickables;
-            String info = "Selected tiles cant be picked";
+            String info = "Selected tiles can't be picked";
             coordinates = getClientHandler(currentPlayerId).getTiles();
 
             // Konami Code
