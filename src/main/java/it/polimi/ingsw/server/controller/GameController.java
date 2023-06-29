@@ -191,7 +191,7 @@ public class GameController implements Runnable {
                     }
                 } catch (PlayerDisconnectedException e) {
                     // Player disconnected, game over
-                    notifyDisconnection(currentPlayerId);
+                    // notifyDisconnection(currentPlayerId);
                 }
 
             }
