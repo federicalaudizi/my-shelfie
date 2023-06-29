@@ -309,7 +309,8 @@ public class ViewCLI extends View {
     }
 
     /**
-     * @param username
+     * This method displays a warning when a user is disconnected from the game
+     * @param username the disconnected user's username
      */
     @Override
     void showDisconnection(String username) {
@@ -317,7 +318,7 @@ public class ViewCLI extends View {
     }
 
     /**
-     *
+     * This method displays a warning when a user is forcibly disconnected by the server after a timeout.
      */
     @Override
     void showServerDisconnection() {
