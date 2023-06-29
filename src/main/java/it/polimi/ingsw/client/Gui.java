@@ -51,6 +51,11 @@ public class Gui extends Application {
         launch();
     }
 
+    /**
+     * Retrieves the current stage.
+     *
+     * @return The Stage object representing the current stage.
+     */
     public static Stage getStage(){
         return stage;
     }

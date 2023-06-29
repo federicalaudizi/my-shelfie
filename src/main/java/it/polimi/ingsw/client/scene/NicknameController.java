@@ -41,10 +41,4 @@ public class NicknameController {
 
     }
 
-    public void displayWaitingOther() {
-        waitingOther.setVisible(true);
-    }
-    public void removeWaitingOtherFromScreen() {
-        waitingOther.setVisible(false);
-    }
 }

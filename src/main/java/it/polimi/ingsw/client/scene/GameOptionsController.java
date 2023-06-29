@@ -3,10 +3,6 @@ package it.polimi.ingsw.client.scene;
 import it.polimi.ingsw.client.ViewGUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.text.*;
 
 public class GameOptionsController {
 
