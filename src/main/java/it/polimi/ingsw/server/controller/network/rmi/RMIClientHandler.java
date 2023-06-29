@@ -96,8 +96,10 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-        stateFlag = true;
-        stateMessage = new Message(GAME_UPDATE, gameState.toJson());
+        synchronized(pingLock) {
+            stateFlag = true;
+            stateMessage = new Message(GAME_UPDATE, gameState.toJson());
+        }
     }
 
     /**
@@ -118,8 +120,10 @@ public class RMIClientHandler extends ClientHandler {
         body.put(gameState.toJson());
         body.put(objectiveWinner);
 
-        stateFlag = true;
-        stateMessage = new Message(GAME_UPDATE, body);
+        synchronized (pingLock) {
+            stateFlag = true;
+            stateMessage = new Message(GAME_UPDATE, body);
+        }
     }
 
     /**
