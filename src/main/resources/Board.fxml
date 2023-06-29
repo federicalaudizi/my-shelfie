@@ -444,7 +444,7 @@
          <font>
             <Font name="Apple Chancery" size="18.0" />
          </font></Text>
-      <Text fill="#865807" layoutX="450.0" layoutY="481.0" onMouseClicked="#close" stroke="#865807" strokeType="OUTSIDE" strokeWidth="0.5" styleClass="glowing-text" text="Continue">
+      <Text fill="#865807" layoutX="450.0" layoutY="481.0" onMouseClicked="#close" stroke="#865807" strokeType="OUTSIDE" strokeWidth="0.5" text="Continue">
          <font>
             <Font name="Apple Chancery" size="31.0" />
          </font>
