@@ -106,6 +106,11 @@ public class GameController implements Runnable {
         while (!isOver) {
             synchronized (stateLock) {
                 playTurn();
+                try {
+                    stateLock.wait(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
@@ -403,6 +408,7 @@ public class GameController implements Runnable {
             ret.put("game", game.toJson());
             ret.put("players", new JSONArray(players));
             ret.put("isOver", isOver);
+            stateLock.notifyAll();
         }
 
         return ret;
