@@ -3,8 +3,8 @@ package it.polimi.ingsw.server.controller.network;
 import it.polimi.ingsw.server.controller.GameSupervisor;
 
 public abstract class Server implements Runnable{
-    protected GameSupervisor ongoingGames;
-    protected int port;
+    protected final GameSupervisor ongoingGames;
+    protected final int port;
 
     /**
      * Creates a new instance of the server on the specified port
