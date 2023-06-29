@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.controller.network;
 
 import it.polimi.ingsw.server.controller.GameSupervisor;
 import it.polimi.ingsw.server.exceptions.PlayerDisconnectedException;
-import it.polimi.ingsw.server.model.Coordinate;
 import it.polimi.ingsw.server.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.model.Game;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
