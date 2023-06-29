@@ -20,20 +20,11 @@ public class Board {
         board = new Tile[MAX_X][MAX_Y];
         nonPlayableTileInit(4);
 
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < MAX_Y; j++) {
-                if(board[i][j] != Tile.OUTSIDE_GAME_BOARD)
-                    board[i][j] = Tile.CATS;
-            }
-        }
+        board[4][0] = Tile.CATS;
+        board[5][0] = Tile.CATS;
 
-        for(int i = 0; i < 5; i++)
-            if(board[4][i] != Tile.OUTSIDE_GAME_BOARD) {
-                board[4][i] = Tile.CATS;
-                board[5][i] = Tile.CATS;
-            }
-
-        board[7][4] = Tile.CATS;
+        board[8][4] = Tile.CATS;
+        board[8][5] = Tile.CATS;
     }
 
     /**
