@@ -33,11 +33,14 @@ public class ClientSocket extends Client {
     }
 
     /**
-     * The class constructor calls the abstract parent class Client to build a new instance of the client
+     * The class constructor calls the abstract parent class Client to build a new instance of the client.
+     * This constructor is used to associate a preset username to the client.
+     * This constructor is not used in the normal execution of the program and is therefore deprecated.
      * @param cli Specifies whether the client should start in CLI-mode or GUI-mode
      * @param username Specifies the username associated to this client
      * @author Mario Merlo
      */
+    @Deprecated
     public ClientSocket(boolean cli, String username) { super(cli, username); }
 
     /**

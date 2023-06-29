@@ -36,6 +36,13 @@ public abstract class Client {
         }
     }
 
+    /**
+     * This constructor creates a client with a preset username.
+     * This is not used in the normal execution of the program and is therefore deprecated.
+     * @param cli Specifies whether the client should be CLI-only or not
+     * @param username The preset username to assign
+     */
+    @Deprecated
     public Client(boolean cli, String username) {
         if (cli)
             view = new ViewCLI(this);
