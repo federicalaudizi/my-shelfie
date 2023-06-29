@@ -348,35 +348,28 @@
       <ImageView fx:id="winner_second" fitHeight="23.0" fitWidth="23.0" layoutX="284.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="winner_third" fitHeight="23.0" fitWidth="23.0" layoutX="426.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="winner" fitHeight="23.0" fitWidth="23.0" layoutX="834.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
-        <AnchorPane fx:id="serverError" layoutX="262.0" layoutY="-18.0" prefHeight="409.0" prefWidth="535.0">
-            <ImageView fitHeight="434.0" fitWidth="447.0" layoutX="36.0" layoutY="-23.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@Images/leaderboard.png"/>
+        <AnchorPane fx:id="serverError" layoutX="262.0" layoutY="-18.0" prefHeight="409.0" prefWidth="535.0" visible="false">
+            <ImageView fitHeight="434.0" fitWidth="447.0" layoutX="36.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/leaderboard.png" />
             </ImageView>
-            <Label layoutX="115.0" layoutY="160.0" prefHeight="45.0" prefWidth="335.0"
-                   text="You have been disconnected by the Server." textAlignment="CENTER" textFill="#542400">
+            <Label layoutX="115.0" layoutY="160.0" prefHeight="45.0" prefWidth="335.0" text="You have been disconnected by the Server." textAlignment="CENTER" textFill="#542400">
                 <font>
-                    <Font name="System Bold Italic" size="15.0"/>
+                    <Font name="System Bold Italic" size="15.0" />
                 </font>
             </Label>
-            <Label layoutX="156.0" layoutY="205.0" prefHeight="45.0" prefWidth="207.0" text="What do you want to do?"
-                   textAlignment="CENTER" textFill="#542400">
+            <Label layoutX="156.0" layoutY="205.0" prefHeight="45.0" prefWidth="207.0" text="What do you want to do?" textAlignment="CENTER" textFill="#542400">
                 <font>
-                    <Font name="Arial Bold" size="17.0"/>
+                    <Font name="Arial Bold" size="17.0" />
                 </font>
             </Label>
-            <Button fx:id="exitbtn" layoutX="134.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#exitButton"
-                    style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button"
-                    text="Exit" textFill="#542400" textOverrun="CLIP">
+            <Button fx:id="exitbtn" layoutX="134.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#exitButton" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Exit" textFill="#542400" textOverrun="CLIP">
                 <font>
-                    <Font name="Arial Bold" size="24.0"/>
+                    <Font name="Arial Bold" size="24.0" />
                 </font>
             </Button>
-            <Button fx:id="reconnectbtn" layoutX="283.0" layoutY="255.0" mnemonicParsing="false"
-                    onMouseClicked="#startNewGame" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;"
-                    styleClass="glowing-button" text="Reconnect" textFill="#542400" textOverrun="CLIP">
+            <Button fx:id="reconnectbtn" layoutX="283.0" layoutY="255.0" mnemonicParsing="false" onMouseClicked="#startNewGame" style="-fx-background-color: transparent; -fx-text-fill: #7c4732;" styleClass="glowing-button" text="Reconnect" textFill="#542400" textOverrun="CLIP">
                 <font>
-                    <Font name="Arial Bold" size="24.0"/>
+                    <Font name="Arial Bold" size="24.0" />
                 </font>
             </Button>
         </AnchorPane>
