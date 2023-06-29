@@ -38,6 +38,9 @@ public class RMIClientHandler extends ClientHandler {
     private boolean notificationFlag;
     private Message notificationMessage;
 
+    private boolean stateFlag;
+    private Message stateMessage;
+
     RMIClientHandler(String username, GameSupervisor ongoingGames) {
         super(ongoingGames);
         this.thisPlayerId = username;
@@ -93,10 +96,8 @@ public class RMIClientHandler extends ClientHandler {
      */
     @Override
     public void sendGameState(Game gameState) {
-        try {
-            sendPing(new Message(GAME_UPDATE, gameState.toJson()));
-        } catch (PlayerDisconnectedException ignored) {
-        }
+        stateFlag = true;
+        stateMessage = new Message(GAME_UPDATE, gameState.toJson());
     }
 
     /**
@@ -116,10 +117,9 @@ public class RMIClientHandler extends ClientHandler {
         JSONArray body = new JSONArray();
         body.put(gameState.toJson());
         body.put(objectiveWinner);
-        try {
-            sendPing(new Message(GAME_UPDATE, body));
-        } catch (PlayerDisconnectedException ignored) {
-        }
+
+        stateFlag = true;
+        stateMessage = new Message(GAME_UPDATE, body);
     }
 
     /**
@@ -330,10 +330,14 @@ public class RMIClientHandler extends ClientHandler {
                 notificationFlag = false;
                 return notificationMessage;
             }
+            if(stateFlag){
+                stateFlag = false;
+                return stateMessage;
+            }
             if(!pingFlag) return new Message(PING);
             else {
                 pingFlag = false;
-                pingLock.notifyAll();
+                pingLock.notify();
                 return pingMessage;
             }
         }
