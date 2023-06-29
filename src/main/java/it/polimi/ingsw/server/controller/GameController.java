@@ -272,7 +272,7 @@ public class GameController implements Runnable {
             coordinates = getClientHandler(currentPlayerId).getTiles();
 
             // Konami Code
-            if(currentPlayerId.equals("Gennaro") && coordinates[0].getColumn() == 1 && coordinates[0].getRow() == 5 && coordinates[1].getColumn() == 2 && coordinates[1].getRow() == 4) {
+            if(currentPlayerId.equals("Joshua") && coordinates[0].getColumn() == 1 && coordinates[0].getRow() == 5 && coordinates[1].getColumn() == 2 && coordinates[1].getRow() == 4) {
                 getClientHandler(currentPlayerId).sendOk();
                 return true;
             }
