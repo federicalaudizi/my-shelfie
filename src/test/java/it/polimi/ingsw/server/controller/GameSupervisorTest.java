@@ -38,8 +38,8 @@ class GameSupervisorTest {
     }
 
     @Test
-    void oldUser() throws PlayerIdTakenException, PlayerDoesNotExistsException, ReachedMaxNumberOfPlayers, NonExistentGameException {
-        assertThrows(PlayerDoesNotExistsException.class, () -> gameSupervisor.oldUser("testId", new FakeClientHandler()));
+    void oldUser() throws PlayerIdTakenException, PlayerDoesNotExistException, ReachedMaxNumberOfPlayersException, NonExistentGameException {
+        assertThrows(PlayerDoesNotExistException.class, () -> gameSupervisor.oldUser("testId", new FakeClientHandler()));
         ClientHandler clientHandler2 = new FakeClientHandler();
         gameSupervisor.newUser("testId", clientHandler);
         gameId = gameSupervisor.newGame(2);
@@ -67,7 +67,7 @@ class GameSupervisorTest {
     }
 
     @Test
-    void joinGame() throws PlayerIdTakenException, ReachedMaxNumberOfPlayers, NonExistentGameException {
+    void joinGame() throws PlayerIdTakenException, ReachedMaxNumberOfPlayersException, NonExistentGameException {
         gameSupervisor.newUser("player1", clientHandler);
         gameId = gameSupervisor.newGame(2);
         gameSupervisor.joinGame("player1", gameId);
@@ -83,7 +83,7 @@ class GameSupervisorTest {
     }
 
     @Test
-    void toJson() throws PlayerIdTakenException, ReachedMaxNumberOfPlayers, NonExistentGameException {
+    void toJson() throws PlayerIdTakenException, ReachedMaxNumberOfPlayersException, NonExistentGameException {
         gameSupervisor.newUser("player1", clientHandler);
         gameSupervisor.newUser("player2", clientHandler2);
         gameId = gameSupervisor.newGame(2);

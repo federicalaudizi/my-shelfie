@@ -124,8 +124,8 @@ public class GameSupervisor implements Runnable{
      * @param handler  the client handler of the player
      * @author Federico
      */
-    public void oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistsException {
-        if(!players.containsKey(playerId) || !playersGames.containsKey(playerId)) throw new PlayerDoesNotExistsException();
+    public void oldUser(String playerId, ClientHandler handler) throws PlayerDoesNotExistException {
+        if(!players.containsKey(playerId) || !playersGames.containsKey(playerId)) throw new PlayerDoesNotExistException();
         players.put(playerId, handler);
     }
 

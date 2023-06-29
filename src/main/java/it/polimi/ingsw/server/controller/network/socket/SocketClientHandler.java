@@ -258,7 +258,7 @@ public class SocketClientHandler extends ClientHandler {
             response.put("message", "Username is already taken");
             send(new Message(USERNAME_TAKEN, response));
             loginPhase();
-        } catch (PlayerDoesNotExistsException e) {
+        } catch (PlayerDoesNotExistException e) {
             // The player does not exist, send the error and restart the login phase
             response = new JSONObject();
             response.put("message", "Player does not exist");
