@@ -48,6 +48,11 @@ public class Bag {
         this.tiles = new ArrayList<>(other.tiles);
     }
 
+    /**
+     * Extracts a random tile from the collection of tiles and returns it.
+     *
+     * @return The extracted tile.
+     */
     Tile extract() {
         Random rand = new Random();
         int index = rand.nextInt(0, remainingTiles);

@@ -34,6 +34,12 @@ public abstract class CollectiveObjectiveCard {
         }
     }
 
+    /**
+     * Retrieves a random CollectiveObjectiveCard object, excluding the provided other card.
+     *
+     * @param other The card to exclude from the random selection.
+     * @return A random CollectiveObjectiveCard object, or null if an exception occurs during instantiation.
+     */
     public static CollectiveObjectiveCard getRandomCard(CollectiveObjectiveCard other) {
         List<Class<? extends CollectiveObjectiveCard>> subclasses = getAllPossibleCards();
 
@@ -57,6 +63,11 @@ public abstract class CollectiveObjectiveCard {
         }
     }
 
+    /**
+     * Retrieves a list of all non-abstract subclasses of CollectiveObjectiveCard.
+     *
+     * @return A list of all non-abstract subclasses of CollectiveObjectiveCard.
+     */
     private static List<Class<? extends CollectiveObjectiveCard>> getAllPossibleCards() {
         List<Class<? extends CollectiveObjectiveCard>> subclasses = new ArrayList<>();
 
@@ -446,12 +457,32 @@ public abstract class CollectiveObjectiveCard {
             return count >= 4;
         }
 
+        /**
+         * Checks if there are four adjacent tiles of the same type starting from the specified row and column coordinates on the provided shelf.
+         *
+         * @param row      The starting row coordinate.
+         * @param col      The starting column coordinate.
+         * @param shelf    The shelf containing the tiles.
+         * @param visited  A 2D array to keep track of visited tiles during depth-first search.
+         * @return True if there are four adjacent tiles of the same type, false otherwise.
+         */
         private boolean hasFourAdjacentTilesStartingAt(int row, int col, Shelf shelf, int[][] visited) {
             Tile tileType = shelf.getTile(new Coordinate(row, col));
             int count = dfs(row, col, tileType, visited, shelf);
             return count >= 4;
         }
 
+
+        /**
+         * Performs a depth-first search to count the number of adjacent tiles of the same type starting from the specified row and column coordinates on the provided shelf.
+         *
+         * @param row          The current row coordinate.
+         * @param col          The current column coordinate.
+         * @param tileType     The type of tile being searched for.
+         * @param visited      A 2D array to keep track of visited tiles.
+         * @param shelf        The shelf containing the tiles.
+         * @return The count of adjacent tiles of the same type.
+         */
         private int dfs(int row, int col, Tile tileType, int[][] visited, Shelf shelf) {
             Coordinate tileCoordinate = new Coordinate(row, col);
 
@@ -479,6 +510,11 @@ public abstract class CollectiveObjectiveCard {
 
     }
 
+    /**
+     * Converts the current object to a JSONObject representation.
+     *
+     * @return A JSONObject representing the current object.
+     */
     public JSONObject toJson() {
         JSONObject obj = new JSONObject();
         obj.put("cardType", this.getClass().getSimpleName());
