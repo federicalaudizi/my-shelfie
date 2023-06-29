@@ -2,7 +2,7 @@
 
 To play a game successfully, you need to start the server first, then the clients.
 
-Please note that the latest version of java is required: [Download here](https://www.oracle.com/java/technologies/downloads/#java20)
+Please note that Java 19 is required: [Download here](https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html)
 
 ## Server startup
 The server can be started with the following command:
