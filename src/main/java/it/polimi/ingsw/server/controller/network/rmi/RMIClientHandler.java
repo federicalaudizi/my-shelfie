@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.Game;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static it.polimi.ingsw.server.controller.network.Message.Header.*;
@@ -160,7 +161,7 @@ public class RMIClientHandler extends ClientHandler {
         synchronized (tilesLock) {
             try {
                 // Wait for 120 seconds the answer
-                tilesLock.wait(120000);
+                tilesLock.wait(10000);
                 // If the answer is not received, the player disconnected
                 if(!tilesFlag) terminate();
             } catch (InterruptedException e) {
@@ -324,7 +325,13 @@ public class RMIClientHandler extends ClientHandler {
             isAlive = true;
             heartbeatLock.notifyAll();
         }
-        if(terminated) return new Message(PLAYER_TERMINATED, new JSONObject().put("message", "Connection timed out"));
+        if(terminated) {
+            // If the server terminates this client, warn him
+            HashMap<String, Integer> fakeLeaderboard = new HashMap<>();
+            fakeLeaderboard.put("Server Timeout", 808);
+            fakeLeaderboard.put("You Got Disconnected", -1);
+            return new Message(PLAYER_TERMINATED, parseLeaderboard(fakeLeaderboard));
+        }
         synchronized (pingLock) {
             if(notificationFlag){
                 notificationFlag = false;
