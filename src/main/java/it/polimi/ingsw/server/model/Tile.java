@@ -40,15 +40,6 @@ public enum Tile {
     }
 
     /**
-     * Copy constructor
-     * */
-    Tile(Tile other){
-        this.type = other.type;
-        this.colour = other.colour;
-        this.symbol = other.symbol;
-    }
-
-    /**
      * Returns the type of the Tile it is called upon.
      * @return the type of the Tile.
      *

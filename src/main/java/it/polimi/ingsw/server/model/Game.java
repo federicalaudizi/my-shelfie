@@ -189,7 +189,7 @@ public class Game {
         if (c2 != null) numOfTiles++;
         if (c3 != null) numOfTiles++;
         if(!(players.get(currentPlayerIndex).getShelf().availableSlots() >= numOfTiles)) throw new tooManyTilesException();
-        return board.arePickables(c1, c2, c3) && players.get(currentPlayerIndex).getShelf().availableSlots() >= numOfTiles;
+        return board.arePickable(c1, c2, c3) && players.get(currentPlayerIndex).getShelf().availableSlots() >= numOfTiles;
     }
 
     /**

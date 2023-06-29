@@ -124,48 +124,85 @@ public class ViewCLI extends View {
         composeView(game, playerOrder);
     }
 
+    /**
+     * This method asks the user for an IP address to connect to.
+     * @return The IP address typed in by the user.
+     * @author Mario Merlo
+     */
     @Override
     String getIp() {
         return confirmationPrompt("Enter the server's IP (ip:port): ");
     }
 
+    /**
+     * This method asks the user for a username.
+     * @return The username typed in by the user.
+     * @author Mario Merlo
+     */
     @Override
     String getUsername() {
         System.out.print("Enter a username: ");
         return scanner.nextLine();
     }
 
+    /**
+     * This method asks the user whether they want to create a new game, join one or reconnect to an ongoing game.
+     * @return The option chosen by the user
+     * @author Mario Merlo
+     */
     @Override
     int getGameOptions() {
         String[] options = { "Create a new game", "Join a new game", "Reconnect to an ongoing game" };
         return choicePrompt("What do you want to do?", options);
     }
 
+    /**
+     * This method asks the user for the number of players when creating a new game.
+     * @return The chosen number of players
+     * @author Mario Merlo
+     */
     @Override
     int getPlayerNumber() {
         return Integer.parseInt(confirmationPrompt("Enter the number of players (between 2 and 4): "));
     }
 
+    /**
+     * This method asks the user for the tiles they want to take from the board.
+     * @return The string containing the coordinates input by the user
+     * @author Mario Merlo
+     */
     @Override
     String getTiles() {
         return confirmationPrompt("Enter up to three coordinates.\nSyntax: (x, y)[, (x, y), (x, y)]\n Your choice: ");
     }
 
+    /**
+     * This method asks the user for the column to put their selected tiles in.
+     * @return The integer identifying the selected column of the player shelf
+     * @author Mario Merlo
+     */
     @Override
     int getColumn() {
         return Integer.parseInt(confirmationPrompt("Enter the column you want to put the tiles in.\nPossible values: 0 to 4.\nYour choice: "));
     }
 
+    /**
+     * This method notifies the player when they have won a common objective or when another player has.
+     * The message shown to the player is different depending on which player won the objective.
+     * @param username The username of the player who won the objective
+     * @param objectiveNumber The integer denoting which objective was won
+     * @author Mario Merlo
+     */
     @Override
     void showAchievement(String username, int objectiveNumber) {
         StringBuilder achievementMessage = new StringBuilder();
 
         if(username.equals(client.getUsername()))
-            achievementMessage.append(client.getUsername());
-        else
+            achievementMessage.append("You have won");
+        else {
             achievementMessage.append(username);
-
-        achievementMessage.append(" has won");
+            achievementMessage.append(" has won");
+        }
 
         switch(objectiveNumber) {
             case 1 -> achievementMessage.append(" objective I!");
@@ -176,6 +213,11 @@ public class ViewCLI extends View {
         System.out.println(achievementMessage);
     }
 
+    /**
+     * This method shows an error to the player when an error message is received from the server.
+     * @param errorMessage The message describing the error
+     * @author Mario Merlo
+     */
     @Override
     void showError(String errorMessage) {
         System.out.println(errorMessage);
@@ -263,7 +305,6 @@ public class ViewCLI extends View {
      * @param leaderboard The leaderboard of the game
      * @author Mario Merlo
      */
-
     @Override
     void gameOverScreen(JSONArray leaderboard) {
         String leaderboardPrototype = LeaderboardPrototypes.getLeaderboardByPlayerNum(leaderboard.length());
@@ -293,6 +334,12 @@ public class ViewCLI extends View {
         System.out.println(leaderboardPrototype);
     }
 
+    /**
+     * This method is used to format all points on the leaderboard to three-digit numbers
+     * @param points The integer representing the player points
+     * @return A String representation of the points passed as an argument, padded with the correct amount of zeros
+     * @author Mario Merlo
+     */
     private String pointFormatter(int points) {
         if(points >= 100)
             return String.valueOf(points);
@@ -301,6 +348,12 @@ public class ViewCLI extends View {
         else return "00" + points;
     }
 
+    /**
+     * This method shows a "continue playing" screen at the end of a game, letting the player decide whether they
+     * want to continue playing or not.
+     * @return The choice made by the player
+     * @author Mario Merlo
+     */
     @Override
     boolean continueScreen() {
         System.out.print("Would you like to continue playing? (y/n) ");
@@ -446,11 +499,23 @@ enum LeaderboardPrototypes {
     final int playerNumber;
     final String leaderboardPrototype;
 
+    /**
+     * The enum constructor
+     * @param playerNumber The number of players in the game
+     * @param leaderboardPrototype The String representing the leaderboard for that given number of players
+     * @author Mario Merlo
+     */
     LeaderboardPrototypes(int playerNumber, String leaderboardPrototype) {
         this.playerNumber = playerNumber;
         this.leaderboardPrototype = leaderboardPrototype;
     }
 
+    /**
+     * This method returns the leaderboard prototype associated with a specific number of players.
+     * @param playerNumber The number of players in the game
+     * @return A String representation of the leaderboard
+     * @author Mario Merlo
+     */
     public static String getLeaderboardByPlayerNum(int playerNumber) {
         for(LeaderboardPrototypes leaderboardPrototypes : LeaderboardPrototypes.values()) {
             if(leaderboardPrototypes.playerNumber == playerNumber)

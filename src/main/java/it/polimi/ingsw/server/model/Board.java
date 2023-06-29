@@ -174,7 +174,7 @@ public class Board {
      * @param c3 coordinate of the third tile
      * @return true or false
      */
-    public boolean arePickables(Coordinate c1, Coordinate c2, Coordinate c3){
+    public boolean arePickable(Coordinate c1, Coordinate c2, Coordinate c3){
         if(c1 == null) return false;
         if (!isPickable(c1)) return false;
         if (c2 != null && !isPickable(c2)) return false;
@@ -226,7 +226,7 @@ public class Board {
     }
 
     /**
-     * Checks wether the tiles are on the same line or not
+     * Checks whether the tiles are on the same line or not
      * @param c1 first coordinate
      * @param c2 second coordinate
      * @return true if are on the same line, false otherwise
@@ -236,7 +236,7 @@ public class Board {
     }
 
     /**
-     * Checks wether the tiles are on the same line or not
+     * Checks whether the tiles are on the same line or not
      * @param c1 first coordinate
      * @param c2 second coordinate
      * @return true if are on the same line, false otherwise
@@ -410,6 +410,7 @@ public class Board {
      * Returns a JSONObject representation of the board
      * @return a JSONObject containing a "board" field, which in turn contains an array of arrays representing the
      *         whole board
+     * @author Mario Merlo
      */
     public JSONObject toJSON() {
         JSONArray contents = new JSONArray();
@@ -447,15 +448,26 @@ public class Board {
      * Returns a copy of the passed board
      *
      * @return A new board identical to the one passed as a parameter
+     * @author Mario Merlo
      */
     Board copy() {
         return new Board(this);
     }
 
+    /**
+     * Getter for maximum X coordinate of the board.
+     * @return The field MAX_X
+     * @author Mario Merlo
+     */
     public int getMAX_X() {
         return MAX_X;
     }
 
+    /**
+     * Getter for maximum Y coordinate of the board.
+     * @return The field MAX_Y
+     * @author Mario Merlo
+     */
     public int getMAX_Y() {
         return MAX_Y;
     }
@@ -477,6 +489,12 @@ public class Board {
         return true;
     }
 
+    /**
+     * This method returns a specific tile in the board.
+     * @param x The X coordinate of the tile
+     * @param y The Y coordinate of the tile
+     * @return The tile at coordinates (X, Y)
+     */
     public Tile getTile(int x, int y){
         return board[x][y];
     }
