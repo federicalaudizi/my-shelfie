@@ -42,18 +42,16 @@ When joining an existing game, the client asks the client handler what games are
 
 ![playerreconnection](./PlayerReconnection.jpg)
 
-
 When attempting to reconnect to the former game, the player first reconnects to the server. The server hands over the connection to a new instance of `ClientHandler`. The new client handler will ask the client if it wants to log in as a new player or an existing player; if the client chooses to be connected as an existing player, it will then be brought back to its original game. The original game is retrieved by the `GameSupervisor` using the old `userId`.
 
 ### Objective completion
 
 ![objectivecompletion](./ObjectiveCompletion.jpg)
 
-
-When the player reaches one of the objectives, the `Game` class, in the `server.model` package, notifies the game controller, which then sends the message to the `View` in order to let the player know about it.
+When the player reaches one of the objectives, the `Game` class in the `server.model` package notifies the game controller, which then sends a message to the `View` in order to let the player know about it.
 
 ### Select tiles
 
 ![selecttiles](./SelectTiles.jpg)
 
-The client receives two messages: one to select the tiles to pick and another one to choose the column of the shelf where to place the selected tiles. `sendMessage` is used to request input from the players or to notify them of the acceptance or rejection of their choices.
+When starting a turn, the server sends a `GET_TILES` message to the next client that has to play. The client then responds with its selected tiles through a `SEND_TILES` message. Once this message arrives to the server, it checks whether the selected tiles are valid or not. After that, a response is sent to the client accordingly.
