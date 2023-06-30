@@ -50,8 +50,8 @@ When attempting to reconnect to the former game, the player first reconnects to 
 
 When the player reaches one of the objectives, the `Game` class in the `server.model` package notifies the game controller, which then sends a message to the `View` in order to let the player know about it.
 
-### Select tiles
+### Player move
 
-![selecttiles](./SelectTiles.jpg)
+![selecttiles](./PlayerMove.jpg)
 
-When starting a turn, the server sends a `GET_TILES` message to the next client that has to play. The client then responds with its selected tiles through a `SEND_TILES` message. Once this message arrives to the server, it checks whether the selected tiles are valid or not. After that, a response is sent to the client accordingly.
+When starting a turn, the server sends a `GET_TILES` message to the next client that has to play. The client then responds with its selected tiles through a `SEND_TILES` message. Once this message arrives to the server, it checks whether the selected tiles are valid or not. After that, a response is sent to the client accordingly. The same thing happens for the column selection through the messages `GET_COLUMN` and `SEND_COLUMN`.
