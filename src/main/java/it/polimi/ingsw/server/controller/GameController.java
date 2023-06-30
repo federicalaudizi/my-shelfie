@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Federica & Sara
  */
-
 public class GameController implements Runnable {
     private final boolean resumed;
     private boolean started;
